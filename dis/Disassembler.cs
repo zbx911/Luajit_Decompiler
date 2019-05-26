@@ -13,25 +13,19 @@ namespace Luajit_Decompiler.dis
     {
         private string path;
         private OutputManager manager;
-        private byte[] bytes;
+        private byte[] bytecode;
 
         //header
         //private int headerLength = 5;
         private byte[] magic = new byte[4];
         private byte[] expectedMagic = { 0x1B, 0x4C, 0x4A, 0x01 };
-        private byte flags; //mainly for stripping the debug info.
+        private byte flags; //mainly for determining if the debug info has been stripped or not.
 
-        //error tag(s)
-        private string errorClassTag = "Disassembler : ";
-        private string errorMethodTagTrimHeader = "TrimHeader :: ";
-        private string errorMethodTagConsumeBytes = "ConsumeBytes :: ";
-        private string errorMethodTagConsumeByte = "ConsumeByte :: ";
-
-        public Disassembler(string outputFilePath, byte[] bytes)
+        public Disassembler(string outputFilePath, byte[] bytecode)
         {
             path = outputFilePath;
             manager = new OutputManager(path);
-            this.bytes = TrimHeader(bytes);
+            this.bytecode = TrimHeader(bytecode);
         }
 
         /// <summary>
@@ -52,12 +46,12 @@ namespace Luajit_Decompiler.dis
         /// </summary>
         public void Disassemble()
         {
-            if (bytes == null || bytes.Length == 0)
-                throw new Exception(errorClassTag + errorMethodTagTrimHeader + "bytes array is null or length of zero.");
+            if (bytecode == null || bytecode.Length == 0)
+                throw new Exception("Disassembler : Disassemble :: Byte array is null or length of zero.");
             for (int i = 0; i < magic.Length; i++)
                 if(magic[i] != expectedMagic[i])
-                    throw new Exception(errorClassTag + errorMethodTagTrimHeader + "Magic numbers are invalid for luajit bytes. Expected: 0x1B, 0x4C, 0x4A, 0x01");
-            List<Prototype> prototypes = GetAllPrototypes(bytes);
+                    throw new Exception("Disassembler : Disassemble ::  Magic numbers are invalid for luajit bytes. Expected: 0x1B, 0x4C, 0x4A, 0x01");
+            List<Prototype> prototypes = GetAllPrototypes(bytecode);
             foreach (Prototype p in prototypes)
             {
                 p.DebugWritePrototype(); //comment this out when output management is implemented.
@@ -76,49 +70,56 @@ namespace Luajit_Decompiler.dis
         {
             //Error handling is handled by the Disassemble method where it is called.
             List<Prototype> prototypes = new List<Prototype>();
-            byte protoSize = ConsumeByte(); //consume first byte
-            while(protoSize > 0)
+            Tuple<byte[], byte> singleByte = ConsumeByte(bytes);
+            Tuple<byte[], byte[]> arrayBytes;
+            bytes = singleByte.Item1;
+            byte protoSize = singleByte.Item2; //consume first byte
+            while (protoSize > 0)
             {
-                Prototype pro = new Prototype(ConsumeBytes(protoSize), manager);
-                protoSize = ConsumeByte();
+                arrayBytes = ConsumeBytes(bytes, protoSize);
+                bytes = arrayBytes.Item1;
+                Prototype pro = new Prototype(arrayBytes.Item2, manager);
+                singleByte = ConsumeByte(bytes);
+                bytes = singleByte.Item1;
+                protoSize = singleByte.Item2;
                 prototypes.Add(pro);
             }
             return prototypes;
         }
 
         /// <summary>
-        /// Consumes the byte at **index 0** from the bytes array and returns both the modified bytes array and the byte it read.
+        /// Returns a tuple with the first item being the remaining bytes and the second item being the consumed byte.
         /// </summary>
         /// <param name="bytes"></param>
-        /// <param name="readByte"></param>
         /// <returns></returns>
-        private byte ConsumeByte()
+        public static Tuple<byte[], byte> ConsumeByte(byte[] bytes)
         {
             if (bytes == null || bytes.Length == 0)
-                throw new Exception(errorClassTag + errorMethodTagConsumeByte + "bytes array is null or length of zero.");
+                throw new Exception("Disassembler : ConsumeByte :: Byte array is null or length of zero.");
             byte consumed = bytes[0];
-            bytes = bytes.Skip(1).Take(bytes.Length - 1).ToArray();
-            return consumed;
+            return new Tuple<byte[], byte>(bytes.Skip(1).Take(bytes.Length - 1).ToArray(), consumed);
         }
 
         /// <summary>
-        /// Consumes bytes starting from **index 0** equivalent to the given length. (Ex: length = 3 means 3 bytes will be consumed).
+        /// Returns a tuple with the first item being the remaining bytes and the second item being the array of consumed bytes.
         /// </summary>
         /// <param name="bytes"></param>
         /// <param name="length"></param>
         /// <returns></returns>
-        private byte[] ConsumeBytes(int length)
+        public static Tuple<byte[], byte[]> ConsumeBytes(byte[] bytes, int length)
         {
             if (length > bytes.Length)
-                throw new Exception(errorClassTag + errorMethodTagConsumeBytes + "Given length exceeds the length of the bytes array.");
+                throw new Exception("Disassembler : ConsumeBytes :: Given length exceeds the length of the bytes array.");
             if (length == 0)
                 return null;
             if (bytes == null || bytes.Length == 0)
-                throw new Exception(errorClassTag + errorMethodTagConsumeBytes + "Given bytes array is empty or null.");
-            byte[] resultSet = new byte[length];
-            for(int i = 0; i < length; i++)
-                resultSet[i] = ConsumeByte();
-            return resultSet;
+                throw new Exception("Disassembler : ConsumeBytes :: Given bytes array is empty or null.");
+            byte[] results = new byte[length];
+            for (int i = 0; i < length; i++)
+            {
+                results[i] = bytes[i];
+            }
+            return new Tuple<byte[], byte[]>(bytes.Skip(length).Take(bytes.Length - length).ToArray(), results);
         }
     }
 }

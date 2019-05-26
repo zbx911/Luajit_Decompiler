@@ -32,18 +32,39 @@ namespace Luajit_Decompiler.dis
         {
             this.bytes = bytes;
             this.manager = manager;
-            int prototypeHeaderOffset = 7; //size of the prototype header.
             int instructionSize = 4; //each instruction is 4 bytes.
-            flags = bytes[0];
-            numberOfParams = bytes[1];
-            frameSize = bytes[2];
-            sizeUV = bytes[3];
-            sizeKGC = bytes[4];
-            sizeKN = bytes[5];
-            instructionCount = bytes[6] * instructionSize;
-            instructionBytes = new byte[instructionCount];
-            for (int i = 0; i < instructionCount; i++)
-                instructionBytes[i] = bytes[i + prototypeHeaderOffset];
+
+            Tuple<byte[], byte> singleByte = Disassembler.ConsumeByte(bytes);
+            bytes = singleByte.Item1;
+            flags = singleByte.Item2;
+
+            singleByte = Disassembler.ConsumeByte(bytes);
+            bytes = singleByte.Item1;
+            numberOfParams = singleByte.Item2;
+
+            singleByte = Disassembler.ConsumeByte(bytes);
+            bytes = singleByte.Item1;
+            frameSize = singleByte.Item2;
+
+            singleByte = Disassembler.ConsumeByte(bytes);
+            bytes = singleByte.Item1;
+            sizeUV = singleByte.Item2;
+
+            singleByte = Disassembler.ConsumeByte(bytes);
+            bytes = singleByte.Item1;
+            sizeKGC = singleByte.Item2;
+
+            singleByte = Disassembler.ConsumeByte(bytes);
+            bytes = singleByte.Item1;
+            sizeKN = singleByte.Item2;
+
+            singleByte = Disassembler.ConsumeByte(bytes);
+            bytes = singleByte.Item1;
+            instructionCount = singleByte.Item2 * instructionSize;
+
+            Tuple<byte[], byte[]> manyBytes = Disassembler.ConsumeBytes(bytes, instructionCount);
+            bytes = manyBytes.Item1;
+            instructionBytes = manyBytes.Item2;
         }
 
         /// <summary>
