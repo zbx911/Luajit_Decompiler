@@ -8,7 +8,6 @@ namespace Luajit_Decompiler.dis
 {
     /// <summary>
     /// TODO:
-    /// Return remaining bytes.
     /// Handle constants section.
     /// </summary>
     class Prototype
@@ -25,46 +24,28 @@ namespace Luajit_Decompiler.dis
         public byte sizeKGC; //size of the constants section.
         public byte sizeKN; //size of constant numbers???
         public int instructionCount; //number of bytecode instructions for the prototype.
+        public byte[] instructionBytes; //instructions section bytes
+        public byte[] constantBytes; //constant section bytes
 
-        public byte[] instructionBytes;
-
-        public Prototype(byte[] bytes, OutputManager manager)
+        public Prototype(byte[] bytes, ref int offset, OutputManager manager, int protoSize) //!! ProtoSize parameter is temporary. Remove when constants are handled.
         {
             this.bytes = bytes;
             this.manager = manager;
             int instructionSize = 4; //each instruction is 4 bytes.
+            flags = Disassembler.ConsumeByte(bytes, ref offset);
+            numberOfParams = Disassembler.ConsumeByte(bytes, ref offset);
+            frameSize = Disassembler.ConsumeByte(bytes, ref offset);
+            sizeUV = Disassembler.ConsumeByte(bytes, ref offset);
+            sizeKGC = Disassembler.ConsumeByte(bytes, ref offset);
+            sizeKN = Disassembler.ConsumeByte(bytes, ref offset);
+            instructionCount = Disassembler.ConsumeByte(bytes, ref offset) * instructionSize;
+            instructionBytes = Disassembler.ConsumeBytes(bytes, ref offset, instructionCount);
+            //TODO: Handle constants section. AKA: UV, KGC, KN
 
-            Tuple<byte[], byte> singleByte = Disassembler.ConsumeByte(bytes);
-            bytes = singleByte.Item1;
-            flags = singleByte.Item2;
-
-            singleByte = Disassembler.ConsumeByte(bytes);
-            bytes = singleByte.Item1;
-            numberOfParams = singleByte.Item2;
-
-            singleByte = Disassembler.ConsumeByte(bytes);
-            bytes = singleByte.Item1;
-            frameSize = singleByte.Item2;
-
-            singleByte = Disassembler.ConsumeByte(bytes);
-            bytes = singleByte.Item1;
-            sizeUV = singleByte.Item2;
-
-            singleByte = Disassembler.ConsumeByte(bytes);
-            bytes = singleByte.Item1;
-            sizeKGC = singleByte.Item2;
-
-            singleByte = Disassembler.ConsumeByte(bytes);
-            bytes = singleByte.Item1;
-            sizeKN = singleByte.Item2;
-
-            singleByte = Disassembler.ConsumeByte(bytes);
-            bytes = singleByte.Item1;
-            instructionCount = singleByte.Item2 * instructionSize;
-
-            Tuple<byte[], byte[]> manyBytes = Disassembler.ConsumeBytes(bytes, instructionCount);
-            bytes = manyBytes.Item1;
-            instructionBytes = manyBytes.Item2;
+            //THESE NEXT LINES ARE COMPLETELY TEMPORARY. CODE ASSUMES CONSTANTS SECTIONS ARE ALREADY HANDLED AND OFFSET IS ADJUSTED ACCORDINGLY.
+            //ADJUSTING OFFSET SO THAT ALL PROTOTYPES IN A FILE ARE CAUGHT. REMOVE PROTOSIZE PARAMETER WHEN CONSTANTS ARE HANDLED.
+            int byteTally = 7 + instructionCount; //7 from header and all instruction bytes
+            offset += protoSize - byteTally; //difference between the size of proto and tally is the constants section byte size.
         }
 
         /// <summary>

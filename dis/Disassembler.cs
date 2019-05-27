@@ -14,9 +14,9 @@ namespace Luajit_Decompiler.dis
         private string path;
         private OutputManager manager;
         private byte[] bytecode;
+        private int offset = 0;
 
         //header
-        //private int headerLength = 5;
         private byte[] magic = new byte[4];
         private byte[] expectedMagic = { 0x1B, 0x4C, 0x4A, 0x01 };
         private byte flags; //mainly for determining if the debug info has been stripped or not.
@@ -25,20 +25,20 @@ namespace Luajit_Decompiler.dis
         {
             path = outputFilePath;
             manager = new OutputManager(path);
-            this.bytecode = TrimHeader(bytecode);
+            this.bytecode = bytecode;
+            TrimHeader(bytecode, ref offset);
         }
 
         /// <summary>
-        /// Consumes the file header and returns the remaining bytes.
+        /// Consumes and stores the file header. Offset is adjusted in consume bytes by reference.
         /// </summary>
-        /// <param name="bytes">The complete bytes from a file.</param>
-        /// <returns>bytes with the header trimmed.</returns>
-        public byte[] TrimHeader(byte[] bytes)
+        /// <param name="bytes"></param>
+        /// <param name="offset"></param>
+        public void TrimHeader(byte[] bytes, ref int offset)
         {
             for (int i = 0; i < magic.Length; i++)
-                magic[i] = bytes[i];
-            flags = bytes[5];
-            return bytes.Skip(5).Take(bytes.Length - 5).ToArray();
+                magic[i] = ConsumeByte(bytes, ref offset);
+            flags = ConsumeByte(bytes, ref offset);
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace Luajit_Decompiler.dis
             for (int i = 0; i < magic.Length; i++)
                 if(magic[i] != expectedMagic[i])
                     throw new Exception("Disassembler : Disassemble ::  Magic numbers are invalid for luajit bytes. Expected: 0x1B, 0x4C, 0x4A, 0x01");
-            List<Prototype> prototypes = GetAllPrototypes(bytecode);
+            List<Prototype> prototypes = GetAllPrototypes(bytecode, ref offset);
             foreach (Prototype p in prototypes)
             {
                 p.DebugWritePrototype(); //comment this out when output management is implemented.
@@ -66,60 +66,45 @@ namespace Luajit_Decompiler.dis
         /// </summary>
         /// <param name="bytes"></param>
         /// <returns></returns>
-        private List<Prototype> GetAllPrototypes(byte[] bytes)
+        private List<Prototype> GetAllPrototypes(byte[] bytes, ref int offset)
         {
-            //Error handling is handled by the Disassemble method where it is called.
             List<Prototype> prototypes = new List<Prototype>();
-            Tuple<byte[], byte> singleByte = ConsumeByte(bytes);
-            Tuple<byte[], byte[]> arrayBytes;
-            bytes = singleByte.Item1;
-            byte protoSize = singleByte.Item2; //consume first byte
+            byte protoSize = ConsumeByte(bytes, ref offset);
             while (protoSize > 0)
             {
-                arrayBytes = ConsumeBytes(bytes, protoSize);
-                bytes = arrayBytes.Item1;
-                Prototype pro = new Prototype(arrayBytes.Item2, manager);
-                singleByte = ConsumeByte(bytes);
-                bytes = singleByte.Item1;
-                protoSize = singleByte.Item2;
+                Prototype pro = new Prototype(bytes, ref offset, manager, protoSize);
                 prototypes.Add(pro);
+                protoSize = ConsumeByte(bytes, ref offset);
             }
             return prototypes;
         }
 
         /// <summary>
-        /// Returns a tuple with the first item being the remaining bytes and the second item being the consumed byte.
+        /// Returns a byte from the given byte array and increments the offset by 1.
         /// </summary>
-        /// <param name="bytes"></param>
+        /// <param name="bytes">Array of all bytecode.</param>
+        /// <param name="offset">Current offset in the bytecode array.</param>
         /// <returns></returns>
-        public static Tuple<byte[], byte> ConsumeByte(byte[] bytes)
+        public static byte ConsumeByte(byte[] bytes, ref int offset)
         {
-            if (bytes == null || bytes.Length == 0)
-                throw new Exception("Disassembler : ConsumeByte :: Byte array is null or length of zero.");
-            byte consumed = bytes[0];
-            return new Tuple<byte[], byte>(bytes.Skip(1).Take(bytes.Length - 1).ToArray(), consumed);
+            byte result = bytes[offset];
+            offset++;
+            return result;
         }
 
         /// <summary>
-        /// Returns a tuple with the first item being the remaining bytes and the second item being the array of consumed bytes.
+        /// Returns a byte array of consumed bytes from the given array and increments the offset accordingly.
         /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="length"></param>
+        /// <param name="bytes">Array of all bytecode.</param>
+        /// <param name="offset">Current offset in the bytecode array.</param>
+        /// <param name="length">The number of bytes to be read and returned.</param>
         /// <returns></returns>
-        public static Tuple<byte[], byte[]> ConsumeBytes(byte[] bytes, int length)
+        public static byte[] ConsumeBytes(byte[] bytes, ref int offset, int length)
         {
-            if (length > bytes.Length)
-                throw new Exception("Disassembler : ConsumeBytes :: Given length exceeds the length of the bytes array.");
-            if (length == 0)
-                return null;
-            if (bytes == null || bytes.Length == 0)
-                throw new Exception("Disassembler : ConsumeBytes :: Given bytes array is empty or null.");
-            byte[] results = new byte[length];
+            byte[] result = new byte[length];
             for (int i = 0; i < length; i++)
-            {
-                results[i] = bytes[i];
-            }
-            return new Tuple<byte[], byte[]>(bytes.Skip(length).Take(bytes.Length - length).ToArray(), results);
+                result[i] = ConsumeByte(bytes, ref offset);
+            return result;
         }
     }
 }
