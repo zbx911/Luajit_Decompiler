@@ -106,5 +106,54 @@ namespace Luajit_Decompiler.dis
                 result[i] = ConsumeByte(bytes, ref offset);
             return result;
         }
+
+        // Reference of DiLemming's code:
+        //int uleb(byte[] a) {
+        //    int value = 0;
+        //    int shift = 1;
+        //    for(int i = 0; i < a.length; i++)
+        //    {
+        //        byte b = a[i++];
+        //        byte data = b & 127;
+        //        byte cont = b & 128;
+        //        value += data * shift
+        //        shift *= 128;
+        //        if(cont == 0) break;
+        //    }
+        //    return value;
+        //}
+        /// <summary>
+        /// Consumes bytes that can be encoded in leb128. Returns their integer equivalent. Modified version of DiLemming's code.
+        /// </summary>
+        /// <param name="bytes"></param>
+        /// <param name="offset"></param>
+        /// <returns></returns>
+        public static int ConsumeUleb(byte[] bytes, ref int offset)
+        {
+            byte[] ulebBytes;
+            int count = 0;
+            int shift = 1;
+            int cont = 0;
+            byte b;
+            do
+            {
+                b = bytes[offset + count];
+                cont = (byte)(b & 128);
+                shift *= 128;
+                count++;
+            } while (cont != 0);
+            ulebBytes = ConsumeBytes(bytes, ref offset, count);
+            switch(ulebBytes.Length)
+            {
+                case 1:
+                    return ulebBytes[0];
+                case 2:
+                    return BitConverter.ToInt16(ulebBytes, 0);
+                case 4:
+                    return BitConverter.ToInt32(ulebBytes, 0);
+                default:
+                    throw new Exception("Disassembler : ConsumeUleb :: ulebBytes.Length is not an expected value.");
+            }
+        }
     }
 }

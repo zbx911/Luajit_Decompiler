@@ -21,31 +21,33 @@ namespace Luajit_Decompiler.dis
         public byte numberOfParams; //number of params in the method
         public byte frameSize; //??
         public byte sizeUV; //size of upvalues section?
-        public byte sizeKGC; //size of the constants section.
-        public byte sizeKN; //size of constant numbers???
+        public int sizeKGC; //size of the constants section.
+        public int sizeKN; //size of constant numbers???
         public int instructionCount; //number of bytecode instructions for the prototype.
         public byte[] instructionBytes; //instructions section bytes
         public byte[] constantBytes; //constant section bytes
 
-        public Prototype(byte[] bytes, ref int offset, OutputManager manager, int protoSize) //!! ProtoSize parameter is temporary. Remove when constants are handled.
+        public Prototype(byte[] bytes, ref int offset, OutputManager manager, int protoSize)
         {
             this.bytes = bytes;
             this.manager = manager;
             int instructionSize = 4; //each instruction is 4 bytes.
+            int headerSize = 7; //7 bytes in each prototype header.
+
+            //prototype header and instructions section
             flags = Disassembler.ConsumeByte(bytes, ref offset);
             numberOfParams = Disassembler.ConsumeByte(bytes, ref offset);
             frameSize = Disassembler.ConsumeByte(bytes, ref offset);
             sizeUV = Disassembler.ConsumeByte(bytes, ref offset);
-            sizeKGC = Disassembler.ConsumeByte(bytes, ref offset);
-            sizeKN = Disassembler.ConsumeByte(bytes, ref offset);
-            instructionCount = Disassembler.ConsumeByte(bytes, ref offset) * instructionSize;
+            sizeKGC = Disassembler.ConsumeUleb(bytes, ref offset);
+            sizeKN = Disassembler.ConsumeUleb(bytes, ref offset);
+            instructionCount = Disassembler.ConsumeUleb(bytes, ref offset) * instructionSize;
             instructionBytes = Disassembler.ConsumeBytes(bytes, ref offset, instructionCount);
-            //TODO: Handle constants section. AKA: UV, KGC, KN
 
-            //THESE NEXT LINES ARE COMPLETELY TEMPORARY. CODE ASSUMES CONSTANTS SECTIONS ARE ALREADY HANDLED AND OFFSET IS ADJUSTED ACCORDINGLY.
-            //ADJUSTING OFFSET SO THAT ALL PROTOTYPES IN A FILE ARE CAUGHT. REMOVE PROTOSIZE PARAMETER WHEN CONSTANTS ARE HANDLED.
-            int byteTally = 7 + instructionCount; //7 from header and all instruction bytes
-            offset += protoSize - byteTally; //difference between the size of proto and tally is the constants section byte size.
+            //constants section
+            int byteTally = headerSize + instructionCount; //tally of both the header and the number of instructions.
+            int constantSecSize = protoSize - byteTally; //difference between the size of proto and tally is the constants section byte size.
+            constantBytes = Disassembler.ConsumeBytes(bytes, ref offset, constantSecSize);
         }
 
         /// <summary>
@@ -62,6 +64,10 @@ namespace Luajit_Decompiler.dis
         /// </summary>
         public void DebugWritePrototype()
         {
+            //Console.Out.WriteLine("SizeUV (upvalues)?: " + sizeUV);
+            //Console.Out.WriteLine("SizeKGC (upvalues)?: " + sizeKGC);
+            //Console.Out.WriteLine("SizeKN (upvalues)?: " + sizeKN);
+            #region bytecode instructions
             OpCodes code;
             for (int i = 0; i < instructionCount; i++)
             {
@@ -75,6 +81,8 @@ namespace Luajit_Decompiler.dis
                     Console.Out.WriteLine(BitConverter.ToString(instructionBytes, i, 1));
                 }
             }
+            #endregion
+            ///TODO: HANDLE WRITING CONSTANTS SECTIONS HERE WITH METHOD CALL.
             Console.Out.WriteLine("=====END INSTRUCTIONS FOR PROTOTYPE=====");
         }
     }
