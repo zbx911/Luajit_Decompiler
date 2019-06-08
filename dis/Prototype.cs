@@ -14,6 +14,7 @@ namespace Luajit_Decompiler.dis
     {
         private byte[] bytes; //remaining bytes of the bytecode. The initial header must be stripped from this list. Assumes next 6 bytes are for the prototype header.
         private OutputManager manager; //for file output handling.
+        private string protoName = "Prototype ";
 
         //Prototype Header Info : These 7 bytes are also from luajit lj_bcwrite. Note: uleb128 parsing is required for the sizeUV, sizeKGC, and the bytes[6] instructionCount.
         //(for values > 255/256). Also note that if the flags for whether or not to strip debug info is something other than 0x02, then there will be a name before the rest of instructions.
@@ -26,11 +27,16 @@ namespace Luajit_Decompiler.dis
         public int instructionCount; //number of bytecode instructions for the prototype.
         public byte[] instructionBytes; //instructions section bytes
         public byte[] constantBytes; //constant section bytes
+        public byte[] upvalues; //every 2 bytes is 1 upvalue reference.
+        public Prototype child; //the parent of this prototype. (If a parent exists). (pop from protostack).
+        private Stack<Prototype> protoStack; //the stack of all prototypes.
 
-        public Prototype(byte[] bytes, ref int offset, OutputManager manager, int protoSize)
+        public Prototype(byte[] bytes, ref int offset, OutputManager manager, int protoSize, Stack<Prototype> protoStack, int nameNDX)
         {
             this.bytes = bytes;
             this.manager = manager;
+            this.protoStack = protoStack;
+            protoName += nameNDX;
             int instructionSize = 4; //each instruction is 4 bytes.
             int headerSize = 7; //7 bytes in each prototype header.
 
@@ -48,6 +54,10 @@ namespace Luajit_Decompiler.dis
             int byteTally = headerSize + instructionCount; //tally of both the header and the number of instructions.
             int constantSecSize = protoSize - byteTally; //difference between the size of proto and tally is the constants section byte size.
             constantBytes = Disassembler.ConsumeBytes(bytes, ref offset, constantSecSize);
+
+            //begin writing this prototype.
+            DebugWritePrototype();
+            protoStack.Push(this); //after writing the proto, push it.
         }
 
         /// <summary>
@@ -69,21 +79,95 @@ namespace Luajit_Decompiler.dis
             //Console.Out.WriteLine("SizeKN (upvalues)?: " + sizeKN);
             #region bytecode instructions
             OpCodes code;
+            Console.Out.WriteLine(protoName);
             for (int i = 0; i < instructionCount; i++)
             {
                 if (i % 4 == 0)
                 {
                     code = Opcode.ParseOpByte(instructionBytes[i]);
-                    Console.Out.WriteLine(code);
+                    Console.Out.Write("(" + code + "): ");
                 }
                 else
                 {
-                    Console.Out.WriteLine(BitConverter.ToString(instructionBytes, i, 1));
+                    Console.Out.Write(BitConverter.ToString(instructionBytes, i, 1));
+                    if (i % 4 == 3)
+                        Console.Out.WriteLine(";");
+                    else
+                        Console.Out.Write(", ");
                 }
             }
             #endregion
-            ///TODO: HANDLE WRITING CONSTANTS SECTIONS HERE WITH METHOD CALL.
+            Console.Out.WriteLine(ParseConstants(constantBytes));
             Console.Out.WriteLine("=====END INSTRUCTIONS FOR PROTOTYPE=====");
+            Console.Out.WriteLine();
+        }
+
+        /// <summary>
+        /// Parses the constants section bytes and returns a string containing the entire (formatted)? constants section.
+        /// </summary>
+        /// <param name="cons"></param>
+        /// <returns></returns>
+        private string ParseConstants(byte[] cons)
+        {
+            if (cons.Length == 0)
+                return "No Constants";
+            int consOffset = 0;
+
+            //upvalues first, then global constants, then numbers. Lastly, any debug info
+            if (sizeUV != 0)
+                upvalues = Disassembler.ConsumeBytes(cons, ref consOffset, sizeUV * 2);
+
+            //DiLemming discussion and bcwrite format of constants:
+            //type == 1 -> table
+            //type == 2 -> int64
+            //type == 3 -> uint64
+            //type == 4 -> a complex number
+            //type >= 5 -> a string of length = type - 5
+            StringBuilder result = new StringBuilder("Constants Section:\n");
+            byte typeByte;
+            int index = 0;
+            string typeName;
+            while (consOffset < cons.Length)
+            {
+                typeByte = Disassembler.ConsumeByte(cons, ref consOffset);
+                switch (typeByte)
+                {
+                    case 0:
+                        typeName = "KGC_CHILD";
+                        index++;
+                        child = protoStack.Pop();
+                        result.Append(typeName + ": " + index + ":: " + "Child Proto: " + child.protoName + "; ");
+                        break;
+                    //throw new Exception("Prototype: ParseConstants :: Typebyte is zero. According to bcread, BCDUMP_KGC_CHILD");
+                    case 1:
+                        typeName = "Table";
+                        index++;
+                        result.Append(typeName + ": " + index + ":: " + Disassembler.ConsumeByte(cons, ref consOffset) + "; ");
+                        break;
+                    //throw new Exception("Prototype: ParseConstants :: Table requested. No implementation currently available.");
+                    case 2:
+                        typeName = "Int64";
+                        index++;
+                        result.Append(typeName + ": " + index + ":: " + Disassembler.ConsumeUleb(cons, ref consOffset) + "; ");
+                        break;
+                    case 3:
+                        typeName = "UInt64";
+                        index++;
+                        result.Append(typeName + ": " + index + ":: " + Disassembler.ConsumeUleb(cons, ref consOffset) + "; ");
+                        break;
+                    case 4:
+                        typeName = "Complex Number";
+                        index++;
+                        result.Append(typeName + ": " + index + ":: " + Disassembler.ConsumeUleb(cons, ref consOffset) + "; ");
+                        break;
+                    default:
+                        typeName = "String";
+                        index++;
+                        result.Append(typeName + ": " + index + ":: " + ASCIIEncoding.Default.GetString(Disassembler.ConsumeBytes(cons, ref consOffset, typeByte - 5)) + "; ");
+                        break;
+                }
+            }
+            return result.ToString();
         }
     }
 }

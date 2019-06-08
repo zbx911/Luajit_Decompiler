@@ -21,12 +21,15 @@ namespace Luajit_Decompiler.dis
         private byte[] expectedMagic = { 0x1B, 0x4C, 0x4A, 0x01 };
         private byte flags; //mainly for determining if the debug info has been stripped or not.
 
+        private Stack<Prototype> protoStack;
+
         public Disassembler(string outputFilePath, byte[] bytecode)
         {
             path = outputFilePath;
             manager = new OutputManager(path);
             this.bytecode = bytecode;
             TrimHeader(bytecode, ref offset);
+            protoStack = new Stack<Prototype>();
         }
 
         /// <summary>
@@ -51,12 +54,7 @@ namespace Luajit_Decompiler.dis
             for (int i = 0; i < magic.Length; i++)
                 if(magic[i] != expectedMagic[i])
                     throw new Exception("Disassembler : Disassemble ::  Magic numbers are invalid for luajit bytes. Expected: 0x1B, 0x4C, 0x4A, 0x01");
-            List<Prototype> prototypes = GetAllPrototypes(bytecode, ref offset);
-            foreach (Prototype p in prototypes)
-            {
-                p.DebugWritePrototype(); //comment this out when output management is implemented.
-                //p.WritePrototype(); //The method that will write to the file defined in output management.
-            }
+            WriteAllPrototypes(bytecode, ref offset);
         }
 
         /// <summary>
@@ -66,17 +64,17 @@ namespace Luajit_Decompiler.dis
         /// </summary>
         /// <param name="bytes"></param>
         /// <returns></returns>
-        private List<Prototype> GetAllPrototypes(byte[] bytes, ref int offset)
+        private void WriteAllPrototypes(byte[] bytes, ref int offset)
         {
-            List<Prototype> prototypes = new List<Prototype>();
             byte protoSize = ConsumeByte(bytes, ref offset);
+            int nameNDX = 0; //temp.
             while (protoSize > 0)
             {
-                Prototype pro = new Prototype(bytes, ref offset, manager, protoSize);
-                prototypes.Add(pro);
+                Prototype pro = new Prototype(bytes, ref offset, manager, protoSize, protoStack, nameNDX); //writes in the constructor. temporary parameter for nameNDX. Remove when names implemented.
+                protoStack.Push(pro);
                 protoSize = ConsumeByte(bytes, ref offset);
+                nameNDX++;
             }
-            return prototypes;
         }
 
         /// <summary>
@@ -130,30 +128,23 @@ namespace Luajit_Decompiler.dis
         /// <returns></returns>
         public static int ConsumeUleb(byte[] bytes, ref int offset)
         {
-            byte[] ulebBytes;
             int count = 0;
             int shift = 1;
             int cont = 0;
             byte b;
+            int data;
+            int value = 0;
             do
             {
                 b = bytes[offset + count];
-                cont = (byte)(b & 128);
+                data = b & 127;
+                cont = b & 128;
                 shift *= 128;
+                value += data << shift;
                 count++;
             } while (cont != 0);
-            ulebBytes = ConsumeBytes(bytes, ref offset, count);
-            switch(ulebBytes.Length)
-            {
-                case 1:
-                    return ulebBytes[0];
-                case 2:
-                    return BitConverter.ToInt16(ulebBytes, 0);
-                case 4:
-                    return BitConverter.ToInt32(ulebBytes, 0);
-                default:
-                    throw new Exception("Disassembler : ConsumeUleb :: ulebBytes.Length is not an expected value.");
-            }
+            offset += count;
+            return value;
         }
     }
 }
