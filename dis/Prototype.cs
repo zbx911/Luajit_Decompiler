@@ -30,6 +30,7 @@ namespace Luajit_Decompiler.dis
         public byte[] upvalues; //every 2 bytes is 1 upvalue reference.
         public Prototype child; //the parent of this prototype. (If a parent exists). (pop from protostack).
         private Stack<Prototype> protoStack; //the stack of all prototypes.
+        private int tableIndex = 0;
 
         public Prototype(byte[] bytes, ref int offset, OutputManager manager, int protoSize, Stack<Prototype> protoStack, int nameNDX)
         {
@@ -202,15 +203,23 @@ namespace Luajit_Decompiler.dis
                     child = protoStack.Pop();
                     result.Append(typeName + ": " + child.protoName + "; ");
                     break;
-                case 1: //TODO: IMPLEMENT TABLES
-                    //typeName = "Table";
-                    //result.Append(typeName + ": " + Disassembler.ConsumeByte(cons, ref consOffset) + "; ");
-                    //break;
-                    throw new Exception("Prototype: ParseConstants :: Table requested. No implementation currently available.");
+                case 1:
+                    int arrayPartLength = Disassembler.ConsumeUleb(cons, ref consOffset);
+                    int hashPartLength = Disassembler.ConsumeUleb(cons, ref consOffset);
+                    if(arrayPartLength != 0)
+                    {
+                        result.Append(ReadTable(cons, ref consOffset, arrayPartLength, false, tableIndex).ToString());
+                    }
+                    if(hashPartLength != 0)
+                    {
+                        result.Append(ReadTable(cons, ref consOffset, hashPartLength, true, tableIndex).ToString());
+                    }
+                    tableIndex++;
+                    break;
                 case 2:
                     typeName = "Int64";
                     result.Append(typeName + ": " + Disassembler.ConsumeUleb(cons, ref consOffset) + "; ");
-                    //result.Append(typeName + ": "+ "number" + "; ");
+                    //rlt.Append(typeName + ": "+ "number" + "; ");
                     break;
                 case 3:
                     typeName = "UInt64";
@@ -227,18 +236,45 @@ namespace Luajit_Decompiler.dis
             }
             return result.ToString();
         }
+    //else if (tp == BCDUMP_KTAB_NUM) Note: num is two ulebs.
+    //o->u32.lo = bcread_uleb128(ls);
+    //o->u32.hi = bcread_uleb128(ls);
+    private string ReadTable(byte[] cons, ref int consOffset, int length, bool isHash, int nameIndex)
+        {
+            int unknownLeb = Disassembler.ConsumeUleb(cons, ref consOffset);
+            TableConstant tc = new TableConstant(nameIndex, isHash); //next byte index of table itself??
+            for (int i = 0; i < length - 1; i++)
+            {
+                int t = Disassembler.ConsumeUleb(cons, ref consOffset);
+                switch(t)
+                {
+                    case 0:
+                        tc.AddKeyValue(TabType._nil, i, Disassembler.ConsumeUleb(cons, ref consOffset));
+                        break;
+                    case 1:
+                        tc.AddKeyValue(TabType._false, i, Disassembler.ConsumeUleb(cons, ref consOffset));
+                        break;
+                    case 2:
+                        tc.AddKeyValue(TabType._true, i, Disassembler.ConsumeUleb(cons, ref consOffset));
+                        break;
+                    case 3:
+                        tc.AddKeyValue(TabType._int, i, Disassembler.ConsumeUleb(cons, ref consOffset));
+                        break;
+                    case 4:
+                        tc.AddKeyValue(TabType._number, i, new LuaNumber(Disassembler.ConsumeUleb(cons, ref consOffset), Disassembler.ConsumeUleb(cons, ref consOffset)));
+                        break;
+                    default:
+                        tc.AddKeyValue(TabType._string, i, ASCIIEncoding.Default.GetString(Disassembler.ConsumeBytes(cons, ref consOffset, t - 5)));
+                        break;
+                }
+            }
+            return tc.ToString();
+        }
 
         private string PrintHeader()
         {
             return "Flags: " + flags + "; " + "# Params: " + numberOfParams + "; " + "Frame Size: " + frameSize + "; " +
                 "Upvalue Size: " + sizeUV + "; " + "KGC Size: " + sizeKGC + "; " + "KN Size: " + sizeKN + "; " + "Instruction Count: " + instructionCount + ";\n";
         }
-        //public byte flags; //whether or not to strip debug info.
-        //public byte numberOfParams; //number of params in the method
-        //public byte frameSize; //# of prototypes - 1 inside the prototype?
-        //public byte sizeUV; //# of upvalues
-        //public int sizeKGC; //size of the constants section? number of strings?
-        //public int sizeKN; //# of constant numbers to be read after strings.
-        //public int instructionCount; //number of bytecode instructions for the prototype.
     }
 }
