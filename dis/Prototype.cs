@@ -6,10 +6,6 @@ using System.Threading.Tasks;
 
 namespace Luajit_Decompiler.dis
 {
-    /// <summary>
-    /// TODO:
-    /// Handle constants section.
-    /// </summary>
     class Prototype
     {
         private byte[] bytes; //remaining bytes of the bytecode. The initial header must be stripped from this list. Assumes next 6 bytes are for the prototype header.
@@ -30,7 +26,7 @@ namespace Luajit_Decompiler.dis
         public byte[] upvalues; //every 2 bytes is 1 upvalue reference.
         public Prototype child; //the parent of this prototype. (If a parent exists). (pop from protostack).
         private Stack<Prototype> protoStack; //the stack of all prototypes.
-        private int tableIndex = 0;
+        private int tableIndex = 0; //for naming tables in lua files.
 
         public Prototype(byte[] bytes, ref int offset, OutputManager manager, int protoSize, Stack<Prototype> protoStack, int nameNDX)
         {
@@ -48,8 +44,6 @@ namespace Luajit_Decompiler.dis
             sizeUV = Disassembler.ConsumeByte(bytes, ref offset);
             sizeKGC = Disassembler.ConsumeUleb(bytes, ref offset);
             sizeKN = Disassembler.ConsumeUleb(bytes, ref offset);
-            //if (nameNDX == 9)//debug work because it is off by 1 byte?
-                //offset++;
             instructionCount = Disassembler.ConsumeUleb(bytes, ref offset) * instructionSize;
             instructionBytes = Disassembler.ConsumeBytes(bytes, ref offset, instructionCount);
 
@@ -60,7 +54,6 @@ namespace Luajit_Decompiler.dis
 
             //begin writing this prototype.
             DebugWritePrototype();
-            //protoStack.Push(this); //after writing the proto, push it.
         }
 
         /// <summary>
@@ -241,15 +234,18 @@ namespace Luajit_Decompiler.dis
     //o->u32.hi = bcread_uleb128(ls);
     private string ReadTable(byte[] cons, ref int consOffset, int length, bool isHash, int nameIndex)
         {
-            int unknownLeb = Disassembler.ConsumeUleb(cons, ref consOffset);
-            TableConstant tc = new TableConstant(nameIndex, isHash); //next byte index of table itself??
+            //This byte represents the zero index of a lua table. DiLemming pointed out that since lua is a 1 based indexing language, but luajit users are used to 0 based indexing, this extra byte is always here.
+            //by purposefully setting the 0 index of a lua table by: table6 = {[0] = "zero", "one", "two"}
+            //the resulting bytecode will break the program.
+            int zeroIndexOfTable = Disassembler.ConsumeByte(cons, ref consOffset);
+            TableConstant tc = new TableConstant(nameIndex, isHash);
             for (int i = 0; i < length - 1; i++)
             {
                 int t = Disassembler.ConsumeUleb(cons, ref consOffset);
                 switch(t)
                 {
                     case 0:
-                        tc.AddKeyValue(TabType._nil, i, Disassembler.ConsumeUleb(cons, ref consOffset));
+                        tc.AddKeyValue(TabType._nil, i, 0);
                         break;
                     case 1:
                         tc.AddKeyValue(TabType._false, i, Disassembler.ConsumeUleb(cons, ref consOffset));
