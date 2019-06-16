@@ -66,13 +66,13 @@ namespace Luajit_Decompiler.dis
         /// <returns></returns>
         private void WriteAllPrototypes(byte[] bytes, ref int offset)
         {
-            byte protoSize = ConsumeByte(bytes, ref offset);
+            int protoSize = ConsumeUleb(bytes, ref offset);
             int nameNDX = 0; //temp.
             while (protoSize > 0)
             {
                 Prototype pro = new Prototype(bytes, ref offset, manager, protoSize, protoStack, nameNDX); //writes in the constructor. temporary parameter for nameNDX. Remove when names implemented.
                 protoStack.Push(pro);
-                protoSize = ConsumeByte(bytes, ref offset);
+                protoSize = ConsumeUleb(bytes, ref offset);
                 nameNDX++;
             }
         }
@@ -139,8 +139,8 @@ namespace Luajit_Decompiler.dis
                 b = bytes[offset + count];
                 data = b & 127;
                 cont = b & 128;
+                value += data * shift;
                 shift *= 128;
-                value += data << shift;
                 count++;
             } while (cont != 0);
             offset += count;
