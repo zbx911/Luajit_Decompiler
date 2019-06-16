@@ -112,7 +112,7 @@ namespace Luajit_Decompiler.dis
         /// <returns></returns>
         public override string ToString()
         {
-            StringBuilder result = new StringBuilder("\nTable " + tableIndex + " Contents:\n");
+            StringBuilder result = new StringBuilder("\nTable " + tableIndex + " Contents: [index, value];\n");
             if (isHash)
                 result.Append("\tHash Part:\n\t\t");
             else
@@ -124,13 +124,13 @@ namespace Luajit_Decompiler.dis
                 switch(t)
                 {
                     case TabType._nil:
-                        value = " nil";
+                        value = " [" + nils.Dequeue().Key + "," + " nil]";
                         break;
                     case TabType._false:
-                        value = " false";
+                        value = " [" + falses.Dequeue().Key + "," + " false]";
                         break;
                     case TabType._true:
-                        value = " true";
+                        value = " [" + trues.Dequeue().Key + "," + " true]";
                         break;
                     case TabType._int:
                         value = " " + integers.Dequeue().ToString();

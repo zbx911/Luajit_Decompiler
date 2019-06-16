@@ -212,7 +212,6 @@ namespace Luajit_Decompiler.dis
                 case 2:
                     typeName = "Int64";
                     result.Append(typeName + ": " + Disassembler.ConsumeUleb(cons, ref consOffset) + "; ");
-                    //rlt.Append(typeName + ": "+ "number" + "; ");
                     break;
                 case 3:
                     typeName = "UInt64";
