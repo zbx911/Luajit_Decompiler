@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace Luajit_Decompiler.dis
 {
+    /// <summary>
+    /// TODO: Handle debug info.
+    /// </summary>
     class Prototype
     {
         private byte[] bytes; //remaining bytes of the bytecode. The initial header must be stripped from this list. Assumes next 6 bytes are for the prototype header.
@@ -27,6 +30,9 @@ namespace Luajit_Decompiler.dis
         public Prototype child; //the parent of this prototype. (If a parent exists). (pop from protostack).
         private Stack<Prototype> protoStack; //the stack of all prototypes.
         private int tableIndex = 0; //for naming tables in lua files.
+        private int debugSize; //size of the debug info section
+        private int firstLine; //size of the first line of debug info?
+        private int numLines; //number of debug info lines?
 
         public Prototype(byte[] bytes, ref int offset, OutputManager manager, int protoSize, Stack<Prototype> protoStack, int nameNDX)
         {
@@ -46,6 +52,16 @@ namespace Luajit_Decompiler.dis
             sizeKN = Disassembler.ConsumeUleb(bytes, ref offset);
             instructionCount = Disassembler.ConsumeUleb(bytes, ref offset) * instructionSize;
             instructionBytes = Disassembler.ConsumeBytes(bytes, ref offset, instructionCount);
+            //From luajit's bcread. read the debug info part of the header if necessary.
+            if((flags & 0x02) == 0)
+            {
+                debugSize = Disassembler.ConsumeUleb(bytes, ref offset);
+                if(debugSize > 0)
+                {
+                    firstLine = Disassembler.ConsumeUleb(bytes, ref offset);
+                    numLines = Disassembler.ConsumeUleb(bytes, ref offset);
+                }
+            }
 
             //constants section
             int byteTally = headerSize + instructionCount; //tally of both the header and the number of instructions.
@@ -113,7 +129,7 @@ namespace Luajit_Decompiler.dis
             //upvalues first, then global constants, then numbers. Lastly, any debug info
 
             //read upvalues
-            if (sizeUV != 0)
+            if (sizeUV > 0)
             {
                 upvalues = Disassembler.ConsumeBytes(cons, ref consOffset, sizeUV * 2);
                 result.Append(ReadUpvalues(upvalues));
@@ -122,7 +138,7 @@ namespace Luajit_Decompiler.dis
                 result.Append("No upvalues;\n");
 
             //read KGC constants
-            if (sizeKGC != 0)
+            if (sizeKGC > 0)
             {
                 int kgc = sizeKGC;
                 result.Append("KGC Section: ");
@@ -138,7 +154,7 @@ namespace Luajit_Decompiler.dis
                 result.Append("No KGC constants;\n");
 
             //read number constants
-            if (sizeKN != 0)
+            if (sizeKN > 0)
             {
                 int kn = sizeKN;
                 result.Append("Number Section: ");
@@ -154,6 +170,13 @@ namespace Luajit_Decompiler.dis
             }
             else
                 result.Append("No number constants;\n");
+
+            //read debug info if debug info is present
+            if (debugSize > 0)
+            {
+                //Testing out this method first I suppose. Reading the bytes for the count of debugSize.
+                Disassembler.ConsumeBytes(cons, ref consOffset, debugSize);
+            }
             return result.ToString();
         }
 
@@ -183,6 +206,12 @@ namespace Luajit_Decompiler.dis
         //type == 3 -> uint64
         //type == 4 -> a complex number
         //type >= 5 -> a string of length = type - 5
+        /// <summary>
+        /// TODO: Table hash part is not implemented correctly.
+        /// </summary>
+        /// <param name="cons"></param>
+        /// <param name="consOffset"></param>
+        /// <returns></returns>
         private string ReadKGC(byte[] cons, ref int consOffset)
         {
             byte typeByte;
@@ -236,7 +265,7 @@ namespace Luajit_Decompiler.dis
             //This byte represents the zero index of a lua table. DiLemming pointed out that since lua is a 1 based indexing language, but luajit users are used to 0 based indexing, this extra byte is always here.
             //by purposefully setting the 0 index of a lua table by: table6 = {[0] = "zero", "one", "two"}
             //the resulting bytecode will break the program.
-            int zeroIndexOfTable = Disassembler.ConsumeByte(cons, ref consOffset);
+            //int zeroIndexOfTable = Disassembler.ConsumeByte(cons, ref consOffset);
             TableConstant tc = new TableConstant(nameIndex, isHash);
             for (int i = 0; i < length - 1; i++)
             {
