@@ -25,7 +25,7 @@ namespace Luajit_Decompiler.dis
         public int sizeKN; //# of constant numbers to be read after strings.
         public int instructionCount; //number of bytecode instructions for the prototype.
         public byte[] instructionBytes; //instructions section bytes
-        public byte[] constantBytes; //constant section bytes
+        //public byte[] constantBytes; //constant section bytes
         public byte[] upvalues; //every 2 bytes is 1 upvalue reference.
         public Prototype child; //the parent of this prototype. (If a parent exists). (pop from protostack).
         private Stack<Prototype> protoStack; //the stack of all prototypes.
@@ -41,7 +41,7 @@ namespace Luajit_Decompiler.dis
             this.protoStack = protoStack;
             protoName += nameNDX;
             int instructionSize = 4; //each instruction is 4 bytes.
-            int headerSize = 7; //7 bytes in each prototype header.
+            //int headerSize = 7; //7 bytes in each prototype header.
 
             //prototype header and instructions section
             flags = Disassembler.ConsumeByte(bytes, ref offset); //# of tables for instance?
@@ -53,7 +53,7 @@ namespace Luajit_Decompiler.dis
             instructionCount = Disassembler.ConsumeUleb(bytes, ref offset) * instructionSize;
             instructionBytes = Disassembler.ConsumeBytes(bytes, ref offset, instructionCount);
             //From luajit's bcread. read the debug info part of the header if necessary.
-            if((flags & 0x02) == 0)
+            if ((flags & 0x02) == 0 && (flags > 1)) //works for flags > 1. not sure what the reasoning is behind that. more research necessary.
             {
                 debugSize = Disassembler.ConsumeUleb(bytes, ref offset);
                 if(debugSize > 0)
@@ -63,13 +63,8 @@ namespace Luajit_Decompiler.dis
                 }
             }
 
-            //constants section
-            int byteTally = headerSize + instructionCount; //tally of both the header and the number of instructions.
-            int constantSecSize = protoSize - byteTally; //difference between the size of proto and tally is the constants section byte size.
-            constantBytes = Disassembler.ConsumeBytes(bytes, ref offset, constantSecSize);
-
             //begin writing this prototype.
-            DebugWritePrototype();
+            DebugWritePrototype(ref offset);
         }
 
         /// <summary>
@@ -84,7 +79,7 @@ namespace Luajit_Decompiler.dis
         /// <summary>
         /// For debug purposes, write it to stdout.
         /// </summary>
-        public void DebugWritePrototype()
+        public void DebugWritePrototype(ref int offset)
         {
             Console.Out.WriteLine(protoName);
             Console.Out.WriteLine(PrintHeader());
@@ -108,7 +103,8 @@ namespace Luajit_Decompiler.dis
                 }
             }
             #endregion
-            Console.Out.WriteLine(ParseConstants(constantBytes));
+            //Console.Out.WriteLine(ParseConstants(constantBytes));
+            ParseConstants(bytes, ref offset);
             Console.Out.WriteLine("=====END INSTRUCTIONS FOR PROTOTYPE=====");
             Console.Out.WriteLine();
         }
@@ -116,68 +112,75 @@ namespace Luajit_Decompiler.dis
         /// <summary>
         /// Parses the constants section bytes and returns a string containing the entire (formatted)? constants section.
         /// </summary>
-        /// <param name="cons"></param>
-        /// <returns></returns>
-        private string ParseConstants(byte[] cons)
+        /// <param name="bytes"></param>
+        private void ParseConstants(byte[] bytes, ref int offset)
         {
-            int consOffset = 0;
-            StringBuilder result = new StringBuilder();
-            if (cons.Length == 0)
-                return "No Constants;\n";
-            else
-                result.Append("---Constants Section---\n");
+            Console.Out.WriteLine("---Constants Section---");
+            //result.Append("---Constants Section---\n");
+
             //upvalues first, then global constants, then numbers. Lastly, any debug info
 
             //read upvalues
             if (sizeUV > 0)
             {
-                upvalues = Disassembler.ConsumeBytes(cons, ref consOffset, sizeUV * 2);
-                result.Append(ReadUpvalues(upvalues));
+                upvalues = Disassembler.ConsumeBytes(bytes, ref offset, sizeUV * 2);
+                //result.Append(ReadUpvalues(upvalues));
+                Console.Out.WriteLine(ReadUpvalues(upvalues));
             }
             else
-                result.Append("No upvalues;\n");
+                Console.Out.Write("No upvalues;\n");
+                //result.Append("No upvalues;\n");
 
             //read KGC constants
             if (sizeKGC > 0)
             {
                 int kgc = sizeKGC;
-                result.Append("KGC Section: ");
+                Console.Out.Write("KGC Section: ");
+                //result.Append("KGC Section: ");
                 while (kgc != 0)
                 {
-                    result.Append(ReadKGC(cons, ref consOffset));
+                    //result.Append(ReadKGC(cons, ref consOffset));
+                    Console.Out.WriteLine(ReadKGC(bytes, ref offset));
                     kgc--;
                     if (kgc == 0)
-                        result.Append("\n");
+                        Console.Out.WriteLine();
+                        //result.Append("\n");
                 }
             }
             else
-                result.Append("No KGC constants;\n");
+                Console.Out.WriteLine("No KGC constants;\n");
+                //result.Append("No KGC constants;\n");
 
             //read number constants
             if (sizeKN > 0)
             {
                 int kn = sizeKN;
-                result.Append("Number Section: ");
+                Console.Out.Write("Number Section: ");
+                //result.Append("Number Section: ");
                 while (kn != 0)
                 {
-                    result.Append(ReadKN(cons, ref consOffset));
+                    //result.Append(ReadKN(cons, ref consOffset));
+                    Console.Out.Write(ReadKN(bytes, ref offset));
                     kn--;
                     if (kn == 0)
-                        result.Append(";");
+                        Console.Out.Write(";");
+                    //result.Append(";");
                     else
-                        result.Append(", ");
+                        Console.Out.Write(", ");
+                        //result.Append(", ");
                 }
             }
             else
-                result.Append("No number constants;\n");
+                Console.Out.WriteLine("No number constants;\n");
+                //result.Append("No number constants;\n");
 
             //read debug info if debug info is present
             if (debugSize > 0)
             {
                 //Testing out this method first I suppose. Reading the bytes for the count of debugSize.
-                Disassembler.ConsumeBytes(cons, ref consOffset, debugSize);
+                Disassembler.ConsumeBytes(bytes, ref offset, debugSize);
             }
-            return result.ToString();
+            //return result.ToString();
         }
 
         private string ReadUpvalues(byte[] upvalues)
@@ -195,9 +198,9 @@ namespace Luajit_Decompiler.dis
             return result.ToString();
         }
 
-        private int ReadKN(byte[] cons, ref int consOffset)
+        private int ReadKN(byte[] bytes, ref int offset)
         {
-            return Disassembler.ConsumeByte(cons, ref consOffset) / 2;
+            return Disassembler.ConsumeByte(bytes, ref offset) / 2;
         }
 
         //DiLemming discussion and bcwrite format of KGC constants:
@@ -210,41 +213,46 @@ namespace Luajit_Decompiler.dis
         /// TODO: Table hash part is not implemented correctly.
         /// </summary>
         /// <param name="cons"></param>
-        /// <param name="consOffset"></param>
+        /// <param name="offset"></param>
         /// <returns></returns>
-        private string ReadKGC(byte[] cons, ref int consOffset)
+        private string ReadKGC(byte[] bytes, ref int offset)
         {
             byte typeByte;
             string typeName;
             StringBuilder result = new StringBuilder();
-            typeByte = Disassembler.ConsumeByte(cons, ref consOffset);
+            typeByte = Disassembler.ConsumeByte(bytes, ref offset);
             switch (typeByte)
             {
                 case 0:
                     typeName = "KGC_CHILD";
+                    if (protoStack.Count > 0)
+                    {
                         child = protoStack.Pop();
                         result.Append(typeName + ": " + child.protoName + "; ");
+                    }
+                    else
+                        result.Append("Unknown Child Prototype.");
                     break;
                 case 1:
                     TableConstant tc = new TableConstant(tableIndex);
-                    result.Append(tc.ReadTable(cons, ref consOffset));
+                    result.Append(tc.ReadTable(bytes, ref offset));
                     tableIndex++;
                     break;
                 case 2:
                     typeName = "Int64";
-                    result.Append(typeName + ": " + Disassembler.ConsumeUleb(cons, ref consOffset) + "; ");
+                    result.Append(typeName + ": " + Disassembler.ConsumeUleb(bytes, ref offset) + "; ");
                     break;
                 case 3:
                     typeName = "UInt64";
-                    result.Append(typeName + ": " + Disassembler.ConsumeUleb(cons, ref consOffset) + "; ");
+                    result.Append(typeName + ": " + Disassembler.ConsumeUleb(bytes, ref offset) + "; ");
                     break;
                 case 4:
                     typeName = "Complex Number";
-                    result.Append(typeName + ": " + Disassembler.ConsumeUleb(cons, ref consOffset) + "; ");
+                    result.Append(typeName + ": " + Disassembler.ConsumeUleb(bytes, ref offset) + "; ");
                     break;
                 default:
                     typeName = "String";
-                    result.Append(typeName + ": " + ASCIIEncoding.Default.GetString(Disassembler.ConsumeBytes(cons, ref consOffset, typeByte - 5)) + "; ");
+                    result.Append(typeName + ": " + ASCIIEncoding.Default.GetString(Disassembler.ConsumeBytes(bytes, ref offset, typeByte - 5)) + "; ");
                     break;
             }
             return result.ToString();
