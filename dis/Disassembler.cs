@@ -70,7 +70,7 @@ namespace Luajit_Decompiler.dis
             int nameNDX = 0; //temp.
             while (protoSize > 0)
             {
-                Prototype pro = new Prototype(bytes, ref offset, manager, protoSize, protoStack, nameNDX); //writes in the constructor. temporary parameter for nameNDX. Remove when names implemented.
+                Prototype pro = new Prototype(bytes, ref offset, manager, protoSize, protoStack, nameNDX, flags); //writes in the constructor. temporary parameter for nameNDX. Remove when names implemented.
                 protoStack.Push(pro);
                 protoSize = ConsumeUleb(bytes, ref offset);
                 nameNDX++;

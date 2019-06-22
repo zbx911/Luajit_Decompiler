@@ -34,7 +34,7 @@ namespace Luajit_Decompiler.dis
         private int firstLine; //size of the first line of debug info?
         private int numLines; //number of debug info lines?
 
-        public Prototype(byte[] bytes, ref int offset, OutputManager manager, int protoSize, Stack<Prototype> protoStack, int nameNDX)
+        public Prototype(byte[] bytes, ref int offset, OutputManager manager, int protoSize, Stack<Prototype> protoStack, int nameNDX, byte fileFlag) //fileFlag from the file header. 0x02 = strip debug info.
         {
             this.bytes = bytes;
             this.manager = manager;
@@ -53,7 +53,7 @@ namespace Luajit_Decompiler.dis
             instructionCount = Disassembler.ConsumeUleb(bytes, ref offset) * instructionSize;
             instructionBytes = Disassembler.ConsumeBytes(bytes, ref offset, instructionCount);
             //From luajit's bcread. read the debug info part of the header if necessary.
-            if ((flags & 0x02) == 0 && (flags > 1)) //works for flags > 1. not sure what the reasoning is behind that. more research necessary.
+            if ((fileFlag & 0x02) == 0)
             {
                 debugSize = Disassembler.ConsumeUleb(bytes, ref offset);
                 if(debugSize > 0)
