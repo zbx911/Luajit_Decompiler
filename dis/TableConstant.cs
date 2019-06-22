@@ -24,132 +24,76 @@ namespace Luajit_Decompiler.dis
     /// </summary>
     class TableConstant
     {
-        //contains their index in the table and their respective values.
-        public Queue<KeyValuePair<int, int>> nils; //1 if there is a nil.
-        public Queue<KeyValuePair<int, int>> falses; //1 if there is a false.
-        public Queue<KeyValuePair<int, int>> trues; //1 if there is a true value.
-        public Queue<KeyValuePair<int, int>> integers; //index and value
-        public Queue<KeyValuePair<int, LuaNumber>> numbers; //index and value
-        public Queue<KeyValuePair<int, string>> strings; //index and value
-        public int count = 0; //number of table items.
-        private Queue<TabType> order; //the order/index of which types are stored.
-        public int tableIndex; //index of the table for naming.
-        public bool isHash;
+        private string tableName = "Table ";
 
+        public TableConstant(int tableIndex)
+        {
+            tableName += tableIndex;
+            tableName += ":\n";
+        }
         /// <summary>
-        /// Requires the index of the table in the bytecode and if it is the hash part or not. Use the same index if it is the hash part of the array. Note: some queues can be null. (To reduce spatial complexity).
+        /// Returns a string containing formatted text of the table's array part and hash part plus their respective values.
         /// </summary>
-        /// <param name="tableIndex"></param>
-        /// <param name="isHash"></param>
-        public TableConstant(int tableIndex, bool isHash)
-        {
-            this.tableIndex = tableIndex;
-            this.isHash = isHash;
-            order = new Queue<TabType>();
-        }
-
-        public void AddKeyValue(TabType type, int index, int value)
-        {
-            switch(type)
-            {
-                case TabType._nil:
-                    if (nils == null)
-                        nils = new Queue<KeyValuePair<int, int>>();
-                    nils.Enqueue(new KeyValuePair<int, int>(index, value));
-                    count++;
-                    break;
-                case TabType._false:
-                    if (falses == null)
-                        falses = new Queue<KeyValuePair<int, int>>();
-                    falses.Enqueue(new KeyValuePair<int, int>(index, value));
-                    count++;
-                    break;
-                case TabType._true:
-                    if (trues == null)
-                        trues = new Queue<KeyValuePair<int, int>>();
-                    trues.Enqueue(new KeyValuePair<int, int>(index, value));
-                    count++;
-                    break;
-                default:
-                    if (integers == null)
-                        integers = new Queue<KeyValuePair<int, int>>();
-                    integers.Enqueue(new KeyValuePair<int, int>(index, value));
-                    count++;
-                    break;
-            }
-            order.Enqueue(type);
-        }
-
-        public void AddKeyValue(TabType type, int index, LuaNumber value)
-        {
-            if (numbers == null)
-                numbers = new Queue<KeyValuePair<int, LuaNumber>>();
-            if (type == TabType._number)
-            {
-                numbers.Enqueue(new KeyValuePair<int, LuaNumber>(index, value));
-                count++;
-            }
-            else throw new Exception("TableConstant: AddToDict:: Bad Type.");
-            order.Enqueue(type);
-        }
-
-        public void AddKeyValue(TabType type, int index, string value)
-        {
-            if (strings == null)
-                strings = new Queue<KeyValuePair<int, string>>();
-            if (type == TabType._string)
-            {
-                strings.Enqueue(new KeyValuePair<int, string>(index, value));
-                count++;
-            }
-            else throw new Exception("TableConstant: AddToDict:: Bad Type.");
-            order.Enqueue(type);
-        }
-
-        /// <summary>
-        /// Returns a string representation of the key/values of the lua table.
-        /// </summary>
+        /// <param name="cons"></param>
+        /// <param name="consOffset"></param>
         /// <returns></returns>
-        public override string ToString()
+        public string ReadTable(byte[] cons, ref int consOffset)
         {
-            StringBuilder result = new StringBuilder("\nTable " + tableIndex + " Contents: [index, value];\n");
-            if (isHash)
-                result.Append("\tHash Part:\n\t\t");
-            else
-                result.Append("\tArray Part:\n\t\t");
-            for(int i = 0; i < count; i++)
+            int arrayPartLength = Disassembler.ConsumeUleb(cons, ref consOffset);
+            int hashPartLength = Disassembler.ConsumeUleb(cons, ref consOffset);
+            StringBuilder result = new StringBuilder(tableName);
+            //read the array part
+            if (arrayPartLength != 0)
             {
-                TabType t = order.Dequeue();
-                string value;
-                switch(t)
+                result.Append("\tArray Part:\n\t\t");
+                for(int i = 0; i < arrayPartLength; i++)
                 {
-                    case TabType._nil:
-                        value = " [" + nils.Dequeue().Key + "," + " nil]";
-                        break;
-                    case TabType._false:
-                        value = " [" + falses.Dequeue().Key + "," + " false]";
-                        break;
-                    case TabType._true:
-                        value = " [" + trues.Dequeue().Key + "," + " true]";
-                        break;
-                    case TabType._int:
-                        value = " " + integers.Dequeue().ToString();
-                        break;
-                    case TabType._number:
-                        value = " " + numbers.Dequeue().ToString();
-                        break;
-                    default:
-                        value = " " + strings.Dequeue().ToString();
-                        break;
-
+                    result.Append("[");
+                    result.Append(i + ", ");
+                    result.Append(ReadTableValue(cons, ref consOffset));
+                    result.Append("]; ");
                 }
-                result.Append(value);
-                if (i < count)
-                    result.Append("; ");
-                else
-                    result.Append(" : ");
+            }
+            //read the hash part
+            if (hashPartLength != 0)
+            {
+                result.Append("\tHash Part:\n\t\t");
+                for(int i = 0; i < hashPartLength; i++)
+                {
+                    result.Append("[");
+                    result.Append(ReadTableValue(cons, ref consOffset) + ", ");
+                    result.Append(ReadTableValue(cons, ref consOffset));
+                    result.Append("]; ");
+                }
             }
             return result.ToString();
+        }
+
+        /// <summary>
+        /// Reads a single key or value from the table array or hash part.
+        /// </summary>
+        /// <param name="cons"></param>
+        /// <param name="consOffset"></param>
+        /// <returns></returns>
+        private string ReadTableValue(byte[] cons, ref int consOffset)
+        {
+            int typebyte = Disassembler.ConsumeUleb(cons, ref consOffset);
+            switch (typebyte)
+            {
+                case 0: //nil
+                    return "nil";
+                case 1: //false
+                    return "false";
+                case 2: //true
+                    return "true";
+                case 3: //int
+                    int value = Disassembler.ConsumeUleb(cons, ref consOffset);
+                    return value.ToString();
+                case 4: //lua number
+                    return new LuaNumber(Disassembler.ConsumeUleb(cons, ref consOffset), Disassembler.ConsumeUleb(cons, ref consOffset)).ToString();
+                default: //string
+                    return ASCIIEncoding.Default.GetString(Disassembler.ConsumeBytes(cons, ref consOffset, typebyte - 5));
+            }
         }
     }
     class LuaNumber

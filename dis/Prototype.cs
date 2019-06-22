@@ -222,20 +222,12 @@ namespace Luajit_Decompiler.dis
             {
                 case 0:
                     typeName = "KGC_CHILD";
-                    child = protoStack.Pop();
-                    result.Append(typeName + ": " + child.protoName + "; ");
+                        child = protoStack.Pop();
+                        result.Append(typeName + ": " + child.protoName + "; ");
                     break;
                 case 1:
-                    int arrayPartLength = Disassembler.ConsumeUleb(cons, ref consOffset);
-                    int hashPartLength = Disassembler.ConsumeUleb(cons, ref consOffset);
-                    if(arrayPartLength != 0)
-                    {
-                        result.Append(ReadTable(cons, ref consOffset, arrayPartLength, false, tableIndex).ToString());
-                    }
-                    if(hashPartLength != 0)
-                    {
-                        result.Append(ReadTable(cons, ref consOffset, hashPartLength, true, tableIndex).ToString());
-                    }
+                    TableConstant tc = new TableConstant(tableIndex);
+                    result.Append(tc.ReadTable(cons, ref consOffset));
                     tableIndex++;
                     break;
                 case 2:
@@ -260,40 +252,40 @@ namespace Luajit_Decompiler.dis
     //else if (tp == BCDUMP_KTAB_NUM) Note: num is two ulebs.
     //o->u32.lo = bcread_uleb128(ls);
     //o->u32.hi = bcread_uleb128(ls);
-    private string ReadTable(byte[] cons, ref int consOffset, int length, bool isHash, int nameIndex)
-        {
-            //This byte represents the zero index of a lua table. DiLemming pointed out that since lua is a 1 based indexing language, but luajit users are used to 0 based indexing, this extra byte is always here.
-            //by purposefully setting the 0 index of a lua table by: table6 = {[0] = "zero", "one", "two"}
-            //the resulting bytecode will break the program.
-            //int zeroIndexOfTable = Disassembler.ConsumeByte(cons, ref consOffset);
-            TableConstant tc = new TableConstant(nameIndex, isHash);
-            for (int i = 0; i < length - 1; i++)
-            {
-                int t = Disassembler.ConsumeUleb(cons, ref consOffset);
-                switch(t)
-                {
-                    case 0:
-                        tc.AddKeyValue(TabType._nil, i, 0);
-                        break;
-                    case 1:
-                        tc.AddKeyValue(TabType._false, i, Disassembler.ConsumeUleb(cons, ref consOffset));
-                        break;
-                    case 2:
-                        tc.AddKeyValue(TabType._true, i, Disassembler.ConsumeUleb(cons, ref consOffset));
-                        break;
-                    case 3:
-                        tc.AddKeyValue(TabType._int, i, Disassembler.ConsumeUleb(cons, ref consOffset));
-                        break;
-                    case 4:
-                        tc.AddKeyValue(TabType._number, i, new LuaNumber(Disassembler.ConsumeUleb(cons, ref consOffset), Disassembler.ConsumeUleb(cons, ref consOffset)));
-                        break;
-                    default:
-                        tc.AddKeyValue(TabType._string, i, ASCIIEncoding.Default.GetString(Disassembler.ConsumeBytes(cons, ref consOffset, t - 5)));
-                        break;
-                }
-            }
-            return tc.ToString();
-        }
+    //private string ReadTable(byte[] cons, ref int consOffset, int length, bool isHash, int nameIndex)
+    //    {
+    //        //This byte represents the zero index of a lua table. DiLemming pointed out that since lua is a 1 based indexing language, but luajit users are used to 0 based indexing, this extra byte is always here.
+    //        //by purposefully setting the 0 index of a lua table by: table6 = {[0] = "zero", "one", "two"}
+    //        //the resulting bytecode will break the program.
+    //        //int zeroIndexOfTable = Disassembler.ConsumeByte(cons, ref consOffset);
+    //        TableConstant tc = new TableConstant(nameIndex, isHash);
+    //        for (int i = 0; i < length - 1; i++)
+    //        {
+    //            int t = Disassembler.ConsumeUleb(cons, ref consOffset);
+    //            switch(t)
+    //            {
+    //                case 0:
+    //                    tc.AddKeyValue(TabType._nil, i, 0);
+    //                    break;
+    //                case 1:
+    //                    tc.AddKeyValue(TabType._false, i, Disassembler.ConsumeUleb(cons, ref consOffset));
+    //                    break;
+    //                case 2:
+    //                    tc.AddKeyValue(TabType._true, i, Disassembler.ConsumeUleb(cons, ref consOffset));
+    //                    break;
+    //                case 3:
+    //                    tc.AddKeyValue(TabType._int, i, Disassembler.ConsumeUleb(cons, ref consOffset));
+    //                    break;
+    //                case 4:
+    //                    tc.AddKeyValue(TabType._number, i, new LuaNumber(Disassembler.ConsumeUleb(cons, ref consOffset), Disassembler.ConsumeUleb(cons, ref consOffset)));
+    //                    break;
+    //                default:
+    //                    tc.AddKeyValue(TabType._string, i, ASCIIEncoding.Default.GetString(Disassembler.ConsumeBytes(cons, ref consOffset, t - 5)));
+    //                    break;
+    //            }
+    //        }
+    //        return tc.ToString();
+    //    }
 
         private string PrintHeader()
         {

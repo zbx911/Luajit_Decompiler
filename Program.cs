@@ -13,7 +13,7 @@ namespace Luajit_Decompiler
     {
         static void Main(string[] args)
         {
-            string path = @"C:\Users\Nathan\Desktop\Bytecode\state_ingame_lobby_client.lua";
+            string path = @"C:\Users\Nathan\Desktop\Bytecode\f02.lua";
             byte[] bytes = File.ReadAllBytes(path);
             Disassembler dis = new Disassembler(path, bytes);
             dis.Disassemble();
