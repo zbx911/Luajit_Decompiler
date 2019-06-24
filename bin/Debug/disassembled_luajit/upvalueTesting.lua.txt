@@ -1,0 +1,148 @@
+File Name: upvalueTesting.lua
+
+Prototype_0
+Prototype_Size: 17; Flags: 0; #_Params: 0; Frame_Size: 1; Upvalue_Size: 1; KGC_Size: 0; KN_Size: 0; Instruction_Count: 8;
+
+(USETP): 00, 02, 00;
+(RET0): 00, 01, 00;
+---Constants_Section---
+Upvalues: 6, 128;
+No_KGC_constants;
+No_number_constants;
+==End_Prototype==
+
+Prototype_1
+Prototype_Size: 36; Flags: 0; #_Params: 0; Frame_Size: 2; Upvalue_Size: 1; KGC_Size: 1; KN_Size: 0; Instruction_Count: 20;
+
+(UGET): 00, 00, 00;
+(KSTR): 01, 00, 00;
+(CAT): 00, 01, 00;
+(USETV): 00, 00, 00;
+(RET0): 00, 01, 00;
+---Constants_Section---
+Upvalues: 5, 128;
+KGC_Section: String:  world; 
+No_number_constants;
+==End_Prototype==
+
+Prototype_2
+Prototype_Size: 25; Flags: 0; #_Params: 0; Frame_Size: 2; Upvalue_Size: 1; KGC_Size: 0; KN_Size: 0; Instruction_Count: 16;
+
+(UGET): 00, 00, 00;
+(KSHORT): 01, 06, 00;
+(TSETB): 01, 00, 00;
+(RET0): 00, 01, 00;
+---Constants_Section---
+Upvalues: 4, 192;
+No_KGC_constants;
+No_number_constants;
+==End_Prototype==
+
+Prototype_3
+Prototype_Size: 20; Flags: 0; #_Params: 0; Frame_Size: 1; Upvalue_Size: 0; KGC_Size: 0; KN_Size: 1; Instruction_Count: 12;
+
+(KSHORT): 00, 06, 00;
+(ADDVN): 00, 00, 00;
+(RET0): 00, 01, 00;
+---Constants_Section---
+No_upvalues;
+No_KGC_constants;
+Number_Section: 1;==End_Prototype==
+
+Prototype_4
+Prototype_Size: 25; Flags: 0; #_Params: 0; Frame_Size: 2; Upvalue_Size: 1; KGC_Size: 0; KN_Size: 0; Instruction_Count: 16;
+
+(KSHORT): 00, 05, 00;
+(UGET): 01, 00, 00;
+(ADDVV): 01, 01, 00;
+(RET1): 01, 02, 00;
+---Constants_Section---
+Upvalues: 2, 192;
+No_KGC_constants;
+No_number_constants;
+==End_Prototype==
+
+Prototype_5
+Prototype_Size: 22; Flags: 0; #_Params: 0; Frame_Size: 1; Upvalue_Size: 1; KGC_Size: 0; KN_Size: 1; Instruction_Count: 12;
+
+(UGET): 00, 00, 00;
+(ADDVN): 00, 00, 00;
+(RET1): 00, 02, 00;
+---Constants_Section---
+Upvalues: 0, 192;
+No_KGC_constants;
+Number_Section: 1;==End_Prototype==
+
+Prototype_6
+Prototype_Size: 22; Flags: 0; #_Params: 0; Frame_Size: 1; Upvalue_Size: 1; KGC_Size: 0; KN_Size: 1; Instruction_Count: 12;
+
+(UGET): 00, 00, 00;
+(ADDNV): 00, 00, 00;
+(RET1): 00, 02, 00;
+---Constants_Section---
+Upvalues: 1, 192;
+No_KGC_constants;
+Number_Section: 1;==End_Prototype==
+
+Prototype_7
+Prototype_Size: 15; Flags: 0; #_Params: 2; Frame_Size: 3; Upvalue_Size: 0; KGC_Size: 0; KN_Size: 0; Instruction_Count: 8;
+
+(ADDVV): 02, 01, 00;
+(RET1): 02, 02, 00;
+---Constants_Section---
+No_upvalues;
+No_KGC_constants;
+No_number_constants;
+==End_Prototype==
+
+Prototype_8
+Prototype_Size: 27; Flags: 0; #_Params: 0; Frame_Size: 2; Upvalue_Size: 2; KGC_Size: 0; KN_Size: 0; Instruction_Count: 16;
+
+(UGET): 00, 00, 00;
+(UGET): 01, 01, 00;
+(ADDVV): 00, 01, 00;
+(RET1): 00, 02, 00;
+---Constants_Section---
+Upvalues: 0, 192, 1, 192;
+No_KGC_constants;
+No_number_constants;
+==End_Prototype==
+
+Prototype_9
+Prototype_Size: 261; Flags: 3; #_Params: 0; Frame_Size: 8; Upvalue_Size: 0; KGC_Size: 20; KN_Size: 0; Instruction_Count: 108;
+
+(KSHORT): 00, 02, 00;
+(KSHORT): 01, 03, 00;
+(KSHORT): 02, 04, 00;
+(TNEW): 03, 00, 00;
+(TDUP): 04, 00, 00;
+(KSTR): 05, 01, 00;
+(KPRI): 06, 01, 00;
+(FNEW): 07, 02, 00;
+(GSET): 07, 03, 00;
+(FNEW): 07, 04, 00;
+(GSET): 07, 05, 00;
+(FNEW): 07, 06, 00;
+(GSET): 07, 07, 00;
+(FNEW): 07, 08, 00;
+(GSET): 07, 09, 00;
+(FNEW): 07, 0A, 00;
+(GSET): 07, 0B, 00;
+(FNEW): 07, 0C, 00;
+(GSET): 07, 0D, 00;
+(FNEW): 07, 0E, 00;
+(GSET): 07, 0F, 00;
+(FNEW): 07, 10, 00;
+(GSET): 07, 11, 00;
+(FNEW): 07, 12, 00;
+(GSET): 07, 13, 00;
+(UCLO): 00, 00, 80;
+(RET0): 00, 01, 00;
+---Constants_Section---
+No_upvalues;
+KGC_Section: String: addGlobalConstants; Child_Prototype: Prototype_8; String: addParams; Child_Prototype: Prototype_7; String: addGC2; Child_Prototype: Prototype_6; String: addGC1; Child_Prototype: Prototype_5; String: addNestedConstant; Child_Prototype: Prototype_4; String: addVoidNestedConstant; Child_Prototype: Prototype_3; String: changeTable; Child_Prototype: Prototype_2; String: changeString; Child_Prototype: Prototype_1; String: changeBool; Child_Prototype: Prototype_0; String: hello; Table 0:
+	Array Part:
+		[0, nil]; [1, 2]; [2, 3]; [3, 4]; [4, 5]; 
+No_number_constants;
+==End_Prototype==
+

@@ -12,8 +12,7 @@ namespace Luajit_Decompiler.dis
     class Prototype
     {
         private byte[] bytes; //remaining bytes of the bytecode. The initial header must be stripped from this list. Assumes next 6 bytes are for the prototype header.
-        private OutputManager manager; //for file output handling.
-        private string protoName = "Prototype ";
+        private string protoName = "Prototype_";
 
         //Prototype Header Info : These 7 bytes are also from luajit lj_bcwrite. Note: uleb128 parsing is required for the sizeUV, sizeKGC, and the bytes[6] instructionCount.
         //(for values > 255/256). Also note that if the flags for whether or not to strip debug info is something other than 0x02, then there will be a name before the rest of instructions.
@@ -33,13 +32,16 @@ namespace Luajit_Decompiler.dis
         private int debugSize; //size of the debug info section
         private int firstLine; //size of the first line of debug info?
         private int numLines; //number of debug info lines?
+        public StringBuilder allPrototypeText;
+        private int prototypeSize;
 
-        public Prototype(byte[] bytes, ref int offset, OutputManager manager, int protoSize, Stack<Prototype> protoStack, int nameNDX, byte fileFlag) //fileFlag from the file header. 0x02 = strip debug info.
+        public Prototype(byte[] bytes, ref int offset, int protoSize, Stack<Prototype> protoStack, int nameNDX, byte fileFlag) //fileFlag from the file header. 0x02 = strip debug info.
         {
             this.bytes = bytes;
-            this.manager = manager;
             this.protoStack = protoStack;
             protoName += nameNDX;
+            allPrototypeText = new StringBuilder();
+            prototypeSize = protoSize;
             int instructionSize = 4; //each instruction is 4 bytes.
             //int headerSize = 7; //7 bytes in each prototype header.
 
@@ -64,16 +66,39 @@ namespace Luajit_Decompiler.dis
             }
 
             //begin writing this prototype.
-            DebugWritePrototype(ref offset);
+            //DebugWritePrototype(ref offset);
+            WritePrototype(ref offset);
         }
 
         /// <summary>
-        /// Writes the prototype to the file indicated in the output manager.
+        /// Writes the prototype to the StringBuilder object.
         /// </summary>
         /// <returns></returns>
-        public void WritePrototype()
+        public void WritePrototype(ref int offset)
         {
-
+            allPrototypeText.AppendLine(protoName);
+            allPrototypeText.AppendLine(GetHeaderText());
+            #region bytecode instructions
+            OpCodes code;
+            for (int i = 0; i < instructionCount; i++)
+            {
+                if (i % 4 == 0)
+                {
+                    code = Opcode.ParseOpByte(instructionBytes[i]);
+                    allPrototypeText.Append("(" + code + "): ");
+                }
+                else
+                {
+                    allPrototypeText.Append(BitConverter.ToString(instructionBytes, i, 1));
+                    if (i % 4 == 3)
+                        allPrototypeText.AppendLine(";");
+                    else
+                        allPrototypeText.Append(", ");
+                }
+            }
+            #endregion
+            allPrototypeText.Append(ParseConstants(bytes, ref offset));
+            allPrototypeText.AppendLine("==End_Prototype==\n");
         }
 
         /// <summary>
@@ -82,7 +107,7 @@ namespace Luajit_Decompiler.dis
         public void DebugWritePrototype(ref int offset)
         {
             Console.Out.WriteLine(protoName);
-            Console.Out.WriteLine(PrintHeader());
+            Console.Out.WriteLine(GetHeaderText());
 
             #region bytecode instructions
             OpCodes code;
@@ -103,8 +128,8 @@ namespace Luajit_Decompiler.dis
                 }
             }
             #endregion
-            //Console.Out.WriteLine(ParseConstants(constantBytes));
-            ParseConstants(bytes, ref offset);
+            Console.Out.WriteLine(ParseConstants(bytes, ref offset));
+            //ParseConstants(bytes, ref offset);
             Console.Out.WriteLine("=====END INSTRUCTIONS FOR PROTOTYPE=====");
             Console.Out.WriteLine();
         }
@@ -113,10 +138,10 @@ namespace Luajit_Decompiler.dis
         /// Parses the constants section bytes and returns a string containing the entire (formatted)? constants section.
         /// </summary>
         /// <param name="bytes"></param>
-        private void ParseConstants(byte[] bytes, ref int offset)
+        private string ParseConstants(byte[] bytes, ref int offset)
         {
-            Console.Out.WriteLine("---Constants Section---");
-            //result.Append("---Constants Section---\n");
+            StringBuilder result = new StringBuilder();
+            result.Append("---Constants_Section---\n");
 
             //upvalues first, then global constants, then numbers. Lastly, any debug info
 
@@ -124,63 +149,52 @@ namespace Luajit_Decompiler.dis
             if (sizeUV > 0)
             {
                 upvalues = Disassembler.ConsumeBytes(bytes, ref offset, sizeUV * 2);
-                //result.Append(ReadUpvalues(upvalues));
-                Console.Out.WriteLine(ReadUpvalues(upvalues));
+                result.Append(ReadUpvalues(upvalues));
             }
             else
-                Console.Out.Write("No upvalues;\n");
-                //result.Append("No upvalues;\n");
+                result.AppendLine("No_upvalues;");
 
             //read KGC constants
             if (sizeKGC > 0)
             {
                 int kgc = sizeKGC;
-                Console.Out.Write("KGC Section: ");
-                //result.Append("KGC Section: ");
+                result.Append("KGC_Section: ");
                 while (kgc != 0)
                 {
-                    //result.Append(ReadKGC(cons, ref consOffset));
-                    Console.Out.WriteLine(ReadKGC(bytes, ref offset));
+                    result.Append(ReadKGC(bytes, ref offset));
                     kgc--;
                     if (kgc == 0)
-                        Console.Out.WriteLine();
-                        //result.Append("\n");
+                        result.AppendLine();
                 }
             }
             else
-                Console.Out.WriteLine("No KGC constants;\n");
-                //result.Append("No KGC constants;\n");
+                result.AppendLine("No_KGC_constants;");
 
             //read number constants
             if (sizeKN > 0)
             {
                 int kn = sizeKN;
-                Console.Out.Write("Number Section: ");
-                //result.Append("Number Section: ");
+                result.Append("Number_Section: ");
                 while (kn != 0)
                 {
-                    //result.Append(ReadKN(cons, ref consOffset));
-                    Console.Out.Write(ReadKN(bytes, ref offset));
+                    result.Append(ReadKN(bytes, ref offset));
                     kn--;
                     if (kn == 0)
-                        Console.Out.Write(";");
-                    //result.Append(";");
+                        result.Append(";");
                     else
-                        Console.Out.Write(", ");
-                        //result.Append(", ");
+                        result.Append(", ");
                 }
             }
             else
-                Console.Out.WriteLine("No number constants;\n");
-                //result.Append("No number constants;\n");
+                result.AppendLine("No_number_constants;");
 
             //read debug info if debug info is present
             if (debugSize > 0)
             {
-                //Testing out this method first I suppose. Reading the bytes for the count of debugSize.
+                //This method skips over the bytes of the byte section. To properly parse, simply store the bytes of the debug section and implement a method to parse the bytes.
                 Disassembler.ConsumeBytes(bytes, ref offset, debugSize);
             }
-            //return result.ToString();
+            return result.ToString();
         }
 
         private string ReadUpvalues(byte[] upvalues)
@@ -191,7 +205,7 @@ namespace Luajit_Decompiler.dis
             {
                 result.Append(upvalues[i]);
                 if (i + 1 == upvalues.Length)
-                    result.Append(";\n");
+                    result.AppendLine(";");
                 else
                     result.Append(", ");
             }
@@ -209,12 +223,6 @@ namespace Luajit_Decompiler.dis
         //type == 3 -> uint64
         //type == 4 -> a complex number
         //type >= 5 -> a string of length = type - 5
-        /// <summary>
-        /// TODO: Table hash part is not implemented correctly.
-        /// </summary>
-        /// <param name="cons"></param>
-        /// <param name="offset"></param>
-        /// <returns></returns>
         private string ReadKGC(byte[] bytes, ref int offset)
         {
             byte typeByte;
@@ -224,14 +232,9 @@ namespace Luajit_Decompiler.dis
             switch (typeByte)
             {
                 case 0:
-                    typeName = "KGC_CHILD";
-                    if (protoStack.Count > 0)
-                    {
+                    typeName = "Child_Prototype"; //KGC_CHILD
                         child = protoStack.Pop();
                         result.Append(typeName + ": " + child.protoName + "; ");
-                    }
-                    else
-                        result.Append("Unknown Child Prototype.");
                     break;
                 case 1:
                     TableConstant tc = new TableConstant(tableIndex);
@@ -247,7 +250,7 @@ namespace Luajit_Decompiler.dis
                     result.Append(typeName + ": " + Disassembler.ConsumeUleb(bytes, ref offset) + "; ");
                     break;
                 case 4:
-                    typeName = "Complex Number";
+                    typeName = "Complex_Number";
                     result.Append(typeName + ": " + Disassembler.ConsumeUleb(bytes, ref offset) + "; ");
                     break;
                 default:
@@ -257,48 +260,11 @@ namespace Luajit_Decompiler.dis
             }
             return result.ToString();
         }
-    //else if (tp == BCDUMP_KTAB_NUM) Note: num is two ulebs.
-    //o->u32.lo = bcread_uleb128(ls);
-    //o->u32.hi = bcread_uleb128(ls);
-    //private string ReadTable(byte[] cons, ref int consOffset, int length, bool isHash, int nameIndex)
-    //    {
-    //        //This byte represents the zero index of a lua table. DiLemming pointed out that since lua is a 1 based indexing language, but luajit users are used to 0 based indexing, this extra byte is always here.
-    //        //by purposefully setting the 0 index of a lua table by: table6 = {[0] = "zero", "one", "two"}
-    //        //the resulting bytecode will break the program.
-    //        //int zeroIndexOfTable = Disassembler.ConsumeByte(cons, ref consOffset);
-    //        TableConstant tc = new TableConstant(nameIndex, isHash);
-    //        for (int i = 0; i < length - 1; i++)
-    //        {
-    //            int t = Disassembler.ConsumeUleb(cons, ref consOffset);
-    //            switch(t)
-    //            {
-    //                case 0:
-    //                    tc.AddKeyValue(TabType._nil, i, 0);
-    //                    break;
-    //                case 1:
-    //                    tc.AddKeyValue(TabType._false, i, Disassembler.ConsumeUleb(cons, ref consOffset));
-    //                    break;
-    //                case 2:
-    //                    tc.AddKeyValue(TabType._true, i, Disassembler.ConsumeUleb(cons, ref consOffset));
-    //                    break;
-    //                case 3:
-    //                    tc.AddKeyValue(TabType._int, i, Disassembler.ConsumeUleb(cons, ref consOffset));
-    //                    break;
-    //                case 4:
-    //                    tc.AddKeyValue(TabType._number, i, new LuaNumber(Disassembler.ConsumeUleb(cons, ref consOffset), Disassembler.ConsumeUleb(cons, ref consOffset)));
-    //                    break;
-    //                default:
-    //                    tc.AddKeyValue(TabType._string, i, ASCIIEncoding.Default.GetString(Disassembler.ConsumeBytes(cons, ref consOffset, t - 5)));
-    //                    break;
-    //            }
-    //        }
-    //        return tc.ToString();
-    //    }
 
-        private string PrintHeader()
+        private string GetHeaderText()
         {
-            return "Flags: " + flags + "; " + "# Params: " + numberOfParams + "; " + "Frame Size: " + frameSize + "; " +
-                "Upvalue Size: " + sizeUV + "; " + "KGC Size: " + sizeKGC + "; " + "KN Size: " + sizeKN + "; " + "Instruction Count: " + instructionCount + ";\n";
+            return "Prototype_Size: " + prototypeSize + "; " + "Flags: " + flags + "; " + "#_Params: " + numberOfParams + "; " + "Frame_Size: " + frameSize + "; " +
+                "Upvalue_Size: " + sizeUV + "; " + "KGC_Size: " + sizeKGC + "; " + "KN_Size: " + sizeKN + "; " + "Instruction_Count: " + instructionCount + ";\n";
         }
     }
 }

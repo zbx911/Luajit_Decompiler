@@ -13,11 +13,9 @@ namespace Luajit_Decompiler
     {
         static void Main(string[] args)
         {
-            string path = @"C:\Users\Nathan\Desktop\Bytecode\state_ingame_lobby_client.lua";
-            byte[] bytes = File.ReadAllBytes(path);
-            Disassembler dis = new Disassembler(path, bytes);
-            dis.Disassemble();
-            Console.ReadLine();
+            FileManager fm = new FileManager();
+            Disassembler dis = new Disassembler(fm);
+            dis.DisassembleAll();
         }
     }
 }

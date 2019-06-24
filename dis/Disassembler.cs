@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
 
 namespace Luajit_Decompiler.dis
 {
@@ -11,25 +12,16 @@ namespace Luajit_Decompiler.dis
     /// </summary>
     class Disassembler
     {
-        private string path;
-        private OutputManager manager;
-        private byte[] bytecode;
-        private int offset = 0;
-
         //header
         private byte[] magic = new byte[4];
         private byte[] expectedMagic = { 0x1B, 0x4C, 0x4A, 0x01 };
         private byte flags; //mainly for determining if the debug info has been stripped or not.
 
-        private Stack<Prototype> protoStack;
+        private FileManager fileManager;
 
-        public Disassembler(string outputFilePath, byte[] bytecode)
+        public Disassembler(FileManager fileManager)
         {
-            path = outputFilePath;
-            manager = new OutputManager(path);
-            this.bytecode = bytecode;
-            TrimHeader(bytecode, ref offset);
-            protoStack = new Stack<Prototype>();
+            this.fileManager = fileManager;
         }
 
         /// <summary>
@@ -47,14 +39,26 @@ namespace Luajit_Decompiler.dis
         /// <summary>
         /// Begins the disassembling procedure for all prototypes in the given bytes.
         /// </summary>
-        public void Disassemble()
+        public void Disassemble(string fileName, byte[] bytecode)
         {
+            int offset = 0;
+            Stack<Prototype> protoStack = new Stack<Prototype>();
+            TrimHeader(bytecode, ref offset);
             if (bytecode == null || bytecode.Length == 0)
                 throw new Exception("Disassembler : Disassemble :: Byte array is null or length of zero.");
             for (int i = 0; i < magic.Length; i++)
                 if(magic[i] != expectedMagic[i])
                     throw new Exception("Disassembler : Disassemble ::  Magic numbers are invalid for luajit bytes. Expected: 0x1B, 0x4C, 0x4A, 0x01");
-            WriteAllPrototypes(bytecode, ref offset);
+            WriteAllPrototypes(fileName, bytecode, ref offset, protoStack);
+        }
+
+        public void DisassembleAll()
+        {
+            Dictionary<string, byte[]> files = fileManager.GetAllCompiledLuajitBytes();
+            foreach (KeyValuePair<string, byte[]> kv in files)
+            {
+                Disassemble(kv.Key, kv.Value);
+            }
         }
 
         /// <summary>
@@ -64,17 +68,20 @@ namespace Luajit_Decompiler.dis
         /// </summary>
         /// <param name="bytes"></param>
         /// <returns></returns>
-        private void WriteAllPrototypes(byte[] bytes, ref int offset)
+        private void WriteAllPrototypes(string fileName, byte[] bytes, ref int offset, Stack<Prototype> protoStack)
         {
             int protoSize = ConsumeUleb(bytes, ref offset);
             int nameNDX = 0; //temp.
+            StringBuilder disassembledFile = new StringBuilder("File Name: " + fileName + "\n\n");
             while (protoSize > 0)
             {
-                Prototype pro = new Prototype(bytes, ref offset, manager, protoSize, protoStack, nameNDX, flags); //writes in the constructor. temporary parameter for nameNDX. Remove when names implemented.
+                Prototype pro = new Prototype(bytes, ref offset, protoSize, protoStack, nameNDX, flags); //writes in the constructor. temporary parameter for nameNDX. Remove when names implemented.
                 protoStack.Push(pro);
                 protoSize = ConsumeUleb(bytes, ref offset);
                 nameNDX++;
+                disassembledFile.Append(pro.allPrototypeText); //append for writing to file.
             }
+            fileManager.WriteDisassembledBytecode(fileName, disassembledFile.ToString());
         }
 
         /// <summary>

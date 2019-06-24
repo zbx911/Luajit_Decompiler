@@ -47,13 +47,15 @@
     <Compile Include="dis\Opcode.cs" />
     <Compile Include="dis\Prototype.cs" />
     <Compile Include="dis\TableConstant.cs" />
-    <Compile Include="InputManager.cs" />
-    <Compile Include="OutputManager.cs" />
+    <Compile Include="FileManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="dec\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
