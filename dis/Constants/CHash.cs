@@ -36,5 +36,10 @@ namespace Luajit_Decompiler.dis.Constants
         {
             this.value = value;
         }
+
+        public override string ToString()
+        {
+            return value.ToString();
+        }
     }
 }
