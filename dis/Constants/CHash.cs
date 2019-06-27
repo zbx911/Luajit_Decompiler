@@ -26,7 +26,7 @@ namespace Luajit_Decompiler.dis.Constants
         /// <returns></returns>
         public override string ToString()
         {
-            return "Hash{ " + key + ":" + value + " };";
+            return "Hash{ " + key + " -> " + value + " };";
         }
     }
 

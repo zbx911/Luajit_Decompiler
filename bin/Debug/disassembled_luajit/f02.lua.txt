@@ -21,8 +21,8 @@ Table{
 	Array Part{ 
 	};
 	Hash Part{ 
-		Luajit_Decompiler.dis.Constants.CHash
-		Luajit_Decompiler.dis.Constants.CHash
+		Hash{ String{ banana }; -> String{ yellow }; };
+		Hash{ String{ no }; -> Bool{ False }; };
 	};
 };
 
