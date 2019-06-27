@@ -16,6 +16,7 @@ Upvalue{ 0, 192 };
 
 --Constants--
 Int{ 1 };
+
 --End--
 
 
@@ -42,6 +43,7 @@ String{ derp };
 Int{ 2 };
 Int{ 3 };
 Int{ 4 };
+
 --End--
 
 
@@ -61,6 +63,7 @@ Upvalue{ 0, 192 };
 
 --Constants--
 Int{ 3 };
+
 --End--
 
 
@@ -80,6 +83,7 @@ Upvalue{ 0, 192 };
 
 --Constants--
 Int{ 4 };
+
 --End--
 
 
@@ -99,6 +103,7 @@ Upvalue{ 0, 192 };
 
 --Constants--
 Int{ 5 };
+
 --End--
 
 
@@ -118,6 +123,7 @@ Upvalue{ 0, 192 };
 
 --Constants--
 Int{ 6 };
+
 --End--
 
 
@@ -137,6 +143,7 @@ Upvalue{ 0, 192 };
 
 --Constants--
 Int{ 7 };
+
 --End--
 
 
@@ -156,6 +163,7 @@ Upvalue{ 0, 192 };
 
 --Constants--
 Int{ 8 };
+
 --End--
 
 
@@ -197,6 +205,7 @@ String{ addGC4 };
 String{ addGC3 };
 String{ addGC2 };
 String{ addGC1 };
+
 --End--
 
 

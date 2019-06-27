@@ -23,6 +23,7 @@ Count{ 0 };
 --Constants--
 String{ print };
 String{ pairs };
+
 --End--
 
 
@@ -68,6 +69,7 @@ Table{
 	Hash Part{ 
 	};
 };
+
 
 --End--
 

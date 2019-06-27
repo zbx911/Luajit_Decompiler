@@ -168,6 +168,7 @@ namespace Luajit_Decompiler.dis
             result.AppendLine("--Constants--");
             for (int i = 0; i < constantsSection.Count; i++)
                 result.AppendLine(constantsSection[i].ToString());
+            result.AppendLine();
             result.AppendLine("--End--");
             result.AppendLine();
             return result.ToString();

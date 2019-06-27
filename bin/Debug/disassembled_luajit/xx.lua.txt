@@ -17,6 +17,7 @@ Upvalue{ 0, 192 };
 
 --Constants--
 String{ print };
+
 --End--
 
 
@@ -33,6 +34,7 @@ Count{ 0 };
 --Upvalues--
 
 --Constants--
+
 --End--
 
 
@@ -52,6 +54,7 @@ Upvalue{ 0, 192 };
 
 --Constants--
 Int{ 1 };
+
 --End--
 
 
@@ -70,6 +73,7 @@ Count{ 1 };
 --Upvalues--
 
 --Constants--
+
 --End--
 
 
@@ -92,6 +96,7 @@ Count{ 3 };
 --Upvalues--
 
 --Constants--
+
 --End--
 
 
