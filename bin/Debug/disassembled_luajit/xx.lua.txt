@@ -69,6 +69,7 @@ Prototype_Size: 24; Flags: 1; #_Params: 0; Frame_Size: 2; Upvalue_Size: 0; KGC_S
 
 --Prototype Children--
 Count{ 1 };
+Child{ Prototype: 2 };
 
 --Upvalues--
 
@@ -92,6 +93,9 @@ Prototype_Size: 42; Flags: 3; #_Params: 0; Frame_Size: 6; Upvalue_Size: 0; KGC_S
 
 --Prototype Children--
 Count{ 3 };
+Child{ Prototype: 3 };
+Child{ Prototype: 1 };
+Child{ Prototype: 0 };
 
 --Upvalues--
 

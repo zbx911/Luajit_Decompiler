@@ -50,6 +50,7 @@ Prototype_Size: 127; Flags: 3; #_Params: 0; Frame_Size: 5; Upvalue_Size: 0; KGC_
 
 --Prototype Children--
 Count{ 1 };
+Child{ Prototype: 0 };
 
 --Upvalues--
 

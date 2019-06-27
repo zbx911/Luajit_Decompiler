@@ -75,7 +75,7 @@ namespace Luajit_Decompiler.dis
             StringBuilder disassembledFile = new StringBuilder("File Name: " + fileName + "\n\n");
             while (protoSize > 0)
             {
-                Prototype pro = new Prototype(bytes, ref offset, protoSize, protoStack, flags); //writes in the constructor. temporary parameter for nameNDX. Remove when names implemented.
+                Prototype pro = new Prototype(bytes, ref offset, protoSize, protoStack, flags, nameNDX);
                 protoStack.Push(pro);
                 protoSize = ConsumeUleb(bytes, ref offset);
                 disassembledFile.AppendLine("Prototype: " + nameNDX);

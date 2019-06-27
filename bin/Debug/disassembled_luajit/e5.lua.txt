@@ -193,6 +193,14 @@ Prototype_Size: 147; Flags: 3; #_Params: 0; Frame_Size: 2; Upvalue_Size: 0; KGC_
 
 --Prototype Children--
 Count{ 8 };
+Child{ Prototype: 7 };
+Child{ Prototype: 6 };
+Child{ Prototype: 5 };
+Child{ Prototype: 4 };
+Child{ Prototype: 3 };
+Child{ Prototype: 2 };
+Child{ Prototype: 1 };
+Child{ Prototype: 0 };
 
 --Upvalues--
 

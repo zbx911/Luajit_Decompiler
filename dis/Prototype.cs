@@ -34,8 +34,18 @@ namespace Luajit_Decompiler.dis
         public List<UpValue> upvalues;
         public List<BaseConstant> constantsSection; //entire constants section byte values (excluding upvalues). Order is important as constants operate by index in the bc instruction registers.
         public List<Prototype> prototypeChildren; //references to child prototypes.
+        public int index; //naming purposes.
 
-        public Prototype(byte[] bytes, ref int offset, int protoSize, Stack<Prototype> protoStack, byte fileFlag) //fileFlag from the file header. 0x02 = strip debug info.
+        /// <summary>
+        /// Stores all information related to a single prototype.
+        /// </summary>
+        /// <param name="bytes">All bytecode bytes.</param>
+        /// <param name="offset">Current offset in the bytecode array.</param>
+        /// <param name="protoSize">Size of the prototype in # of bytes.</param>
+        /// <param name="protoStack">Stack of all prototypes to determine children of prototypes.</param>
+        /// <param name="fileFlag">If debug information is stripped or not.</param>
+        /// <param name="index">For naming purposes to determine children.</param>
+        public Prototype(byte[] bytes, ref int offset, int protoSize, Stack<Prototype> protoStack, byte fileFlag, int index) //fileFlag from the file header. 0x02 = strip debug info.
         {
             this.bytes = bytes;
             this.protoStack = protoStack;
@@ -44,6 +54,7 @@ namespace Luajit_Decompiler.dis
             upvalues = new List<UpValue>();
             constantsSection = new List<BaseConstant>();
             prototypeChildren = new List<Prototype>();
+            this.index = index;
 
             //prototype header and instructions section
             flags = Disassembler.ConsumeByte(bytes, ref offset); //# of tables for instance?
@@ -160,6 +171,8 @@ namespace Luajit_Decompiler.dis
             result.AppendLine();
             result.AppendLine("--Prototype Children--");
             result.AppendLine("Count{ " + prototypeChildren.Count + " };");
+            for (int i = 0; i < prototypeChildren.Count; i++)
+                result.AppendLine("Child{ " + "Prototype: " + prototypeChildren[i].index + " };");
             result.AppendLine();
             result.AppendLine("--Upvalues--");
             for (int i = 0; i < upvalues.Count; i++)
