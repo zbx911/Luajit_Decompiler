@@ -43,10 +43,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="dis\BytecodeInstruction.cs" />
+    <Compile Include="dis\Constants\BaseConstant.cs" />
+    <Compile Include="dis\Constants\CBool.cs" />
+    <Compile Include="dis\Constants\CHash.cs" />
+    <Compile Include="dis\Constants\CInt.cs" />
+    <Compile Include="dis\Constants\CLuaNumber.cs" />
+    <Compile Include="dis\Constants\CNil.cs" />
+    <Compile Include="dis\Constants\CString.cs" />
+    <Compile Include="dis\Constants\CTable.cs" />
     <Compile Include="dis\Disassembler.cs" />
     <Compile Include="dis\Opcode.cs" />
     <Compile Include="dis\Prototype.cs" />
-    <Compile Include="dis\TableConstant.cs" />
+    <Compile Include="dis\Constants\TableConstant.cs" />
     <Compile Include="FileManager.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

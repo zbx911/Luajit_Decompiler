@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 //***************\\
 using Luajit_Decompiler.dis;
+using Luajit_Decompiler.dis.Constants;
 
 namespace Luajit_Decompiler
 {

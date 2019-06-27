@@ -1,48 +1,74 @@
 File Name: testing.lua
 
-Prototype_0
-Prototype_Size: 59; Flags: 0; #_Params: 1; Frame_Size: 8; Upvalue_Size: 0; KGC_Size: 2; KN_Size: 0; Instruction_Count: 40;
+Prototype: 0
+Prototype_Size: 59; Flags: 0; #_Params: 1; Frame_Size: 8; Upvalue_Size: 0; KGC_Size: 2; KN_Size: 0; Instruction_Count: 10;
 
-(GGET): 01, 00, 00;
-(MOV): 02, 00, 00;
-(CALL): 01, 02, 04;
-(ISNEXT): 04, 03, 80;
-(GGET): 06, 01, 00;
-(MOV): 07, 05, 00;
-(CALL): 06, 02, 01;
-(ITERN): 04, 03, 03;
-(ITERL): 04, FB, 7F;
-(RET0): 00, 01, 00;
----Constants_Section---
-No_upvalues;
-KGC_Section: String: print; String: pairs; 
-No_number_constants;
-==End_Prototype==
+--Bytecode Instructions--
+(GGET): 1, 0, 0;
+(MOV): 2, 0, 0;
+(CALL): 1, 2, 4;
+(ISNEXT): 4, 3, 128;
+(GGET): 6, 1, 0;
+(MOV): 7, 5, 0;
+(CALL): 6, 2, 1;
+(ITERN): 4, 3, 3;
+(ITERL): 4, 251, 127;
+(RET0): 0, 1, 0;
 
-Prototype_1
-Prototype_Size: 127; Flags: 3; #_Params: 0; Frame_Size: 5; Upvalue_Size: 0; KGC_Size: 4; KN_Size: 0; Instruction_Count: 64;
+--Prototype Children--
+Count{ 0 };
 
-(FNEW): 00, 00, 00;
-(TDUP): 01, 01, 00;
-(MOV): 02, 00, 00;
-(MOV): 03, 01, 00;
-(CALL): 02, 02, 01;
-(GGET): 02, 02, 00;
-(KSTR): 03, 03, 00;
-(CALL): 02, 02, 01;
-(TGETB): 02, 01, 01;
-(TGETB): 03, 02, 01;
-(TSETB): 03, 01, 01;
-(TSETB): 02, 02, 01;
-(MOV): 03, 00, 00;
-(MOV): 04, 01, 00;
-(CALL): 03, 02, 01;
-(RET0): 00, 01, 00;
----Constants_Section---
-No_upvalues;
-KGC_Section: String: --------------------------------; String: print; Table 0:
-	Array Part:
-		[0, nil]; [1, 9]; [2, 6]; [3, 10]; [4, 29]; [5, 1]; [6, 0]; Child_Prototype: Prototype_0; 
-No_number_constants;
-==End_Prototype==
+--Upvalues--
+
+--Constants--
+String{ print };
+String{ pairs };
+--End--
+
+
+Prototype: 1
+Prototype_Size: 127; Flags: 3; #_Params: 0; Frame_Size: 5; Upvalue_Size: 0; KGC_Size: 4; KN_Size: 0; Instruction_Count: 16;
+
+--Bytecode Instructions--
+(FNEW): 0, 0, 0;
+(TDUP): 1, 1, 0;
+(MOV): 2, 0, 0;
+(MOV): 3, 1, 0;
+(CALL): 2, 2, 1;
+(GGET): 2, 2, 0;
+(KSTR): 3, 3, 0;
+(CALL): 2, 2, 1;
+(TGETB): 2, 1, 1;
+(TGETB): 3, 2, 1;
+(TSETB): 3, 1, 1;
+(TSETB): 2, 2, 1;
+(MOV): 3, 0, 0;
+(MOV): 4, 1, 0;
+(CALL): 3, 2, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 1 };
+
+--Upvalues--
+
+--Constants--
+String{ -------------------------------- };
+String{ print };
+Table{ 
+	Array Part{ 
+		Nil{ };
+		Int{ 9 };
+		Int{ 6 };
+		Int{ 10 };
+		Int{ 29 };
+		Int{ 1 };
+		Int{ 0 };
+	};
+	Hash Part{ 
+	};
+};
+
+--End--
+
 

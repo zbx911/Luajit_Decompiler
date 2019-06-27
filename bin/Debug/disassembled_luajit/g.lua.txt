@@ -1,4 +1,4 @@
-File Name: upvalueTesting.lua
+File Name: g.lua
 
 Prototype: 0
 Prototype_Size: 17; Flags: 0; #_Params: 0; Frame_Size: 1; Upvalue_Size: 1; KGC_Size: 0; KN_Size: 0; Instruction_Count: 2;

@@ -1,0 +1,90 @@
+File Name: f2.lua
+
+Prototype: 0
+Prototype_Size: 198; Flags: 2; #_Params: 0; Frame_Size: 2; Upvalue_Size: 0; KGC_Size: 10; KN_Size: 0; Instruction_Count: 21;
+
+--Bytecode Instructions--
+(TNEW): 0, 0, 0;
+(GSET): 0, 0, 0;
+(TDUP): 0, 1, 0;
+(GSET): 0, 2, 0;
+(TDUP): 0, 3, 0;
+(GSET): 0, 4, 0;
+(TDUP): 0, 5, 0;
+(GSET): 0, 6, 0;
+(TDUP): 0, 7, 0;
+(GSET): 0, 8, 0;
+(TNEW): 0, 5, 0;
+(GGET): 1, 2, 0;
+(TSETB): 1, 1, 0;
+(GGET): 1, 4, 0;
+(TSETB): 1, 2, 0;
+(GGET): 1, 6, 0;
+(TSETB): 1, 3, 0;
+(GGET): 1, 8, 0;
+(TSETB): 1, 4, 0;
+(GSET): 0, 9, 0;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ table6 };
+String{ table5 };
+Table{ 
+	Array Part{ 
+		Nil{ };
+		Int{ 7 };
+		Int{ 8 };
+		Int{ 9 };
+		LuaNum{ 858993459:1072902963 };
+	};
+	Hash Part{ 
+	};
+};
+
+String{ table4 };
+Table{ 
+	Array Part{ 
+		Nil{ };
+		Int{ 2 };
+		Int{ 3 };
+		Int{ 4 };
+		Int{ 5 };
+	};
+	Hash Part{ 
+	};
+};
+
+String{ table3 };
+Table{ 
+	Array Part{ 
+		Nil{ };
+		String{ banana };
+		String{ yellow };
+		Int{ 24 };
+	};
+	Hash Part{ 
+	};
+};
+
+String{ table2 };
+Table{ 
+	Array Part{ 
+		Nil{ };
+		Int{ 2 };
+		Int{ 3 };
+		Int{ 4 };
+		Int{ 5 };
+	};
+	Hash Part{ 
+	};
+};
+
+String{ table1 };
+--End--
+
+

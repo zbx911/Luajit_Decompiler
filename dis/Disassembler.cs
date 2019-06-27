@@ -71,15 +71,16 @@ namespace Luajit_Decompiler.dis
         private void WriteAllPrototypes(string fileName, byte[] bytes, ref int offset, Stack<Prototype> protoStack)
         {
             int protoSize = ConsumeUleb(bytes, ref offset);
-            int nameNDX = 0; //temp.
+            int nameNDX = 0; //used for naming prototypes.
             StringBuilder disassembledFile = new StringBuilder("File Name: " + fileName + "\n\n");
             while (protoSize > 0)
             {
-                Prototype pro = new Prototype(bytes, ref offset, protoSize, protoStack, nameNDX, flags); //writes in the constructor. temporary parameter for nameNDX. Remove when names implemented.
+                Prototype pro = new Prototype(bytes, ref offset, protoSize, protoStack, flags); //writes in the constructor. temporary parameter for nameNDX. Remove when names implemented.
                 protoStack.Push(pro);
                 protoSize = ConsumeUleb(bytes, ref offset);
+                disassembledFile.AppendLine("Prototype: " + nameNDX);
+                disassembledFile.AppendLine(pro.ToString()); //append for writing to file.
                 nameNDX++;
-                disassembledFile.Append(pro.allPrototypeText); //append for writing to file.
             }
             fileManager.WriteDisassembledBytecode(fileName, disassembledFile.ToString());
         }
@@ -112,21 +113,6 @@ namespace Luajit_Decompiler.dis
             return result;
         }
 
-        // Reference of DiLemming's code:
-        //int uleb(byte[] a) {
-        //    int value = 0;
-        //    int shift = 1;
-        //    for(int i = 0; i < a.length; i++)
-        //    {
-        //        byte b = a[i++];
-        //        byte data = b & 127;
-        //        byte cont = b & 128;
-        //        value += data * shift
-        //        shift *= 128;
-        //        if(cont == 0) break;
-        //    }
-        //    return value;
-        //}
         /// <summary>
         /// Consumes bytes that can be encoded in leb128. Returns their integer equivalent. Modified version of DiLemming's code.
         /// </summary>
