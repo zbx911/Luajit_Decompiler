@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 //***************\\
 using Luajit_Decompiler.dis;
 using Luajit_Decompiler.dis.Constants;
+using Luajit_Decompiler.dec;
 
 namespace Luajit_Decompiler
 {
@@ -14,9 +15,7 @@ namespace Luajit_Decompiler
     {
         static void Main(string[] args)
         {
-            FileManager fm = new FileManager();
-            Disassembler dis = new Disassembler(fm);
-            dis.DisassembleAll();
+            Decompiler dec = new Decompiler(new FileManager()); //disassembles and decompiles in the constructor.
         }
     }
 }

@@ -196,6 +196,20 @@ namespace Luajit_Decompiler.dis
             return "Prototype_Size: " + prototypeSize + "; " + "Flags: " + flags + "; " + "#_Params: " + numberOfParams + "; " + "Frame_Size: " + frameSize + "; " +
                 "Upvalue_Size: " + sizeUV + "; " + "KGC_Size: " + sizeKGC + "; " + "KN_Size: " + sizeKN + "; " + "Instruction_Count: " + bytecodeInstructions.Count + ";\n";
         }
+
+        /// <summary>
+        /// Generates a somewhat unique ID label by summing header information and hashing it, then returning the first 5 characters of the hash.
+        /// </summary>
+        /// <returns></returns>
+        public string GetIdFromHeader()
+        {
+            int sum = prototypeSize + flags + numberOfParams + frameSize + sizeUV + sizeKGC + sizeKN + bytecodeInstructions.Count;
+            char[] hash = sum.GetHashCode().ToString().ToCharArray();
+            string result = "";
+            for (int i = 0; i < 5; i++)
+                result += hash[i];
+            return result;
+        }
     }
 
     /// <summary>

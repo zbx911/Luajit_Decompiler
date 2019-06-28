@@ -18,10 +18,12 @@ namespace Luajit_Decompiler.dis
         private byte flags; //mainly for determining if the debug info has been stripped or not.
 
         private FileManager fileManager;
+        public Dictionary<string, List<Prototype>> disFile { get; }
 
         public Disassembler(FileManager fileManager)
         {
             this.fileManager = fileManager;
+            disFile = new Dictionary<string, List<Prototype>>();
         }
 
         /// <summary>
@@ -39,7 +41,7 @@ namespace Luajit_Decompiler.dis
         /// <summary>
         /// Begins the disassembling procedure for all prototypes in the given bytes.
         /// </summary>
-        public void Disassemble(string fileName, byte[] bytecode)
+        private void Disassemble(string fileName, byte[] bytecode)
         {
             int offset = 0;
             Stack<Prototype> protoStack = new Stack<Prototype>();
@@ -73,15 +75,18 @@ namespace Luajit_Decompiler.dis
             int protoSize = ConsumeUleb(bytes, ref offset);
             int nameNDX = 0; //used for naming prototypes.
             StringBuilder disassembledFile = new StringBuilder("File Name: " + fileName + "\n\n");
+            List<Prototype> fileProtos = new List<Prototype>();
             while (protoSize > 0)
             {
                 Prototype pro = new Prototype(bytes, ref offset, protoSize, protoStack, flags, nameNDX);
+                fileProtos.Add(pro);
                 protoStack.Push(pro);
                 protoSize = ConsumeUleb(bytes, ref offset);
                 disassembledFile.AppendLine("Prototype: " + nameNDX);
                 disassembledFile.AppendLine(pro.ToString()); //append for writing to file.
                 nameNDX++;
             }
+            disFile.Add(fileName, fileProtos);
             fileManager.WriteDisassembledBytecode(fileName, disassembledFile.ToString());
         }
 
