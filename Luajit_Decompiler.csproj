@@ -43,6 +43,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="dec\Decompiler.cs" />
+    <Compile Include="dec\DecPrototypes.cs" />
+    <Compile Include="dec\Structures\AssignSt.cs" />
+    <Compile Include="dec\Structures\BaseSt.cs" />
+    <Compile Include="dec\Structures\IfSt.cs" />
+    <Compile Include="dec\Structures\LoopSt.cs" />
     <Compile Include="dis\BytecodeInstruction.cs" />
     <Compile Include="dis\Constants\BaseConstant.cs" />
     <Compile Include="dis\Constants\CBool.cs" />
@@ -63,8 +69,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="dec\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

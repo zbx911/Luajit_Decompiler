@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Luajit_Decompiler.dis;
+using Luajit_Decompiler.dec.Structures;
 
 namespace Luajit_Decompiler.dec
 {
@@ -22,7 +23,7 @@ namespace Luajit_Decompiler.dec
             StringBuilder res = new StringBuilder();
             res.AppendLine("--Lua File Name: " + name);
             for (int i = pts.Count; i > 0; i--) //We go backwards here because the 'main' proto is always the last one and will have the most prototype children.
-                res.AppendLine(DecPT(GenId(pts[i]), pts[i], ref tabLevel));
+                res.AppendLine(DecPT(GenId(pts[i - 1]), pts[i - 1], ref tabLevel));
             source = res.ToString();
         }
         /// <summary>
@@ -34,11 +35,36 @@ namespace Luajit_Decompiler.dec
         /// <returns></returns>
         private string DecPT(string id, Prototype pt, ref int tabLevel)
         {
-            StringBuilder res = new StringBuilder();
+            int bciOffset = 0; //offset for this prototype's bytecode instructions.
+            StringBuilder result = new StringBuilder();
 
-            //TODO: Implement method.
+            foreach(BytecodeInstruction bci in pt.bytecodeInstructions)
+            {
+                switch(bci.opcode)
+                {
+                    case OpCodes.ISLT:
+                    case OpCodes.ISGE:
+                    case OpCodes.ISLE:
+                    case OpCodes.ISGT:
+                    case OpCodes.ISEQV:
+                    case OpCodes.ISNEV:
+                    case OpCodes.ISEQS:
+                    case OpCodes.ISNES:
+                    case OpCodes.ISEQN:
+                    case OpCodes.ISNEN:
+                    case OpCodes.ISEQP:
+                    case OpCodes.ISNEP:
+                        IfSt ifst = new IfSt(pt, ref bciOffset, ref tabLevel); //handle jumps in class.
+                        result.AppendLine(ifst.ToString());
+                        bciOffset++;
+                        break;
+                    default: //skip bytecode instruction as default.
+                        bciOffset++;
+                        continue;
+                }
+            }
 
-            return res.ToString();
+            return result.ToString();
         }
 
         /// <summary>

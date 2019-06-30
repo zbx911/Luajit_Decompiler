@@ -7,9 +7,6 @@ using Luajit_Decompiler.dis.Constants;
 
 namespace Luajit_Decompiler.dis
 {
-    /// <summary>
-    /// TODO: Handle debug info.
-    /// </summary>
     class Prototype
     {
         private byte[] bytes; //remaining bytes of the bytecode. The file header must be stripped from this list. Assumes next 7 bytes are for the prototype header.
@@ -34,6 +31,7 @@ namespace Luajit_Decompiler.dis
         public List<UpValue> upvalues;
         public List<BaseConstant> constantsSection; //entire constants section byte values (excluding upvalues). Order is important as constants operate by index in the bc instruction registers.
         public List<Prototype> prototypeChildren; //references to child prototypes.
+        public Prototype parent; //each child will only have 1 parent. or is the root.
         public int index; //naming purposes.
 
         /// <summary>
@@ -132,7 +130,9 @@ namespace Luajit_Decompiler.dis
             switch (typeByte)
             {
                 case 0: //Child Prototype
-                    prototypeChildren.Add(protoStack.Pop());
+                    Prototype child = protoStack.Pop();
+                    child.parent = this; //store a reference to this parent in the child proto.
+                    prototypeChildren.Add(child);
                     break;
                 case 1: //Table
                     constantsSection.Add(new CTable(new TableConstant(bytes, ref offset)));
@@ -206,9 +206,9 @@ namespace Luajit_Decompiler.dis
             int sum = prototypeSize + flags + numberOfParams + frameSize + sizeUV + sizeKGC + sizeKN + bytecodeInstructions.Count;
             char[] hash = sum.GetHashCode().ToString().ToCharArray();
             string result = "";
-            for (int i = 0; i < 5; i++)
-                result += hash[i];
-            return result;
+            //for (int i = 0; i < 5; i++)
+            //    result += hash[i];
+            return hash.ToString();
         }
     }
 

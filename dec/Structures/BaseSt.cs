@@ -9,8 +9,16 @@ namespace Luajit_Decompiler.dec.Structures
 {
     class BaseSt
     {
-        BytecodeInstruction bci;
-        int tabLevel;
+        protected Prototype current;
+        protected int bciOffset; //! An issue could be that when the ref is passed here, it just makes a new value instead of storing it as a reference.
+        protected int tabLevel;
+
+        public BaseSt(Prototype current, ref int bciOffset, ref int tabLevel)
+        {
+            this.current = current;
+            this.bciOffset = bciOffset;
+            this.tabLevel = tabLevel;
+        }
 
         public override string ToString()
         {
