@@ -1,0 +1,19 @@
+File Name: decimal.lua
+
+Prototype: 0
+Prototype_Size: 21; Flags: 2; #_Params: 0; Frame_Size: 1; Upvalue_Size: 0; KGC_Size: 0; KN_Size: 1; Instruction_Count: 2;
+
+--Bytecode Instructions--
+(KNUM): 0, 0, 0;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+
+--End--
+
+

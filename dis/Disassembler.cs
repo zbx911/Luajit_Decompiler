@@ -36,6 +36,12 @@ namespace Luajit_Decompiler.dis
             for (int i = 0; i < magic.Length; i++)
                 magic[i] = ConsumeByte(bytes, ref offset);
             flags = ConsumeByte(bytes, ref offset);
+            if(flags == 0) //0x00 flags => no debug info stripped which means we read the name of the file. { length in uleb, read # of bytes of file name }
+            {
+                int length = ConsumeUleb(bytes, ref offset);
+                byte[] dbgFileName = ConsumeBytes(bytes, ref offset, length);
+                Console.Out.WriteLine(ASCIIEncoding.Default.GetString(dbgFileName));
+            }
         }
 
         /// <summary>

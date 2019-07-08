@@ -61,26 +61,28 @@ namespace Luajit_Decompiler.dis
             sizeUV = Disassembler.ConsumeByte(bytes, ref offset);
             sizeKGC = Disassembler.ConsumeUleb(bytes, ref offset);
             sizeKN = Disassembler.ConsumeUleb(bytes, ref offset);
-            PackBCInstructions(bytes, ref offset); //must be here since the next bytes are the instruction count & bytecode instruction bytes.
-            if ((fileFlag & 0x02) == 0)
-            {
-                debugSize = Disassembler.ConsumeUleb(bytes, ref offset);
-                if(debugSize > 0)
-                {
-                    firstLine = Disassembler.ConsumeUleb(bytes, ref offset);
-                    numLines = Disassembler.ConsumeUleb(bytes, ref offset);
-                }
-            }
+            PackBCInstructions(bytes, ref offset, fileFlag); //must be here since the next bytes are the instruction count & bytecode instruction bytes.
             PackConstants(bytes, ref offset);
         }
 
         /// <summary>
         /// Interprets the bytecode instructions and packs them up into the list.
         /// </summary>
-        private void PackBCInstructions(byte[] bytes, ref int offset)
+        private void PackBCInstructions(byte[] bytes, ref int offset, byte fileFlag)
         {
+            //Console.Out.WriteLine(GetHeaderText()); //debug
             int instructionSize = 4; //size of bc instructions.
             int instructionCount = Disassembler.ConsumeUleb(bytes, ref offset) * instructionSize; //# of bytecode instructions. Part of the 7 byte proto header.
+            //There is debug info here if flags are present.
+            if ((fileFlag & 0x02) == 0)
+            {
+                debugSize = Disassembler.ConsumeUleb(bytes, ref offset);
+                if (debugSize > 0)
+                {
+                    firstLine = Disassembler.ConsumeUleb(bytes, ref offset);
+                    numLines = Disassembler.ConsumeUleb(bytes, ref offset);
+                }
+            }
             byte[] instructionBytes = Disassembler.ConsumeBytes(bytes, ref offset, instructionCount);
             for(int i = 0; i < instructionBytes.Length; i += 4)
             {
@@ -89,6 +91,7 @@ namespace Luajit_Decompiler.dis
                 bci.AddRegister(instructionBytes[i + 2]);
                 bci.AddRegister(instructionBytes[i + 3]);
                 bytecodeInstructions.Add(bci);
+               //Console.Out.WriteLine(bci); //debug
             }
         }
 
@@ -121,6 +124,12 @@ namespace Luajit_Decompiler.dis
                 //for now, skip over the debug section.
                 Disassembler.ConsumeBytes(bytes, ref offset, debugSize);
             }
+            #region constants debugging
+            foreach (UpValue v in upvalues)
+                Console.Out.WriteLine(v);
+            foreach (BaseConstant b in constantsSection)
+                Console.Out.WriteLine(b);
+            #endregion
         }
 
         private void ReadKGC(byte[] bytes, ref int offset)
@@ -143,7 +152,7 @@ namespace Luajit_Decompiler.dis
                 case 3: //uInt64 => Uleb
                     constantsSection.Add(new CInt(Disassembler.ConsumeUleb(bytes, ref offset))); //May need special treatment; but for now, just read it as an integer.
                     break;
-                case 4: //complex number => LuaNumber => 2 Ulebs
+                case 4: //complex number => LuaNumber => 2 Ulebs --Note: according to DiLemming, double is 2 ulebs and complex is 4 ulebs.
                     constantsSection.Add(new CLuaNumber(new LuaNumber(Disassembler.ConsumeUleb(bytes, ref offset), Disassembler.ConsumeUleb(bytes, ref offset))));
                     break;
                 default: //string: length is typebyte - 5.
@@ -154,7 +163,24 @@ namespace Luajit_Decompiler.dis
 
         private void ReadKN(byte[] bytes, ref int offset)
         {
-            constantsSection.Add(new CInt(Disassembler.ConsumeByte(bytes, ref offset) / 2));
+            //Slightly modified DiLemming's code for reading number constants.
+            int a = Disassembler.ConsumeUleb(bytes, ref offset);
+            bool isDouble = (a & 1) > 0;
+            a >>= 1;
+            if(isDouble)
+            {
+                int b = Disassembler.ConsumeUleb(bytes, ref offset);
+                CDouble.KNUnion knu = new CDouble.KNUnion();
+                knu.ulebA = a;
+                knu.ulebB = b;
+                //Console.Out.WriteLine(knu.knumVal); //debug
+                constantsSection.Add(new CDouble(knu.knumVal));
+            }
+            else //is integer
+            {
+                constantsSection.Add(new CInt(a));
+                //Console.Out.WriteLine(a); //debug
+            }
         }
 
         /// <summary>
@@ -205,9 +231,6 @@ namespace Luajit_Decompiler.dis
         {
             int sum = prototypeSize + flags + numberOfParams + frameSize + sizeUV + sizeKGC + sizeKN + bytecodeInstructions.Count;
             char[] hash = sum.GetHashCode().ToString().ToCharArray();
-            string result = "";
-            //for (int i = 0; i < 5; i++)
-            //    result += hash[i];
             return hash.ToString();
         }
     }

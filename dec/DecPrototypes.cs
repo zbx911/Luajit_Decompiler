@@ -5,12 +5,16 @@ using System.Text;
 using System.Threading.Tasks;
 using Luajit_Decompiler.dis;
 using Luajit_Decompiler.dec.Structures;
+using Luajit_Decompiler.dis.Constants;
 
 namespace Luajit_Decompiler.dec
 {
     class DecPrototypes
     {
         public string source; //source code from the decompiled file.
+        //private int bciOffset = 0; //offset for this prototype's bytecode instructions.
+        private List<Block> ptBlocks; //list of all asm blocks to a single prototype.
+        private StringBuilder fileSource = new StringBuilder(); //source code for the entire file.
 
         /// <summary>
         /// Decompiles an entire file's prototypes.
@@ -19,28 +23,65 @@ namespace Luajit_Decompiler.dec
         /// <param name="pts">List containing that file's prototypes.</param>
         public DecPrototypes(string name, List<Prototype> pts)
         {
-            int tabLevel = 0;
             StringBuilder res = new StringBuilder();
             res.AppendLine("--Lua File Name: " + name);
             for (int i = pts.Count; i > 0; i--) //We go backwards here because the 'main' proto is always the last one and will have the most prototype children.
-                res.AppendLine(DecPT(GenId(pts[i - 1]), pts[i - 1], ref tabLevel));
+            {
+                int blockifyIndex = 0;
+                ptBlocks = new List<Block>();
+                BlockifyPT(pts[i - 1], ref blockifyIndex, pts[i - 1].bytecodeInstructions.Count); //Note: After each block's endIndex is a JMP in the prototype asm. (endIndex + 1)
+                //res.AppendLine(DecPT(GenId(pts[i - 1]), pts[i - 1], ref tabLevel));
+            }
             source = res.ToString();
         }
-        /// <summary>
-        /// Decompiles an individual prototype and converts it to lua source.
-        /// </summary>
-        /// <param name="id">An ID to organize prototypes in the lua source file.</param>
-        /// <param name="pt">The prototype to decompile.</param>
-        /// <param name="tabLevel">How many tabs to indent by.</param>
-        /// <returns></returns>
-        private string DecPT(string id, Prototype pt, ref int tabLevel)
-        {
-            int bciOffset = 0; //offset for this prototype's bytecode instructions.
-            StringBuilder result = new StringBuilder();
 
-            foreach(BytecodeInstruction bci in pt.bytecodeInstructions)
+        /// <summary>
+        /// TODO: Implement a way to output blocks for debugging. Also perhaps save jump locations and targets.
+        /// </summary>
+        /// <param name="pt"></param>
+        /// <param name="start"></param>
+        /// <param name="end"></param>
+        private void BlockifyPT(Prototype pt, ref int start, int end)
+        {
+            ///TODO: Implement negative jumps.
+            while (start < end)
             {
-                switch(bci.opcode)
+                Block b = new Block();
+                b.startB = start; //start of a block by line in asm for reference.
+                BytecodeInstruction bci = pt.bytecodeInstructions[start];
+                if(bci.opcode == OpCodes.JMP)
+                {
+                    b.endB = start - 1; //terminate block at instruction above JMP.
+                    ptBlocks.Add(b);
+                    start++; //next instruction after JMP.
+                    int target = ((bci.registers[1] << 8) | bci.registers[2]) - 0x8000;
+                    if (target <= 0)
+                        throw new Exception("Negative/zero jumps unhandled so far. " +
+                            "Negative jumps probably just point to a pre-existing block somewhere." +
+                            " Zero jumps...no clue what they would do.");
+                    else
+                        target--; //decrement target by 1 to avoid off by 1 error. (For positive jumps).
+                    BlockifyPT(pt, ref start, target); //from 1 instruction after JMP to the JMP.
+                }
+                else
+                    b.bcis.Add(bci);
+                start++;
+                if (start < end)
+                    ptBlocks.Add(b);
+            }
+        }
+
+        /// <summary>
+        /// Decompiles a single block of asm.
+        /// </summary>
+        /// <param name="pt">Current prototype.</param>
+        /// <param name="b">A block from within the current prototype.</param>
+        private void DecompileBlock(Prototype pt, Block b)
+        {
+            int nestLevel = 0; //for indentation.
+            foreach(BytecodeInstruction bci in b.bcis)
+            {
+                switch (bci.opcode)
                 {
                     case OpCodes.ISLT:
                     case OpCodes.ISGE:
@@ -54,18 +95,107 @@ namespace Luajit_Decompiler.dec
                     case OpCodes.ISNEN:
                     case OpCodes.ISEQP:
                     case OpCodes.ISNEP:
-                        IfSt ifst = new IfSt(pt, ref bciOffset, ref tabLevel); //handle jumps in class.
-                        result.AppendLine(ifst.ToString());
-                        bciOffset++;
+                        //if it is an if statement, output a logically equivalent expression and nest the block for it.
+                        //append expression
+                        //find the block associated with the jump
+                        //call DecompileBlock on the found block.
                         break;
-                    default: //skip bytecode instruction as default.
-                        bciOffset++;
-                        continue;
+                    case OpCodes.KSHORT:
+                        Variable v = new Variable(bci.registers[0], new CInt((bci.registers[1] << 8) | bci.registers[2]));
+
+                        break;
+                    default: //skip bytecode instruction as default. JMP is handled in BlockifyPT.
+                        break;
                 }
             }
-
-            return result.ToString();
         }
+
+        /// <summary>
+        /// Returns the block associated with a jump.
+        /// </summary>
+        /// <param name="pt">Current prototype.</param>
+        /// <param name="jumpIndex">Location of the jump opcode in the asm.</param>
+        /// <returns></returns>
+        private Block GetTargetOfJump(Prototype pt, int jumpIndex)
+        {
+            ///TODO: Implement negative jumps.
+            BytecodeInstruction jump = pt.bytecodeInstructions[jumpIndex];
+            if (jump.opcode != OpCodes.JMP)
+                throw new Exception("Given jump index is not correct. The instruction at the index is: " + jump.opcode);
+            int target = ((jump.registers[1] << 8) | jump.registers[2]) - 0x8000; //can be negative
+            if (target <= 0)
+                throw new Exception("Negative jump targets unimplemented.");
+            else
+                foreach (Block b in ptBlocks) //negative blocks will have to search for the start of the block probably. Positive jumps need to search for end of a block.
+                    if (b.startB == jumpIndex + 1) //if statements are usually positive jumps in which the next instruction after the JMP instruction is the start of its block.
+                        return b;
+            throw new Exception("Block not found.");
+        }
+
+        /// <summary>
+        /// Properly indents source code that should be nested. For example, if statements and loops.
+        /// </summary>
+        /// <param name="source"></param>
+        /// <returns></returns>
+        private string NestSource(string source, ref int nestLevel)
+        {
+            StringBuilder tabs = new StringBuilder();
+            StringBuilder formattedSource = new StringBuilder();
+            for (int i = 0; i < nestLevel; i++)
+                tabs.Append("\t");
+            string[] lines = source.Split('\n');
+            foreach (string line in lines)
+                formattedSource.AppendLine(tabs.ToString() + line);
+            return formattedSource.ToString();
+        }
+        ////used for passing around DecPT to where it is needed.
+        //public delegate string DelPT(string id, Prototype pt, ref int tabLevel);
+
+        ///// <summary>
+        ///// Decompiles an individual prototype and converts it to lua source.
+        ///// </summary>
+        ///// <param name="id">An ID to organize prototypes in the lua source file.</param>
+        ///// <param name="pt">The prototype to decompile.</param>
+        ///// <param name="tabLevel">How many tabs to indent by.</param>
+        ///// <returns></returns>
+        //private string DecPT(string id, Prototype pt, ref int tabLevel)
+        //{
+        //    StringBuilder result = new StringBuilder();
+        //    Variables vars = new Variables();
+
+        //    while (bciOffset < pt.bytecodeInstructions.Count)
+        //    {
+        //        BytecodeInstruction bci = pt.bytecodeInstructions[bciOffset];
+        //        switch(bci.opcode)
+        //        {
+        //            case OpCodes.ISLT:
+        //            case OpCodes.ISGE:
+        //            case OpCodes.ISLE:
+        //            case OpCodes.ISGT:
+        //            case OpCodes.ISEQV:
+        //            case OpCodes.ISNEV:
+        //            case OpCodes.ISEQS:
+        //            case OpCodes.ISNES:
+        //            case OpCodes.ISEQN:
+        //            case OpCodes.ISNEN:
+        //            case OpCodes.ISEQP:
+        //            case OpCodes.ISNEP:
+        //                IfSt ifst = new IfSt(pt, DecPT, ref vars, ref bciOffset, ref tabLevel);
+        //                result.AppendLine(ifst.ToString());
+        //                break;
+        //            case OpCodes.KSHORT:
+        //                Variable v = new Variable(bci.registers[0], new CInt((bci.registers[1] << 8) | bci.registers[2]));
+        //                result.AppendLine(vars.SetVar(v.index, v));
+        //                bciOffset++;
+        //                break;
+        //            default: //skip bytecode instruction as default. JMP also handled already by blockifyPT.
+        //                bciOffset++;
+        //                break;
+        //        }
+        //    }
+        //    bciOffset = 0; //return bcioffset to 0 after the proto is done.
+        //    return result.ToString();
+        //}
 
         /// <summary>
         /// Generates a prototype ID for naming functions: function ID( )
