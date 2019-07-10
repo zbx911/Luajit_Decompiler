@@ -1,0 +1,145 @@
+File Name: if.lua
+
+Prototype: 0
+Prototype_Size: 518; Flags: 2; #_Params: 0; Frame_Size: 2; Upvalue_Size: 0; KGC_Size: 1; KN_Size: 1; Instruction_Count: 126;
+
+--Bytecode Instructions--
+(KSHORT): 0, 1, 0;
+(KSHORT): 1, 2, 0;
+(ISGE): 1, 0, 0;
+(JMP): 0, 3, 128;
+(GGET): 0, 0, 0;
+(KSHORT): 1, 0, 0;
+(CALL): 0, 2, 1;
+(KSHORT): 0, 2, 0;
+(KSHORT): 1, 1, 0;
+(ISGE): 1, 0, 0;
+(JMP): 0, 3, 128;
+(GGET): 0, 0, 0;
+(KSHORT): 1, 1, 0;
+(CALL): 0, 2, 1;
+(KSHORT): 0, 2, 0;
+(KSHORT): 1, 2, 0;
+(ISGT): 1, 0, 0;
+(JMP): 0, 3, 128;
+(GGET): 0, 0, 0;
+(KSHORT): 1, 2, 0;
+(CALL): 0, 2, 1;
+(KSHORT): 0, 2, 0;
+(KSHORT): 1, 2, 0;
+(ISGT): 1, 0, 0;
+(JMP): 0, 3, 128;
+(GGET): 0, 0, 0;
+(KSHORT): 1, 3, 0;
+(CALL): 0, 2, 1;
+(KSHORT): 0, 2, 0;
+(ISNEN): 0, 0, 0;
+(JMP): 0, 3, 128;
+(GGET): 0, 0, 0;
+(KSHORT): 1, 4, 0;
+(CALL): 0, 2, 1;
+(KSHORT): 0, 2, 0;
+(ISEQN): 0, 0, 0;
+(JMP): 0, 3, 128;
+(GGET): 0, 0, 0;
+(KSHORT): 1, 5, 0;
+(CALL): 0, 2, 1;
+(KSHORT): 0, 1, 0;
+(KSHORT): 1, 2, 0;
+(ISLT): 1, 0, 0;
+(JMP): 0, 3, 128;
+(GGET): 0, 0, 0;
+(KSHORT): 1, 6, 0;
+(CALL): 0, 2, 1;
+(KSHORT): 0, 2, 0;
+(KSHORT): 1, 1, 0;
+(ISLE): 1, 0, 0;
+(JMP): 0, 3, 128;
+(GGET): 0, 0, 0;
+(KSHORT): 1, 7, 0;
+(CALL): 0, 2, 1;
+(KSHORT): 0, 2, 0;
+(KSHORT): 1, 1, 0;
+(ISLT): 1, 0, 0;
+(JMP): 0, 3, 128;
+(GGET): 0, 0, 0;
+(KSHORT): 1, 8, 0;
+(CALL): 0, 2, 1;
+(KSHORT): 0, 1, 0;
+(KSHORT): 1, 2, 0;
+(ISLE): 1, 0, 0;
+(JMP): 0, 3, 128;
+(GGET): 0, 0, 0;
+(KSHORT): 1, 9, 0;
+(CALL): 0, 2, 1;
+(KSHORT): 0, 1, 0;
+(KSHORT): 1, 2, 0;
+(ISGE): 1, 0, 0;
+(JMP): 0, 4, 128;
+(GGET): 0, 0, 0;
+(KSHORT): 1, 10, 0;
+(CALL): 0, 2, 1;
+(JMP): 0, 3, 128;
+(GGET): 0, 0, 0;
+(KSHORT): 1, 11, 0;
+(CALL): 0, 2, 1;
+(KSHORT): 0, 2, 0;
+(KSHORT): 1, 1, 0;
+(ISGE): 1, 0, 0;
+(JMP): 0, 4, 128;
+(GGET): 0, 0, 0;
+(KSHORT): 1, 12, 0;
+(CALL): 0, 2, 1;
+(JMP): 0, 11, 128;
+(KSHORT): 0, 2, 0;
+(KSHORT): 1, 1, 0;
+(ISGE): 1, 0, 0;
+(JMP): 0, 4, 128;
+(GGET): 0, 0, 0;
+(KSHORT): 1, 13, 0;
+(CALL): 0, 2, 1;
+(JMP): 0, 3, 128;
+(GGET): 0, 0, 0;
+(KSHORT): 1, 14, 0;
+(CALL): 0, 2, 1;
+(KSHORT): 0, 2, 0;
+(KSHORT): 1, 1, 0;
+(ISGE): 1, 0, 0;
+(JMP): 0, 8, 128;
+(KSHORT): 0, 4, 0;
+(KSHORT): 1, 3, 0;
+(ISGE): 1, 0, 0;
+(JMP): 0, 4, 128;
+(GGET): 0, 0, 0;
+(KSHORT): 1, 12, 0;
+(CALL): 0, 2, 1;
+(JMP): 0, 15, 128;
+(KSHORT): 0, 2, 0;
+(KSHORT): 1, 1, 0;
+(ISLT): 1, 0, 0;
+(JMP): 0, 4, 128;
+(KSHORT): 0, 4, 0;
+(KSHORT): 1, 3, 0;
+(ISGE): 1, 0, 0;
+(JMP): 0, 4, 128;
+(GGET): 0, 0, 0;
+(KSHORT): 1, 15, 0;
+(CALL): 0, 2, 1;
+(JMP): 0, 3, 128;
+(GGET): 0, 0, 0;
+(KSHORT): 1, 16, 0;
+(CALL): 0, 2, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ print };
+Int{ 2 };
+
+--End--
+
+

@@ -49,12 +49,32 @@ namespace Luajit_Decompiler.dec
                 Block b = new Block();
                 b.startB = start; //start of a block by line in asm for reference.
                 BytecodeInstruction bci = pt.bytecodeInstructions[start];
-                if(bci.opcode == OpCodes.JMP)
+                bool isJmpOrRet;
+                switch(bci.opcode)
+                {
+                    case OpCodes.JMP:
+                    case OpCodes.RET:
+                    case OpCodes.RET0:
+                    case OpCodes.RET1:
+                    case OpCodes.RETM:
+                        isJmpOrRet = true;
+                        break;
+                    default:
+                        isJmpOrRet = false;
+                        break;
+                }
+                if(isJmpOrRet)
                 {
                     b.endB = start - 1; //terminate block at instruction above JMP.
                     ptBlocks.Add(b);
+                    if(bci.opcode != OpCodes.JMP) //return statement
+                    {
+                        b.bcis.Add(bci);
+                        return;
+                    }
                     start++; //next instruction after JMP.
-                    int target = ((bci.registers[1] << 8) | bci.registers[2]) - 0x8000;
+                    int target = ((bci.registers[2] << 8) | bci.registers[1]); //reversed registers for C and B.
+                    target -= 0x8000;
                     if (target <= 0)
                         throw new Exception("Negative/zero jumps unhandled so far. " +
                             "Negative jumps probably just point to a pre-existing block somewhere." +
@@ -122,7 +142,7 @@ namespace Luajit_Decompiler.dec
             BytecodeInstruction jump = pt.bytecodeInstructions[jumpIndex];
             if (jump.opcode != OpCodes.JMP)
                 throw new Exception("Given jump index is not correct. The instruction at the index is: " + jump.opcode);
-            int target = ((jump.registers[1] << 8) | jump.registers[2]) - 0x8000; //can be negative
+            int target = ((jump.registers[2] << 8) | jump.registers[1]) - 0x8000; //can be negative
             if (target <= 0)
                 throw new Exception("Negative jump targets unimplemented.");
             else

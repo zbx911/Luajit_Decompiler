@@ -21,6 +21,7 @@ namespace Luajit_Decompiler.dec.Structures
         public Block()
         {
             written = false;
+            bcis = new List<BytecodeInstruction>();
         }
     }
 }
