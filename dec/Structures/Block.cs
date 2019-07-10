@@ -23,5 +23,14 @@ namespace Luajit_Decompiler.dec.Structures
             written = false;
             bcis = new List<BytecodeInstruction>();
         }
+
+        public override string ToString()
+        {
+            StringBuilder res = new StringBuilder("---Block---\n");
+            foreach (BytecodeInstruction bci in bcis)
+                res.AppendLine(bci.ToString());
+            res.AppendLine("---End Block---");
+            return res.ToString();
+        }
     }
 }

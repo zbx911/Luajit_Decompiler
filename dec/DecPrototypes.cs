@@ -33,24 +33,26 @@ namespace Luajit_Decompiler.dec
                 //res.AppendLine(DecPT(GenId(pts[i - 1]), pts[i - 1], ref tabLevel));
             }
             source = res.ToString();
+            foreach (Block b in ptBlocks) //debug
+                Console.Out.WriteLine(b.ToString()); //debug
+            Console.Read(); //debug
         }
 
         /// <summary>
-        /// TODO: Implement a way to output blocks for debugging. Also perhaps save jump locations and targets.
+        /// Separates the prototype into blocks.
         /// </summary>
         /// <param name="pt"></param>
         /// <param name="start"></param>
         /// <param name="end"></param>
         private void BlockifyPT(Prototype pt, ref int start, int end)
         {
-            ///TODO: Implement negative jumps.
+            Block b = new Block();
             while (start < end)
             {
-                Block b = new Block();
                 b.startB = start; //start of a block by line in asm for reference.
                 BytecodeInstruction bci = pt.bytecodeInstructions[start];
                 bool isJmpOrRet;
-                switch(bci.opcode)
+                switch (bci.opcode)
                 {
                     case OpCodes.JMP:
                     case OpCodes.RET:
@@ -63,31 +65,15 @@ namespace Luajit_Decompiler.dec
                         isJmpOrRet = false;
                         break;
                 }
-                if(isJmpOrRet)
+                if (isJmpOrRet)
                 {
                     b.endB = start - 1; //terminate block at instruction above JMP.
                     ptBlocks.Add(b);
-                    if(bci.opcode != OpCodes.JMP) //return statement
-                    {
-                        b.bcis.Add(bci);
-                        return;
-                    }
-                    start++; //next instruction after JMP.
-                    int target = ((bci.registers[2] << 8) | bci.registers[1]); //reversed registers for C and B.
-                    target -= 0x8000;
-                    if (target <= 0)
-                        throw new Exception("Negative/zero jumps unhandled so far. " +
-                            "Negative jumps probably just point to a pre-existing block somewhere." +
-                            " Zero jumps...no clue what they would do.");
-                    else
-                        target--; //decrement target by 1 to avoid off by 1 error. (For positive jumps).
-                    BlockifyPT(pt, ref start, target); //from 1 instruction after JMP to the JMP.
+                    b = new Block();
                 }
                 else
                     b.bcis.Add(bci);
                 start++;
-                if (start < end)
-                    ptBlocks.Add(b);
             }
         }
 
