@@ -21,22 +21,25 @@ namespace Luajit_Decompiler.dec.Structures
             vs = new Variable[10];
         }
 
-        public string SetVar(int index, Variable var)
+        public string SetVar(Variable var)
         {
             string result;
-            if (index > vs.Length - 1) //if array is too small.
+            if (var.index > vs.Length - 1) //if array is too small.
                 System.Array.Resize(ref vs, vs.Length * 2);
-            if (vs[index] != null) //value present at index.
+            if (vs[var.index] != null) //value present at index.
+            {
                 result = VarSetSource(var);
+                //result = "";
+            }
             else
                 result = NewVarSource(var);
-            vs[index] = var;
+            vs[var.index] = var;
             return result;
         }
 
         private string VarSetSource(Variable var)
         {
-            return var.varName + " = " + var.value;
+            return var.varName + " = " + var.value.GetValue();
         }
 
         private string NewVarSource(Variable var)

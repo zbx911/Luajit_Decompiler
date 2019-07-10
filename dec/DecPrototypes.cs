@@ -11,8 +11,6 @@ namespace Luajit_Decompiler.dec
 {
     class DecPrototypes
     {
-        public string source; //source code from the decompiled file.
-        //private int bciOffset = 0; //offset for this prototype's bytecode instructions.
         private List<Block> ptBlocks; //list of all asm blocks to a single prototype.
         private StringBuilder fileSource = new StringBuilder(); //source code for the entire file.
 
@@ -25,17 +23,20 @@ namespace Luajit_Decompiler.dec
         {
             StringBuilder res = new StringBuilder();
             res.AppendLine("--Lua File Name: " + name);
+            Variables vars = new Variables(); //temp vars for the file.
             for (int i = pts.Count; i > 0; i--) //We go backwards here because the 'main' proto is always the last one and will have the most prototype children.
             {
                 int blockifyIndex = 0;
                 ptBlocks = new List<Block>();
                 BlockifyPT(pts[i - 1], ref blockifyIndex, pts[i - 1].bytecodeInstructions.Count); //Note: After each block's endIndex is a JMP in the prototype asm. (endIndex + 1)
-                //res.AppendLine(DecPT(GenId(pts[i - 1]), pts[i - 1], ref tabLevel));
+                foreach(Block b in ptBlocks)
+                {
+                    DecompileBlock(b, ref vars);
+                }
             }
-            source = res.ToString();
-            foreach (Block b in ptBlocks) //debug
-                Console.Out.WriteLine(b.ToString()); //debug
-            Console.Read(); //debug
+            //foreach (Block b in ptBlocks) //debug
+            //    Console.Out.WriteLine(b.ToString()); //debug
+            //Console.Read(); //debug
         }
 
         /// <summary>
@@ -82,9 +83,8 @@ namespace Luajit_Decompiler.dec
         /// </summary>
         /// <param name="pt">Current prototype.</param>
         /// <param name="b">A block from within the current prototype.</param>
-        private void DecompileBlock(Prototype pt, Block b)
+        private void DecompileBlock(Block b, ref Variables vars)
         {
-            int nestLevel = 0; //for indentation.
             foreach(BytecodeInstruction bci in b.bcis)
             {
                 switch (bci.opcode)
@@ -101,14 +101,13 @@ namespace Luajit_Decompiler.dec
                     case OpCodes.ISNEN:
                     case OpCodes.ISEQP:
                     case OpCodes.ISNEP:
-                        //if it is an if statement, output a logically equivalent expression and nest the block for it.
-                        //append expression
-                        //find the block associated with the jump
-                        //call DecompileBlock on the found block.
+                        IfSt st = new IfSt(new Expression(bci, vars));
+                        fileSource.AppendLine(st.ToString());
                         break;
                     case OpCodes.KSHORT:
-                        Variable v = new Variable(bci.registers[0], new CInt((bci.registers[1] << 8) | bci.registers[2]));
-
+                        Variable v = new Variable(bci.registers[0], new CInt((bci.registers[2] << 8) | bci.registers[1]));
+                        vars.SetVar(v);
+                        //fileSource.AppendLine(vars.SetVar(v));
                         break;
                     default: //skip bytecode instruction as default. JMP is handled in BlockifyPT.
                         break;
@@ -153,6 +152,11 @@ namespace Luajit_Decompiler.dec
             foreach (string line in lines)
                 formattedSource.AppendLine(tabs.ToString() + line);
             return formattedSource.ToString();
+        }
+
+        public override string ToString()
+        {
+            return fileSource.ToString();
         }
         ////used for passing around DecPT to where it is needed.
         //public delegate string DelPT(string id, Prototype pt, ref int tabLevel);

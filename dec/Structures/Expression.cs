@@ -14,29 +14,12 @@ namespace Luajit_Decompiler.dec.Structures
     {
         /// TODO: Implement returning if statement/loop statement shells.
 
-        //Mapping of opcode to source code operators for an if statement. Uninverted so doesn't match source and is the logical negation of the source as well.
-        //private static Dictionary<OpCodes, string> map = new Dictionary<OpCodes, string>()
-        //{
-        //    { OpCodes.ISLT, "<" },
-        //    { OpCodes.ISGE, ">=" },
-        //    { OpCodes.ISLE, "<=" },
-        //    { OpCodes.ISGT, ">" },
-        //    { OpCodes.ISEQV, "==" },
-        //    { OpCodes.ISNEV, "~=" },
-        //    { OpCodes.ISEQS, "==" },
-        //    { OpCodes.ISNES, "~=" },
-        //    { OpCodes.ISEQN, "==" },
-        //    { OpCodes.ISNEN, "~=" },
-        //    { OpCodes.ISEQP, "==" },
-        //    { OpCodes.ISNEP, "~=" }
-        //};
-
         //This is a map of inverted inequality symbols. It is necessary to match source code and be logically equivalent to the source regardless of operand order. (Theoretically...)
         private static Dictionary<OpCodes, string> map = new Dictionary<OpCodes, string>()
         {
-            { OpCodes.ISLT, ">=" }, //part of a negated expression. { if not (expression) for example. }
+            { OpCodes.ISLT, "<" }, //part of a negated expression. { if not (expression) for example. }
             { OpCodes.ISGE, "<" },
-            { OpCodes.ISLE, ">" }, //part of a negated expression. { if not (expression) for example. }
+            { OpCodes.ISLE, "<=" }, //part of a negated expression. { if not (expression) for example. }
             { OpCodes.ISGT, "<=" },
             { OpCodes.ISEQV, "~=" },
             { OpCodes.ISNEV, "==" },
@@ -68,9 +51,7 @@ namespace Luajit_Decompiler.dec.Structures
                 throw new Exception("Given opcode is not a conditional instruction. Opcode is: " + condi.opcode);
 
             byte regAIndex = condi.registers[0];
-            int regDIndex = (condi.registers[1] << 8) | condi.registers[2];
-            string varA = vars.vs[regAIndex].varName;
-            string varD = vars.vs[regDIndex].varName;
+            int regDIndex = (condi.registers[2] << 8) | condi.registers[1];
             bool isNotExpression = false; //if it is a NOT expression. see map comments about negated expressions.
             switch (condi.opcode)
             {
@@ -84,8 +65,38 @@ namespace Luajit_Decompiler.dec.Structures
             StringBuilder result = new StringBuilder();
             if (isNotExpression)
                 result.Append("not ");
-            result.Append("(" + varA + " " + map[condi.opcode] + " " + varD + ")");
+            result.Append("(" + vars.vs[regAIndex].value.GetValue() + " " + map[condi.opcode] + " " + vars.vs[regDIndex].value.GetValue() + ")");
             expression = result.ToString();
         }
     }
+
+    //ISLT <
+    //ISGE >=
+    //ISLE <=
+    //ISGT >
+    //ISEQV ==
+    //ISNEV !=
+    //ISEQS == //var = to string ?
+    //ISNES != //var != to string ?
+    //ISEQN == //var == num ?
+    //ISNEN != //var != num ?
+    //ISEQP == //var == primitive type ?
+    //ISNEP != //var != primitive type ?
+
+    //Mapping of opcode to source code operators for an if statement. Uninverted so doesn't match source and is the logical negation of the source as well.
+    //private static Dictionary<OpCodes, string> map = new Dictionary<OpCodes, string>()
+    //{
+    //    { OpCodes.ISLT, "<" },
+    //    { OpCodes.ISGE, ">=" },
+    //    { OpCodes.ISLE, "<=" },
+    //    { OpCodes.ISGT, ">" },
+    //    { OpCodes.ISEQV, "==" },
+    //    { OpCodes.ISNEV, "~=" },
+    //    { OpCodes.ISEQS, "==" },
+    //    { OpCodes.ISNES, "~=" },
+    //    { OpCodes.ISEQN, "==" },
+    //    { OpCodes.ISNEN, "~=" },
+    //    { OpCodes.ISEQP, "==" },
+    //    { OpCodes.ISNEP, "~=" }
+    //};
 }

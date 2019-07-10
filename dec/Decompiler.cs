@@ -32,7 +32,7 @@ namespace Luajit_Decompiler.dec
                 foreach (KeyValuePair<string, List<Prototype>> kv in disFile)
                 {
                     DecPrototypes dp = new DecPrototypes(kv.Key, kv.Value);
-                    fm.WriteDecompiledCode(kv.Key, dp.source);
+                    fm.WriteDecompiledCode(kv.Key, dp.ToString());
                 }
             }
             else
