@@ -32,7 +32,7 @@ namespace Luajit_Decompiler.dec.Structures
         };
 
         public string expression;
-
+        public BytecodeInstruction condi;
         /// <summary>
         /// Constructs an expression.
         /// </summary>
@@ -45,6 +45,7 @@ namespace Luajit_Decompiler.dec.Structures
                 if (condi.opcode == k.Key)
                 {
                     isCondi = true;
+                    this.condi = condi;
                     break;
                 }
             if (!isCondi)

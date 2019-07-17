@@ -11,10 +11,12 @@ namespace Luajit_Decompiler.dis
         public OpCodes opcode;
         public byte[] registers = new byte[3];
         private int registerCount = 0;
+        public int index; //index of bci in prototype.
 
-        public BytecodeInstruction(OpCodes op)
+        public BytecodeInstruction(OpCodes op, int index)
         {
             opcode = op;
+            this.index = index;
         }
 
         /// <summary>

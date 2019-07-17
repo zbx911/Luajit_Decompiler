@@ -84,13 +84,15 @@ namespace Luajit_Decompiler.dis
                 }
             }
             byte[] instructionBytes = Disassembler.ConsumeBytes(bytes, ref offset, instructionCount);
+            int bciIndex = 0;
             for(int i = 0; i < instructionBytes.Length; i += 4)
             {
-                BytecodeInstruction bci = new BytecodeInstruction(Opcode.ParseOpByte(instructionBytes[i]));
+                BytecodeInstruction bci = new BytecodeInstruction(Opcode.ParseOpByte(instructionBytes[i]), bciIndex);
                 bci.AddRegister(instructionBytes[i + 1]); //A
                 bci.AddRegister(instructionBytes[i + 2]); //C {C + B = D}
                 bci.AddRegister(instructionBytes[i + 3]); //B
                 bytecodeInstructions.Add(bci);
+                bciIndex++;
                //Console.Out.WriteLine(bci); //debug
             }
         }
@@ -125,10 +127,10 @@ namespace Luajit_Decompiler.dis
                 Disassembler.ConsumeBytes(bytes, ref offset, debugSize);
             }
             #region constants debugging
-            foreach (UpValue v in upvalues)
-                Console.Out.WriteLine(v);
-            foreach (BaseConstant b in constantsSection)
-                Console.Out.WriteLine(b);
+            //foreach (UpValue v in upvalues)
+            //    Console.Out.WriteLine(v);
+            //foreach (BaseConstant b in constantsSection)
+            //    Console.Out.WriteLine(b);
             #endregion
         }
 

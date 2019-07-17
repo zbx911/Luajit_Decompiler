@@ -1,0 +1,5547 @@
+File Name: game_state_ingame_client_running.lua
+
+Prototype: 0
+Prototype_Size: 858; Flags: 0; #_Params: 2; Frame_Size: 13; Upvalue_Size: 0; KGC_Size: 19; KN_Size: 1; Instruction_Count: 82;
+
+--Bytecode Instructions--
+(GGET): 2, 0, 0;
+(TGETS): 2, 1, 2;
+(MOV): 3, 0, 0;
+(CALL): 2, 2, 2;
+(GGET): 3, 2, 0;
+(MOV): 4, 2, 0;
+(CALL): 3, 2, 2;
+(ISEQS): 3, 3, 0;
+(JMP): 3, 4, 128;
+(KSHORT): 3, 1, 0;
+(GGET): 4, 4, 0;
+(KPRI): 5, 1, 0;
+(CALL): 4, 2, 1;
+(KSTR): 3, 5, 0;
+(ISF): 0, 2, 0;
+(JMP): 4, 24, 128;
+(GGET): 4, 6, 0;
+(TGETS): 4, 7, 4;
+(MOV): 5, 0, 0;
+(CALL): 4, 2, 2;
+(ISF): 0, 4, 0;
+(JMP): 5, 1, 128;
+(KSHORT): 4, 1, 0;
+(GGET): 4, 6, 0;
+(TGETS): 4, 8, 4;
+(MOV): 5, 0, 0;
+(CALL): 4, 2, 2;
+(ISF): 0, 4, 0;
+(JMP): 5, 2, 128;
+(KSHORT): 4, 1, 0;
+(JMP): 4, 9, 128;
+(GGET): 4, 9, 0;
+(TGETS): 4, 10, 4;
+(MOV): 5, 0, 0;
+(KSTR): 6, 11, 0;
+(CALL): 4, 3, 2;
+(ISF): 0, 4, 0;
+(JMP): 5, 2, 128;
+(KSTR): 3, 11, 0;
+(JMP): 4, 0, 128;
+(GGET): 4, 9, 0;
+(TGETS): 4, 12, 4;
+(KSHORT): 5, 0, 0;
+(MOV): 6, 4, 0;
+(MOV): 7, 0, 0;
+(MOV): 8, 3, 0;
+(MOV): 9, 5, 0;
+(CALL): 6, 4, 2;
+(ISF): 0, 6, 0;
+(JMP): 7, 10, 128;
+(LOOP): 7, 9, 128;
+(ADDVN): 5, 0, 5;
+(TSETV): 6, 5, 1;
+(MOV): 7, 4, 0;
+(MOV): 8, 0, 0;
+(MOV): 9, 3, 0;
+(MOV): 10, 5, 0;
+(CALL): 7, 4, 2;
+(MOV): 6, 7, 0;
+(JMP): 7, 244, 127;
+(MOV): 7, 4, 0;
+(MOV): 8, 0, 0;
+(KSTR): 9, 13, 0;
+(KSHORT): 10, 0, 0;
+(CALL): 7, 4, 2;
+(IST): 0, 7, 0;
+(JMP): 8, 5, 128;
+(MOV): 7, 4, 0;
+(MOV): 8, 0, 0;
+(KSTR): 9, 14, 0;
+(KSHORT): 10, 0, 0;
+(CALL): 7, 4, 2;
+(ISF): 0, 7, 0;
+(JMP): 8, 7, 128;
+(GGET): 8, 15, 0;
+(KSTR): 9, 16, 0;
+(KSTR): 10, 17, 0;
+(GGET): 11, 18, 0;
+(MOV): 12, 0, 0;
+(CALL): 11, 2, 0;
+(CALLM): 8, 2, 1;
+(RET1): 5, 2, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ tostring };
+String{ [CLIENT] old extension naming for unit : %s };
+String{ always };
+String{ cat_printf_warning };
+String{ husk_extensions };
+String{ extensions };
+String{ get_data };
+String{ client_husk_extensions };
+String{ has_data };
+String{ Unit };
+String{ owning_peer_is_self };
+String{ is_server_object };
+String{ pdNetworkServerUnit };
+String{ client_extensions };
+String{ assert };
+String{ boolean };
+String{ lua_type };
+String{ is_husk_unit_boolean };
+String{ NetworkUnit };
+Int{ 1 };
+
+--End--
+
+
+Prototype: 1
+Prototype_Size: 592; Flags: 0; #_Params: 1; Frame_Size: 8; Upvalue_Size: 0; KGC_Size: 19; KN_Size: 1; Instruction_Count: 51;
+
+--Bytecode Instructions--
+(KSTR): 1, 1, 0;
+(TSETS): 1, 0, 0;
+(TNEW): 1, 3, 0;
+(GGET): 2, 3, 0;
+(TGETS): 2, 4, 2;
+(CALL): 2, 1, 2;
+(TSETB): 2, 1, 1;
+(GGET): 2, 3, 0;
+(TGETS): 2, 4, 2;
+(CALL): 2, 1, 0;
+(TSETM): 2, 0, 0;
+(TSETS): 1, 2, 0;
+(KSHORT): 1, 1, 0;
+(TSETS): 1, 5, 0;
+(TNEW): 2, 0, 0;
+(TSETS): 2, 6, 0;
+(KSHORT): 2, 1, 0;
+(TGETS): 3, 5, 0;
+(KSHORT): 4, 1, 0;
+(FORI): 2, 6, 128;
+(TGETS): 6, 6, 0;
+(GGET): 7, 3, 0;
+(TGETS): 7, 4, 7;
+(CALL): 7, 1, 2;
+(TSETV): 7, 5, 6;
+(FORL): 2, 250, 127;
+(KSHORT): 2, 1, 0;
+(TSETS): 2, 7, 0;
+(MOV): 3, 0, 0;
+(TGETS): 2, 8, 0;
+(CALL): 2, 2, 1;
+(TNEW): 2, 0, 0;
+(TSETS): 2, 9, 0;
+(GGET): 2, 10, 0;
+(TGETS): 2, 11, 2;
+(GGET): 3, 10, 0;
+(TGETS): 3, 12, 3;
+(TGETS): 3, 13, 3;
+(GGET): 4, 10, 0;
+(TGETS): 4, 12, 4;
+(TGETS): 4, 14, 4;
+(CALL): 2, 3, 1;
+(KSHORT): 2, 30, 0;
+(TSETS): 2, 15, 0;
+(KSHORT): 2, 0, 0;
+(TSETS): 2, 16, 0;
+(KSHORT): 2, 0, 0;
+(TSETS): 2, 17, 0;
+(KSHORT): 2, 0, 0;
+(TSETS): 2, 18, 0;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ fps_average };
+String{ fps_elapsed_time };
+String{ fps_num_frames };
+String{ time_to_send_telemetry };
+String{ IN_GAME };
+String{ KEY };
+String{ Status };
+String{ set };
+String{ PresenceAux };
+String{ entity_systems_update_context };
+String{ set_update_index };
+String{ current_update_index };
+String{ delayed_destroyed_gameobject_ids };
+String{ num_frames_to_store };
+String{ new };
+String{ pdArray };
+String{ scratch_arrays };
+String{ ingame_running_client };
+String{ ALIAS };
+Double{ 4.5035996273705E+15 };
+
+--End--
+
+
+Prototype: 2
+Prototype_Size: 133; Flags: 0; #_Params: 1; Frame_Size: 3; Upvalue_Size: 0; KGC_Size: 3; KN_Size: 1; Instruction_Count: 12;
+
+--Bytecode Instructions--
+(TGETS): 1, 0, 0;
+(TGETS): 2, 1, 0;
+(MODVV): 1, 2, 1;
+(ADDVN): 1, 0, 1;
+(TSETS): 1, 0, 0;
+(TGETS): 1, 0, 0;
+(ADDVN): 1, 0, 1;
+(TGETS): 2, 1, 0;
+(MODVV): 1, 2, 1;
+(ADDVN): 1, 0, 1;
+(TSETS): 1, 2, 0;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ delete_index };
+String{ num_frames_to_store };
+String{ current_update_index };
+Int{ 1 };
+
+--End--
+
+
+Prototype: 3
+Prototype_Size: 618; Flags: 0; #_Params: 2; Frame_Size: 9; Upvalue_Size: 0; KGC_Size: 14; KN_Size: 0; Instruction_Count: 30;
+
+--Bytecode Instructions--
+(GGET): 2, 1, 0;
+(TGETS): 2, 0, 2;
+(CALL): 2, 1, 2;
+(TSETS): 2, 0, 0;
+(TSETS): 1, 2, 0;
+(TDUP): 2, 3, 0;
+(TGETS): 3, 2, 0;
+(MOV): 4, 3, 0;
+(TGETS): 3, 4, 3;
+(KSTR): 5, 5, 0;
+(MOV): 6, 0, 0;
+(GGET): 7, 6, 0;
+(MOV): 8, 2, 0;
+(CALL): 7, 2, 0;
+(CALLM): 3, 3, 1;
+(TGETS): 3, 7, 0;
+(MOV): 4, 3, 0;
+(TGETS): 3, 8, 3;
+(CALL): 3, 2, 3;
+(GGET): 5, 10, 0;
+(TGETS): 5, 11, 5;
+(MOV): 6, 3, 0;
+(MOV): 7, 4, 0;
+(CALL): 5, 3, 2;
+(TSETS): 5, 9, 0;
+(GGET): 5, 13, 0;
+(TGETS): 5, 11, 5;
+(CALL): 5, 1, 2;
+(TSETS): 5, 12, 0;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ NetworkGameSessionPeerInformations };
+String{ gamesession_peer_informations };
+String{ new };
+String{ NetworkGameSessionPeers };
+String{ gamesession_peers };
+String{ members };
+String{ game_lobby };
+String{ unpack };
+String{ client_running };
+String{ register };
+Table{ 
+	Array Part{ 
+		Nil{ };
+		String{ game_session_disconnect };
+		String{ rpc_from_server_match_start };
+		String{ rpc_good_bye };
+		String{ rpc_from_server_end_of_round_client_rewards };
+		String{ rpc_from_server_teleport_player };
+		String{ rpc_from_server_teleport_ai };
+	};
+	Hash Part{ 
+	};
+};
+
+String{ network_message_router };
+String{ Network };
+String{ game_session };
+
+--End--
+
+
+Prototype: 4
+Prototype_Size: 1297; Flags: 0; #_Params: 4; Frame_Size: 15; Upvalue_Size: 0; KGC_Size: 36; KN_Size: 0; Instruction_Count: 111;
+
+--Bytecode Instructions--
+(GGET): 4, 0, 0;
+(TGETS): 4, 1, 4;
+(TGETS): 5, 2, 0;
+(MOV): 6, 2, 0;
+(CALL): 4, 3, 2;
+(GGET): 5, 3, 0;
+(TGETS): 5, 4, 5;
+(MOV): 6, 4, 0;
+(CALL): 5, 2, 2;
+(ISF): 0, 5, 0;
+(JMP): 6, 99, 128;
+(GGET): 5, 5, 0;
+(TGETS): 5, 6, 5;
+(MOV): 6, 4, 0;
+(KSTR): 7, 7, 0;
+(CALL): 5, 3, 2;
+(ISF): 0, 5, 0;
+(JMP): 6, 92, 128;
+(GGET): 6, 8, 0;
+(TGETS): 6, 9, 6;
+(MOV): 7, 4, 0;
+(CALL): 6, 2, 2;
+(IST): 0, 6, 0;
+(JMP): 7, 6, 128;
+(GGET): 6, 10, 0;
+(TGETS): 6, 11, 6;
+(MOV): 7, 4, 0;
+(CALL): 6, 2, 2;
+(ISF): 0, 6, 0;
+(JMP): 7, 9, 128;
+(GGET): 6, 12, 0;
+(TGETS): 6, 13, 6;
+(GGET): 7, 3, 0;
+(TGETS): 7, 14, 7;
+(MOV): 8, 4, 0;
+(CALL): 7, 2, 2;
+(MOV): 8, 3, 0;
+(CALL): 6, 3, 1;
+(JMP): 6, 6, 128;
+(GGET): 6, 3, 0;
+(TGETS): 6, 15, 6;
+(MOV): 7, 4, 0;
+(KSHORT): 8, 0, 0;
+(MOV): 9, 3, 0;
+(CALL): 6, 4, 1;
+(TGETS): 6, 16, 0;
+(MOV): 7, 6, 0;
+(TGETS): 6, 17, 6;
+(KSTR): 8, 18, 0;
+(MOV): 9, 4, 0;
+(MOV): 10, 3, 0;
+(GGET): 11, 3, 0;
+(TGETS): 11, 19, 11;
+(MOV): 12, 4, 0;
+(KSHORT): 13, 0, 0;
+(CALL): 11, 3, 0;
+(CALLM): 6, 4, 1;
+(GGET): 6, 3, 0;
+(TGETS): 6, 20, 6;
+(MOV): 7, 4, 0;
+(KSHORT): 8, 0, 0;
+(CALL): 6, 3, 2;
+(TGETS): 7, 21, 0;
+(TGETS): 8, 22, 0;
+(GGET): 9, 23, 0;
+(TGETS): 9, 24, 9;
+(MOV): 10, 8, 0;
+(CALL): 9, 2, 2;
+(GGET): 10, 23, 0;
+(TGETS): 10, 25, 10;
+(MOV): 11, 8, 0;
+(KSTR): 12, 26, 0;
+(MOV): 13, 3, 0;
+(GGET): 14, 27, 0;
+(TGETS): 14, 28, 14;
+(CALL): 14, 1, 0;
+(CALLM): 10, 3, 1;
+(GGET): 10, 23, 0;
+(TGETS): 10, 25, 10;
+(MOV): 11, 8, 0;
+(KSTR): 12, 29, 0;
+(MOV): 13, 6, 0;
+(GGET): 14, 27, 0;
+(TGETS): 14, 28, 14;
+(CALL): 14, 1, 0;
+(CALLM): 10, 3, 1;
+(GGET): 10, 30, 0;
+(TGETS): 10, 31, 10;
+(MOV): 11, 9, 0;
+(KSTR): 12, 32, 0;
+(MOV): 13, 3, 0;
+(CALL): 10, 4, 1;
+(GGET): 10, 30, 0;
+(TGETS): 10, 31, 10;
+(MOV): 11, 9, 0;
+(KSTR): 12, 33, 0;
+(MOV): 13, 3, 0;
+(CALL): 10, 4, 1;
+(GGET): 10, 30, 0;
+(TGETS): 10, 31, 10;
+(MOV): 11, 9, 0;
+(KSTR): 12, 34, 0;
+(MOV): 13, 6, 0;
+(CALL): 10, 4, 1;
+(GGET): 10, 30, 0;
+(TGETS): 10, 31, 10;
+(MOV): 11, 9, 0;
+(KSTR): 12, 35, 0;
+(MOV): 13, 3, 0;
+(CALL): 10, 4, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ play_magick_teleport_end_event };
+String{ play_magick_teleporta_event };
+String{ misc_teleport };
+String{ play_magick_teleportb_event };
+String{ trigger_event };
+String{ TimpaniWorld };
+String{ content/particles/magicks/teleport_disappear };
+String{ identity };
+String{ Quaternion };
+String{ content/particles/magicks/teleport_forced_appear };
+String{ create_particles };
+String{ timpani_world };
+String{ World };
+String{ game_world };
+String{ effect_manager };
+String{ world_position };
+String{ local_rotation };
+String{ event_unit_teleport };
+String{ trigger };
+String{ event_delegate };
+String{ teleport_local_position };
+String{ mover };
+String{ set_position };
+String{ Mover };
+String{ owning_peer_is_self };
+String{ pdNetworkServerUnit };
+String{ is_local_unit };
+String{ NetworkUnit };
+String{ player };
+String{ extension };
+String{ EntityAux };
+String{ alive };
+String{ Unit };
+String{ gamesession_peer_informations };
+String{ get_unit_by_peer };
+String{ NetworkGameSessionPeerInformations };
+
+--End--
+
+
+Prototype: 5
+Prototype_Size: 832; Flags: 0; #_Params: 4; Frame_Size: 17; Upvalue_Size: 0; KGC_Size: 23; KN_Size: 0; Instruction_Count: 71;
+
+--Bytecode Instructions--
+(TGETS): 4, 0, 0;
+(MOV): 5, 4, 0;
+(TGETS): 4, 1, 4;
+(MOV): 6, 2, 0;
+(CALL): 4, 3, 2;
+(GGET): 5, 2, 0;
+(TGETS): 5, 3, 5;
+(MOV): 6, 4, 0;
+(CALL): 5, 2, 2;
+(ISF): 0, 5, 0;
+(JMP): 6, 59, 128;
+(GGET): 5, 2, 0;
+(TGETS): 5, 4, 5;
+(MOV): 6, 4, 0;
+(KSHORT): 7, 0, 0;
+(CALL): 5, 3, 2;
+(TGETS): 6, 5, 0;
+(TGETS): 7, 6, 0;
+(GGET): 8, 7, 0;
+(TGETS): 8, 8, 8;
+(MOV): 9, 7, 0;
+(CALL): 8, 2, 2;
+(GGET): 9, 7, 0;
+(TGETS): 9, 9, 9;
+(MOV): 10, 7, 0;
+(KSTR): 11, 10, 0;
+(MOV): 12, 3, 0;
+(GGET): 13, 11, 0;
+(TGETS): 13, 12, 13;
+(CALL): 13, 1, 0;
+(CALLM): 9, 3, 1;
+(GGET): 9, 7, 0;
+(TGETS): 9, 9, 9;
+(MOV): 10, 7, 0;
+(KSTR): 11, 13, 0;
+(MOV): 12, 5, 0;
+(GGET): 13, 11, 0;
+(TGETS): 13, 12, 13;
+(CALL): 13, 1, 0;
+(CALLM): 9, 3, 1;
+(GGET): 9, 14, 0;
+(TGETS): 9, 15, 9;
+(MOV): 10, 8, 0;
+(KSTR): 11, 16, 0;
+(MOV): 12, 3, 0;
+(CALL): 9, 4, 1;
+(GGET): 9, 14, 0;
+(TGETS): 9, 15, 9;
+(MOV): 10, 8, 0;
+(KSTR): 11, 17, 0;
+(MOV): 12, 5, 0;
+(CALL): 9, 4, 1;
+(GGET): 9, 2, 0;
+(TGETS): 9, 18, 9;
+(MOV): 10, 4, 0;
+(KSHORT): 11, 0, 0;
+(MOV): 12, 3, 0;
+(CALL): 9, 4, 1;
+(TGETS): 9, 19, 0;
+(MOV): 10, 9, 0;
+(TGETS): 9, 20, 9;
+(KSTR): 11, 21, 0;
+(MOV): 12, 4, 0;
+(MOV): 13, 3, 0;
+(GGET): 14, 2, 0;
+(TGETS): 14, 22, 14;
+(MOV): 15, 4, 0;
+(KSHORT): 16, 0, 0;
+(CALL): 14, 3, 0;
+(CALLM): 9, 4, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ local_rotation };
+String{ event_unit_teleport };
+String{ trigger };
+String{ event_delegate };
+String{ set_local_position };
+String{ play_magick_teleporta_event };
+String{ play_magick_teleportb_event };
+String{ trigger_event };
+String{ TimpaniWorld };
+String{ content/particles/magicks/teleport_disappear };
+String{ identity };
+String{ Quaternion };
+String{ content/particles/magicks/teleport_appear };
+String{ create_particles };
+String{ timpani_world };
+String{ World };
+String{ game_world };
+String{ effect_manager };
+String{ world_position };
+String{ alive };
+String{ Unit };
+String{ unit };
+String{ unit_storage };
+
+--End--
+
+
+Prototype: 6
+Prototype_Size: 174; Flags: 0; #_Params: 2; Frame_Size: 5; Upvalue_Size: 0; KGC_Size: 7; KN_Size: 0; Instruction_Count: 13;
+
+--Bytecode Instructions--
+(GGET): 2, 1, 0;
+(TGETS): 2, 2, 2;
+(GGET): 3, 3, 0;
+(TGETS): 3, 4, 3;
+(TGETS): 4, 5, 0;
+(CALL): 3, 2, 2;
+(TNEW): 4, 0, 0;
+(CALL): 2, 3, 2;
+(TSETS): 2, 0, 0;
+(TGETS): 2, 6, 0;
+(TGETS): 3, 0, 0;
+(TSETS): 3, 0, 2;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ parent };
+String{ game_session };
+String{ peers };
+String{ GameSession };
+String{ table_to_map };
+String{ table_aux };
+String{ peers_to_disconnect };
+
+--End--
+
+
+Prototype: 7
+Prototype_Size: 439; Flags: 0; #_Params: 2; Frame_Size: 8; Upvalue_Size: 0; KGC_Size: 11; KN_Size: 0; Instruction_Count: 30;
+
+--Bytecode Instructions--
+(TGETS): 2, 0, 0;
+(ISF): 0, 2, 0;
+(JMP): 3, 1, 128;
+(RET0): 0, 1, 0;
+(GGET): 2, 1, 0;
+(KSTR): 3, 2, 0;
+(CALL): 2, 2, 1;
+(GGET): 2, 3, 0;
+(TGETS): 2, 4, 2;
+(TGETS): 3, 5, 0;
+(CALL): 2, 2, 2;
+(GGET): 3, 6, 0;
+(KSTR): 4, 7, 0;
+(GGET): 5, 8, 0;
+(MOV): 6, 1, 0;
+(CALL): 5, 2, 2;
+(GGET): 6, 8, 0;
+(NOT): 7, 2, 0;
+(NOT): 7, 7, 0;
+(CALL): 6, 2, 0;
+(CALLM): 3, 2, 1;
+(GGET): 3, 1, 0;
+(KSTR): 4, 2, 0;
+(CALL): 3, 2, 1;
+(KPRI): 3, 2, 0;
+(TSETS): 3, 0, 0;
+(TGETS): 3, 9, 0;
+(KPRI): 4, 2, 0;
+(TSETS): 4, 10, 3;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ KEEP_GAMEOBJECT_UNITS_ON_DESTROY };
+String{ unit_spawner };
+String{ tostring };
+String{ [game_session_disconnect] self has been disconnected from host '%s'. kicked or host left. is in session %s };
+String{ printf };
+String{ game_session };
+String{ in_session };
+String{ GameSession };
+String{  };
+String{ print };
+String{ been_disconnected_from_gamesession };
+
+--End--
+
+
+Prototype: 8
+Prototype_Size: 33; Flags: 0; #_Params: 2; Frame_Size: 2; Upvalue_Size: 0; KGC_Size: 0; KN_Size: 0; Instruction_Count: 1;
+
+--Bytecode Instructions--
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+
+--End--
+
+
+Prototype: 9
+Prototype_Size: 182; Flags: 0; #_Params: 3; Frame_Size: 9; Upvalue_Size: 0; KGC_Size: 2; KN_Size: 0; Instruction_Count: 17;
+
+--Bytecode Instructions--
+(KSHORT): 3, 1, 0;
+(MOV): 4, 2, 0;
+(KSHORT): 5, 1, 0;
+(FORI): 3, 12, 128;
+(TGETS): 7, 0, 0;
+(IST): 0, 7, 0;
+(JMP): 8, 7, 128;
+(TGETS): 7, 1, 0;
+(TGETV): 8, 6, 1;
+(ISEQV): 7, 8, 0;
+(JMP): 7, 2, 128;
+(KPRI): 7, 1, 0;
+(JMP): 8, 1, 128;
+(KPRI): 7, 2, 0;
+(TSETS): 7, 0, 0;
+(FORL): 3, 244, 127;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ server_peer_id };
+String{ gamesession_host_left };
+
+--End--
+
+
+Prototype: 10
+Prototype_Size: 569; Flags: 0; #_Params: 1; Frame_Size: 7; Upvalue_Size: 0; KGC_Size: 16; KN_Size: 0; Instruction_Count: 33;
+
+--Bytecode Instructions--
+(GGET): 1, 0, 0;
+(TGETS): 1, 1, 1;
+(KSTR): 2, 2, 0;
+(KSTR): 3, 3, 0;
+(KSTR): 4, 4, 0;
+(CALL): 1, 4, 2;
+(GGET): 2, 5, 0;
+(TGETS): 3, 6, 0;
+(KPRI): 4, 1, 0;
+(TGETS): 5, 7, 0;
+(CALL): 2, 4, 2;
+(ISF): 0, 1, 0;
+(JMP): 3, 5, 128;
+(MOV): 4, 2, 0;
+(TGETS): 3, 8, 2;
+(MOV): 5, 1, 0;
+(CALL): 3, 3, 1;
+(JMP): 3, 7, 128;
+(MOV): 4, 2, 0;
+(TGETS): 3, 9, 2;
+(CALL): 3, 2, 1;
+(MOV): 4, 2, 0;
+(TGETS): 3, 10, 2;
+(TGETS): 5, 11, 0;
+(CALL): 3, 3, 1;
+(TSETS): 2, 12, 0;
+(GGET): 3, 14, 0;
+(TGETS): 4, 6, 0;
+(MOV): 5, 2, 0;
+(TGETS): 6, 15, 0;
+(CALL): 3, 4, 2;
+(TSETS): 3, 13, 0;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ gamesession_peers };
+String{ NetworkGameStartSynchronizerClient };
+String{ start_game_synchronizer };
+String{ game_detail_synchronizer };
+String{ server_peer_id };
+String{ set_server_peer_id };
+String{ set_is_peer };
+String{ restore_state_data };
+String{ event_delegate };
+String{ network_message_router };
+String{ NetworkGameDetailSynchronizer };
+String{ game_detail_synchronizer_state_data };
+String{ client };
+String{ network };
+String{ get_data_clear };
+String{ ApplicationStorage };
+
+--End--
+
+
+Prototype: 11
+Prototype_Size: 247; Flags: 0; #_Params: 1; Frame_Size: 4; Upvalue_Size: 0; KGC_Size: 9; KN_Size: 0; Instruction_Count: 17;
+
+--Bytecode Instructions--
+(GGET): 1, 1, 0;
+(TGETS): 1, 2, 1;
+(TGETS): 2, 3, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 4, 2;
+(CALL): 2, 2, 0;
+(CALLM): 1, 0, 2;
+(TSETS): 1, 0, 0;
+(GGET): 1, 1, 0;
+(TGETS): 1, 2, 1;
+(GGET): 2, 6, 0;
+(TGETS): 2, 7, 2;
+(TGETS): 3, 8, 0;
+(CALL): 2, 2, 0;
+(CALLM): 1, 0, 2;
+(TSETS): 1, 5, 0;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ game_session };
+String{ peers };
+String{ GameSession };
+String{ gamesession_peers_transitions };
+String{ members };
+String{ game_lobby };
+String{ new };
+String{ NetworkGameSessionPeersTransitions };
+String{ lobby_peers_transitions };
+
+--End--
+
+
+Prototype: 12
+Prototype_Size: 361; Flags: 0; #_Params: 1; Frame_Size: 3; Upvalue_Size: 0; KGC_Size: 13; KN_Size: 0; Instruction_Count: 23;
+
+--Bytecode Instructions--
+(TDUP): 1, 0, 0;
+(TSETS): 0, 1, 1;
+(TGETS): 2, 2, 0;
+(TSETS): 2, 2, 1;
+(TGETS): 2, 3, 0;
+(TSETS): 2, 3, 1;
+(TGETS): 2, 4, 0;
+(TSETS): 2, 4, 1;
+(TGETS): 2, 5, 0;
+(TSETS): 2, 5, 1;
+(TGETS): 2, 6, 0;
+(TSETS): 2, 6, 1;
+(TGETS): 2, 7, 0;
+(TSETS): 2, 7, 1;
+(TGETS): 2, 8, 0;
+(TSETS): 2, 8, 1;
+(TGETS): 2, 9, 0;
+(TSETS): 2, 10, 1;
+(TGETS): 2, 11, 0;
+(TSETS): 2, 11, 1;
+(TGETS): 2, 12, 0;
+(TSETS): 2, 12, 1;
+(RET1): 1, 2, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ gamesession_peer_informations };
+String{ gamesession_peers };
+String{ is_dedicated_server };
+String{ server_is_dedicated_server };
+String{ start_game_synchronizer };
+String{ game_detail_synchronizer };
+String{ chat_handler };
+String{ game_lobby };
+String{ network_message_router };
+String{ level_name };
+String{ server_peer_id };
+String{ parent };
+Table{ 
+	Array Part{ 
+	};
+	Hash Part{ 
+	};
+};
+
+
+--End--
+
+
+Prototype: 13
+Prototype_Size: 540; Flags: 0; #_Params: 1; Frame_Size: 6; Upvalue_Size: 1; KGC_Size: 19; KN_Size: 0; Instruction_Count: 40;
+
+--Bytecode Instructions--
+(UGET): 1, 0, 0;
+(MOV): 2, 0, 0;
+(CALL): 1, 2, 2;
+(TGETS): 2, 0, 0;
+(TSETS): 2, 0, 1;
+(TGETS): 2, 1, 0;
+(TSETS): 2, 1, 1;
+(TGETS): 2, 2, 0;
+(TSETS): 2, 2, 1;
+(TGETS): 2, 3, 0;
+(TSETS): 2, 3, 1;
+(TGETS): 2, 5, 0;
+(TGETS): 2, 6, 2;
+(TGETS): 2, 7, 2;
+(TGETS): 2, 4, 2;
+(TSETS): 2, 4, 1;
+(TGETS): 2, 5, 0;
+(TSETS): 2, 5, 1;
+(TGETS): 2, 5, 0;
+(TGETS): 2, 6, 2;
+(TGETS): 2, 7, 2;
+(TGETS): 2, 9, 2;
+(TSETS): 2, 8, 1;
+(TGETS): 2, 10, 0;
+(TSETS): 2, 10, 1;
+(TGETS): 2, 12, 0;
+(TSETS): 2, 11, 1;
+(TGETS): 2, 13, 0;
+(TSETS): 2, 13, 1;
+(TGETS): 2, 14, 0;
+(TSETS): 2, 14, 1;
+(TGETS): 2, 15, 0;
+(TSETS): 2, 15, 1;
+(GGET): 2, 16, 0;
+(GGET): 3, 18, 0;
+(MOV): 4, 2, 0;
+(MOV): 5, 1, 0;
+(CALL): 3, 3, 2;
+(TSETS): 3, 17, 0;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+Upvalue{ 10, 192 };
+
+--Constants--
+String{ StateMachine };
+String{ ingame_statemachine };
+String{ StateInGameLobby };
+String{ transaction_handler };
+String{ persistence_client };
+String{ is_spectator };
+String{ game_world };
+String{ world };
+String{ is_developer };
+String{ title };
+String{ gamemode_title };
+String{ client };
+String{ gamemode_configuration };
+String{ gamemode };
+String{ hide_lobby };
+String{ network_transport };
+String{ team_manager };
+String{ event_delegate };
+String{ hud_manager };
+
+--End--
+
+
+Prototype: 14
+Prototype_Size: 3644; Flags: 0; #_Params: 2; Frame_Size: 13; Upvalue_Size: 7; KGC_Size: 109; KN_Size: 0; Instruction_Count: 325;
+
+--Bytecode Instructions--
+(GGET): 2, 1, 0;
+(TGETS): 2, 2, 2;
+(ISEQS): 2, 3, 0;
+(JMP): 2, 2, 128;
+(KPRI): 2, 1, 0;
+(JMP): 3, 1, 128;
+(KPRI): 2, 2, 0;
+(TSETS): 2, 0, 0;
+(TGETS): 2, 4, 1;
+(TSETS): 2, 4, 0;
+(TGETS): 2, 5, 1;
+(TSETS): 2, 5, 0;
+(TGETS): 2, 7, 1;
+(TSETS): 2, 6, 0;
+(GGET): 2, 9, 0;
+(TGETS): 3, 8, 1;
+(CALL): 2, 2, 2;
+(TSETS): 2, 8, 0;
+(GGET): 2, 11, 0;
+(TGETS): 2, 12, 2;
+(CALL): 2, 1, 2;
+(TSETS): 2, 10, 0;
+(TGETS): 2, 13, 1;
+(TSETS): 2, 13, 0;
+(GGET): 2, 9, 0;
+(TGETS): 3, 14, 1;
+(CALL): 2, 2, 2;
+(TSETS): 2, 14, 0;
+(GGET): 2, 9, 0;
+(GGET): 3, 16, 0;
+(TGETS): 3, 17, 3;
+(TGETS): 4, 14, 0;
+(TGETV): 3, 4, 3;
+(CALL): 2, 2, 2;
+(TSETS): 2, 15, 0;
+(GGET): 2, 9, 0;
+(TGETS): 3, 19, 1;
+(CALL): 2, 2, 2;
+(TSETS): 2, 18, 0;
+(GGET): 2, 11, 0;
+(TGETS): 2, 20, 2;
+(CALL): 2, 1, 2;
+(TSETS): 2, 20, 0;
+(GGET): 2, 9, 0;
+(TGETS): 3, 21, 1;
+(CALL): 2, 2, 2;
+(TSETS): 2, 21, 0;
+(GGET): 2, 9, 0;
+(TGETS): 3, 22, 1;
+(CALL): 2, 2, 2;
+(TSETS): 2, 23, 0;
+(TGETS): 3, 24, 1;
+(TSETS): 3, 24, 0;
+(TGETS): 3, 25, 1;
+(TSETS): 3, 25, 0;
+(TGETS): 3, 24, 0;
+(MOV): 4, 3, 0;
+(TGETS): 3, 27, 3;
+(GGET): 5, 11, 0;
+(TGETS): 5, 12, 5;
+(CALL): 5, 1, 2;
+(KSTR): 6, 28, 0;
+(CALL): 3, 4, 2;
+(TSETS): 3, 26, 0;
+(UGET): 3, 0, 0;
+(MOV): 4, 2, 0;
+(CALL): 3, 2, 2;
+(TSETS): 3, 29, 0;
+(TNEW): 3, 0, 0;
+(TSETS): 3, 30, 0;
+(TGETS): 3, 30, 0;
+(TGETS): 4, 8, 0;
+(KPRI): 5, 2, 0;
+(TSETV): 5, 4, 3;
+(GGET): 3, 32, 0;
+(TGETS): 3, 33, 3;
+(CALL): 3, 1, 2;
+(TSETS): 3, 31, 0;
+(GGET): 3, 35, 0;
+(CALL): 3, 1, 2;
+(TSETS): 3, 34, 0;
+(TGETS): 3, 25, 0;
+(ISF): 0, 3, 0;
+(JMP): 4, 5, 128;
+(TGETS): 3, 25, 0;
+(MOV): 4, 3, 0;
+(TGETS): 3, 36, 3;
+(TGETS): 5, 34, 0;
+(CALL): 3, 3, 1;
+(UGET): 3, 1, 0;
+(TGETS): 3, 37, 3;
+(TGETS): 4, 23, 0;
+(TGETS): 5, 34, 0;
+(CALL): 3, 3, 1;
+(UGET): 3, 2, 0;
+(TGETS): 3, 37, 3;
+(TGETS): 4, 23, 0;
+(TGETS): 5, 34, 0;
+(CALL): 3, 3, 1;
+(GGET): 3, 35, 0;
+(CALL): 3, 1, 2;
+(TSETS): 3, 38, 0;
+(MOV): 4, 0, 0;
+(TGETS): 3, 39, 0;
+(CALL): 3, 2, 1;
+(MOV): 4, 0, 0;
+(TGETS): 3, 40, 0;
+(CALL): 3, 2, 1;
+(MOV): 4, 0, 0;
+(TGETS): 3, 41, 0;
+(MOV): 5, 2, 0;
+(CALL): 3, 3, 1;
+(MOV): 4, 0, 0;
+(TGETS): 3, 42, 0;
+(CALL): 3, 2, 1;
+(MOV): 4, 0, 0;
+(TGETS): 3, 43, 0;
+(CALL): 3, 2, 1;
+(MOV): 4, 0, 0;
+(TGETS): 3, 44, 0;
+(CALL): 3, 2, 1;
+(GGET): 3, 9, 0;
+(TGETS): 4, 18, 1;
+(CALL): 3, 2, 2;
+(MOV): 5, 0, 0;
+(TGETS): 4, 45, 0;
+(MOV): 6, 3, 0;
+(CALL): 4, 3, 1;
+(MOV): 5, 0, 0;
+(TGETS): 4, 46, 0;
+(CALL): 4, 2, 1;
+(MOV): 5, 0, 0;
+(TGETS): 4, 47, 0;
+(CALL): 4, 2, 1;
+(TGETS): 4, 48, 1;
+(TSETS): 4, 48, 0;
+(GGET): 4, 49, 0;
+(TGETS): 4, 50, 4;
+(TGETS): 5, 51, 1;
+(TSETS): 5, 51, 0;
+(TGETS): 5, 51, 1;
+(IST): 0, 5, 0;
+(JMP): 6, 6, 128;
+(IST): 0, 4, 0;
+(JMP): 5, 4, 128;
+(GGET): 5, 52, 0;
+(KSTR): 6, 53, 0;
+(KSTR): 7, 54, 0;
+(CALL): 5, 3, 1;
+(TGETS): 5, 51, 0;
+(IST): 0, 5, 0;
+(JMP): 5, 10, 128;
+(GGET): 5, 55, 0;
+(CALL): 5, 1, 2;
+(TSETS): 5, 51, 0;
+(TGETS): 5, 51, 0;
+(MOV): 6, 5, 0;
+(TGETS): 5, 56, 5;
+(GGET): 7, 11, 0;
+(TGETS): 7, 12, 7;
+(CALL): 7, 1, 0;
+(CALLM): 5, 1, 1;
+(TGETS): 5, 51, 0;
+(MOV): 6, 5, 0;
+(TGETS): 5, 57, 5;
+(MOV): 7, 2, 0;
+(CALL): 5, 3, 1;
+(GGET): 5, 59, 0;
+(TGETS): 6, 51, 0;
+(CALL): 5, 2, 2;
+(TSETS): 5, 58, 0;
+(TGETS): 5, 51, 0;
+(MOV): 6, 5, 0;
+(TGETS): 5, 60, 5;
+(TGETS): 7, 58, 0;
+(UGET): 8, 3, 0;
+(CALL): 5, 4, 1;
+(TGETS): 5, 51, 0;
+(MOV): 6, 5, 0;
+(TGETS): 5, 60, 5;
+(TGETS): 7, 58, 0;
+(UGET): 8, 4, 0;
+(CALL): 5, 4, 1;
+(TGETS): 5, 51, 0;
+(MOV): 6, 5, 0;
+(TGETS): 5, 60, 5;
+(TGETS): 7, 58, 0;
+(UGET): 8, 5, 0;
+(CALL): 5, 4, 1;
+(UGET): 5, 6, 0;
+(TGETS): 5, 61, 5;
+(CALL): 5, 1, 2;
+(ISF): 0, 5, 0;
+(JMP): 6, 16, 128;
+(UGET): 5, 6, 0;
+(TGETS): 5, 37, 5;
+(TGETS): 6, 34, 0;
+(UGET): 7, 1, 0;
+(TGETS): 8, 51, 0;
+(TGETS): 9, 62, 0;
+(TGETS): 10, 63, 0;
+(CALL): 5, 6, 1;
+(UGET): 5, 6, 0;
+(TGETS): 5, 64, 5;
+(KSTR): 6, 65, 0;
+(CALL): 5, 2, 1;
+(UGET): 5, 6, 0;
+(TGETS): 5, 66, 5;
+(TGETS): 6, 13, 0;
+(CALL): 5, 2, 1;
+(GGET): 5, 67, 0;
+(GGET): 6, 68, 0;
+(KSTR): 7, 69, 0;
+(CALL): 5, 3, 2;
+(IST): 0, 5, 0;
+(JMP): 5, 15, 128;
+(GGET): 5, 70, 0;
+(KSTR): 6, 71, 0;
+(CALL): 5, 2, 1;
+(GGET): 5, 72, 0;
+(KSTR): 6, 73, 0;
+(CALL): 5, 2, 2;
+(GGET): 6, 74, 0;
+(GGET): 7, 68, 0;
+(KSTR): 8, 69, 0;
+(MOV): 9, 5, 0;
+(KSTR): 10, 75, 0;
+(KPRI): 11, 0, 0;
+(KPRI): 12, 1, 0;
+(CALL): 9, 4, 0;
+(CALLM): 6, 2, 1;
+(GGET): 5, 69, 0;
+(TGETS): 5, 76, 5;
+(TSETS): 5, 76, 0;
+(GGET): 5, 77, 0;
+(TGETS): 5, 78, 5;
+(TGETS): 6, 79, 0;
+(CALL): 5, 2, 1;
+(GGET): 5, 1, 0;
+(TGETS): 5, 2, 5;
+(ISNES): 5, 80, 0;
+(JMP): 6, 11, 128;
+(GGET): 6, 81, 0;
+(TGETS): 6, 82, 6;
+(CALL): 6, 1, 2;
+(ISF): 0, 6, 0;
+(JMP): 7, 6, 128;
+(TGETS): 6, 25, 0;
+(ISF): 0, 6, 0;
+(JMP): 7, 3, 128;
+(TGETS): 6, 83, 1;
+(TSETS): 6, 83, 0;
+(JMP): 6, 3, 128;
+(GGET): 6, 84, 0;
+(CALL): 6, 1, 2;
+(TSETS): 6, 83, 0;
+(TGETS): 6, 83, 0;
+(MOV): 7, 6, 0;
+(TGETS): 6, 85, 6;
+(TGETS): 8, 13, 0;
+(CALL): 6, 3, 1;
+(MOV): 7, 0, 0;
+(TGETS): 6, 86, 0;
+(CALL): 6, 2, 1;
+(MOV): 7, 0, 0;
+(TGETS): 6, 87, 0;
+(CALL): 6, 2, 1;
+(MOV): 7, 0, 0;
+(TGETS): 6, 88, 0;
+(MOV): 8, 1, 0;
+(CALL): 6, 3, 1;
+(MOV): 7, 0, 0;
+(TGETS): 6, 89, 0;
+(CALL): 6, 2, 1;
+(MOV): 7, 0, 0;
+(TGETS): 6, 90, 0;
+(MOV): 8, 1, 0;
+(CALL): 6, 3, 1;
+(TGETS): 6, 21, 0;
+(MOV): 7, 6, 0;
+(TGETS): 6, 91, 6;
+(CALL): 6, 2, 3;
+(MOV): 9, 0, 0;
+(TGETS): 8, 92, 0;
+(MOV): 10, 6, 0;
+(MOV): 11, 7, 0;
+(CALL): 8, 4, 1;
+(KSTR): 8, 94, 0;
+(TSETS): 8, 93, 0;
+(KPRI): 8, 1, 0;
+(TSETS): 8, 95, 0;
+(KPRI): 8, 1, 0;
+(TSETS): 8, 96, 0;
+(TNEW): 8, 0, 0;
+(TSETS): 8, 97, 0;
+(TGETS): 8, 4, 0;
+(TGETS): 9, 97, 0;
+(TSETS): 9, 97, 8;
+(GGET): 8, 99, 0;
+(TGETS): 8, 100, 8;
+(CALL): 8, 1, 2;
+(TSETS): 8, 98, 0;
+(GGET): 8, 99, 0;
+(TGETS): 8, 101, 8;
+(GGET): 9, 102, 0;
+(KSTR): 10, 103, 0;
+(CALL): 9, 2, 2;
+(ISEQP): 9, 1, 0;
+(JMP): 9, 5, 128;
+(GGET): 9, 104, 0;
+(KSTR): 10, 105, 0;
+(CALL): 9, 2, 2;
+(NOT): 9, 9, 0;
+(JMP): 10, 3, 128;
+(KPRI): 9, 1, 0;
+(JMP): 10, 1, 128;
+(KPRI): 9, 2, 0;
+(CALL): 8, 2, 1;
+(UGET): 8, 1, 0;
+(TGETS): 8, 106, 8;
+(GGET): 9, 16, 0;
+(TGETS): 9, 107, 9;
+(TGETS): 9, 108, 9;
+(CALL): 8, 2, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+Upvalue{ 0, 192 };
+Upvalue{ 2, 192 };
+Upvalue{ 3, 192 };
+Upvalue{ 5, 192 };
+Upvalue{ 6, 192 };
+Upvalue{ 7, 192 };
+Upvalue{ 4, 192 };
+
+--Constants--
+String{ IN_MATCH };
+String{ assembly_member_status };
+String{ set_client_state };
+String{ no_clip_cursor };
+String{ DevelopmentSetting_bool };
+String{ ui_cursor_clip };
+String{ DevelopmentSetting };
+String{ set_clip_cursor };
+String{ clip_cursor };
+String{ Window };
+String{ previous_cursor_clip };
+String{ peers_received_good_bye };
+String{ been_in_gamesession };
+String{ been_disconnected_from_gamesession };
+String{ game_update };
+String{ update_stage };
+String{ handle_joined_lobby_peers };
+String{ members };
+String{ setup_ingame_statemachine };
+String{ setup_entity_systems };
+String{ setup_gamemode };
+String{ setup_hud_manager };
+String{ setup_gui_manager };
+String{ set_gamesession_guid };
+String{ FakeTransactionHandler };
+String{ transaction_handler };
+String{ initialized };
+String{ PDXIGS };
+String{ STEAM };
+String{ game_world };
+String{ setup };
+String{ pdDebug };
+String{ ui_renderer };
+String{ gui };
+String{ rawset };
+String{ scripts/game/ui2/ui_context };
+String{ require_bs };
+String{ init global ui };
+String{ print };
+String{ ui };
+String{ _G };
+String{ rawget };
+String{ set_gamesession_id };
+String{ Lobby };
+String{ set_current_state };
+String{ game_detail_synchronizer };
+String{ team_manager };
+String{ is_enabled };
+String{ register_chat_handler };
+String{ ChatClientHandler };
+String{ chat_handler };
+String{ set_network_router };
+String{ login_fake_lan_user };
+String{ ChatSystem };
+String{ Expected chat system to be initialized already. Chat won't work! };
+String{ always };
+String{ cat_print_error };
+String{ chat_system };
+String{ disable-persistence };
+String{ PD_APPLICATION_PARAMETER };
+String{ gamemode };
+String{ setup_team_manager };
+String{ create_network_transport };
+String{ setup_network_game_handlers };
+String{ setup_game_viewport_camera };
+String{ setup_game_world };
+String{ setup_network_synchronizers };
+String{ setup_network };
+String{ setup_peer_transitions };
+String{ register_events };
+String{ nop_delegate };
+String{ init };
+String{ set_event_delegate };
+String{ EventDelegate };
+String{ event_delegate };
+String{ new };
+String{ pdWallTimer };
+String{ wall_timer };
+String{ seen_peer_ids_map };
+String{ gamemode_timer };
+String{ developer };
+String{ get_data };
+String{ is_developer };
+String{ login_server_handler };
+String{ persistence_client };
+String{ network_message_router };
+String{ network_event_delegate };
+String{ game_lobby };
+String{ game_session };
+String{ gameobject_notifier_from_server };
+String{ gameobject_notifier };
+String{ levels };
+String{ NetworkLookup };
+String{ level_name_id };
+String{ level_name };
+String{ gamesession_guid };
+String{ peer_id };
+String{ Network };
+String{ own_peer_id };
+String{ assert };
+String{ server_peer_id };
+String{ is_dedicated_server };
+String{ server_is_dedicated_server };
+String{ is_spectator };
+String{ parent };
+String{ LAN };
+String{ backend_type };
+String{ NetworkHandler };
+String{ LAN_MODE };
+
+--End--
+
+
+Prototype: 15
+Prototype_Size: 312; Flags: 0; #_Params: 2; Frame_Size: 8; Upvalue_Size: 0; KGC_Size: 7; KN_Size: 0; Instruction_Count: 19;
+
+--Bytecode Instructions--
+(TGETS): 2, 0, 0;
+(IST): 0, 2, 0;
+(JMP): 2, 15, 128;
+(TGETS): 2, 1, 0;
+(TGETS): 3, 2, 0;
+(ISF): 0, 3, 0;
+(JMP): 4, 4, 128;
+(TGETS): 3, 2, 0;
+(TGETS): 3, 3, 3;
+(IST): 0, 3, 0;
+(JMP): 4, 1, 128;
+(KSTR): 3, 4, 0;
+(GGET): 4, 5, 0;
+(TGETS): 4, 6, 4;
+(MOV): 5, 1, 0;
+(MOV): 6, 2, 0;
+(MOV): 7, 3, 0;
+(CALL): 4, 4, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ update_terminate_external_connections };
+String{ NetworkSystemAux };
+String{ something that will never be equal to any peer-id };
+String{ server_id };
+String{ login_server_handler };
+String{ own_peer_id };
+String{ LAN_MODE };
+
+--End--
+
+
+Prototype: 16
+Prototype_Size: 256; Flags: 0; #_Params: 1; Frame_Size: 8; Upvalue_Size: 0; KGC_Size: 7; KN_Size: 1; Instruction_Count: 18;
+
+--Bytecode Instructions--
+(TDUP): 1, 0, 0;
+(TGETS): 2, 1, 0;
+(ISF): 0, 2, 0;
+(JMP): 3, 4, 128;
+(LEN): 2, 1, 0;
+(ADDVN): 2, 0, 2;
+(KSTR): 3, 2, 0;
+(TSETV): 3, 2, 1;
+(TGETS): 2, 3, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 4, 2;
+(TGETS): 4, 5, 0;
+(MOV): 5, 0, 0;
+(GGET): 6, 6, 0;
+(MOV): 7, 1, 0;
+(CALL): 6, 2, 0;
+(CALLM): 2, 3, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ unpack };
+String{ ALIAS };
+String{ register };
+String{ event_delegate };
+String{ on_peer_disconnect_client_pd };
+String{ LAN_MODE };
+Table{ 
+	Array Part{ 
+		Nil{ };
+		String{ from_flow_unspawn_unit };
+		String{ on_score_screen_continue };
+		String{ game_over };
+	};
+	Hash Part{ 
+	};
+};
+
+Int{ 1 };
+
+--End--
+
+
+Prototype: 17
+Prototype_Size: 371; Flags: 0; #_Params: 2; Frame_Size: 9; Upvalue_Size: 0; KGC_Size: 10; KN_Size: 0; Instruction_Count: 24;
+
+--Bytecode Instructions--
+(KPRI): 2, 0, 0;
+(GGET): 3, 0, 0;
+(TGETS): 3, 1, 3;
+(MOV): 4, 1, 0;
+(CALL): 3, 2, 2;
+(ISF): 0, 3, 0;
+(JMP): 4, 7, 128;
+(TGETS): 4, 2, 0;
+(MOV): 5, 4, 0;
+(TGETS): 4, 3, 4;
+(MOV): 6, 1, 0;
+(CALL): 4, 3, 1;
+(KSTR): 2, 4, 0;
+(JMP): 4, 1, 128;
+(KSTR): 2, 5, 0;
+(GGET): 4, 6, 0;
+(KSTR): 5, 7, 0;
+(KSTR): 6, 8, 0;
+(GGET): 7, 9, 0;
+(MOV): 8, 1, 0;
+(CALL): 7, 2, 2;
+(MOV): 8, 2, 0;
+(CALL): 4, 5, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ tostring };
+String{ from_flow_unspawn_unit(%s) : %s };
+String{ ingame_client };
+String{ cat_printf_info_blue };
+String{ REMOTE unit, dismissing. };
+String{ LOCAL unit, marked it for deletion. };
+String{ mark_for_deletion };
+String{ entity_manager };
+String{ is_local_unit };
+String{ NetworkUnit };
+
+--End--
+
+
+Prototype: 18
+Prototype_Size: 492; Flags: 0; #_Params: 2; Frame_Size: 12; Upvalue_Size: 0; KGC_Size: 13; KN_Size: 0; Instruction_Count: 35;
+
+--Bytecode Instructions--
+(KPRI): 2, 2, 0;
+(TSETS): 2, 0, 0;
+(GGET): 2, 2, 0;
+(TGETS): 2, 3, 2;
+(TSETS): 2, 1, 0;
+(TGETS): 2, 4, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 5, 2;
+(CALL): 2, 2, 3;
+(TNEW): 4, 0, 0;
+(GGET): 5, 6, 0;
+(KSTR): 6, 7, 0;
+(CALL): 5, 2, 1;
+(KSHORT): 5, 1, 0;
+(MOV): 6, 3, 0;
+(KSHORT): 7, 1, 0;
+(FORI): 5, 9, 128;
+(TGETV): 9, 8, 2;
+(KPRI): 10, 2, 0;
+(TSETV): 10, 9, 4;
+(GGET): 9, 6, 0;
+(GGET): 10, 8, 0;
+(TGETV): 11, 8, 2;
+(CALL): 10, 2, 0;
+(CALLM): 9, 0, 1;
+(FORL): 5, 247, 127;
+(GGET): 5, 6, 0;
+(KSTR): 6, 9, 0;
+(CALL): 5, 2, 1;
+(GGET): 5, 10, 0;
+(GGET): 6, 11, 0;
+(KSTR): 7, 12, 0;
+(MOV): 8, 4, 0;
+(CALL): 5, 4, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ LAST_GAME_LOBBY_MEMBERS };
+String{ _G };
+String{ rawset };
+String{ END OF MEMBER LIST!!
+
+
+ };
+String{ tostring };
+String{ 
+
+
+SAVING MEMBERS FROM MATCH TO KEEP UP CONNECTION TO: };
+String{ print };
+String{ members };
+String{ game_lobby };
+String{ gameserver_shutdown_delay };
+String{ GameSettings };
+String{ wants_to_exit_game_timer };
+String{ match_is_over };
+
+--End--
+
+
+Prototype: 19
+Prototype_Size: 2373; Flags: 0; #_Params: 2; Frame_Size: 9; Upvalue_Size: 1; KGC_Size: 77; KN_Size: 0; Instruction_Count: 197;
+
+--Bytecode Instructions--
+(GGET): 2, 0, 0;
+(TGETS): 2, 1, 2;
+(KSTR): 3, 2, 0;
+(CALL): 2, 2, 2;
+(TDUP): 3, 4, 0;
+(TGETS): 4, 3, 0;
+(TSETS): 4, 3, 3;
+(TGETS): 4, 5, 0;
+(TSETS): 4, 5, 3;
+(TGETS): 4, 6, 0;
+(TSETS): 4, 6, 3;
+(TGETS): 4, 7, 0;
+(TSETS): 4, 7, 3;
+(TGETS): 4, 8, 0;
+(TSETS): 4, 9, 3;
+(TGETS): 4, 10, 0;
+(TSETS): 4, 10, 3;
+(TGETS): 4, 11, 0;
+(TSETS): 4, 11, 3;
+(TGETS): 4, 12, 0;
+(TSETS): 4, 12, 3;
+(TGETS): 4, 13, 0;
+(TSETS): 4, 13, 3;
+(TGETS): 4, 14, 0;
+(TSETS): 4, 14, 3;
+(TGETS): 4, 15, 0;
+(TSETS): 4, 15, 3;
+(TGETS): 4, 16, 0;
+(TSETS): 4, 16, 3;
+(TGETS): 4, 17, 0;
+(TSETS): 4, 17, 3;
+(TGETS): 4, 18, 0;
+(TSETS): 4, 18, 3;
+(TGETS): 4, 19, 0;
+(TSETS): 4, 19, 3;
+(TGETS): 4, 20, 0;
+(TSETS): 4, 21, 3;
+(TGETS): 4, 22, 0;
+(TSETS): 4, 22, 3;
+(TGETS): 4, 23, 0;
+(TSETS): 4, 23, 3;
+(TSETS): 2, 24, 3;
+(TGETS): 4, 25, 0;
+(TSETS): 4, 25, 3;
+(TGETS): 4, 26, 0;
+(TSETS): 4, 26, 3;
+(TGETS): 4, 27, 0;
+(TSETS): 4, 27, 3;
+(TGETS): 4, 28, 0;
+(TSETS): 4, 28, 3;
+(TGETS): 4, 29, 0;
+(TSETS): 4, 29, 3;
+(TGETS): 4, 30, 0;
+(TSETS): 4, 30, 3;
+(TGETS): 4, 31, 1;
+(TSETS): 4, 32, 3;
+(TSETS): 0, 33, 3;
+(TGETS): 4, 34, 0;
+(TSETS): 4, 34, 3;
+(TGETS): 4, 35, 0;
+(TSETS): 4, 35, 3;
+(TGETS): 4, 36, 0;
+(TSETS): 4, 36, 3;
+(TGETS): 4, 37, 0;
+(TSETS): 4, 37, 3;
+(TGETS): 4, 38, 0;
+(TSETS): 4, 38, 3;
+(TGETS): 4, 39, 0;
+(TSETS): 4, 39, 3;
+(TGETS): 4, 40, 0;
+(TSETS): 4, 40, 3;
+(TGETS): 4, 41, 0;
+(TSETS): 4, 41, 3;
+(UGET): 4, 0, 0;
+(TGETS): 4, 42, 4;
+(CALL): 4, 1, 2;
+(GGET): 5, 43, 0;
+(TGETS): 5, 44, 5;
+(TGETS): 5, 45, 5;
+(ISEQV): 4, 5, 0;
+(JMP): 4, 2, 128;
+(KPRI): 4, 1, 0;
+(JMP): 5, 1, 128;
+(KPRI): 4, 2, 0;
+(TSETS): 4, 46, 3;
+(TGETS): 4, 47, 2;
+(ISNES): 4, 48, 0;
+(JMP): 4, 5, 128;
+(GGET): 4, 50, 0;
+(MOV): 5, 3, 0;
+(CALL): 4, 2, 2;
+(TSETS): 4, 49, 0;
+(JMP): 4, 103, 128;
+(TGETS): 4, 47, 2;
+(ISNES): 4, 51, 0;
+(JMP): 4, 5, 128;
+(GGET): 4, 52, 0;
+(MOV): 5, 3, 0;
+(CALL): 4, 2, 2;
+(TSETS): 4, 49, 0;
+(JMP): 4, 95, 128;
+(TGETS): 4, 47, 2;
+(ISNES): 4, 53, 0;
+(JMP): 4, 5, 128;
+(GGET): 4, 54, 0;
+(MOV): 5, 3, 0;
+(CALL): 4, 2, 2;
+(TSETS): 4, 49, 0;
+(JMP): 4, 87, 128;
+(TGETS): 4, 47, 2;
+(ISNES): 4, 55, 0;
+(JMP): 4, 17, 128;
+(GGET): 4, 56, 0;
+(KSTR): 5, 57, 0;
+(CALL): 4, 2, 1;
+(GGET): 4, 59, 0;
+(TGETS): 5, 17, 0;
+(TGETS): 6, 18, 0;
+(TGETS): 7, 7, 0;
+(MOV): 8, 3, 0;
+(CALL): 4, 5, 2;
+(TSETS): 4, 58, 0;
+(TGETS): 4, 58, 0;
+(TSETS): 4, 58, 3;
+(GGET): 4, 60, 0;
+(MOV): 5, 3, 0;
+(CALL): 4, 2, 2;
+(TSETS): 4, 49, 0;
+(JMP): 4, 67, 128;
+(TGETS): 4, 47, 2;
+(ISNES): 4, 61, 0;
+(JMP): 4, 5, 128;
+(GGET): 4, 62, 0;
+(MOV): 5, 3, 0;
+(CALL): 4, 2, 2;
+(TSETS): 4, 49, 0;
+(JMP): 4, 59, 128;
+(TGETS): 4, 47, 2;
+(ISNES): 4, 63, 0;
+(JMP): 4, 5, 128;
+(GGET): 4, 64, 0;
+(MOV): 5, 3, 0;
+(CALL): 4, 2, 2;
+(TSETS): 4, 49, 0;
+(JMP): 4, 51, 128;
+(TGETS): 4, 47, 2;
+(ISNES): 4, 65, 0;
+(JMP): 4, 5, 128;
+(GGET): 4, 66, 0;
+(MOV): 5, 3, 0;
+(CALL): 4, 2, 2;
+(TSETS): 4, 49, 0;
+(JMP): 4, 43, 128;
+(TGETS): 4, 47, 2;
+(ISNES): 4, 67, 0;
+(JMP): 4, 5, 128;
+(GGET): 4, 68, 0;
+(MOV): 5, 3, 0;
+(CALL): 4, 2, 2;
+(TSETS): 4, 49, 0;
+(JMP): 4, 35, 128;
+(TGETS): 4, 47, 2;
+(ISNES): 4, 69, 0;
+(JMP): 4, 22, 128;
+(GGET): 4, 56, 0;
+(KSTR): 5, 57, 0;
+(CALL): 4, 2, 1;
+(GGET): 4, 59, 0;
+(TGETS): 5, 17, 0;
+(TGETS): 6, 18, 0;
+(TGETS): 7, 7, 0;
+(MOV): 8, 3, 0;
+(CALL): 4, 5, 2;
+(TSETS): 4, 58, 0;
+(TGETS): 4, 58, 0;
+(TSETS): 4, 58, 3;
+(TGETS): 4, 58, 0;
+(MOV): 5, 4, 0;
+(TGETS): 4, 70, 4;
+(KSHORT): 6, 1, 0;
+(CALL): 4, 3, 1;
+(GGET): 4, 71, 0;
+(MOV): 5, 3, 0;
+(CALL): 4, 2, 2;
+(TSETS): 4, 49, 0;
+(JMP): 4, 10, 128;
+(GGET): 4, 72, 0;
+(KSTR): 5, 73, 0;
+(KSTR): 6, 74, 0;
+(GGET): 7, 75, 0;
+(TGETS): 8, 47, 2;
+(CALL): 7, 2, 0;
+(CALLM): 4, 2, 1;
+(GGET): 4, 76, 0;
+(KPRI): 5, 1, 0;
+(CALL): 4, 2, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+Upvalue{ 2, 192 };
+
+--Constants--
+String{ assert };
+String{ tostring };
+String{ Unknown gamemode %s };
+String{ always };
+String{ cat_print_error };
+String{ NetworkGameModeTrainingClientGame };
+String{ start_task };
+String{ training };
+String{ NetworkGameModeArenaClientGame };
+String{ arena };
+String{ NetworkGameModeDuelClientGame };
+String{ duel };
+String{ NetworkGameModeKingofthehillClientGame };
+String{ kingofthehill };
+String{ NetworkGameModeMeleeClientGame };
+String{ melee };
+String{ NetworkGameModeTrainingGroundsClientGame };
+String{ TaskManager };
+String{ task_manager };
+String{ scripts/game/player/task_manager };
+String{ require };
+String{ training_grounds };
+String{ NetworkGameModeGoldrushClientGame };
+String{ goldrush };
+String{ NetworkGameModeConfusionClientGame };
+String{ confusion };
+String{ NetworkGameModeKoalaClientGame };
+String{ gamemode };
+String{ koala };
+String{ gamemode_type };
+String{ is_custom_match };
+String{ CUSTOM_MATCH };
+String{ assembly_types };
+String{ NetworkLookup };
+String{ get_assembly_type };
+String{ shading_environment_manager };
+String{ gamemode_timer };
+String{ is_spectator };
+String{ gui_manager };
+String{ camera_unit };
+String{ camera };
+String{ ui_renderer };
+String{ transaction_handler };
+String{ game_state_client };
+String{ game_state };
+String{ parent };
+String{ login_server_handler };
+String{ chat_system };
+String{ persistence_client };
+String{ hud_manager };
+String{ gamesession_peer_informations };
+String{ game_detail_synchronizer };
+String{ gamemode_configuration };
+String{ gamesession_peers };
+String{ team_manager };
+String{ is_dedicated_server };
+String{ server_is_dedicated_server };
+String{ gameobject_event_broadcaster };
+String{ event_delegate };
+String{ network_transport };
+String{ unit_storage };
+String{ unit_spawner };
+String{ entity_manager };
+String{ game_server };
+String{ game_lobby };
+String{ level_name_id };
+String{ level_name };
+String{ world };
+String{ game_world };
+String{ level };
+String{ network_message_router };
+String{ own_peer_id };
+Table{ 
+	Array Part{ 
+	};
+	Hash Part{ 
+	};
+};
+
+String{ server_peer_id };
+String{ network_gamemode_configuration };
+String{ get_data_keep };
+String{ ApplicationStorage };
+
+--End--
+
+
+Prototype: 20
+Prototype_Size: 268; Flags: 0; #_Params: 1; Frame_Size: 9; Upvalue_Size: 0; KGC_Size: 8; KN_Size: 0; Instruction_Count: 14;
+
+--Bytecode Instructions--
+(KPRI): 1, 1, 0;
+(GGET): 2, 0, 0;
+(TGETS): 2, 1, 2;
+(KSTR): 3, 2, 0;
+(CALL): 2, 2, 2;
+(GGET): 3, 3, 0;
+(MOV): 4, 1, 0;
+(TGETS): 5, 4, 0;
+(KNIL): 6, 7, 0;
+(TGETS): 8, 5, 2;
+(TGETS): 8, 6, 8;
+(CALL): 3, 6, 2;
+(TSETS): 3, 7, 0;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ team_manager };
+String{ num_teams };
+String{ client };
+String{ network_message_router };
+String{ TeamManager };
+String{ network_gamemode_configuration };
+String{ get_data_keep };
+String{ ApplicationStorage };
+
+--End--
+
+
+Prototype: 21
+Prototype_Size: 729; Flags: 0; #_Params: 1; Frame_Size: 6; Upvalue_Size: 0; KGC_Size: 27; KN_Size: 0; Instruction_Count: 45;
+
+--Bytecode Instructions--
+(GGET): 1, 0, 0;
+(TGETS): 1, 1, 1;
+(KSTR): 2, 2, 0;
+(CALL): 1, 2, 2;
+(GGET): 2, 3, 0;
+(TGETS): 3, 4, 0;
+(TGETV): 2, 3, 2;
+(TDUP): 3, 6, 0;
+(TGETS): 4, 5, 0;
+(TSETS): 4, 7, 3;
+(TGETS): 4, 8, 0;
+(TSETS): 4, 8, 3;
+(TGETS): 4, 9, 0;
+(TSETS): 4, 9, 3;
+(TGETS): 4, 10, 0;
+(TSETS): 4, 10, 3;
+(TGETS): 4, 11, 0;
+(TSETS): 4, 11, 3;
+(TGETS): 4, 12, 0;
+(TSETS): 4, 13, 3;
+(TGETS): 4, 14, 0;
+(TSETS): 4, 14, 3;
+(TGETS): 4, 15, 0;
+(TSETS): 4, 15, 3;
+(TSETS): 1, 16, 3;
+(TGETS): 4, 17, 0;
+(TSETS): 4, 17, 3;
+(TSETS): 2, 18, 3;
+(TGETS): 4, 19, 0;
+(TSETS): 4, 19, 3;
+(TGETS): 4, 20, 0;
+(TSETS): 4, 20, 3;
+(TGETS): 4, 21, 0;
+(TSETS): 4, 21, 3;
+(TGETS): 4, 22, 0;
+(TSETS): 4, 22, 3;
+(TGETS): 4, 23, 0;
+(TSETS): 4, 23, 3;
+(TGETS): 4, 24, 0;
+(TSETS): 4, 24, 3;
+(GGET): 4, 26, 0;
+(MOV): 5, 3, 0;
+(CALL): 4, 2, 2;
+(TSETS): 4, 25, 0;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ HudManager };
+String{ hud_manager };
+String{ transaction_handler };
+String{ is_spectator };
+String{ chat_handler };
+String{ persistence_client };
+String{ gamesession_peer_informations };
+String{ game_detail_synchronizer };
+String{ level_settings };
+String{ network_message_router };
+String{ gamemode_configuration };
+String{ gamemode };
+String{ entity_manager };
+String{ server_id };
+String{ server_peer_id };
+String{ own_peer_id };
+String{ event_delegate };
+String{ team_manager };
+String{ ui_renderer };
+String{ world };
+Table{ 
+	Array Part{ 
+	};
+	Hash Part{ 
+	};
+};
+
+String{ game_world };
+String{ level_name };
+String{ LevelSettings };
+String{ network_gamemode_configuration };
+String{ get_data_keep };
+String{ ApplicationStorage };
+
+--End--
+
+
+Prototype: 22
+Prototype_Size: 905; Flags: 0; #_Params: 1; Frame_Size: 6; Upvalue_Size: 0; KGC_Size: 33; KN_Size: 0; Instruction_Count: 44;
+
+--Bytecode Instructions--
+(TDUP): 1, 0, 0;
+(TDUP): 2, 1, 0;
+(TSETS): 2, 2, 1;
+(TDUP): 2, 3, 0;
+(TSETS): 2, 4, 1;
+(TDUP): 2, 5, 0;
+(TSETS): 2, 6, 1;
+(TDUP): 2, 7, 0;
+(TSETS): 2, 8, 1;
+(TDUP): 2, 9, 0;
+(TSETS): 2, 10, 1;
+(TDUP): 2, 11, 0;
+(TSETS): 2, 12, 1;
+(GGET): 2, 13, 0;
+(TGETS): 2, 14, 2;
+(TSETS): 2, 15, 1;
+(GGET): 2, 13, 0;
+(TGETS): 2, 16, 2;
+(TSETS): 2, 17, 1;
+(GGET): 2, 13, 0;
+(TGETS): 2, 18, 2;
+(TSETS): 2, 19, 1;
+(GGET): 2, 13, 0;
+(TGETS): 2, 20, 2;
+(TSETS): 2, 21, 1;
+(TDUP): 2, 22, 0;
+(TGETS): 3, 17, 1;
+(TSETB): 3, 4, 2;
+(TDUP): 3, 24, 0;
+(TGETS): 4, 23, 0;
+(TSETS): 4, 25, 3;
+(TGETS): 4, 26, 0;
+(TSETS): 4, 26, 3;
+(TGETS): 4, 27, 0;
+(TSETS): 4, 27, 3;
+(TGETS): 4, 28, 0;
+(TSETS): 4, 28, 3;
+(TSETS): 2, 29, 3;
+(TSETS): 1, 30, 3;
+(GGET): 4, 32, 0;
+(MOV): 5, 3, 0;
+(CALL): 4, 2, 2;
+(TSETS): 4, 31, 0;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ GuiManager };
+String{ gui_manager };
+String{ settings };
+String{ gui_template };
+String{ camera_unit };
+String{ camera };
+String{ ui_renderer };
+String{ world };
+Table{ 
+	Array Part{ 
+	};
+	Hash Part{ 
+	};
+};
+
+String{ game_world };
+Table{ 
+	Array Part{ 
+		Nil{ };
+		String{ material };
+		String{ content/gui/materials/hud };
+		String{ material };
+		Nil{ };
+		String{ material };
+		String{ content/gui/fonts/linux_biolinum_bold_outline_10 };
+		String{ immediate };
+	};
+	Hash Part{ 
+	};
+};
+
+String{ font_size };
+String{ name_font_size };
+String{ font_material };
+String{ name_font_material };
+String{ font_path };
+String{ name_font_path };
+String{ font };
+String{ name_font };
+String{ UISettings };
+String{ vertical_bar_back_texture_size };
+Table{ 
+	Array Part{ 
+		Nil{ };
+		Int{ 16 };
+		Int{ 64 };
+	};
+	Hash Part{ 
+	};
+};
+
+String{ vertical_bar_texture_size };
+Table{ 
+	Array Part{ 
+		Nil{ };
+		Int{ 6 };
+		Int{ 58 };
+	};
+	Hash Part{ 
+	};
+};
+
+String{ vertical_bar_size };
+Table{ 
+	Array Part{ 
+		Nil{ };
+		Int{ 16 };
+		Int{ 64 };
+	};
+	Hash Part{ 
+	};
+};
+
+String{ bar_size };
+Table{ 
+	Array Part{ 
+		Nil{ };
+		Int{ 64 };
+		Int{ 16 };
+	};
+	Hash Part{ 
+	};
+};
+
+String{ bar_back_texture_size };
+Table{ 
+	Array Part{ 
+		Nil{ };
+		Int{ 64 };
+		Int{ 16 };
+	};
+	Hash Part{ 
+	};
+};
+
+String{ bar_texture_size };
+Table{ 
+	Array Part{ 
+		Nil{ };
+		Int{ 52 };
+		Int{ 6 };
+	};
+	Hash Part{ 
+	};
+};
+
+Table{ 
+	Array Part{ 
+	};
+	Hash Part{ 
+		Hash{ String{ bar_uv_scale }; -> Bool{ True }; };
+		Hash{ String{ bar_offset }; -> Int{ 20 }; };
+		Hash{ String{ bar_texture }; -> String{ hud_health_bar_character_fill }; };
+		Hash{ String{ bar_back_texture }; -> String{ hud_health_bar_character }; };
+	};
+};
+
+
+--End--
+
+
+Prototype: 23
+Prototype_Size: 311; Flags: 0; #_Params: 1; Frame_Size: 11; Upvalue_Size: 0; KGC_Size: 8; KN_Size: 0; Instruction_Count: 13;
+
+--Bytecode Instructions--
+(TGETS): 1, 0, 0;
+(KPRI): 2, 1, 0;
+(GGET): 3, 1, 0;
+(TGETS): 4, 2, 0;
+(TGETS): 5, 3, 0;
+(TGETS): 6, 4, 0;
+(TGETS): 7, 5, 0;
+(TGETS): 8, 6, 0;
+(MOV): 9, 1, 0;
+(MOV): 10, 2, 0;
+(CALL): 3, 8, 2;
+(TSETS): 3, 7, 0;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ network_transport };
+String{ server_peer_id };
+String{ network_message_router };
+String{ unit_storage };
+String{ gamesession_peers };
+String{ event_delegate };
+String{ pdNetworkTransportArena };
+String{ server_is_dedicated_server };
+
+--End--
+
+
+Prototype: 24
+Prototype_Size: 805; Flags: 0; #_Params: 1; Frame_Size: 12; Upvalue_Size: 0; KGC_Size: 22; KN_Size: 1; Instruction_Count: 58;
+
+--Bytecode Instructions--
+(GGET): 1, 0, 0;
+(KSHORT): 2, 0, 0;
+(KSHORT): 3, 0, 0;
+(KNUM): 4, 0, 0;
+(CALL): 1, 4, 2;
+(GGET): 2, 1, 0;
+(TGETS): 2, 2, 2;
+(KSTR): 3, 3, 0;
+(CALL): 2, 2, 2;
+(GGET): 3, 4, 0;
+(TGETS): 3, 5, 3;
+(MOV): 4, 2, 0;
+(CALL): 3, 2, 2;
+(GGET): 4, 6, 0;
+(CALL): 4, 1, 2;
+(MOV): 6, 4, 0;
+(TGETS): 5, 7, 4;
+(MOV): 7, 0, 0;
+(CALL): 5, 3, 1;
+(GGET): 5, 4, 0;
+(TGETS): 5, 8, 5;
+(MOV): 6, 2, 0;
+(MOV): 7, 4, 0;
+(CALL): 5, 3, 1;
+(GGET): 5, 4, 0;
+(TGETS): 5, 9, 5;
+(MOV): 6, 2, 0;
+(CALL): 5, 2, 2;
+(GGET): 6, 10, 0;
+(TGETS): 6, 11, 6;
+(MOV): 7, 5, 0;
+(MOV): 8, 1, 0;
+(CALL): 6, 3, 1;
+(TSETS): 2, 12, 0;
+(TSETS): 4, 13, 0;
+(GGET): 6, 14, 0;
+(TGETS): 7, 15, 0;
+(TGETV): 6, 7, 6;
+(TGETS): 7, 15, 6;
+(GGET): 8, 4, 0;
+(TGETS): 8, 16, 8;
+(MOV): 9, 2, 0;
+(MOV): 10, 7, 0;
+(CALL): 8, 3, 2;
+(TSETS): 8, 17, 0;
+(GGET): 9, 19, 0;
+(MOV): 10, 2, 0;
+(MOV): 11, 8, 0;
+(CALL): 9, 3, 2;
+(TSETS): 9, 18, 0;
+(KPRI): 9, 1, 0;
+(ISF): 0, 9, 0;
+(JMP): 10, 4, 128;
+(GGET): 10, 20, 0;
+(TGETS): 10, 21, 10;
+(MOV): 11, 8, 0;
+(CALL): 10, 2, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ spawn_background };
+String{ Level };
+String{ ShadingEnvironmentManager };
+String{ shading_environment_manager };
+String{ level };
+String{ load_level };
+String{ level_name };
+String{ LevelSettings };
+String{ game_world_level_callback };
+String{ game_world };
+String{ set_gravity };
+String{ PhysicsWorld };
+String{ physics_world };
+String{ set_flow_callback_object };
+String{ register_level_callback };
+String{ LevelCallback };
+String{ timpani_world };
+String{ World };
+String{ CLIENT_GAME_WORLD };
+String{ new_world };
+String{ pdWorldAux };
+String{ Vector3 };
+Double{ -19.64 };
+
+--End--
+
+
+Prototype: 25
+Prototype_Size: 833; Flags: 0; #_Params: 1; Frame_Size: 12; Upvalue_Size: 1; KGC_Size: 25; KN_Size: 2; Instruction_Count: 70;
+
+--Bytecode Instructions--
+(KSTR): 1, 0, 0;
+(GGET): 2, 2, 0;
+(TGETS): 2, 3, 2;
+(TGETS): 3, 4, 0;
+(MOV): 4, 1, 0;
+(CALL): 2, 3, 2;
+(TSETS): 2, 1, 0;
+(UGET): 2, 0, 0;
+(TGETS): 2, 5, 2;
+(TGETS): 3, 1, 0;
+(CALL): 2, 2, 1;
+(GGET): 2, 6, 0;
+(KSHORT): 3, 0, 0;
+(KSHORT): 4, 50, 0;
+(KSHORT): 5, 0, 0;
+(CALL): 2, 4, 2;
+(GGET): 3, 6, 0;
+(KSHORT): 4, 0, 0;
+(KSHORT): 5, 0, 0;
+(KSHORT): 6, 0, 0;
+(CALL): 3, 4, 2;
+(GGET): 4, 6, 0;
+(TGETS): 4, 7, 4;
+(SUBVV): 5, 2, 3;
+(CALL): 4, 2, 2;
+(GGET): 5, 8, 0;
+(TGETS): 5, 9, 5;
+(MOV): 6, 4, 0;
+(CALL): 5, 2, 2;
+(GGET): 6, 10, 0;
+(TGETS): 6, 11, 6;
+(MOV): 7, 5, 0;
+(MOV): 8, 2, 0;
+(CALL): 6, 3, 2;
+(KSTR): 7, 12, 0;
+(GGET): 8, 14, 0;
+(TGETS): 8, 15, 8;
+(TGETS): 9, 4, 0;
+(MOV): 10, 7, 0;
+(MOV): 11, 6, 0;
+(CALL): 8, 4, 2;
+(TSETS): 8, 13, 0;
+(GGET): 8, 17, 0;
+(TGETS): 8, 16, 8;
+(TGETS): 9, 13, 0;
+(KSTR): 10, 16, 0;
+(CALL): 8, 3, 2;
+(TSETS): 8, 16, 0;
+(GGET): 8, 18, 0;
+(TGETS): 8, 19, 8;
+(TGETS): 9, 16, 0;
+(KNUM): 10, 0, 0;
+(CALL): 8, 3, 1;
+(GGET): 8, 18, 0;
+(TGETS): 8, 20, 8;
+(TGETS): 9, 16, 0;
+(KSHORT): 10, 232, 3;
+(CALL): 8, 3, 1;
+(GGET): 8, 22, 0;
+(TGETS): 8, 23, 8;
+(TGETS): 9, 16, 0;
+(TGETS): 10, 13, 0;
+(CALL): 8, 3, 2;
+(TSETS): 8, 21, 0;
+(GGET): 8, 22, 0;
+(TGETS): 8, 24, 8;
+(TGETS): 9, 21, 0;
+(KNUM): 10, 1, 0;
+(CALL): 8, 3, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+Upvalue{ 1, 192 };
+
+--Constants--
+String{ update };
+String{ new };
+String{ pdCameraControllerFreeFlight };
+String{ camera_controller };
+String{ set_far_range };
+String{ set_near_range };
+String{ Camera };
+String{ Unit };
+String{ camera };
+String{ spawn_unit };
+String{ World };
+String{ camera_unit };
+String{ foundation/units/camera/camera };
+String{ from_quaternion_position };
+String{ Matrix4x4 };
+String{ look };
+String{ Quaternion };
+String{ normalize };
+String{ Vector3 };
+String{ register_viewport };
+String{ game_world };
+String{ create_viewport };
+String{ Application };
+String{ viewport };
+String{ default };
+Double{ 0.0100000037252903 };
+Double{ 0.0999999701976776 };
+
+--End--
+
+
+Prototype: 26
+Prototype_Size: 1012; Flags: 0; #_Params: 2; Frame_Size: 19; Upvalue_Size: 1; KGC_Size: 23; KN_Size: 0; Instruction_Count: 52;
+
+--Bytecode Instructions--
+(TGETS): 2, 0, 0;
+(GGET): 3, 1, 0;
+(CALL): 3, 1, 2;
+(GGET): 4, 2, 0;
+(CALL): 4, 1, 2;
+(GGET): 5, 3, 0;
+(CALL): 5, 1, 2;
+(GGET): 6, 4, 0;
+(KSTR): 7, 5, 0;
+(CALL): 6, 2, 2;
+(GGET): 7, 4, 0;
+(KSTR): 8, 6, 0;
+(CALL): 7, 2, 2;
+(GGET): 8, 7, 0;
+(TGETS): 9, 8, 0;
+(TGETS): 10, 9, 0;
+(TGETS): 11, 10, 0;
+(MOV): 12, 4, 0;
+(MOV): 13, 3, 0;
+(MOV): 14, 2, 0;
+(MOV): 15, 5, 0;
+(MOV): 16, 6, 0;
+(MOV): 17, 7, 0;
+(KSTR): 18, 11, 0;
+(CALL): 8, 11, 2;
+(MOV): 10, 8, 0;
+(TGETS): 9, 12, 8;
+(MOV): 11, 1, 0;
+(CALL): 9, 3, 1;
+(TDUP): 9, 13, 0;
+(TGETS): 10, 14, 0;
+(TSETS): 10, 14, 9;
+(TGETS): 10, 15, 0;
+(TSETS): 10, 15, 9;
+(MOV): 11, 8, 0;
+(TGETS): 10, 16, 8;
+(MOV): 12, 9, 0;
+(CALL): 10, 3, 1;
+(UGET): 10, 0, 0;
+(MOV): 12, 4, 0;
+(TGETS): 11, 17, 4;
+(MOV): 13, 10, 0;
+(CALL): 11, 3, 1;
+(MOV): 12, 4, 0;
+(TGETS): 11, 18, 4;
+(MOV): 13, 8, 0;
+(CALL): 11, 3, 1;
+(TSETS): 5, 19, 0;
+(TSETS): 4, 20, 0;
+(TSETS): 3, 21, 0;
+(TSETS): 8, 22, 0;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+Upvalue{ 8, 192 };
+
+--Constants--
+String{ unit_spawner };
+String{ unit_storage };
+String{ entity_manager };
+String{ gameobject_event_broadcaster };
+String{ set_unit_deletion_handler };
+String{ set_get_unit_extension_functor };
+String{ set_gameobject_initializer_context };
+String{ own_peer_id };
+String{ game_session };
+Table{ 
+	Array Part{ 
+	};
+	Hash Part{ 
+		Hash{ String{ lars }; -> Bool{ True }; };
+		Hash{ String{ is_client }; -> Bool{ True }; };
+	};
+};
+
+String{ set_gameobject_notifier };
+String{ client };
+String{ event_delegate };
+String{ level };
+String{ game_world };
+String{ pdNetworkUnitSpawner };
+String{ scripts/game/network/network_game_object_initializers };
+String{ scripts/game/network/network_game_object_types };
+String{ require };
+String{ NetworkGameEventBroadcaster };
+String{ EntityManager };
+String{ NetworkUnitStorage };
+String{ network_message_router };
+
+--End--
+
+
+Prototype: 27
+Prototype_Size: 1075; Flags: 0; #_Params: 1; Frame_Size: 10; Upvalue_Size: 0; KGC_Size: 36; KN_Size: 0; Instruction_Count: 75;
+
+--Bytecode Instructions--
+(TGETS): 1, 0, 0;
+(TGETS): 2, 1, 0;
+(TGETS): 3, 2, 0;
+(GGET): 4, 3, 0;
+(CALL): 4, 1, 2;
+(TDUP): 5, 4, 0;
+(TSETS): 0, 5, 5;
+(TSETS): 1, 6, 5;
+(TGETS): 6, 7, 0;
+(TSETS): 6, 7, 5;
+(TSETS): 2, 1, 5;
+(TSETS): 3, 2, 5;
+(TGETS): 6, 8, 0;
+(TSETS): 6, 8, 5;
+(TGETS): 6, 9, 0;
+(TSETS): 6, 9, 5;
+(TGETS): 6, 10, 0;
+(TSETS): 6, 10, 5;
+(TGETS): 6, 11, 0;
+(TSETS): 6, 11, 5;
+(TGETS): 6, 12, 0;
+(TSETS): 6, 12, 5;
+(TGETS): 6, 13, 0;
+(TSETS): 6, 13, 5;
+(TGETS): 6, 14, 0;
+(TSETS): 6, 14, 5;
+(TGETS): 6, 15, 0;
+(TSETS): 6, 15, 5;
+(TGETS): 6, 14, 0;
+(TGETS): 7, 15, 0;
+(ISEQV): 6, 7, 0;
+(JMP): 6, 2, 128;
+(KPRI): 6, 1, 0;
+(JMP): 7, 1, 128;
+(KPRI): 6, 2, 0;
+(TSETS): 6, 16, 5;
+(TGETS): 6, 17, 0;
+(TSETS): 6, 17, 5;
+(TGETS): 6, 18, 0;
+(TSETS): 6, 18, 5;
+(TGETS): 6, 19, 0;
+(TSETS): 6, 19, 5;
+(TGETS): 6, 20, 0;
+(TSETS): 6, 20, 5;
+(TGETS): 6, 21, 0;
+(TSETS): 6, 21, 5;
+(TGETS): 6, 22, 0;
+(TSETS): 6, 22, 5;
+(TGETS): 6, 23, 0;
+(TSETS): 6, 23, 5;
+(TGETS): 6, 24, 0;
+(TSETS): 6, 25, 5;
+(TGETS): 6, 26, 0;
+(TSETS): 6, 27, 5;
+(TGETS): 6, 28, 0;
+(TSETS): 6, 28, 5;
+(TSETS): 4, 29, 5;
+(TGETS): 6, 30, 0;
+(TSETS): 6, 30, 5;
+(TGETS): 6, 31, 0;
+(TSETS): 6, 31, 5;
+(GGET): 6, 32, 0;
+(MOV): 7, 1, 0;
+(MOV): 8, 2, 0;
+(MOV): 9, 3, 0;
+(CALL): 6, 4, 2;
+(MOV): 8, 6, 0;
+(TGETS): 7, 33, 6;
+(MOV): 9, 5, 0;
+(CALL): 7, 3, 1;
+(MOV): 8, 6, 0;
+(TGETS): 7, 34, 6;
+(CALL): 7, 2, 1;
+(TSETS): 6, 35, 0;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ entity_systems_bag };
+String{ finalize_setup };
+String{ do_initialize_systems };
+String{ EntitySystemBagClient };
+String{ is_spectator };
+String{ gamemode };
+String{ player_variable_manager };
+String{ shading_environment_manager };
+String{ game_camera_unit };
+String{ camera_unit };
+String{ game_camera };
+String{ camera };
+String{ gui_manager };
+String{ hud_manager };
+String{ team_manager };
+String{ gameobject_event_broadcaster };
+String{ game_detail_synchronizer };
+String{ gamesession_peer_informations };
+String{ gamesession_peers };
+String{ is_server };
+String{ server_peer_id };
+String{ own_peer_id };
+String{ level_name };
+String{ level };
+String{ network_transport };
+String{ network_message_router };
+String{ event_delegate };
+String{ unit_storage };
+String{ ui_renderer };
+String{ world };
+String{ state };
+Table{ 
+	Array Part{ 
+	};
+	Hash Part{ 
+		Hash{ String{ SERVER }; -> Bool{ False }; };
+		Hash{ String{ CLIENT }; -> Bool{ True }; };
+	};
+};
+
+String{ PlayerVariableManager };
+String{ unit_spawner };
+String{ entity_manager };
+String{ game_world };
+
+--End--
+
+
+Prototype: 28
+Prototype_Size: 107; Flags: 0; #_Params: 2; Frame_Size: 6; Upvalue_Size: 0; KGC_Size: 3; KN_Size: 0; Instruction_Count: 7;
+
+--Bytecode Instructions--
+(GGET): 2, 0, 0;
+(KSTR): 3, 1, 0;
+(GGET): 4, 2, 0;
+(MOV): 5, 1, 0;
+(CALL): 4, 2, 0;
+(CALLM): 2, 1, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ tostring };
+String{ [ingame_client] spawn_unit %s };
+String{ printf };
+
+--End--
+
+
+Prototype: 29
+Prototype_Size: 109; Flags: 0; #_Params: 2; Frame_Size: 6; Upvalue_Size: 0; KGC_Size: 3; KN_Size: 0; Instruction_Count: 7;
+
+--Bytecode Instructions--
+(GGET): 2, 0, 0;
+(KSTR): 3, 1, 0;
+(GGET): 4, 2, 0;
+(MOV): 5, 1, 0;
+(CALL): 4, 2, 0;
+(CALLM): 2, 1, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ tostring };
+String{ [ingame_client] unspawn_unit %s };
+String{ printf };
+
+--End--
+
+
+Prototype: 30
+Prototype_Size: 232; Flags: 0; #_Params: 4; Frame_Size: 13; Upvalue_Size: 0; KGC_Size: 4; KN_Size: 2; Instruction_Count: 21;
+
+--Bytecode Instructions--
+(ISNEN): 1, 0, 0;
+(JMP): 4, 1, 128;
+(RET0): 0, 1, 0;
+(KSTR): 4, 0, 0;
+(MOV): 5, 2, 0;
+(KSTR): 6, 1, 0;
+(MOV): 7, 3, 0;
+(KSTR): 8, 2, 0;
+(CAT): 4, 8, 4;
+(KSHORT): 5, 1, 0;
+(MOV): 6, 1, 0;
+(KSHORT): 7, 2, 0;
+(FORI): 5, 7, 128;
+(GGET): 9, 3, 0;
+(MOV): 10, 4, 0;
+(TGETV): 11, 8, 0;
+(ADDVN): 12, 1, 8;
+(TGETV): 12, 12, 0;
+(CALL): 9, 4, 1;
+(FORL): 5, 249, 127;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ print };
+String{ ] };
+String{ ] gameobject_notification_type [ };
+String{ [ };
+Int{ 0 };
+Int{ 1 };
+
+--End--
+
+
+Prototype: 31
+Prototype_Size: 1075; Flags: 0; #_Params: 1; Frame_Size: 24; Upvalue_Size: 0; KGC_Size: 21; KN_Size: 1; Instruction_Count: 65;
+
+--Bytecode Instructions--
+(TGETS): 1, 0, 0;
+(TGETS): 2, 1, 0;
+(TGETS): 3, 2, 0;
+(TGETS): 4, 3, 0;
+(MOV): 6, 4, 0;
+(TGETS): 5, 4, 4;
+(CALL): 5, 2, 3;
+(KSHORT): 7, 1, 0;
+(MOV): 8, 6, 0;
+(KSHORT): 9, 2, 0;
+(FORI): 7, 7, 128;
+(MOV): 12, 1, 0;
+(TGETS): 11, 5, 1;
+(TGETV): 13, 10, 5;
+(ADDVN): 14, 0, 10;
+(TGETV): 14, 14, 5;
+(CALL): 11, 4, 1;
+(FORL): 7, 249, 127;
+(MOV): 8, 4, 0;
+(TGETS): 7, 6, 4;
+(CALL): 7, 2, 3;
+(KSHORT): 9, 1, 0;
+(MOV): 10, 8, 0;
+(KSHORT): 11, 2, 0;
+(FORI): 9, 27, 128;
+(TGETV): 13, 12, 7;
+(ADDVN): 14, 0, 12;
+(TGETV): 14, 14, 7;
+(MOV): 16, 2, 0;
+(TGETS): 15, 7, 2;
+(MOV): 17, 13, 0;
+(CALL): 15, 3, 2;
+(MOV): 17, 3, 0;
+(TGETS): 16, 8, 3;
+(MOV): 18, 15, 0;
+(KSTR): 19, 9, 0;
+(CALL): 16, 4, 2;
+(MOV): 18, 3, 0;
+(TGETS): 17, 8, 3;
+(MOV): 19, 15, 0;
+(KSTR): 20, 10, 0;
+(CALL): 17, 4, 2;
+(MOV): 16, 17, 0;
+(GGET): 17, 11, 0;
+(KSTR): 18, 12, 0;
+(KSTR): 19, 13, 0;
+(MOV): 20, 13, 0;
+(GGET): 21, 14, 0;
+(TGETS): 22, 15, 0;
+(TGETS): 23, 16, 0;
+(CALL): 17, 7, 1;
+(FORL): 9, 229, 127;
+(TGETS): 9, 17, 0;
+(TGETS): 10, 16, 0;
+(TGETV): 9, 10, 9;
+(GGET): 10, 18, 0;
+(TGETS): 10, 19, 10;
+(MOV): 11, 9, 0;
+(MOV): 12, 7, 0;
+(MOV): 13, 8, 0;
+(CALL): 10, 4, 1;
+(MOV): 11, 4, 0;
+(TGETS): 10, 20, 4;
+(CALL): 10, 2, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ clear_gameobjects };
+String{ copy_from_table };
+String{ pdArrayAux };
+String{ delayed_destroyed_gameobject_ids };
+String{ delete_index };
+String{ current_update_index };
+String{ UPDATE_INDEX };
+String{ [CLIENT] adding go_id(%d) for deletion at update_index(%d) @current_update_index %d, delete_index %d };
+String{ gameobject_notifications };
+String{ cat_printf_blue };
+String{ network_client_husk };
+String{ network_synced };
+String{ remove_extension };
+String{ unit };
+String{ destroyed_gameobjects };
+String{ game_object_created };
+String{ created_gameobjects };
+String{ gameobject_notifier };
+String{ entity_manager };
+String{ unit_storage };
+String{ unit_spawner };
+Int{ 1 };
+
+--End--
+
+
+Prototype: 32
+Prototype_Size: 596; Flags: 0; #_Params: 1; Frame_Size: 18; Upvalue_Size: 0; KGC_Size: 12; KN_Size: 1; Instruction_Count: 34;
+
+--Bytecode Instructions--
+(TGETS): 1, 0, 0;
+(TGETS): 2, 1, 0;
+(TGETS): 3, 2, 0;
+(TGETV): 2, 3, 2;
+(GGET): 3, 3, 0;
+(TGETS): 3, 4, 3;
+(MOV): 4, 2, 0;
+(CALL): 3, 2, 3;
+(KSHORT): 5, 1, 0;
+(MOV): 6, 4, 0;
+(KSHORT): 7, 2, 0;
+(FORI): 5, 17, 128;
+(TGETV): 9, 8, 3;
+(ADDVN): 10, 0, 8;
+(TGETV): 10, 10, 3;
+(MOV): 12, 1, 0;
+(TGETS): 11, 5, 1;
+(MOV): 13, 9, 0;
+(MOV): 14, 10, 0;
+(CALL): 11, 4, 1;
+(GGET): 11, 6, 0;
+(KSTR): 12, 7, 0;
+(KSTR): 13, 8, 0;
+(MOV): 14, 9, 0;
+(GGET): 15, 9, 0;
+(TGETS): 16, 2, 0;
+(TGETS): 17, 10, 0;
+(CALL): 11, 7, 1;
+(FORL): 5, 239, 127;
+(GGET): 5, 3, 0;
+(TGETS): 5, 11, 5;
+(MOV): 6, 2, 0;
+(CALL): 5, 2, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ set_empty };
+String{ delete_index };
+String{ UPDATE_INDEX };
+String{ [CLIENT] deleting go_id(%d) at update_index(%d) @current_update_index %d, delete_index %d };
+String{ gameobject_notifications };
+String{ cat_printf_blue };
+String{ game_object_destroyed };
+String{ data };
+String{ pdArray };
+String{ current_update_index };
+String{ delayed_destroyed_gameobject_ids };
+String{ unit_spawner };
+Int{ 1 };
+
+--End--
+
+
+Prototype: 33
+Prototype_Size: 846; Flags: 0; #_Params: 2; Frame_Size: 10; Upvalue_Size: 0; KGC_Size: 27; KN_Size: 0; Instruction_Count: 85;
+
+--Bytecode Instructions--
+(GGET): 2, 0, 0;
+(KSTR): 3, 1, 0;
+(CALL): 2, 2, 2;
+(IST): 0, 2, 0;
+(JMP): 2, 1, 128;
+(RET0): 0, 1, 0;
+(GGET): 2, 2, 0;
+(GGET): 3, 3, 0;
+(KSTR): 4, 4, 0;
+(CALL): 2, 3, 2;
+(ISF): 0, 2, 0;
+(JMP): 3, 43, 128;
+(TGETS): 2, 5, 0;
+(IST): 0, 2, 0;
+(JMP): 3, 1, 128;
+(KSHORT): 2, 0, 0;
+(ADDVV): 2, 1, 2;
+(TSETS): 2, 5, 0;
+(TGETS): 2, 6, 0;
+(IST): 0, 2, 0;
+(JMP): 3, 1, 128;
+(KSHORT): 2, 0, 0;
+(TGETS): 3, 7, 0;
+(TGETS): 3, 8, 3;
+(ADDVV): 2, 3, 2;
+(TSETS): 2, 6, 0;
+(TGETS): 2, 6, 0;
+(TGETS): 3, 5, 0;
+(ISLT): 3, 2, 0;
+(JMP): 2, 2, 128;
+(KPRI): 2, 1, 0;
+(JMP): 3, 1, 128;
+(KPRI): 2, 2, 0;
+(KPRI): 3, 0, 0;
+(ISF): 0, 2, 0;
+(JMP): 4, 4, 128;
+(TGETS): 4, 6, 0;
+(TGETS): 5, 5, 0;
+(SUBVV): 3, 5, 4;
+(JMP): 4, 3, 128;
+(TGETS): 4, 5, 0;
+(TGETS): 5, 6, 0;
+(SUBVV): 3, 5, 4;
+(GGET): 4, 9, 0;
+(TGETS): 4, 10, 4;
+(KSTR): 5, 11, 0;
+(TGETS): 6, 5, 0;
+(TGETS): 7, 6, 0;
+(MOV): 8, 3, 0;
+(ISF): 0, 2, 0;
+(JMP): 9, 2, 128;
+(KSTR): 9, 12, 0;
+(JMP): 10, 1, 128;
+(KSTR): 9, 13, 0;
+(CALL): 4, 6, 1;
+(JMP): 2, 0, 128;
+(JMP): 2, 10, 128;
+(GGET): 2, 14, 0;
+(KSTR): 3, 15, 0;
+(CALL): 2, 2, 2;
+(ISF): 0, 2, 0;
+(JMP): 3, 5, 128;
+(GGET): 2, 16, 0;
+(TGETS): 2, 17, 2;
+(TGETS): 3, 18, 0;
+(MOV): 4, 1, 0;
+(CALL): 2, 3, 1;
+(GGET): 2, 19, 0;
+(KSTR): 3, 20, 0;
+(CALL): 2, 2, 2;
+(ISF): 0, 2, 0;
+(JMP): 3, 12, 128;
+(TGETS): 2, 21, 0;
+(IST): 0, 2, 0;
+(JMP): 2, 9, 128;
+(KPRI): 2, 2, 0;
+(TSETS): 2, 21, 0;
+(GGET): 2, 22, 0;
+(TGETS): 2, 23, 2;
+(TGETS): 3, 24, 0;
+(CALL): 2, 2, 1;
+(GGET): 2, 25, 0;
+(KSTR): 3, 26, 0;
+(CALL): 2, 2, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ FREEN_LEFT_GAMESESSION };
+String{ print };
+String{ game_session };
+String{ leave };
+String{ GameSession };
+String{ freen_left_gamesession };
+String{ b };
+String{ Keyboard_pressed };
+String{ camera_controller };
+String{ update };
+String{ pdCameraControllerFreeFlight };
+String{ right };
+String{ Mouse_down };
+String{ DT };
+String{ WALL };
+String{ FML TIME [%.3f] - WALL [%.3f] - DIFF [%.3f] - GREATEST [%s] };
+String{ text };
+String{ pdDebug };
+String{ delta_time };
+String{ wall_timer };
+String{ fml_counter_wall };
+String{ fml_counter };
+String{ FREEN_TIMER };
+String{ _G };
+String{ rawget };
+String{ freen_is_mupping_around };
+String{ DevelopmentSetting_bool };
+
+--End--
+
+
+Prototype: 34
+Prototype_Size: 555; Flags: 0; #_Params: 2; Frame_Size: 11; Upvalue_Size: 0; KGC_Size: 15; KN_Size: 0; Instruction_Count: 47;
+
+--Bytecode Instructions--
+(TGETS): 2, 0, 0;
+(TGETS): 3, 1, 0;
+(TGETS): 4, 2, 0;
+(TGETS): 5, 3, 0;
+(TGETS): 6, 4, 0;
+(TGETS): 7, 6, 6;
+(TSETS): 7, 5, 2;
+(TGETS): 7, 8, 6;
+(TSETS): 7, 7, 2;
+(MOV): 8, 4, 0;
+(TGETS): 7, 9, 4;
+(MOV): 9, 1, 0;
+(CALL): 7, 3, 1;
+(MOV): 8, 5, 0;
+(TGETS): 7, 9, 5;
+(MOV): 9, 1, 0;
+(MOV): 10, 2, 0;
+(CALL): 7, 4, 1;
+(MOV): 8, 4, 0;
+(TGETS): 7, 10, 4;
+(MOV): 9, 1, 0;
+(CALL): 7, 3, 1;
+(MOV): 8, 5, 0;
+(TGETS): 7, 10, 5;
+(MOV): 9, 1, 0;
+(MOV): 10, 2, 0;
+(CALL): 7, 4, 1;
+(GGET): 7, 11, 0;
+(TGETS): 7, 12, 7;
+(MOV): 8, 3, 0;
+(MOV): 9, 1, 0;
+(CALL): 7, 3, 1;
+(GGET): 7, 11, 0;
+(TGETS): 7, 13, 7;
+(MOV): 8, 3, 0;
+(MOV): 9, 1, 0;
+(CALL): 7, 3, 1;
+(MOV): 8, 4, 0;
+(TGETS): 7, 14, 4;
+(MOV): 9, 1, 0;
+(CALL): 7, 3, 1;
+(MOV): 8, 5, 0;
+(TGETS): 7, 14, 5;
+(MOV): 9, 1, 0;
+(MOV): 10, 2, 0;
+(CALL): 7, 4, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ post_update };
+String{ update_scene };
+String{ update_animations };
+String{ World };
+String{ update };
+String{ pre_update };
+String{ delta_time };
+String{ wall_delta_time };
+String{ current_time };
+String{ current_wall_time };
+String{ wall_timer };
+String{ entity_systems_bag };
+String{ gamemode };
+String{ game_world };
+String{ entity_systems_update_context };
+
+--End--
+
+
+Prototype: 35
+Prototype_Size: 85; Flags: 0; #_Params: 2; Frame_Size: 5; Upvalue_Size: 0; KGC_Size: 2; KN_Size: 0; Instruction_Count: 6;
+
+--Bytecode Instructions--
+(TGETS): 2, 0, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 1, 2;
+(MOV): 4, 1, 0;
+(CALL): 2, 3, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ pre_update };
+String{ ingame_statemachine };
+
+--End--
+
+
+Prototype: 36
+Prototype_Size: 86; Flags: 0; #_Params: 2; Frame_Size: 5; Upvalue_Size: 0; KGC_Size: 2; KN_Size: 0; Instruction_Count: 6;
+
+--Bytecode Instructions--
+(TGETS): 2, 0, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 1, 2;
+(MOV): 4, 1, 0;
+(CALL): 2, 3, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ post_update };
+String{ ingame_statemachine };
+
+--End--
+
+
+Prototype: 37
+Prototype_Size: 1615; Flags: 0; #_Params: 1; Frame_Size: 14; Upvalue_Size: 0; KGC_Size: 50; KN_Size: 0; Instruction_Count: 128;
+
+--Bytecode Instructions--
+(TGETS): 1, 0, 0;
+(IST): 0, 1, 0;
+(JMP): 1, 3, 128;
+(GGET): 1, 1, 0;
+(TGETS): 1, 2, 1;
+(CALL): 1, 1, 1;
+(TGETS): 1, 3, 0;
+(MOV): 2, 1, 0;
+(TGETS): 1, 4, 1;
+(CALL): 1, 2, 1;
+(KPRI): 1, 0, 0;
+(TSETS): 1, 5, 0;
+(TGETS): 1, 6, 0;
+(TGETS): 1, 7, 1;
+(IST): 0, 1, 0;
+(JMP): 1, 5, 128;
+(TGETS): 1, 6, 0;
+(MOV): 2, 1, 0;
+(TGETS): 1, 8, 1;
+(CALL): 1, 2, 1;
+(JMP): 1, 3, 128;
+(GGET): 1, 9, 0;
+(KSTR): 2, 10, 0;
+(CALL): 1, 2, 1;
+(GGET): 1, 11, 0;
+(TGETS): 1, 12, 1;
+(TGETS): 2, 13, 0;
+(CALL): 1, 2, 3;
+(TGETS): 3, 14, 0;
+(TGETB): 3, 1, 3;
+(GGET): 4, 15, 0;
+(TGETS): 4, 16, 4;
+(MOV): 5, 3, 0;
+(MOV): 6, 1, 0;
+(MOV): 7, 2, 0;
+(CALL): 4, 4, 1;
+(GGET): 4, 17, 0;
+(TGETS): 4, 18, 4;
+(MOV): 5, 3, 0;
+(CALL): 4, 2, 3;
+(KSHORT): 6, 1, 0;
+(MOV): 7, 5, 0;
+(KSHORT): 8, 1, 0;
+(FORI): 6, 16, 128;
+(TGETV): 10, 9, 4;
+(GGET): 11, 11, 0;
+(TGETS): 11, 19, 11;
+(TGETS): 12, 13, 0;
+(MOV): 13, 10, 0;
+(CALL): 11, 3, 1;
+(GGET): 11, 20, 0;
+(KSTR): 12, 21, 0;
+(MOV): 13, 10, 0;
+(CALL): 11, 3, 1;
+(TGETS): 11, 22, 0;
+(MOV): 12, 11, 0;
+(TGETS): 11, 23, 11;
+(MOV): 13, 10, 0;
+(CALL): 11, 3, 1;
+(FORL): 6, 240, 127;
+(TGETS): 6, 24, 0;
+(MOV): 7, 6, 0;
+(TGETS): 6, 25, 6;
+(MOV): 8, 4, 0;
+(MOV): 9, 5, 0;
+(CALL): 6, 4, 1;
+(TGETS): 6, 26, 0;
+(MOV): 7, 6, 0;
+(TGETS): 6, 27, 6;
+(KSTR): 8, 28, 0;
+(MOV): 9, 4, 0;
+(MOV): 10, 5, 0;
+(CALL): 6, 5, 1;
+(GGET): 6, 29, 0;
+(TGETS): 7, 30, 0;
+(TGETS): 7, 31, 7;
+(CALL): 6, 2, 2;
+(GGET): 7, 32, 0;
+(ISNEV): 6, 7, 0;
+(JMP): 6, 7, 128;
+(TGETS): 6, 26, 0;
+(MOV): 7, 6, 0;
+(TGETS): 6, 27, 6;
+(KSTR): 8, 33, 0;
+(KSTR): 9, 34, 0;
+(CALL): 6, 4, 1;
+(JMP): 6, 11, 128;
+(TGETS): 6, 26, 0;
+(MOV): 7, 6, 0;
+(TGETS): 6, 27, 6;
+(KSTR): 8, 33, 0;
+(TGETS): 9, 35, 0;
+(ISNES): 9, 36, 0;
+(JMP): 9, 2, 128;
+(KSTR): 9, 36, 0;
+(JMP): 10, 1, 128;
+(KSTR): 9, 37, 0;
+(CALL): 6, 4, 1;
+(TGETS): 6, 35, 0;
+(ISEQS): 6, 38, 0;
+(JMP): 6, 26, 128;
+(GGET): 6, 9, 0;
+(KSTR): 7, 39, 0;
+(CALL): 6, 2, 1;
+(KSTR): 6, 38, 0;
+(TSETS): 6, 35, 0;
+(TGETS): 6, 40, 0;
+(MOV): 7, 6, 0;
+(TGETS): 6, 41, 6;
+(KPRI): 8, 2, 0;
+(CALL): 6, 3, 1;
+(TGETS): 6, 42, 0;
+(IST): 0, 6, 0;
+(JMP): 6, 13, 128;
+(TGETS): 6, 43, 0;
+(IST): 0, 6, 0;
+(JMP): 6, 10, 128;
+(TGETS): 6, 44, 0;
+(MOV): 7, 6, 0;
+(TGETS): 6, 45, 6;
+(GGET): 8, 1, 0;
+(TGETS): 8, 46, 8;
+(CALL): 8, 1, 2;
+(KSTR): 9, 47, 0;
+(KSTR): 10, 48, 0;
+(KSTR): 11, 49, 0;
+(CALL): 6, 6, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ gameserver_error_connection_lost };
+String{ errorname };
+String{ error };
+String{ peer_id };
+String{ post_telemetry };
+String{ transaction_handler };
+String{ explicit_exit_request };
+String{ match_is_over };
+String{ set_round_has_ended };
+String{ hud_manager };
+String{ [CLIENT] UPDATE_SERVER_DISCONNECT -> setting update stage to disconnected };
+String{ disconnected };
+String{ running };
+String{ match_over };
+String{ update_stage };
+String{ lobby };
+String{ on_gameserver_disconnect };
+String{ StateInGameLobby };
+String{ state };
+String{ ingame_statemachine };
+String{ getmetatable };
+String{ on_peer_disconnect_client_pd };
+String{ trigger };
+String{ event_delegate };
+String{ remove_peers };
+String{ game_detail_synchronizer };
+String{ remove_peer };
+String{ team_manager };
+String{ [CLIENT] handle server disconnected. removing peer_id '%s' };
+String{ printf };
+String{ remove_peer_if_present };
+String{ data };
+String{ pdArray };
+String{ copy_from_table };
+String{ pdArrayAux };
+String{ scratch_arrays };
+String{ gamesession_peers };
+String{ peers };
+String{ NetworkGameSessionPeers };
+String{ >>> update_server_lobby_connection ALREADY LEFT game lobby! };
+String{ print };
+String{ leave_lobby };
+String{ left };
+String{ game_lobby };
+String{ game_session };
+String{ clear_game_session };
+String{ start_game_synchronizer };
+String{ shutdown_game_session };
+String{ Network };
+String{ LAN_MODE };
+
+--End--
+
+
+Prototype: 38
+Prototype_Size: 1795; Flags: 0; #_Params: 1; Frame_Size: 14; Upvalue_Size: 0; KGC_Size: 35; KN_Size: 0; Instruction_Count: 163;
+
+--Bytecode Instructions--
+(TGETS): 1, 0, 0;
+(ISF): 0, 1, 0;
+(JMP): 2, 1, 128;
+(RET0): 0, 1, 0;
+(TGETS): 1, 1, 0;
+(TGETS): 2, 2, 0;
+(TGETS): 3, 3, 0;
+(GGET): 4, 4, 0;
+(TGETS): 4, 5, 4;
+(MOV): 5, 2, 0;
+(CALL): 4, 2, 2;
+(TSETS): 4, 3, 0;
+(TGETS): 4, 6, 0;
+(ISF): 0, 4, 0;
+(JMP): 5, 5, 128;
+(TGETS): 4, 7, 0;
+(ISF): 0, 4, 0;
+(JMP): 5, 2, 128;
+(KPRI): 4, 1, 0;
+(TSETS): 4, 3, 0;
+(KPRI): 4, 1, 0;
+(IST): 0, 3, 0;
+(JMP): 5, 13, 128;
+(TGETS): 5, 3, 0;
+(ISF): 0, 5, 0;
+(JMP): 6, 10, 128;
+(KPRI): 5, 2, 0;
+(TSETS): 5, 8, 0;
+(GGET): 5, 4, 0;
+(TGETS): 5, 9, 5;
+(MOV): 6, 2, 0;
+(CALL): 5, 2, 2;
+(GGET): 6, 10, 0;
+(KSTR): 7, 11, 0;
+(MOV): 8, 5, 0;
+(CALL): 6, 3, 1;
+(ISF): 0, 3, 0;
+(JMP): 5, 11, 128;
+(TGETS): 5, 3, 0;
+(IST): 0, 5, 0;
+(JMP): 5, 8, 128;
+(GGET): 5, 12, 0;
+(KSTR): 6, 13, 0;
+(CALL): 5, 2, 1;
+(TGETS): 5, 14, 0;
+(MOV): 6, 5, 0;
+(TGETS): 5, 15, 5;
+(CALL): 5, 2, 1;
+(KPRI): 4, 2, 0;
+(GGET): 5, 4, 0;
+(TGETS): 5, 16, 5;
+(MOV): 6, 2, 0;
+(CALL): 5, 2, 2;
+(ISF): 0, 5, 0;
+(JMP): 6, 7, 128;
+(GGET): 6, 12, 0;
+(KSTR): 7, 17, 0;
+(CALL): 6, 2, 1;
+(GGET): 6, 4, 0;
+(TGETS): 6, 18, 6;
+(MOV): 7, 2, 0;
+(CALL): 6, 2, 1;
+(TGETS): 6, 19, 0;
+(TGETS): 7, 20, 0;
+(MOV): 8, 7, 0;
+(TGETS): 7, 21, 7;
+(CALL): 7, 2, 1;
+(TGETS): 7, 20, 0;
+(TGETS): 7, 22, 7;
+(TGETS): 8, 6, 0;
+(ISF): 0, 8, 0;
+(JMP): 9, 14, 128;
+(TGETS): 8, 20, 0;
+(TGETS): 8, 23, 8;
+(TGETS): 9, 24, 0;
+(ISEQV): 8, 9, 0;
+(JMP): 9, 2, 128;
+(KPRI): 9, 1, 0;
+(JMP): 10, 1, 128;
+(KPRI): 9, 2, 0;
+(TGETS): 10, 25, 0;
+(ISEQV): 10, 8, 0;
+(JMP): 10, 3, 128;
+(ISF): 0, 9, 0;
+(JMP): 10, 1, 128;
+(KPRI): 7, 2, 0;
+(TGETS): 8, 26, 0;
+(IST): 0, 8, 0;
+(JMP): 8, 31, 128;
+(IST): 0, 1, 0;
+(JMP): 8, 4, 128;
+(IST): 0, 6, 0;
+(JMP): 8, 2, 128;
+(ISF): 0, 7, 0;
+(JMP): 8, 25, 128;
+(TGETS): 8, 8, 0;
+(ISF): 0, 8, 0;
+(JMP): 9, 20, 128;
+(ISF): 0, 6, 0;
+(JMP): 8, 1, 128;
+(JMP): 8, 17, 128;
+(ISF): 0, 7, 0;
+(JMP): 8, 8, 128;
+(GGET): 8, 12, 0;
+(KSTR): 9, 27, 0;
+(CALL): 8, 2, 1;
+(GGET): 8, 4, 0;
+(TGETS): 8, 18, 8;
+(MOV): 9, 2, 0;
+(CALL): 8, 2, 1;
+(JMP): 8, 7, 128;
+(GGET): 8, 12, 0;
+(KSTR): 9, 28, 0;
+(CALL): 8, 2, 1;
+(GGET): 8, 4, 0;
+(TGETS): 8, 29, 8;
+(MOV): 9, 2, 0;
+(CALL): 8, 2, 1;
+(KPRI): 8, 2, 0;
+(TSETS): 8, 26, 0;
+(TGETS): 8, 26, 0;
+(ISF): 0, 8, 0;
+(JMP): 9, 39, 128;
+(TGETS): 8, 30, 0;
+(IST): 0, 8, 0;
+(JMP): 8, 36, 128;
+(TGETS): 8, 6, 0;
+(TGETS): 9, 8, 0;
+(ISF): 0, 9, 0;
+(JMP): 10, 16, 128;
+(TGETS): 9, 3, 0;
+(ISEQP): 9, 1, 0;
+(JMP): 9, 2, 128;
+(ISF): 0, 7, 0;
+(JMP): 9, 12, 128;
+(KPRI): 8, 2, 0;
+(GGET): 9, 10, 0;
+(KSTR): 10, 31, 0;
+(GGET): 11, 32, 0;
+(TGETS): 12, 3, 0;
+(CALL): 11, 2, 2;
+(GGET): 12, 32, 0;
+(MOV): 13, 7, 0;
+(CALL): 12, 2, 0;
+(CALLM): 9, 2, 1;
+(JMP): 9, 1, 128;
+(KPRI): 8, 2, 0;
+(ISF): 0, 8, 0;
+(JMP): 9, 13, 128;
+(KPRI): 9, 2, 0;
+(TSETS): 9, 30, 0;
+(GGET): 9, 12, 0;
+(KSTR): 10, 33, 0;
+(CALL): 9, 2, 1;
+(TGETS): 9, 6, 0;
+(ISNEP): 9, 1, 0;
+(JMP): 9, 3, 128;
+(MOV): 10, 0, 0;
+(TGETS): 9, 34, 0;
+(CALL): 9, 2, 1;
+(KPRI): 9, 2, 0;
+(TSETS): 9, 0, 0;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ handle_server_disconnect };
+String{ !!!!!!!!!!!!!!!ALL SAID AND DONE!!!!!!! };
+String{ tostring };
+String{ [CLIENT] disconnecting from host and peers. in gamesession %s, lobby failed %s };
+String{ handled_server_disconnect };
+String{ leave };
+String{ CLIENT SENDING LEAVE TO HOST };
+String{ CLIENT PLAIN LEAVE GAMESESSION };
+String{ has_handled_gamesession_leave };
+String{ server_peer_id };
+String{ own_peer_id };
+String{ lobby_host };
+String{ failed };
+String{ update };
+String{ game_lobby };
+String{ been_disconnected_from_gamesession };
+String{ disconnect_from_host };
+String{ HOST ERROR!!! };
+String{ host_error };
+String{ clear_game_session };
+String{ start_game_synchronizer };
+String{ >>>>>> SELF REMOVED FROM GAMESESSION };
+String{ print };
+String{ >>>>>> SELF ADDED TO GAMESESSION, HOST -> %s };
+String{ printf };
+String{ game_session_host };
+String{ has_been_in_gamesession };
+String{ gamesession_host_left };
+String{ LAN_MODE };
+String{ in_session };
+String{ GameSession };
+String{ is_in_gamesession };
+String{ game_session };
+String{ wants_to_exit_game };
+String{ server_has_disconnected };
+
+--End--
+
+
+Prototype: 39
+Prototype_Size: 3977; Flags: 0; #_Params: 2; Frame_Size: 18; Upvalue_Size: 3; KGC_Size: 92; KN_Size: 2; Instruction_Count: 421;
+
+--Bytecode Instructions--
+(TGETS): 2, 0, 0;
+(ISF): 0, 2, 0;
+(JMP): 3, 11, 128;
+(TGETS): 2, 0, 0;
+(SUBVV): 2, 1, 2;
+(TSETS): 2, 0, 0;
+(TGETS): 3, 0, 0;
+(KSHORT): 2, 0, 0;
+(ISGE): 3, 2, 0;
+(JMP): 2, 4, 128;
+(KPRI): 2, 0, 0;
+(TSETS): 2, 0, 0;
+(KPRI): 2, 2, 0;
+(TSETS): 2, 1, 0;
+(GGET): 2, 2, 0;
+(TGETS): 2, 3, 2;
+(CALL): 2, 1, 2;
+(KPRI): 3, 1, 0;
+(ISF): 0, 2, 0;
+(JMP): 4, 5, 128;
+(GGET): 4, 4, 0;
+(TGETS): 4, 5, 4;
+(MOV): 5, 2, 0;
+(CALL): 4, 2, 2;
+(MOV): 3, 4, 0;
+(GGET): 4, 6, 0;
+(TGETS): 4, 7, 4;
+(TGETS): 5, 8, 0;
+(CALL): 4, 2, 1;
+(TGETS): 4, 9, 0;
+(ISF): 0, 4, 0;
+(JMP): 5, 4, 128;
+(TGETS): 4, 9, 0;
+(MOV): 5, 4, 0;
+(TGETS): 4, 10, 4;
+(CALL): 4, 2, 1;
+(TGETS): 4, 11, 0;
+(MOV): 5, 4, 0;
+(TGETS): 4, 10, 4;
+(MOV): 6, 1, 0;
+(CALL): 4, 3, 1;
+(KPRI): 4, 0, 0;
+(TGETS): 5, 12, 0;
+(TGETS): 5, 13, 5;
+(TGETS): 5, 14, 5;
+(ISF): 0, 5, 0;
+(JMP): 6, 11, 128;
+(TGETS): 5, 12, 0;
+(TGETS): 5, 13, 5;
+(TGETS): 5, 14, 5;
+(TGETS): 5, 14, 5;
+(ISF): 0, 5, 0;
+(JMP): 6, 5, 128;
+(TGETS): 5, 12, 0;
+(TGETS): 5, 13, 5;
+(TGETS): 5, 14, 5;
+(TGETS): 4, 14, 5;
+(JMP): 5, 1, 128;
+(UGET): 4, 0, 0;
+(MOV): 6, 0, 0;
+(TGETS): 5, 15, 0;
+(CALL): 5, 2, 1;
+(TGETS): 5, 16, 0;
+(ADDVN): 5, 0, 5;
+(TSETS): 5, 16, 0;
+(TGETS): 5, 17, 0;
+(ADDVV): 5, 1, 5;
+(TSETS): 5, 17, 0;
+(TGETS): 5, 17, 0;
+(KSHORT): 6, 1, 0;
+(ISGE): 6, 5, 0;
+(JMP): 5, 8, 128;
+(TGETS): 5, 16, 0;
+(TGETS): 6, 17, 0;
+(DIVVV): 5, 6, 5;
+(TSETS): 5, 18, 0;
+(KSHORT): 5, 0, 0;
+(TSETS): 5, 16, 0;
+(KSHORT): 5, 0, 0;
+(TSETS): 5, 17, 0;
+(DIVNV): 5, 0, 1;
+(KSHORT): 6, 60, 0;
+(ISGE): 5, 6, 0;
+(JMP): 5, 7, 128;
+(GGET): 5, 19, 0;
+(KSHORT): 6, 255, 0;
+(KSHORT): 7, 0, 0;
+(KSHORT): 8, 0, 0;
+(CALL): 5, 4, 2;
+(IST): 0, 5, 0;
+(JMP): 6, 5, 128;
+(GGET): 5, 19, 0;
+(KSHORT): 6, 0, 0;
+(KSHORT): 7, 255, 0;
+(KSHORT): 8, 0, 0;
+(CALL): 5, 4, 2;
+(GGET): 6, 20, 0;
+(TGETS): 6, 21, 6;
+(GGET): 7, 22, 0;
+(KSTR): 8, 23, 0;
+(CALL): 7, 2, 2;
+(MOV): 8, 5, 0;
+(GGET): 9, 24, 0;
+(KSTR): 10, 25, 0;
+(TGETS): 11, 18, 0;
+(CALL): 9, 3, 0;
+(CALLM): 6, 2, 1;
+(TGETS): 6, 26, 0;
+(ISF): 0, 6, 0;
+(JMP): 7, 4, 128;
+(GGET): 6, 27, 0;
+(TGETS): 7, 28, 0;
+(CALL): 6, 2, 1;
+(JMP): 6, 3, 128;
+(GGET): 6, 27, 0;
+(TGETS): 7, 29, 0;
+(CALL): 6, 2, 1;
+(MOV): 7, 0, 0;
+(TGETS): 6, 30, 0;
+(CALL): 6, 2, 1;
+(MOV): 7, 0, 0;
+(TGETS): 6, 31, 0;
+(CALL): 6, 2, 1;
+(GGET): 6, 32, 0;
+(TGETS): 6, 33, 6;
+(MOV): 7, 1, 0;
+(TGETS): 8, 34, 0;
+(CALL): 6, 3, 1;
+(MOV): 7, 0, 0;
+(TGETS): 6, 30, 0;
+(CALL): 6, 2, 1;
+(MOV): 7, 0, 0;
+(TGETS): 6, 35, 0;
+(CALL): 6, 2, 1;
+(TGETS): 6, 26, 0;
+(NOT): 7, 6, 0;
+(ISF): 0, 7, 0;
+(JMP): 8, 3, 128;
+(MOV): 9, 0, 0;
+(TGETS): 8, 36, 0;
+(CALL): 8, 2, 1;
+(MOV): 9, 0, 0;
+(TGETS): 8, 37, 0;
+(MOV): 10, 1, 0;
+(CALL): 8, 3, 1;
+(TGETS): 8, 38, 0;
+(MOV): 9, 8, 0;
+(TGETS): 8, 10, 8;
+(MOV): 10, 1, 0;
+(CALL): 8, 3, 1;
+(TGETS): 8, 39, 0;
+(TGETS): 8, 40, 8;
+(ISF): 0, 8, 0;
+(JMP): 9, 5, 128;
+(TGETS): 9, 41, 0;
+(TSETS): 8, 42, 9;
+(TGETS): 9, 39, 0;
+(KPRI): 10, 0, 0;
+(TSETS): 10, 40, 9;
+(TGETS): 9, 43, 0;
+(ISF): 0, 9, 0;
+(JMP): 10, 3, 128;
+(MOV): 10, 0, 0;
+(TGETS): 9, 44, 0;
+(CALL): 9, 2, 1;
+(TGETS): 9, 45, 0;
+(ISF): 0, 9, 0;
+(JMP): 10, 5, 128;
+(TGETS): 9, 45, 0;
+(MOV): 10, 9, 0;
+(TGETS): 9, 10, 9;
+(MOV): 11, 1, 0;
+(CALL): 9, 3, 1;
+(TGETS): 9, 12, 0;
+(TGETS): 9, 13, 9;
+(TSETS): 9, 46, 0;
+(TGETS): 9, 12, 0;
+(MOV): 10, 9, 0;
+(TGETS): 9, 10, 9;
+(MOV): 11, 1, 0;
+(CALL): 9, 3, 1;
+(UGET): 9, 1, 0;
+(TGETS): 9, 47, 9;
+(CALL): 9, 1, 2;
+(ISF): 0, 9, 0;
+(JMP): 10, 19, 128;
+(TGETS): 9, 12, 0;
+(TGETS): 9, 13, 9;
+(TGETS): 10, 46, 0;
+(ISEQV): 9, 10, 0;
+(JMP): 9, 14, 128;
+(TGETS): 9, 12, 0;
+(TGETS): 9, 13, 9;
+(TGETS): 9, 48, 9;
+(ISF): 0, 9, 0;
+(JMP): 10, 5, 128;
+(UGET): 9, 1, 0;
+(TGETS): 9, 49, 9;
+(KSTR): 10, 50, 0;
+(CALL): 9, 2, 1;
+(JMP): 9, 4, 128;
+(UGET): 9, 1, 0;
+(TGETS): 9, 49, 9;
+(KSTR): 10, 51, 0;
+(CALL): 9, 2, 1;
+(TGETS): 9, 52, 0;
+(ISNES): 9, 53, 0;
+(JMP): 9, 96, 128;
+(TGETS): 9, 26, 0;
+(ISF): 0, 9, 0;
+(JMP): 10, 21, 128;
+(KSTR): 9, 54, 0;
+(TSETS): 9, 52, 0;
+(TGETS): 9, 55, 0;
+(MOV): 10, 9, 0;
+(TGETS): 9, 56, 9;
+(KPRI): 11, 2, 0;
+(CALL): 9, 3, 1;
+(TGETS): 9, 9, 0;
+(MOV): 10, 9, 0;
+(TGETS): 9, 57, 9;
+(GGET): 11, 2, 0;
+(TGETS): 11, 58, 11;
+(CALL): 11, 1, 2;
+(KSTR): 12, 59, 0;
+(KSTR): 13, 60, 0;
+(KSTR): 14, 61, 0;
+(CALL): 9, 6, 1;
+(GGET): 9, 62, 0;
+(KSTR): 10, 63, 0;
+(CALL): 9, 2, 1;
+(JMP): 9, 72, 128;
+(TGETS): 9, 64, 0;
+(ISF): 0, 9, 0;
+(JMP): 10, 3, 128;
+(KSTR): 9, 65, 0;
+(TSETS): 9, 52, 0;
+(JMP): 9, 66, 128;
+(MOV): 10, 0, 0;
+(TGETS): 9, 66, 0;
+(MOV): 11, 1, 0;
+(CALL): 9, 3, 1;
+(GGET): 9, 67, 0;
+(MOV): 10, 7, 0;
+(CALL): 9, 2, 1;
+(TGETS): 9, 55, 0;
+(MOV): 10, 9, 0;
+(TGETS): 9, 10, 9;
+(MOV): 11, 1, 0;
+(MOV): 12, 7, 0;
+(CALL): 9, 4, 1;
+(TGETS): 9, 68, 0;
+(SUBVV): 9, 1, 9;
+(TSETS): 9, 68, 0;
+(TGETS): 9, 68, 0;
+(KSHORT): 10, 0, 0;
+(ISGT): 9, 10, 0;
+(JMP): 9, 46, 128;
+(TGETS): 9, 69, 0;
+(ISF): 0, 9, 0;
+(JMP): 10, 43, 128;
+(GGET): 9, 2, 0;
+(TGETS): 9, 70, 9;
+(TGETS): 10, 69, 0;
+(CALL): 9, 2, 2;
+(MULVN): 9, 1, 9;
+(GGET): 10, 2, 0;
+(TGETS): 10, 71, 10;
+(ISF): 0, 10, 0;
+(JMP): 11, 6, 128;
+(GGET): 10, 2, 0;
+(TGETS): 10, 71, 10;
+(TGETS): 11, 69, 0;
+(CALL): 10, 2, 2;
+(IST): 0, 10, 0;
+(JMP): 11, 1, 128;
+(KSHORT): 10, 0, 0;
+(TDUP): 11, 72, 0;
+(TGETS): 12, 69, 0;
+(TSETB): 12, 2, 11;
+(TSETB): 9, 4, 11;
+(TSETB): 10, 6, 11;
+(TGETS): 12, 18, 0;
+(TSETB): 12, 8, 11;
+(GGET): 12, 73, 0;
+(KSTR): 13, 74, 0;
+(KSTR): 14, 75, 0;
+(GGET): 15, 76, 0;
+(MOV): 16, 11, 0;
+(CALL): 15, 2, 0;
+(CALLM): 12, 2, 1;
+(TGETS): 12, 9, 0;
+(MOV): 13, 12, 0;
+(TGETS): 12, 77, 12;
+(GGET): 14, 2, 0;
+(TGETS): 14, 58, 14;
+(CALL): 14, 1, 2;
+(KSTR): 15, 78, 0;
+(GGET): 16, 76, 0;
+(MOV): 17, 11, 0;
+(CALL): 16, 2, 0;
+(CALLM): 12, 3, 1;
+(UGET): 12, 2, 0;
+(TSETS): 12, 68, 0;
+(TGETS): 9, 52, 0;
+(ISNES): 9, 54, 0;
+(JMP): 9, 48, 128;
+(GGET): 9, 79, 0;
+(TGETS): 9, 80, 9;
+(TGETS): 10, 81, 0;
+(MOV): 11, 1, 0;
+(CALL): 9, 3, 1;
+(GGET): 9, 79, 0;
+(TGETS): 9, 82, 9;
+(TGETS): 10, 81, 0;
+(MOV): 11, 1, 0;
+(CALL): 9, 3, 1;
+(GGET): 9, 83, 0;
+(TGETS): 10, 84, 0;
+(TGETS): 10, 85, 10;
+(CALL): 9, 2, 4;
+(JMP): 12, 8, 128;
+(TGETS): 14, 86, 13;
+(ISNES): 14, 87, 0;
+(JMP): 15, 5, 128;
+(MOV): 16, 13, 0;
+(TGETS): 15, 10, 13;
+(MOV): 17, 1, 0;
+(CALL): 15, 3, 1;
+(JMP): 9, 2, 128;
+(ITERC): 12, 3, 3;
+(ITERL): 12, 246, 127;
+(TGETS): 9, 12, 0;
+(TGETS): 9, 13, 9;
+(TGETS): 9, 48, 9;
+(IST): 0, 9, 0;
+(JMP): 9, 12, 128;
+(TGETS): 9, 88, 0;
+(ISF): 0, 9, 0;
+(JMP): 10, 4, 128;
+(MOV): 10, 0, 0;
+(TGETS): 9, 44, 0;
+(CALL): 9, 2, 1;
+(JMP): 9, 5, 128;
+(ISF): 0, 8, 0;
+(JMP): 9, 3, 128;
+(MOV): 10, 0, 0;
+(TGETS): 9, 44, 0;
+(CALL): 9, 2, 1;
+(TGETS): 9, 55, 0;
+(MOV): 10, 9, 0;
+(TGETS): 9, 10, 9;
+(MOV): 11, 1, 0;
+(MOV): 12, 7, 0;
+(CALL): 9, 4, 1;
+(TGETS): 9, 52, 0;
+(ISNES): 9, 65, 0;
+(JMP): 9, 47, 128;
+(TGETS): 9, 89, 0;
+(IST): 0, 9, 0;
+(JMP): 9, 7, 128;
+(KPRI): 9, 2, 0;
+(TSETS): 9, 89, 0;
+(MOV): 10, 0, 0;
+(TGETS): 9, 66, 0;
+(MOV): 11, 1, 0;
+(CALL): 9, 3, 1;
+(JMP): 9, 25, 128;
+(GGET): 9, 79, 0;
+(TGETS): 9, 80, 9;
+(TGETS): 10, 81, 0;
+(MOV): 11, 1, 0;
+(CALL): 9, 3, 1;
+(GGET): 9, 79, 0;
+(TGETS): 9, 82, 9;
+(TGETS): 10, 81, 0;
+(MOV): 11, 1, 0;
+(CALL): 9, 3, 1;
+(GGET): 9, 83, 0;
+(TGETS): 10, 84, 0;
+(TGETS): 10, 85, 10;
+(CALL): 9, 2, 4;
+(JMP): 12, 8, 128;
+(TGETS): 14, 86, 13;
+(ISNES): 14, 87, 0;
+(JMP): 15, 5, 128;
+(MOV): 16, 13, 0;
+(TGETS): 15, 10, 13;
+(MOV): 17, 1, 0;
+(CALL): 15, 3, 1;
+(JMP): 9, 2, 128;
+(ITERC): 12, 3, 3;
+(ITERL): 12, 246, 127;
+(TGETS): 9, 88, 0;
+(ISF): 0, 9, 0;
+(JMP): 10, 3, 128;
+(MOV): 10, 0, 0;
+(TGETS): 9, 44, 0;
+(CALL): 9, 2, 1;
+(TGETS): 9, 55, 0;
+(MOV): 10, 9, 0;
+(TGETS): 9, 10, 9;
+(MOV): 11, 1, 0;
+(MOV): 12, 7, 0;
+(CALL): 9, 4, 1;
+(TGETS): 9, 90, 0;
+(MOV): 10, 9, 0;
+(TGETS): 9, 10, 9;
+(MOV): 11, 1, 0;
+(CALL): 9, 3, 1;
+(GGET): 9, 2, 0;
+(TGETS): 9, 91, 9;
+(CALL): 9, 1, 1;
+(GGET): 9, 20, 0;
+(TGETS): 9, 10, 9;
+(MOV): 10, 1, 0;
+(CALL): 9, 2, 1;
+(GGET): 9, 27, 0;
+(KPRI): 10, 0, 0;
+(CALL): 9, 2, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+Upvalue{ 12, 192 };
+Upvalue{ 4, 192 };
+Upvalue{ 9, 192 };
+
+--Constants--
+String{ update_transmit };
+String{ shading_environment_manager };
+String{ update_entity_system_once_at_match_over };
+String{ exit_stats_screen };
+String{ minimap_system_client };
+String{ NAME };
+String{ systems };
+String{ entity_systems_bag };
+String{ ipairs };
+String{ update_scene };
+String{ game_world };
+String{ update_animations };
+String{ World };
+String{ performace };
+String{ post_gamesession_telemetry };
+String{ unpack };
+String{ [perf] Client performance: %s=%s	%s=%.0f	%s=%.2f	%s=%.1f };
+String{ always };
+String{ cat_printf_info_blue };
+Table{ 
+	Array Part{ 
+		Nil{ };
+		String{ server_pid };
+		Nil{ };
+		String{ ping_ms };
+		Nil{ };
+		String{ packet_loss };
+		Nil{ };
+		String{ client_fps };
+	};
+	Hash Part{ 
+	};
+};
+
+String{ packet_loss };
+String{ ping };
+String{ server_peer_id };
+String{ time_to_send_telemetry };
+String{ assert };
+String{ update_world_entity_systems };
+String{ match_over };
+String{ match_is_over };
+String{ [CLIENT] been disconnected from server in game_update stage };
+String{ print };
+String{ gameserver_error_connection_lost };
+String{ errorname };
+String{ error };
+String{ peer_id };
+String{ post_telemetry };
+String{ set_round_has_ended };
+String{ hud_manager };
+String{ disconnected };
+String{ game_update };
+String{ update_stage };
+String{ InGame };
+String{ Lobby };
+String{ set_current_state };
+String{ lobby_screen };
+String{ is_enabled };
+String{ previous_game_state };
+String{ task_manager };
+String{ transition_to_menu };
+String{ go_to_menu };
+String{ is_kicked };
+String{ parent };
+String{ kicked_reason };
+String{ game_detail_synchronizer };
+String{ chat_system };
+String{ freen_debug_update };
+String{ update_peer_transitions };
+String{ update_server_lobby_connection };
+String{ network_message_router };
+String{ update_receive };
+String{ NetworkWrapper };
+String{ handle_gameobject_notifications };
+String{ handle_delayed_gameobject_notifications };
+String{ event_delegate };
+String{ nop_delegate };
+String{ flow_set_callback_delegate };
+String{ server_has_disconnected };
+String{ FPS: %.1f };
+String{ sprintf };
+String{ show_fps_counter };
+String{ DevelopmentSetting_bool };
+String{ cond_color_text };
+String{ pdDebug };
+String{ Color };
+String{ fps_average };
+String{ fps_elapsed_time };
+String{ fps_num_frames };
+String{ set_update_index };
+String{ input_data };
+String{ state };
+String{ ingame_statemachine };
+String{ gamemode_timer };
+String{ update };
+String{ transaction_handler };
+String{ wall_timer };
+String{ tick };
+String{ pdWallTimer };
+String{ in_session };
+String{ GameSession };
+String{ game_session };
+String{ Network };
+String{ wants_to_exit_game };
+String{ wants_to_exit_game_timer };
+Int{ 1 };
+Int{ 1000 };
+
+--End--
+
+
+Prototype: 40
+Prototype_Size: 612; Flags: 0; #_Params: 3; Frame_Size: 15; Upvalue_Size: 0; KGC_Size: 15; KN_Size: 1; Instruction_Count: 46;
+
+--Bytecode Instructions--
+(ISNEN): 2, 0, 0;
+(JMP): 3, 1, 128;
+(RET0): 0, 1, 0;
+(TGETS): 3, 0, 0;
+(MOV): 4, 3, 0;
+(TGETS): 3, 1, 3;
+(MOV): 5, 1, 0;
+(MOV): 6, 2, 0;
+(CALL): 3, 4, 1;
+(TGETS): 3, 2, 0;
+(MOV): 4, 3, 0;
+(TGETS): 3, 3, 3;
+(KSTR): 5, 4, 0;
+(MOV): 6, 1, 0;
+(MOV): 7, 2, 0;
+(CALL): 3, 5, 1;
+(TGETS): 3, 5, 0;
+(KSHORT): 4, 1, 0;
+(MOV): 5, 2, 0;
+(KSHORT): 6, 1, 0;
+(FORI): 4, 24, 128;
+(TGETV): 8, 7, 1;
+(MOV): 10, 3, 0;
+(TGETS): 9, 6, 3;
+(MOV): 11, 8, 0;
+(CALL): 9, 3, 1;
+(GGET): 9, 7, 0;
+(TGETS): 9, 8, 9;
+(TGETS): 10, 9, 0;
+(MOV): 11, 8, 0;
+(CALL): 9, 3, 2;
+(GGET): 10, 10, 0;
+(KSTR): 11, 11, 0;
+(MOV): 12, 8, 0;
+(GGET): 13, 12, 0;
+(MOV): 14, 9, 0;
+(CALL): 13, 2, 2;
+(MOV): 14, 13, 0;
+(TGETS): 13, 13, 13;
+(CALL): 13, 2, 0;
+(CALLM): 10, 2, 1;
+(TGETS): 10, 14, 0;
+(KPRI): 11, 0, 0;
+(TSETV): 11, 8, 10;
+(FORL): 4, 232, 127;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ seen_peer_ids_map };
+String{ upper };
+String{ tostring };
+String{ [CLIENT] '%s' left game_session. removed from gamesession peers : %s };
+String{ printf };
+String{ gamesession_peers };
+String{ remove_peer_if_present };
+String{ NetworkGameSessionPeers };
+String{ remove_peer };
+String{ team_manager };
+String{ on_peer_disconnect_client_pd };
+String{ trigger };
+String{ event_delegate };
+String{ remove_peers };
+String{ game_detail_synchronizer };
+Int{ 0 };
+
+--End--
+
+
+Prototype: 41
+Prototype_Size: 605; Flags: 0; #_Params: 3; Frame_Size: 15; Upvalue_Size: 0; KGC_Size: 15; KN_Size: 1; Instruction_Count: 46;
+
+--Bytecode Instructions--
+(ISNEN): 2, 0, 0;
+(JMP): 3, 1, 128;
+(RET0): 0, 1, 0;
+(TGETS): 3, 0, 0;
+(MOV): 4, 3, 0;
+(TGETS): 3, 1, 3;
+(MOV): 5, 1, 0;
+(MOV): 6, 2, 0;
+(CALL): 3, 4, 1;
+(TGETS): 3, 2, 0;
+(MOV): 4, 3, 0;
+(TGETS): 3, 3, 3;
+(KSTR): 5, 4, 0;
+(MOV): 6, 1, 0;
+(MOV): 7, 2, 0;
+(CALL): 3, 5, 1;
+(TGETS): 3, 5, 0;
+(KSHORT): 4, 1, 0;
+(MOV): 5, 2, 0;
+(KSHORT): 6, 1, 0;
+(FORI): 4, 24, 128;
+(TGETV): 8, 7, 1;
+(MOV): 10, 3, 0;
+(TGETS): 9, 6, 3;
+(MOV): 11, 8, 0;
+(CALL): 9, 3, 1;
+(GGET): 9, 7, 0;
+(TGETS): 9, 8, 9;
+(TGETS): 10, 9, 0;
+(MOV): 11, 8, 0;
+(CALL): 9, 3, 2;
+(GGET): 10, 10, 0;
+(KSTR): 11, 11, 0;
+(MOV): 12, 8, 0;
+(GGET): 13, 12, 0;
+(MOV): 14, 9, 0;
+(CALL): 13, 2, 2;
+(MOV): 14, 13, 0;
+(TGETS): 13, 13, 13;
+(CALL): 13, 2, 0;
+(CALLM): 10, 2, 1;
+(TGETS): 10, 14, 0;
+(KPRI): 11, 0, 0;
+(TSETV): 11, 8, 10;
+(FORL): 4, 232, 127;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ seen_peer_ids_map };
+String{ upper };
+String{ tostring };
+String{ [CLIENT] '%s' left lobby. removed from gamesession peers : %s };
+String{ printf };
+String{ gamesession_peers };
+String{ remove_peer_if_present };
+String{ NetworkGameSessionPeers };
+String{ remove_peer };
+String{ team_manager };
+String{ on_peer_disconnect_client_pd };
+String{ trigger };
+String{ event_delegate };
+String{ remove_peers };
+String{ game_detail_synchronizer };
+Int{ 0 };
+
+--End--
+
+
+Prototype: 42
+Prototype_Size: 468; Flags: 0; #_Params: 3; Frame_Size: 14; Upvalue_Size: 0; KGC_Size: 11; KN_Size: 1; Instruction_Count: 34;
+
+--Bytecode Instructions--
+(ISNEN): 2, 0, 0;
+(JMP): 3, 1, 128;
+(RET0): 0, 1, 0;
+(KSHORT): 3, 1, 0;
+(MOV): 4, 2, 0;
+(KSHORT): 5, 1, 0;
+(FORI): 3, 26, 128;
+(TGETV): 7, 6, 1;
+(GGET): 8, 0, 0;
+(TGETS): 8, 1, 8;
+(TGETS): 9, 2, 0;
+(MOV): 10, 7, 0;
+(CALL): 8, 3, 2;
+(GGET): 9, 3, 0;
+(KSTR): 10, 4, 0;
+(MOV): 11, 7, 0;
+(GGET): 12, 5, 0;
+(MOV): 13, 8, 0;
+(CALL): 12, 2, 2;
+(MOV): 13, 12, 0;
+(TGETS): 12, 6, 12;
+(CALL): 12, 2, 0;
+(CALLM): 9, 2, 1;
+(TGETS): 9, 7, 0;
+(MOV): 10, 9, 0;
+(TGETS): 9, 8, 9;
+(KSTR): 11, 9, 0;
+(MOV): 12, 7, 0;
+(CALL): 9, 4, 1;
+(TGETS): 9, 10, 0;
+(KPRI): 10, 2, 0;
+(TSETV): 10, 7, 9;
+(FORL): 3, 230, 127;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ seen_peer_ids_map };
+String{ on_peer_joined_gamesession };
+String{ trigger };
+String{ event_delegate };
+String{ upper };
+String{ tostring };
+String{ [CLIENT] '%s' joined game_session. added to gamesession peers : %s };
+String{ printf };
+String{ gamesession_peers };
+String{ add_peer_if_not_present };
+String{ NetworkGameSessionPeers };
+Int{ 0 };
+
+--End--
+
+
+Prototype: 43
+Prototype_Size: 381; Flags: 0; #_Params: 3; Frame_Size: 14; Upvalue_Size: 0; KGC_Size: 8; KN_Size: 1; Instruction_Count: 28;
+
+--Bytecode Instructions--
+(ISNEN): 2, 0, 0;
+(JMP): 3, 1, 128;
+(RET0): 0, 1, 0;
+(KSHORT): 3, 1, 0;
+(MOV): 4, 2, 0;
+(KSHORT): 5, 1, 0;
+(FORI): 3, 20, 128;
+(TGETV): 7, 6, 1;
+(GGET): 8, 0, 0;
+(TGETS): 8, 1, 8;
+(TGETS): 9, 2, 0;
+(MOV): 10, 7, 0;
+(CALL): 8, 3, 2;
+(GGET): 9, 3, 0;
+(KSTR): 10, 4, 0;
+(MOV): 11, 7, 0;
+(GGET): 12, 5, 0;
+(MOV): 13, 8, 0;
+(CALL): 12, 2, 2;
+(MOV): 13, 12, 0;
+(TGETS): 12, 6, 12;
+(CALL): 12, 2, 0;
+(CALLM): 9, 2, 1;
+(TGETS): 9, 7, 0;
+(KPRI): 10, 2, 0;
+(TSETV): 10, 7, 9;
+(FORL): 3, 236, 127;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ seen_peer_ids_map };
+String{ upper };
+String{ tostring };
+String{ [CLIENT] '%s' joined lobby. added to gamesession peers : %s };
+String{ printf };
+String{ gamesession_peers };
+String{ add_peer_if_not_present };
+String{ NetworkGameSessionPeers };
+Int{ 0 };
+
+--End--
+
+
+Prototype: 44
+Prototype_Size: 100; Flags: 0; #_Params: 2; Frame_Size: 5; Upvalue_Size: 0; KGC_Size: 2; KN_Size: 0; Instruction_Count: 6;
+
+--Bytecode Instructions--
+(TGETS): 2, 0, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 1, 2;
+(MOV): 4, 1, 0;
+(CALL): 2, 3, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ destroy };
+String{ ingame_statemachine };
+
+--End--
+
+
+Prototype: 45
+Prototype_Size: 566; Flags: 0; #_Params: 1; Frame_Size: 12; Upvalue_Size: 0; KGC_Size: 21; KN_Size: 0; Instruction_Count: 47;
+
+--Bytecode Instructions--
+(TGETS): 1, 0, 0;
+(TGETS): 1, 1, 1;
+(GGET): 2, 2, 0;
+(TGETS): 2, 3, 2;
+(TGETS): 3, 4, 0;
+(TGETS): 4, 5, 0;
+(TGETS): 5, 6, 0;
+(MOV): 6, 1, 0;
+(CALL): 2, 5, 1;
+(TGETS): 2, 7, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 8, 2;
+(CALL): 2, 2, 2;
+(GGET): 3, 9, 0;
+(KSTR): 4, 10, 0;
+(CALL): 3, 2, 2;
+(ISF): 0, 3, 0;
+(JMP): 4, 28, 128;
+(TGETS): 3, 11, 0;
+(IST): 0, 3, 0;
+(JMP): 4, 5, 128;
+(GGET): 3, 12, 0;
+(TGETS): 3, 13, 3;
+(TGETS): 4, 4, 0;
+(KSTR): 5, 14, 0;
+(CALL): 3, 3, 2;
+(TSETS): 3, 11, 0;
+(GGET): 4, 15, 0;
+(TGETS): 4, 16, 4;
+(MOV): 5, 3, 0;
+(GGET): 6, 17, 0;
+(KSHORT): 7, 0, 0;
+(KSHORT): 8, 0, 0;
+(KSHORT): 9, 230, 3;
+(CALL): 6, 4, 2;
+(GGET): 7, 18, 0;
+(GGET): 8, 2, 0;
+(TGETS): 8, 19, 8;
+(CALL): 8, 1, 0;
+(CALLM): 7, 0, 2;
+(GGET): 8, 20, 0;
+(KSHORT): 9, 255, 0;
+(KSHORT): 10, 0, 0;
+(KSHORT): 11, 0, 0;
+(CALL): 8, 4, 0;
+(CALLM): 4, 3, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ Color };
+String{ resolution };
+String{ Vector2 };
+String{ Vector3 };
+String{ rect };
+String{ Gui };
+String{ immediate };
+String{ create_screen_gui };
+String{ World };
+String{ screen_gui };
+String{ no_world_rendering };
+String{ DevelopmentSetting_bool };
+String{ render };
+String{ ingame_statemachine };
+String{ viewport };
+String{ camera };
+String{ game_world };
+String{ render_world };
+String{ Application };
+String{ shading_environment };
+String{ shading_environment_manager };
+
+--End--
+
+
+Prototype: 46
+Prototype_Size: 1364; Flags: 0; #_Params: 2; Frame_Size: 6; Upvalue_Size: 5; KGC_Size: 42; KN_Size: 0; Instruction_Count: 130;
+
+--Bytecode Instructions--
+(TGETS): 2, 0, 0;
+(ISNEP): 2, 2, 0;
+(JMP): 2, 3, 128;
+(MOV): 3, 0, 0;
+(TGETS): 2, 1, 0;
+(CALL): 2, 2, 1;
+(IST): 0, 1, 0;
+(JMP): 2, 9, 128;
+(GGET): 2, 2, 0;
+(TGETS): 3, 3, 0;
+(TGETS): 3, 4, 3;
+(ISEQP): 3, 2, 0;
+(JMP): 3, 2, 128;
+(KPRI): 3, 1, 0;
+(JMP): 4, 1, 128;
+(KPRI): 3, 2, 0;
+(CALL): 2, 2, 1;
+(TGETS): 2, 5, 0;
+(ISF): 0, 2, 0;
+(JMP): 3, 10, 128;
+(TGETS): 2, 5, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 6, 2;
+(TGETS): 4, 7, 0;
+(CALL): 2, 3, 1;
+(TGETS): 2, 5, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 6, 2;
+(TGETS): 4, 8, 0;
+(CALL): 2, 3, 1;
+(TGETS): 2, 9, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 6, 2;
+(MOV): 4, 1, 0;
+(CALL): 2, 3, 1;
+(TGETS): 2, 10, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 6, 2;
+(CALL): 2, 2, 1;
+(TGETS): 2, 11, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 6, 2;
+(CALL): 2, 2, 1;
+(TGETS): 2, 12, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 6, 2;
+(CALL): 2, 2, 1;
+(TGETS): 2, 13, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 6, 2;
+(CALL): 2, 2, 1;
+(TGETS): 2, 14, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 6, 2;
+(CALL): 2, 2, 1;
+(TGETS): 2, 15, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 6, 2;
+(CALL): 2, 2, 1;
+(TGETS): 2, 16, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 17, 2;
+(TGETS): 4, 18, 0;
+(UGET): 5, 0, 0;
+(CALL): 2, 4, 1;
+(TGETS): 2, 16, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 17, 2;
+(TGETS): 4, 18, 0;
+(UGET): 5, 1, 0;
+(CALL): 2, 4, 1;
+(TGETS): 2, 16, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 17, 2;
+(TGETS): 4, 18, 0;
+(UGET): 5, 2, 0;
+(CALL): 2, 4, 1;
+(KPRI): 2, 0, 0;
+(TSETS): 2, 18, 0;
+(TGETS): 2, 16, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 19, 2;
+(GGET): 4, 20, 0;
+(CALL): 2, 3, 1;
+(TGETS): 2, 16, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 19, 2;
+(GGET): 4, 21, 0;
+(CALL): 2, 3, 1;
+(UGET): 2, 3, 0;
+(TGETS): 2, 22, 2;
+(TGETS): 3, 23, 0;
+(CALL): 2, 2, 1;
+(GGET): 2, 24, 0;
+(GGET): 3, 25, 0;
+(KSTR): 4, 26, 0;
+(CALL): 2, 3, 2;
+(ISF): 0, 2, 0;
+(JMP): 3, 9, 128;
+(GGET): 2, 26, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 6, 2;
+(CALL): 2, 2, 1;
+(GGET): 2, 27, 0;
+(GGET): 3, 25, 0;
+(KSTR): 4, 26, 0;
+(KPRI): 5, 0, 0;
+(CALL): 2, 4, 1;
+(GGET): 2, 28, 0;
+(TGETS): 2, 29, 2;
+(CALL): 2, 1, 1;
+(GGET): 2, 30, 0;
+(TGETS): 2, 31, 2;
+(TGETS): 3, 32, 0;
+(CALL): 2, 2, 1;
+(GGET): 2, 33, 0;
+(TGETS): 2, 34, 2;
+(TGETS): 3, 35, 0;
+(CALL): 2, 2, 1;
+(TGETS): 2, 36, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 37, 2;
+(CALL): 2, 2, 1;
+(UGET): 2, 4, 0;
+(TGETS): 2, 38, 2;
+(GGET): 3, 39, 0;
+(TGETS): 3, 40, 3;
+(TGETS): 3, 41, 3;
+(CALL): 2, 2, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+Upvalue{ 7, 192 };
+Upvalue{ 6, 192 };
+Upvalue{ 5, 192 };
+Upvalue{ 1, 192 };
+Upvalue{ 2, 192 };
+
+--Constants--
+String{ NOT_READY_FOR_MATCH };
+String{ assembly_member_status };
+String{ NetworkLookup };
+String{ set_client_state };
+String{ shutdown };
+String{ gamemode };
+String{ game_world };
+String{ release_world };
+String{ Application };
+String{ previous_cursor_clip };
+String{ set_clip_cursor };
+String{ Window };
+String{ teardown };
+String{ pdDebug };
+String{ rawset };
+String{ ui };
+String{ _G };
+String{ rawget };
+String{ viewport };
+String{ unregister_viewport };
+String{ CHAT_DESTINATION_TEAM };
+String{ CHAT_DESTINATION_ALL };
+String{ leave_rooms };
+String{ chat_handler };
+String{ unregister_chat_handler };
+String{ chat_system };
+String{ hud_manager };
+String{ start_game_synchronizer };
+String{ game_detail_synchronizer };
+String{ gamemode_timer };
+String{ entity_systems_bag };
+String{ shading_environment_manager };
+String{ ingame_statemachine };
+String{ nop_delegate };
+String{ event_delegate };
+String{ destroy };
+String{ task_manager };
+String{ left };
+String{ game_lobby };
+String{ assert };
+String{ handle_server_disconnect };
+String{ LAN_MODE };
+
+--End--
+
+
+Prototype: 47
+Prototype_Size: 72; Flags: 0; #_Params: 2; Frame_Size: 4; Upvalue_Size: 0; KGC_Size: 1; KN_Size: 0; Instruction_Count: 4;
+
+--Bytecode Instructions--
+(TGETS): 2, 0, 0;
+(KPRI): 3, 2, 0;
+(TSETV): 3, 1, 2;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ peers_received_good_bye };
+
+--End--
+
+
+Prototype: 48
+Prototype_Size: 105; Flags: 0; #_Params: 0; Frame_Size: 7; Upvalue_Size: 1; KGC_Size: 1; KN_Size: 0; Instruction_Count: 10;
+
+--Bytecode Instructions--
+(GGET): 0, 0, 0;
+(UGET): 1, 0, 0;
+(CALL): 0, 2, 4;
+(ISNEXT): 3, 3, 128;
+(UGET): 5, 0, 0;
+(KPRI): 6, 0, 0;
+(TSETV): 6, 3, 5;
+(ITERN): 3, 3, 3;
+(ITERL): 3, 251, 127;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+Upvalue{ 13, 192 };
+
+--Constants--
+String{ pairs };
+
+--End--
+
+
+Prototype: 49
+Prototype_Size: 113; Flags: 0; #_Params: 2; Frame_Size: 9; Upvalue_Size: 1; KGC_Size: 0; KN_Size: 0; Instruction_Count: 10;
+
+--Bytecode Instructions--
+(KSHORT): 2, 1, 0;
+(MOV): 3, 1, 0;
+(KSHORT): 4, 1, 0;
+(FORI): 2, 5, 128;
+(UGET): 6, 0, 0;
+(TGETV): 7, 5, 0;
+(KPRI): 8, 2, 0;
+(TSETV): 8, 7, 6;
+(FORL): 2, 251, 127;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+Upvalue{ 13, 192 };
+
+--Constants--
+
+--End--
+
+
+Prototype: 50
+Prototype_Size: 186; Flags: 0; #_Params: 2; Frame_Size: 9; Upvalue_Size: 2; KGC_Size: 0; KN_Size: 1; Instruction_Count: 17;
+
+--Bytecode Instructions--
+(KSHORT): 2, 0, 0;
+(KSHORT): 3, 1, 0;
+(MOV): 4, 1, 0;
+(KSHORT): 5, 1, 0;
+(FORI): 3, 9, 128;
+(TGETV): 7, 6, 0;
+(UGET): 8, 0, 0;
+(TGETV): 8, 7, 8;
+(IST): 0, 8, 0;
+(JMP): 8, 3, 128;
+(ADDVN): 2, 0, 2;
+(UGET): 8, 1, 0;
+(TSETV): 7, 2, 8;
+(FORL): 3, 247, 127;
+(UGET): 3, 1, 0;
+(MOV): 4, 2, 0;
+(RET): 3, 3, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+Upvalue{ 13, 192 };
+Upvalue{ 16, 192 };
+
+--Constants--
+Int{ 1 };
+
+--End--
+
+
+Prototype: 51
+Prototype_Size: 902; Flags: 0; #_Params: 1; Frame_Size: 17; Upvalue_Size: 1; KGC_Size: 16; KN_Size: 0; Instruction_Count: 70;
+
+--Bytecode Instructions--
+(TGETS): 1, 0, 0;
+(UGET): 2, 0, 0;
+(GGET): 3, 1, 0;
+(TGETS): 3, 2, 3;
+(MOV): 4, 2, 0;
+(CALL): 3, 2, 1;
+(TGETS): 3, 3, 0;
+(GGET): 4, 4, 0;
+(TGETS): 4, 5, 4;
+(TGETS): 5, 6, 0;
+(CALL): 4, 2, 3;
+(MOV): 7, 0, 0;
+(TGETS): 6, 7, 0;
+(MOV): 8, 4, 0;
+(MOV): 9, 5, 0;
+(CALL): 6, 4, 1;
+(KSHORT): 6, 1, 0;
+(MOV): 7, 5, 0;
+(KSHORT): 8, 1, 0;
+(FORI): 6, 10, 128;
+(TGETV): 10, 9, 4;
+(TGETV): 11, 10, 1;
+(ISF): 0, 11, 0;
+(JMP): 12, 5, 128;
+(GGET): 11, 1, 0;
+(TGETS): 11, 8, 11;
+(MOV): 12, 2, 0;
+(MOV): 13, 10, 0;
+(CALL): 11, 3, 1;
+(FORL): 6, 246, 127;
+(GGET): 6, 4, 0;
+(TGETS): 6, 5, 6;
+(TGETS): 7, 9, 0;
+(CALL): 6, 2, 3;
+(TGETB): 8, 1, 3;
+(GGET): 9, 10, 0;
+(TGETS): 9, 11, 9;
+(MOV): 10, 8, 0;
+(CALL): 9, 2, 1;
+(KSHORT): 9, 1, 0;
+(MOV): 10, 7, 0;
+(KSHORT): 11, 1, 0;
+(FORI): 9, 17, 128;
+(TGETV): 13, 12, 6;
+(TGETV): 14, 13, 1;
+(ISF): 0, 14, 0;
+(JMP): 15, 12, 128;
+(GGET): 14, 1, 0;
+(TGETS): 14, 12, 14;
+(MOV): 15, 2, 0;
+(MOV): 16, 13, 0;
+(CALL): 14, 3, 2;
+(IST): 0, 14, 0;
+(JMP): 14, 5, 128;
+(GGET): 14, 10, 0;
+(TGETS): 14, 13, 14;
+(MOV): 15, 8, 0;
+(MOV): 16, 13, 0;
+(CALL): 14, 3, 1;
+(FORL): 9, 239, 127;
+(GGET): 9, 10, 0;
+(TGETS): 9, 14, 9;
+(MOV): 10, 8, 0;
+(CALL): 9, 2, 3;
+(MOV): 12, 0, 0;
+(TGETS): 11, 15, 0;
+(MOV): 13, 9, 0;
+(MOV): 14, 10, 0;
+(CALL): 11, 4, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+Upvalue{ 18, 192 };
+
+--Constants--
+String{ handle_left_lobby_peers };
+String{ data };
+String{ push_back };
+String{ has };
+String{ set_empty };
+String{ pdArray };
+String{ lobby_peers_transitions };
+String{ insert };
+String{ handle_left_game_session_peers };
+String{ gamesession_peers_transitions };
+String{ left };
+String{ NetworkGameSessionPeersTransitions };
+String{ scratch_arrays };
+String{ clear };
+String{ pdSet };
+String{ seen_peer_ids_map };
+
+--End--
+
+
+Prototype: 52
+Prototype_Size: 451; Flags: 0; #_Params: 1; Frame_Size: 9; Upvalue_Size: 2; KGC_Size: 6; KN_Size: 0; Instruction_Count: 25;
+
+--Bytecode Instructions--
+(UGET): 1, 0, 0;
+(CALL): 1, 1, 1;
+(GGET): 1, 0, 0;
+(TGETS): 1, 1, 1;
+(TGETS): 2, 2, 0;
+(CALL): 1, 2, 3;
+(MOV): 4, 0, 0;
+(TGETS): 3, 3, 0;
+(MOV): 5, 1, 0;
+(MOV): 6, 2, 0;
+(CALL): 3, 4, 1;
+(UGET): 3, 1, 0;
+(MOV): 4, 1, 0;
+(MOV): 5, 2, 0;
+(CALL): 3, 3, 1;
+(GGET): 3, 0, 0;
+(TGETS): 3, 1, 3;
+(TGETS): 4, 4, 0;
+(CALL): 3, 2, 3;
+(MOV): 6, 0, 0;
+(TGETS): 5, 5, 0;
+(MOV): 7, 3, 0;
+(MOV): 8, 4, 0;
+(CALL): 5, 4, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+Upvalue{ 14, 192 };
+Upvalue{ 15, 192 };
+
+--Constants--
+String{ handle_joined_lobby_peers };
+String{ lobby_peers_transitions };
+String{ handle_joined_game_session_peers };
+String{ gamesession_peers_transitions };
+String{ joined };
+String{ NetworkGameSessionPeersTransitions };
+
+--End--
+
+
+Prototype: 53
+Prototype_Size: 393; Flags: 0; #_Params: 1; Frame_Size: 6; Upvalue_Size: 0; KGC_Size: 14; KN_Size: 0; Instruction_Count: 31;
+
+--Bytecode Instructions--
+(GGET): 1, 0, 0;
+(TGETS): 1, 1, 1;
+(TGETS): 2, 2, 0;
+(GGET): 3, 3, 0;
+(TGETS): 3, 4, 3;
+(TGETS): 4, 5, 0;
+(CALL): 3, 2, 0;
+(CALLM): 1, 1, 1;
+(TGETS): 1, 6, 0;
+(TGETS): 2, 7, 1;
+(ISF): 0, 2, 0;
+(JMP): 3, 12, 128;
+(TGETS): 2, 8, 1;
+(IST): 0, 2, 0;
+(JMP): 2, 9, 128;
+(GGET): 2, 0, 0;
+(TGETS): 2, 1, 2;
+(TGETS): 3, 9, 0;
+(TGETS): 4, 6, 0;
+(TGETS): 4, 10, 4;
+(MOV): 5, 4, 0;
+(TGETS): 4, 11, 4;
+(CALL): 4, 2, 0;
+(CALLM): 2, 1, 1;
+(MOV): 3, 0, 0;
+(TGETS): 2, 12, 0;
+(CALL): 2, 2, 1;
+(MOV): 3, 0, 0;
+(TGETS): 2, 13, 0;
+(CALL): 2, 2, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ update_joining_peers };
+String{ update_leaving_peers };
+String{ members };
+String{ lobby };
+String{ lobby_peers_transitions };
+String{ left };
+String{ joined };
+String{ game_lobby };
+String{ game_session };
+String{ peers };
+String{ GameSession };
+String{ gamesession_peers_transitions };
+String{ update };
+String{ NetworkGameSessionPeersTransitions };
+
+--End--
+
+
+Prototype: 54
+Prototype_Size: 470; Flags: 0; #_Params: 1; Frame_Size: 3; Upvalue_Size: 0; KGC_Size: 14; KN_Size: 0; Instruction_Count: 33;
+
+--Bytecode Instructions--
+(KPRI): 1, 2, 0;
+(TSETS): 1, 0, 0;
+(TGETS): 1, 1, 0;
+(IST): 0, 1, 0;
+(JMP): 1, 1, 128;
+(RET0): 0, 1, 0;
+(GGET): 1, 2, 0;
+(KSTR): 2, 3, 0;
+(CALL): 1, 2, 1;
+(TGETS): 1, 4, 0;
+(MOV): 2, 1, 0;
+(TGETS): 1, 5, 1;
+(CALL): 1, 2, 2;
+(IST): 0, 1, 0;
+(JMP): 1, 3, 128;
+(GGET): 1, 2, 0;
+(KSTR): 2, 6, 0;
+(CALL): 1, 2, 1;
+(TGETS): 1, 7, 0;
+(KPRI): 2, 2, 0;
+(TSETS): 2, 8, 1;
+(TGETS): 1, 7, 0;
+(TGETS): 2, 10, 0;
+(TGETS): 2, 11, 2;
+(TSETS): 2, 9, 1;
+(TGETS): 1, 7, 0;
+(TGETS): 2, 10, 0;
+(TGETS): 2, 12, 2;
+(TSETS): 2, 12, 1;
+(TGETS): 1, 7, 0;
+(TGETS): 2, 13, 0;
+(TSETS): 2, 13, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ end_of_round_client_rewards };
+String{ team_scores };
+String{ is_winning_team };
+String{ gamemode };
+String{ is_winner };
+String{ go_to_menu };
+String{ parent };
+String{ EXITING WHILE STILL HAS PENDING/UNHANDLED TRANSACTIONS... LOL FAIL! };
+String{ empty };
+String{ transaction_handler };
+String{ GameStateIngameClientRunning : ALL SAID AND DONE! };
+String{ print };
+String{ server_has_disconnected };
+String{ wants_to_exit_game };
+
+--End--
+
+
+Prototype: 55
+Prototype_Size: 224; Flags: 0; #_Params: 6; Frame_Size: 9; Upvalue_Size: 0; KGC_Size: 6; KN_Size: 1; Instruction_Count: 16;
+
+--Bytecode Instructions--
+(TGETS): 6, 0, 0;
+(IST): 0, 6, 0;
+(JMP): 6, 2, 128;
+(TNEW): 6, 0, 0;
+(TSETS): 6, 0, 0;
+(TGETS): 6, 0, 0;
+(TGETS): 7, 0, 0;
+(LEN): 7, 7, 0;
+(ADDVN): 7, 0, 7;
+(TDUP): 8, 1, 0;
+(TSETS): 2, 2, 8;
+(TSETS): 3, 3, 8;
+(TSETS): 4, 4, 8;
+(TSETS): 5, 5, 8;
+(TSETV): 8, 7, 6;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ source };
+String{ amount };
+String{ type };
+String{ name };
+Table{ 
+	Array Part{ 
+	};
+	Hash Part{ 
+	};
+};
+
+String{ end_of_round_client_rewards };
+Int{ 1 };
+
+--End--
+
+
+Prototype: 56
+Prototype_Size: 52; Flags: 0; #_Params: 1; Frame_Size: 2; Upvalue_Size: 0; KGC_Size: 1; KN_Size: 0; Instruction_Count: 3;
+
+--Bytecode Instructions--
+(KPRI): 1, 2, 0;
+(TSETS): 1, 0, 0;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ exit_stats_screen };
+
+--End--
+
+
+Prototype: 57
+Prototype_Size: 3838; Flags: 3; #_Params: 0; Frame_Size: 21; Upvalue_Size: 0; KGC_Size: 134; KN_Size: 0; Instruction_Count: 228;
+
+--Bytecode Instructions--
+(GGET): 0, 0, 0;
+(KSTR): 1, 1, 0;
+(CALL): 0, 2, 1;
+(GGET): 0, 0, 0;
+(KSTR): 1, 2, 0;
+(CALL): 0, 2, 1;
+(GGET): 0, 0, 0;
+(KSTR): 1, 3, 0;
+(CALL): 0, 2, 1;
+(GGET): 0, 0, 0;
+(KSTR): 1, 4, 0;
+(CALL): 0, 2, 1;
+(GGET): 0, 0, 0;
+(KSTR): 1, 5, 0;
+(CALL): 0, 2, 1;
+(GGET): 0, 0, 0;
+(KSTR): 1, 6, 0;
+(CALL): 0, 2, 1;
+(GGET): 0, 0, 0;
+(KSTR): 1, 7, 0;
+(CALL): 0, 2, 1;
+(GGET): 0, 0, 0;
+(KSTR): 1, 8, 0;
+(CALL): 0, 2, 1;
+(GGET): 0, 0, 0;
+(KSTR): 1, 9, 0;
+(CALL): 0, 2, 1;
+(GGET): 0, 0, 0;
+(KSTR): 1, 10, 0;
+(CALL): 0, 2, 1;
+(GGET): 0, 0, 0;
+(KSTR): 1, 11, 0;
+(CALL): 0, 2, 1;
+(GGET): 0, 0, 0;
+(KSTR): 1, 12, 0;
+(CALL): 0, 2, 1;
+(GGET): 0, 13, 0;
+(KSTR): 1, 14, 0;
+(CALL): 0, 2, 2;
+(GGET): 1, 13, 0;
+(KSTR): 2, 15, 0;
+(CALL): 1, 2, 2;
+(GGET): 2, 13, 0;
+(KSTR): 3, 16, 0;
+(CALL): 2, 2, 2;
+(GGET): 3, 13, 0;
+(KSTR): 4, 17, 0;
+(CALL): 3, 2, 2;
+(GGET): 4, 13, 0;
+(KSTR): 5, 18, 0;
+(CALL): 4, 2, 2;
+(KSTR): 5, 19, 0;
+(KSTR): 6, 20, 0;
+(KSTR): 7, 21, 0;
+(FNEW): 8, 22, 0;
+(KSHORT): 9, 60, 0;
+(GGET): 10, 23, 0;
+(GGET): 11, 24, 0;
+(KPRI): 12, 0, 0;
+(KSTR): 13, 24, 0;
+(CALL): 10, 4, 2;
+(GSET): 10, 24, 0;
+(GGET): 10, 24, 0;
+(FNEW): 11, 26, 0;
+(TSETS): 11, 25, 10;
+(GGET): 10, 24, 0;
+(FNEW): 11, 28, 0;
+(TSETS): 11, 27, 10;
+(GGET): 10, 24, 0;
+(FNEW): 11, 30, 0;
+(TSETS): 11, 29, 10;
+(GGET): 10, 24, 0;
+(FNEW): 11, 32, 0;
+(TSETS): 11, 31, 10;
+(GGET): 10, 24, 0;
+(FNEW): 11, 34, 0;
+(TSETS): 11, 33, 10;
+(GGET): 10, 24, 0;
+(FNEW): 11, 36, 0;
+(TSETS): 11, 35, 10;
+(GGET): 10, 24, 0;
+(FNEW): 11, 38, 0;
+(TSETS): 11, 37, 10;
+(GGET): 10, 24, 0;
+(FNEW): 11, 40, 0;
+(TSETS): 11, 39, 10;
+(GGET): 10, 24, 0;
+(FNEW): 11, 42, 0;
+(TSETS): 11, 41, 10;
+(GGET): 10, 24, 0;
+(FNEW): 11, 44, 0;
+(TSETS): 11, 43, 10;
+(GGET): 10, 24, 0;
+(FNEW): 11, 46, 0;
+(TSETS): 11, 45, 10;
+(FNEW): 10, 47, 0;
+(GGET): 11, 24, 0;
+(FNEW): 12, 49, 0;
+(TSETS): 12, 48, 11;
+(GGET): 11, 24, 0;
+(FNEW): 12, 51, 0;
+(TSETS): 12, 50, 11;
+(GGET): 11, 24, 0;
+(FNEW): 12, 53, 0;
+(TSETS): 12, 52, 11;
+(GGET): 11, 24, 0;
+(FNEW): 12, 55, 0;
+(TSETS): 12, 54, 11;
+(GGET): 11, 24, 0;
+(FNEW): 12, 57, 0;
+(TSETS): 12, 56, 11;
+(GGET): 11, 24, 0;
+(FNEW): 12, 59, 0;
+(TSETS): 12, 58, 11;
+(GGET): 11, 24, 0;
+(FNEW): 12, 61, 0;
+(TSETS): 12, 60, 11;
+(GGET): 11, 24, 0;
+(FNEW): 12, 63, 0;
+(TSETS): 12, 62, 11;
+(GGET): 11, 24, 0;
+(FNEW): 12, 65, 0;
+(TSETS): 12, 64, 11;
+(GGET): 11, 24, 0;
+(FNEW): 12, 67, 0;
+(TSETS): 12, 66, 11;
+(GGET): 11, 24, 0;
+(FNEW): 12, 69, 0;
+(TSETS): 12, 68, 11;
+(GGET): 11, 24, 0;
+(FNEW): 12, 71, 0;
+(TSETS): 12, 70, 11;
+(GGET): 11, 24, 0;
+(FNEW): 12, 73, 0;
+(TSETS): 12, 72, 11;
+(GGET): 11, 24, 0;
+(FNEW): 12, 75, 0;
+(TSETS): 12, 74, 11;
+(GGET): 11, 24, 0;
+(FNEW): 12, 77, 0;
+(TSETS): 12, 76, 11;
+(GGET): 11, 24, 0;
+(FNEW): 12, 79, 0;
+(TSETS): 12, 78, 11;
+(GGET): 11, 24, 0;
+(FNEW): 12, 81, 0;
+(TSETS): 12, 80, 11;
+(FNEW): 11, 82, 0;
+(GGET): 12, 24, 0;
+(FNEW): 13, 84, 0;
+(TSETS): 13, 83, 12;
+(GGET): 12, 24, 0;
+(FNEW): 13, 86, 0;
+(TSETS): 13, 85, 12;
+(GGET): 12, 24, 0;
+(FNEW): 13, 88, 0;
+(TSETS): 13, 87, 12;
+(GGET): 12, 24, 0;
+(FNEW): 13, 90, 0;
+(TSETS): 13, 89, 12;
+(GGET): 12, 24, 0;
+(FNEW): 13, 92, 0;
+(TSETS): 13, 91, 12;
+(GGET): 12, 24, 0;
+(FNEW): 13, 94, 0;
+(TSETS): 13, 93, 12;
+(GGET): 12, 24, 0;
+(FNEW): 13, 96, 0;
+(TSETS): 13, 95, 12;
+(GGET): 12, 24, 0;
+(FNEW): 13, 98, 0;
+(TSETS): 13, 97, 12;
+(TNEW): 12, 0, 0;
+(GGET): 13, 24, 0;
+(FNEW): 14, 100, 0;
+(TSETS): 14, 99, 13;
+(GGET): 13, 24, 0;
+(FNEW): 14, 102, 0;
+(TSETS): 14, 101, 13;
+(GGET): 13, 24, 0;
+(FNEW): 14, 104, 0;
+(TSETS): 14, 103, 13;
+(GGET): 13, 24, 0;
+(FNEW): 14, 106, 0;
+(TSETS): 14, 105, 13;
+(GGET): 13, 24, 0;
+(FNEW): 14, 108, 0;
+(TSETS): 14, 107, 13;
+(GGET): 13, 24, 0;
+(FNEW): 14, 110, 0;
+(TSETS): 14, 109, 13;
+(GGET): 13, 24, 0;
+(FNEW): 14, 112, 0;
+(TSETS): 14, 111, 13;
+(GGET): 13, 24, 0;
+(FNEW): 14, 114, 0;
+(TSETS): 14, 113, 13;
+(GGET): 13, 24, 0;
+(FNEW): 14, 116, 0;
+(TSETS): 14, 115, 13;
+(TNEW): 13, 0, 0;
+(FNEW): 14, 117, 0;
+(FNEW): 15, 118, 0;
+(TNEW): 16, 0, 0;
+(FNEW): 17, 119, 0;
+(GGET): 18, 120, 0;
+(TGETS): 18, 121, 18;
+(CALL): 18, 1, 2;
+(GGET): 19, 24, 0;
+(FNEW): 20, 123, 0;
+(TSETS): 20, 122, 19;
+(GGET): 19, 24, 0;
+(FNEW): 20, 125, 0;
+(TSETS): 20, 124, 19;
+(GGET): 19, 24, 0;
+(FNEW): 20, 127, 0;
+(TSETS): 20, 126, 19;
+(GGET): 19, 24, 0;
+(FNEW): 20, 129, 0;
+(TSETS): 20, 128, 19;
+(GGET): 19, 24, 0;
+(FNEW): 20, 131, 0;
+(TSETS): 20, 130, 19;
+(GGET): 19, 24, 0;
+(FNEW): 20, 133, 0;
+(TSETS): 20, 132, 19;
+(UCLO): 0, 0, 128;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 57 };
+Child{ Prototype: 56 };
+Child{ Prototype: 55 };
+Child{ Prototype: 54 };
+Child{ Prototype: 53 };
+Child{ Prototype: 52 };
+Child{ Prototype: 51 };
+Child{ Prototype: 50 };
+Child{ Prototype: 49 };
+Child{ Prototype: 48 };
+Child{ Prototype: 47 };
+Child{ Prototype: 46 };
+Child{ Prototype: 45 };
+Child{ Prototype: 44 };
+Child{ Prototype: 43 };
+Child{ Prototype: 42 };
+Child{ Prototype: 41 };
+Child{ Prototype: 40 };
+Child{ Prototype: 39 };
+Child{ Prototype: 38 };
+Child{ Prototype: 37 };
+Child{ Prototype: 36 };
+Child{ Prototype: 35 };
+Child{ Prototype: 34 };
+Child{ Prototype: 33 };
+Child{ Prototype: 32 };
+Child{ Prototype: 31 };
+Child{ Prototype: 30 };
+Child{ Prototype: 29 };
+Child{ Prototype: 28 };
+Child{ Prototype: 27 };
+Child{ Prototype: 26 };
+Child{ Prototype: 25 };
+Child{ Prototype: 24 };
+Child{ Prototype: 23 };
+Child{ Prototype: 22 };
+Child{ Prototype: 21 };
+Child{ Prototype: 20 };
+Child{ Prototype: 19 };
+Child{ Prototype: 18 };
+Child{ Prototype: 17 };
+Child{ Prototype: 16 };
+Child{ Prototype: 15 };
+Child{ Prototype: 14 };
+Child{ Prototype: 13 };
+Child{ Prototype: 12 };
+Child{ Prototype: 11 };
+Child{ Prototype: 10 };
+Child{ Prototype: 9 };
+Child{ Prototype: 8 };
+Child{ Prototype: 7 };
+Child{ Prototype: 6 };
+Child{ Prototype: 5 };
+Child{ Prototype: 4 };
+Child{ Prototype: 3 };
+Child{ Prototype: 2 };
+Child{ Prototype: 1 };
+Child{ Prototype: 0 };
+
+--Upvalues--
+
+--Constants--
+String{ on_score_screen_continue };
+String{ rpc_from_server_end_of_round_client_rewards };
+String{ transition_to_menu };
+String{ update_peer_transitions };
+String{ update_joining_peers };
+String{ update_leaving_peers };
+String{ new };
+String{ pdSet };
+String{ rpc_good_bye };
+String{ on_exit };
+String{ render };
+String{ destroy };
+String{ handle_joined_lobby_peers };
+String{ handle_joined_game_session_peers };
+String{ handle_left_lobby_peers };
+String{ handle_left_game_session_peers };
+String{ update };
+String{ update_server_lobby_connection };
+String{ handle_server_disconnect };
+String{ post_update };
+String{ pre_update };
+String{ update_world_entity_systems };
+String{ freen_debug_update };
+String{ handle_delayed_gameobject_notifications };
+String{ handle_gameobject_notifications };
+String{ unspawn_unit };
+String{ spawn_unit };
+String{ setup_entity_systems };
+String{ setup_network_game_handlers };
+String{ setup_game_viewport_camera };
+String{ setup_game_world };
+String{ create_network_transport };
+String{ setup_gui_manager };
+String{ setup_hud_manager };
+String{ setup_team_manager };
+String{ setup_gamemode };
+String{ game_over };
+String{ from_flow_unspawn_unit };
+String{ register_events };
+String{ update_terminate_external_connections };
+String{ on_enter };
+String{ setup_ingame_statemachine };
+String{ setup_peer_transitions };
+String{ setup_network_synchronizers };
+String{ on_peer_disconnect_client_pd };
+String{ dev_game_session_disconnect };
+String{ game_session_disconnect };
+String{ rpc_from_server_match_start };
+String{ rpc_from_server_teleport_ai };
+String{ rpc_from_server_teleport_player };
+String{ setup_network };
+String{ set_update_index };
+String{ init };
+String{ GameStateIngameClientRunning };
+String{ class };
+String{ team2 };
+String{ team1 };
+String{ game };
+String{ scripts/game/curse_voice/curse_voice_chat };
+String{ scripts/game/network/network_matchmaker_interface };
+String{ scripts/game/network/network_player_assembly };
+String{ foundation/scripts/util/engine/resolution };
+String{ scripts/game/gamemode/gamemode_timer };
+String{ require_bs };
+String{ scripts/game/rendering/shading_environment_manager };
+String{ scripts/game/entity_system/systems/network/network_system_aux };
+String{ scripts/game/network/network_spawnpoints };
+String{ scripts/game/util/pd_camera_controller_freeflight };
+String{ scripts/game/chat/chat_system };
+String{ scripts/game/chat/chat_client_handler };
+String{ scripts/game/game_state/ingame/client/state_ingame_lobby_client };
+String{ scripts/game/game_state/ingame/client/state_ingame_failed_client };
+String{ scripts/game/game_state/ingame/client/state_ingame_running_client };
+String{ scripts/game/managers/hud_manager };
+String{ scripts/game/entity_system/entity_system_bag_client };
+String{ scripts/game/util/level_callback };
+String{ require };
+
+--End--
+
+

@@ -13,6 +13,8 @@ namespace Luajit_Decompiler.dec
     {
         private List<Block> ptBlocks; //list of all asm blocks to a single prototype.
         private StringBuilder fileSource = new StringBuilder(); //source code for the entire file.
+        private Variables vars; //temp vars for each file.
+        private List<Jump> jumps; //jumps per prototype.
 
         /// <summary>
         /// Decompiles an entire file's prototypes.
@@ -23,15 +25,24 @@ namespace Luajit_Decompiler.dec
         {
             StringBuilder res = new StringBuilder();
             res.AppendLine("--Lua File Name: " + name);
-            Variables vars = new Variables(); //temp vars for the file.
+            vars = new Variables(); //temp vars for the file.
             for (int i = pts.Count; i > 0; i--) //We go backwards here because the 'main' proto is always the last one and will have the most prototype children.
             {
                 int blockifyIndex = 0;
                 ptBlocks = new List<Block>();
+                jumps = new List<Jump>();
                 BlockifyPT(pts[i - 1], ref blockifyIndex, pts[i - 1].bytecodeInstructions.Count); //Note: After each block's endIndex is a JMP in the prototype asm. (endIndex + 1)
+                SliceBlocks(jumps, ptBlocks, pts[i - 1]);
                 foreach(Block b in ptBlocks)
                 {
-                    DecompileBlock(b, ref vars);
+                    //DecompileBlock(b, ref vars);
+                    if (!b.written) //if it hasn't been written already, write it.
+                    {
+                        //b.varRef = vars; //should be by reference.
+                        //b.ptBlocks = ptBlocks;
+                        //b.currentPT = pts[i - 1];
+                        fileSource.Append(b.WriteBlock(vars));
+                    }
                 }
             }
             //foreach (Block b in ptBlocks) //debug
@@ -53,7 +64,7 @@ namespace Luajit_Decompiler.dec
                 b.startB = start; //start of a block by line in asm for reference.
                 BytecodeInstruction bci = pt.bytecodeInstructions[start];
                 bool isJmpOrRet;
-                switch (bci.opcode)
+                switch (bci.opcode) //consider storing index of jump/ret in a list
                 {
                     case OpCodes.JMP:
                     case OpCodes.RET:
@@ -66,9 +77,14 @@ namespace Luajit_Decompiler.dec
                         isJmpOrRet = false;
                         break;
                 }
-                if (isJmpOrRet)
+                if (isJmpOrRet) 
                 {
+                    if(bci.opcode == OpCodes.JMP)
+                        jumps.Add(new Jump(bci, start)); //add the jump
                     b.endB = start - 1; //terminate block at instruction above JMP.
+                    b.ptBlocks = ptBlocks;
+                    b.varRef = vars;
+                    b.currentPT = pt;
                     ptBlocks.Add(b);
                     b = new Block();
                 }
@@ -79,80 +95,95 @@ namespace Luajit_Decompiler.dec
         }
 
         /// <summary>
+        /// Splits blocks into 1 or more blocks based on jump distance.
+        /// </summary>
+        /// <param name="jumps"></param>
+        /// <param name="blocks"></param>
+        private void SliceBlocks(List<Jump> jumps, List<Block> blocks, Prototype currentPT)
+        {
+            //foreach (Block b in blocks) //debug
+            //    Console.Out.WriteLine(b.ToString()); //debug
+            //Console.Read(); //debug
+            foreach (Jump j in jumps)
+            {
+                Block b = Block.GetTargetOfJump(currentPT, blocks, j.index);
+                if (j.distance <= 0)
+                    throw new Exception("SliceBlocks: Negative jumps unhandled currently.");
+                if (b.iCount > j.distance) //we need to split the block
+                {
+                    Block split1 = new Block();
+                    Block split2 = new Block();
+                    split1.startB = b.startB;
+                    int i = 0;
+                    while (i < j.distance)
+                    {
+                        split1.bcis.Add(b.bcis[i]);
+                        i++;
+                    }
+                    split1.endB = i - 1;
+                    split2.startB = i;
+                    while (i < b.iCount)
+                    {
+                        split2.bcis.Add(b.bcis[i]);
+                        i++;
+                    }
+                    split2.endB = i;
+                    //initialize other parts of blocks.
+                    split1.currentPT = b.currentPT;
+                    split2.currentPT = b.currentPT;
+                    split1.ptBlocks = b.ptBlocks;
+                    split2.ptBlocks = b.ptBlocks;
+                    split1.varRef = b.varRef;
+                    split2.varRef = b.varRef;
+                    int oldIndex = blocks.IndexOf(b);
+                    blocks.Remove(b);
+                    blocks.Insert(oldIndex, split1);
+                    blocks.Insert(oldIndex + 1, split2);
+                }
+                //else //debug
+                //    Console.Out.WriteLine("Dist: " + j.distance + " Index: " + j.index); //debug
+            }
+            foreach (Block b in blocks) //debug
+                Console.Out.WriteLine(b.ToString()); //debug
+            Console.Read(); //debug
+        }
+
+        /// <summary>
         /// Decompiles a single block of asm.
         /// </summary>
         /// <param name="pt">Current prototype.</param>
         /// <param name="b">A block from within the current prototype.</param>
-        private void DecompileBlock(Block b, ref Variables vars)
-        {
-            foreach(BytecodeInstruction bci in b.bcis)
-            {
-                switch (bci.opcode)
-                {
-                    case OpCodes.ISLT:
-                    case OpCodes.ISGE:
-                    case OpCodes.ISLE:
-                    case OpCodes.ISGT:
-                    case OpCodes.ISEQV:
-                    case OpCodes.ISNEV:
-                    case OpCodes.ISEQS:
-                    case OpCodes.ISNES:
-                    case OpCodes.ISEQN:
-                    case OpCodes.ISNEN:
-                    case OpCodes.ISEQP:
-                    case OpCodes.ISNEP:
-                        IfSt st = new IfSt(new Expression(bci, vars));
-                        fileSource.AppendLine(st.ToString());
-                        break;
-                    case OpCodes.KSHORT:
-                        Variable v = new Variable(bci.registers[0], new CInt((bci.registers[2] << 8) | bci.registers[1]));
-                        vars.SetVar(v);
-                        //fileSource.AppendLine(vars.SetVar(v));
-                        break;
-                    default: //skip bytecode instruction as default. JMP is handled in BlockifyPT.
-                        break;
-                }
-            }
-        }
-
-        /// <summary>
-        /// Returns the block associated with a jump.
-        /// </summary>
-        /// <param name="pt">Current prototype.</param>
-        /// <param name="jumpIndex">Location of the jump opcode in the asm.</param>
-        /// <returns></returns>
-        private Block GetTargetOfJump(Prototype pt, int jumpIndex)
-        {
-            ///TODO: Implement negative jumps.
-            BytecodeInstruction jump = pt.bytecodeInstructions[jumpIndex];
-            if (jump.opcode != OpCodes.JMP)
-                throw new Exception("Given jump index is not correct. The instruction at the index is: " + jump.opcode);
-            int target = ((jump.registers[2] << 8) | jump.registers[1]) - 0x8000; //can be negative
-            if (target <= 0)
-                throw new Exception("Negative jump targets unimplemented.");
-            else
-                foreach (Block b in ptBlocks) //negative blocks will have to search for the start of the block probably. Positive jumps need to search for end of a block.
-                    if (b.startB == jumpIndex + 1) //if statements are usually positive jumps in which the next instruction after the JMP instruction is the start of its block.
-                        return b;
-            throw new Exception("Block not found.");
-        }
-
-        /// <summary>
-        /// Properly indents source code that should be nested. For example, if statements and loops.
-        /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
-        private string NestSource(string source, ref int nestLevel)
-        {
-            StringBuilder tabs = new StringBuilder();
-            StringBuilder formattedSource = new StringBuilder();
-            for (int i = 0; i < nestLevel; i++)
-                tabs.Append("\t");
-            string[] lines = source.Split('\n');
-            foreach (string line in lines)
-                formattedSource.AppendLine(tabs.ToString() + line);
-            return formattedSource.ToString();
-        }
+        //private void DecompileBlock(Block b, ref Variables vars)
+        //{
+        //    foreach(BytecodeInstruction bci in b.bcis)
+        //    {
+        //        switch (bci.opcode)
+        //        {
+        //            case OpCodes.ISLT:
+        //            case OpCodes.ISGE:
+        //            case OpCodes.ISLE:
+        //            case OpCodes.ISGT:
+        //            case OpCodes.ISEQV:
+        //            case OpCodes.ISNEV:
+        //            case OpCodes.ISEQS:
+        //            case OpCodes.ISNES:
+        //            case OpCodes.ISEQN:
+        //            case OpCodes.ISNEN:
+        //            case OpCodes.ISEQP:
+        //            case OpCodes.ISNEP:
+        //                IfSt st = new IfSt(new Expression(bci, vars));
+        //                fileSource.AppendLine(st.ToString());
+        //                break;
+        //            case OpCodes.KSHORT:
+        //                Variable v = new Variable(bci.registers[0], new CInt((bci.registers[2] << 8) | bci.registers[1]));
+        //                vars.SetVar(v);
+        //                //fileSource.AppendLine(vars.SetVar(v));
+        //                break;
+        //            default: //skip bytecode instruction as default. JMP is handled in BlockifyPT.
+        //                break;
+        //        }
+        //    }
+        //}
 
         public override string ToString()
         {
