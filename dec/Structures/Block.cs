@@ -100,7 +100,7 @@ namespace Luajit_Decompiler.dec.Structures
                 throw new Exception("Negative jump targets unimplemented.");
             else
                 foreach (Block b in ptBlocks) //negative blocks will have to search for the start of the block probably. Positive jumps need to search for end of a block.
-                    if (b.startB == jumpIndex) //if statements are usually positive jumps in which the next instruction after the JMP instruction is the start of its block.
+                    if (b.startB == jumpIndex + 1) //if statements are usually positive jumps in which the next instruction after the JMP instruction is the start of its block.
                         return b;
             throw new Exception("Block not found.");
         }

@@ -59,9 +59,9 @@ namespace Luajit_Decompiler.dec
         private void BlockifyPT(Prototype pt, ref int start, int end)
         {
             Block b = new Block();
+            b.startB = 0; //for first block.
             while (start < end)
             {
-                b.startB = start; //start of a block by line in asm for reference.
                 BytecodeInstruction bci = pt.bytecodeInstructions[start];
                 bool isJmpOrRet;
                 switch (bci.opcode) //consider storing index of jump/ret in a list
@@ -87,6 +87,7 @@ namespace Luajit_Decompiler.dec
                     b.currentPT = pt;
                     ptBlocks.Add(b);
                     b = new Block();
+                    b.startB = start + 1; //start of next block is jmpndx + 1.
                 }
                 else
                     b.bcis.Add(bci);
@@ -143,9 +144,9 @@ namespace Luajit_Decompiler.dec
                 //else //debug
                 //    Console.Out.WriteLine("Dist: " + j.distance + " Index: " + j.index); //debug
             }
-            foreach (Block b in blocks) //debug
-                Console.Out.WriteLine(b.ToString()); //debug
-            Console.Read(); //debug
+            //foreach (Block b in blocks) //debug
+            //    Console.Out.WriteLine(b.ToString()); //debug
+            //Console.Read(); //debug
         }
 
         /// <summary>
