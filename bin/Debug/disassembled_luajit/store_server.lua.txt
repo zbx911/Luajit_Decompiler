@@ -1,0 +1,563 @@
+File Name: store_server.lua
+
+Prototype: 0
+Prototype_Size: 142; Flags: 0; #_Params: 3; Frame_Size: 5; Upvalue_Size: 0; KGC_Size: 1; KN_Size: 0; Instruction_Count: 9;
+
+--Bytecode Instructions--
+(TGETS): 3, 0, 0;
+(TGETV): 3, 1, 3;
+(ISF): 0, 3, 0;
+(JMP): 4, 3, 128;
+(TGETV): 4, 2, 3;
+(IST): 0, 4, 0;
+(JMP): 5, 1, 128;
+(KPRI): 4, 0, 0;
+(RET1): 4, 2, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ pending_purchases_peer_map };
+
+--End--
+
+
+Prototype: 1
+Prototype_Size: 482; Flags: 0; #_Params: 2; Frame_Size: 9; Upvalue_Size: 0; KGC_Size: 11; KN_Size: 0; Instruction_Count: 26;
+
+--Bytecode Instructions--
+(TGETS): 2, 0, 1;
+(TSETS): 2, 0, 0;
+(TGETS): 2, 1, 1;
+(TSETS): 2, 1, 0;
+(TGETS): 2, 2, 1;
+(TSETS): 2, 2, 0;
+(TDUP): 2, 3, 0;
+(TGETS): 3, 4, 1;
+(TSETS): 3, 4, 0;
+(TGETS): 3, 4, 0;
+(MOV): 4, 3, 0;
+(TGETS): 3, 5, 3;
+(KSTR): 5, 6, 0;
+(MOV): 6, 0, 0;
+(GGET): 7, 7, 0;
+(MOV): 8, 2, 0;
+(CALL): 7, 2, 0;
+(CALLM): 3, 3, 1;
+(TNEW): 3, 0, 0;
+(TSETS): 3, 8, 0;
+(TNEW): 3, 0, 0;
+(TSETS): 3, 9, 0;
+(MOV): 4, 0, 0;
+(TGETS): 3, 10, 0;
+(CALL): 3, 2, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ purge_transactions };
+String{ gift_outcomes };
+String{ pending_purchases_peer_map };
+String{ unpack };
+String{ store_server };
+String{ register };
+String{ network_message_router };
+Table{ 
+	Array Part{ 
+		Nil{ };
+		String{ rpc_from_client_start_purchase };
+		String{ rpc_from_client_finalize_purchase };
+		String{ rpc_from_client_check_redeemable_offers };
+		String{ rpc_from_client_redeem_offer };
+	};
+	Hash Part{ 
+	};
+};
+
+String{ event_delegate };
+String{ transaction_manager };
+String{ persistence_manager };
+
+--End--
+
+
+Prototype: 2
+Prototype_Size: 95; Flags: 0; #_Params: 1; Frame_Size: 4; Upvalue_Size: 0; KGC_Size: 3; KN_Size: 0; Instruction_Count: 6;
+
+--Bytecode Instructions--
+(TGETS): 1, 0, 0;
+(MOV): 2, 1, 0;
+(TGETS): 1, 1, 1;
+(KSTR): 3, 2, 0;
+(CALL): 1, 3, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ store_server };
+String{ unregister };
+String{ network_message_router };
+
+--End--
+
+
+Prototype: 3
+Prototype_Size: 228; Flags: 0; #_Params: 3; Frame_Size: 8; Upvalue_Size: 0; KGC_Size: 7; KN_Size: 1; Instruction_Count: 18;
+
+--Bytecode Instructions--
+(TGETS): 3, 0, 0;
+(MOV): 4, 3, 0;
+(TGETS): 3, 1, 3;
+(MOV): 5, 1, 0;
+(KSTR): 6, 2, 0;
+(MOV): 7, 2, 0;
+(CALL): 3, 5, 2;
+(IST): 0, 3, 0;
+(JMP): 4, 8, 128;
+(TGETS): 4, 3, 0;
+(TGETS): 5, 3, 0;
+(LEN): 5, 5, 0;
+(ADDVN): 5, 0, 5;
+(TDUP): 6, 4, 0;
+(TSETS): 1, 5, 6;
+(TSETS): 2, 6, 6;
+(TSETV): 6, 5, 4;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ offer_id };
+String{ peer_id };
+Table{ 
+	Array Part{ 
+	};
+	Hash Part{ 
+		Hash{ String{ success }; -> Bool{ False }; };
+	};
+};
+
+String{ gift_outcomes };
+String{ server_gift };
+String{ gratis_offer };
+String{ transaction_manager };
+Int{ 1 };
+
+--End--
+
+
+Prototype: 4
+Prototype_Size: 495; Flags: 0; #_Params: 4; Frame_Size: 12; Upvalue_Size: 0; KGC_Size: 14; KN_Size: 0; Instruction_Count: 36;
+
+--Bytecode Instructions--
+(TGETS): 4, 0, 0;
+(MOV): 5, 4, 0;
+(TGETS): 4, 1, 4;
+(MOV): 6, 1, 0;
+(CALL): 4, 3, 2;
+(IST): 0, 4, 0;
+(JMP): 5, 1, 128;
+(RET0): 0, 1, 0;
+(GGET): 5, 2, 0;
+(TGETS): 5, 3, 5;
+(CALL): 5, 1, 2;
+(TGETS): 6, 4, 0;
+(TGETV): 6, 1, 6;
+(IST): 0, 6, 0;
+(JMP): 7, 1, 128;
+(TNEW): 6, 0, 0;
+(TGETS): 7, 4, 0;
+(TSETV): 6, 1, 7;
+(TDUP): 7, 7, 0;
+(GGET): 8, 5, 0;
+(TGETS): 8, 6, 8;
+(TSETS): 8, 8, 7;
+(TSETS): 2, 9, 7;
+(GGET): 8, 2, 0;
+(TGETS): 8, 10, 8;
+(CALL): 8, 1, 2;
+(TSETS): 8, 11, 7;
+(TSETV): 7, 5, 6;
+(GGET): 7, 12, 0;
+(TGETS): 7, 13, 7;
+(MOV): 8, 1, 0;
+(MOV): 9, 5, 0;
+(MOV): 10, 2, 0;
+(MOV): 11, 3, 0;
+(CALL): 7, 5, 1;
+(RET1): 5, 2, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ rpc_from_server_start_purchase_offer };
+String{ RPC };
+String{ timestamp };
+String{ time_since_launch };
+String{ offer_id };
+String{ initializer };
+Table{ 
+	Array Part{ 
+	};
+	Hash Part{ 
+	};
+};
+
+String{ server };
+String{ StoreTransactionInitializer };
+String{ pending_purchases_peer_map };
+String{ guid };
+String{ Application };
+String{ get_account };
+String{ persistence_manager };
+
+--End--
+
+
+Prototype: 5
+Prototype_Size: 576; Flags: 0; #_Params: 4; Frame_Size: 12; Upvalue_Size: 0; KGC_Size: 16; KN_Size: 0; Instruction_Count: 48;
+
+--Bytecode Instructions--
+(TGETS): 4, 0, 2;
+(GGET): 5, 1, 0;
+(TGETS): 5, 2, 5;
+(ISNEV): 4, 5, 0;
+(JMP): 4, 32, 128;
+(TGETS): 4, 3, 0;
+(MOV): 5, 4, 0;
+(TGETS): 4, 4, 4;
+(MOV): 6, 1, 0;
+(CALL): 4, 3, 2;
+(ISFC): 5, 3, 0;
+(JMP): 5, 5, 128;
+(TGETS): 5, 5, 3;
+(ISF): 0, 5, 0;
+(JMP): 6, 2, 128;
+(TGETS): 5, 5, 3;
+(TGETS): 5, 6, 5;
+(MOV): 7, 4, 0;
+(TGETS): 6, 7, 4;
+(KSTR): 8, 8, 0;
+(CALL): 6, 3, 2;
+(GGET): 7, 9, 0;
+(TGETS): 7, 10, 7;
+(MOV): 8, 6, 0;
+(CALL): 7, 2, 5;
+(ISF): 0, 5, 0;
+(JMP): 11, 2, 128;
+(ISLT): 7, 5, 0;
+(JMP): 11, 4, 128;
+(GGET): 11, 11, 0;
+(TGETS): 11, 12, 11;
+(IST): 0, 11, 0;
+(JMP): 12, 2, 128;
+(GGET): 11, 11, 0;
+(TGETS): 11, 13, 11;
+(RET1): 11, 2, 0;
+(JMP): 4, 8, 128;
+(TGETS): 4, 0, 2;
+(GGET): 5, 1, 0;
+(TGETS): 5, 14, 5;
+(ISNEV): 4, 5, 0;
+(JMP): 4, 3, 128;
+(GGET): 4, 11, 0;
+(TGETS): 4, 12, 4;
+(RET1): 4, 2, 0;
+(GGET): 4, 11, 0;
+(TGETS): 4, 15, 4;
+(RET1): 4, 2, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ not_allowed };
+String{ real_currency };
+String{ too_low_level };
+String{ succeeded };
+String{ StoreServerResults };
+String{ get_level_and_xp_requirements };
+String{ PlayerRank };
+String{ global_xp };
+String{ get_data };
+String{ level_req };
+String{ metadata };
+String{ get_account };
+String{ persistence_manager };
+String{ virtual_currency };
+String{ StoreCurrencyTypes };
+String{ currency_type };
+
+--End--
+
+
+Prototype: 6
+Prototype_Size: 969; Flags: 0; #_Params: 8; Frame_Size: 17; Upvalue_Size: 0; KGC_Size: 28; KN_Size: 0; Instruction_Count: 87;
+
+--Bytecode Instructions--
+(TGETS): 8, 0, 0;
+(MOV): 9, 8, 0;
+(TGETS): 8, 1, 8;
+(MOV): 10, 1, 0;
+(CALL): 8, 3, 2;
+(IST): 0, 8, 0;
+(JMP): 9, 8, 128;
+(MOV): 10, 0, 0;
+(TGETS): 9, 2, 0;
+(MOV): 11, 1, 0;
+(MOV): 12, 2, 0;
+(GGET): 13, 3, 0;
+(TGETS): 13, 4, 13;
+(CALL): 9, 5, 1;
+(RET0): 0, 1, 0;
+(TGETS): 9, 5, 0;
+(TGETV): 9, 1, 9;
+(IST): 0, 9, 0;
+(JMP): 10, 1, 128;
+(TNEW): 9, 0, 0;
+(TGETS): 10, 5, 0;
+(TSETV): 9, 1, 10;
+(TGETV): 10, 2, 9;
+(ISF): 0, 10, 0;
+(JMP): 11, 31, 128;
+(TGETS): 11, 6, 10;
+(ISF): 0, 11, 0;
+(JMP): 12, 13, 128;
+(TGETS): 11, 6, 10;
+(GGET): 12, 7, 0;
+(TGETS): 12, 8, 12;
+(ISEQV): 11, 12, 0;
+(JMP): 11, 8, 128;
+(MOV): 12, 0, 0;
+(TGETS): 11, 2, 0;
+(MOV): 13, 1, 0;
+(MOV): 14, 2, 0;
+(GGET): 15, 3, 0;
+(TGETS): 15, 9, 15;
+(CALL): 11, 5, 1;
+(RET0): 0, 1, 0;
+(GGET): 11, 10, 0;
+(TGETS): 11, 11, 11;
+(MOV): 12, 10, 0;
+(TDUP): 13, 12, 0;
+(TSETS): 5, 13, 13;
+(TSETS): 6, 14, 13;
+(TSETS): 7, 15, 13;
+(TSETS): 3, 16, 13;
+(CALL): 11, 3, 2;
+(MOV): 10, 11, 0;
+(GGET): 11, 17, 0;
+(TGETS): 12, 18, 10;
+(CALL): 11, 2, 2;
+(MOV): 4, 11, 0;
+(JMP): 11, 14, 128;
+(TDUP): 11, 20, 0;
+(GGET): 12, 7, 0;
+(TGETS): 12, 19, 12;
+(TSETS): 12, 6, 11;
+(TSETS): 4, 18, 11;
+(TSETS): 5, 13, 11;
+(TSETS): 6, 14, 11;
+(TSETS): 7, 15, 11;
+(TSETS): 3, 16, 11;
+(GGET): 12, 21, 0;
+(TGETS): 12, 22, 12;
+(CALL): 12, 1, 2;
+(TSETS): 12, 23, 11;
+(MOV): 10, 11, 0;
+(TSETV): 10, 2, 9;
+(TGETS): 11, 24, 0;
+(MOV): 12, 11, 0;
+(TGETS): 11, 25, 11;
+(MOV): 13, 1, 0;
+(KSTR): 14, 26, 0;
+(MOV): 15, 2, 0;
+(MOV): 16, 4, 0;
+(CALL): 11, 6, 1;
+(TGETS): 11, 24, 0;
+(MOV): 12, 11, 0;
+(TGETS): 11, 27, 11;
+(MOV): 13, 1, 0;
+(KSTR): 14, 27, 0;
+(MOV): 15, 2, 0;
+(CALL): 11, 5, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ storage_read };
+String{ get_offer };
+String{ get_store_offer };
+String{ transaction_manager };
+String{ timestamp };
+String{ time_since_launch };
+String{ Application };
+Table{ 
+	Array Part{ 
+	};
+	Hash Part{ 
+	};
+};
+
+String{ client };
+String{ offer_id };
+String{ assert };
+String{ localized_title };
+String{ language };
+String{ currency };
+String{ currency_type };
+Table{ 
+	Array Part{ 
+	};
+	Hash Part{ 
+	};
+};
+
+String{ extend };
+String{ table };
+String{ not_allowed };
+String{ server };
+String{ StoreTransactionInitializer };
+String{ initializer };
+String{ pending_purchases_peer_map };
+String{ user_not_logged_in };
+String{ StoreServerResults };
+String{ complete_purchase };
+String{ get_account };
+String{ persistence_manager };
+
+--End--
+
+
+Prototype: 7
+Prototype_Size: 914; Flags: 0; #_Params: 4; Frame_Size: 12; Upvalue_Size: 0; KGC_Size: 24; KN_Size: 0; Instruction_Count: 60;
+
+--Bytecode Instructions--
+(TGETS): 4, 0, 0;
+(MOV): 5, 4, 0;
+(TGETS): 4, 1, 4;
+(MOV): 6, 1, 0;
+(CALL): 4, 3, 2;
+(IST): 0, 4, 0;
+(JMP): 5, 8, 128;
+(MOV): 6, 0, 0;
+(TGETS): 5, 2, 0;
+(MOV): 7, 1, 0;
+(MOV): 8, 2, 0;
+(GGET): 9, 3, 0;
+(TGETS): 9, 4, 9;
+(CALL): 5, 5, 1;
+(RET0): 0, 1, 0;
+(TGETS): 5, 5, 0;
+(TGETV): 5, 1, 5;
+(IST): 0, 5, 0;
+(JMP): 6, 1, 128;
+(TNEW): 5, 0, 0;
+(TGETS): 6, 5, 0;
+(TSETV): 5, 1, 6;
+(TGETV): 6, 2, 5;
+(ISF): 0, 6, 0;
+(JMP): 7, 4, 128;
+(GGET): 6, 6, 0;
+(KPRI): 7, 1, 0;
+(KSTR): 8, 7, 0;
+(CALL): 6, 3, 1;
+(TDUP): 6, 8, 0;
+(GGET): 7, 9, 0;
+(TGETS): 7, 10, 7;
+(TSETS): 7, 11, 6;
+(TSETS): 3, 12, 6;
+(GGET): 7, 13, 0;
+(TGETS): 7, 14, 7;
+(TSETS): 7, 15, 6;
+(GGET): 7, 16, 0;
+(TGETS): 7, 17, 7;
+(CALL): 7, 1, 2;
+(TSETS): 7, 18, 6;
+(TSETV): 6, 2, 5;
+(GGET): 6, 19, 0;
+(TSETV): 6, 2, 5;
+(TGETS): 6, 20, 0;
+(MOV): 7, 6, 0;
+(TGETS): 6, 21, 6;
+(MOV): 8, 1, 0;
+(KSTR): 9, 22, 0;
+(MOV): 10, 2, 0;
+(MOV): 11, 3, 0;
+(CALL): 6, 6, 1;
+(TGETS): 6, 20, 0;
+(MOV): 7, 6, 0;
+(TGETS): 6, 23, 6;
+(MOV): 8, 1, 0;
+(KSTR): 9, 23, 0;
+(MOV): 10, 2, 0;
+(CALL): 6, 5, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 2 };
+Child{ Prototype: 6 };
+Child{ Prototype: 5 };
+
+--Upvalues--
+
+--Constants--
+String{ storage_read };
+String{ get_offer };
+String{ get_store_offer };
+String{ transaction_manager };
+String{ peer_pending_purchase };
+String{ timestamp };
+String{ time_since_launch };
+String{ Application };
+String{ currency_type };
+String{ virtual_currency };
+String{ StoreCurrencyTypes };
+String{ offer_id };
+String{ initializer };
+String{ client };
+String{ StoreTransactionInitializer };
+Table{ 
+	Array Part{ 
+	};
+	Hash Part{ 
+		Hash{ String{ refreshed_account_data }; -> Bool{ True }; };
+		Hash{ String{ server_initiated }; -> Bool{ True }; };
+	};
+};
+
+String{ Purchase already registered with the given transaction ID. Doing this will confuse the living daylights out of any listeners };
+String{ assertpending_purchases_peer_mapuser_n };
+String{ t_logged_inStoreServerResultscomplete_purchaseget_accountpersistence_manager					
+
+ };
+String{  };
+String{  };
+String{ self  =peer_id };
+
+--End--
+
+

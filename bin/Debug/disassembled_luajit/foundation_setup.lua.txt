@@ -1,0 +1,1052 @@
+File Name: foundation_setup.lua
+
+Prototype: 0
+Prototype_Size: 175; Flags: 2; #_Params: 1; Frame_Size: 10; Upvalue_Size: 0; KGC_Size: 4; KN_Size: 1; Instruction_Count: 17;
+
+--Bytecode Instructions--
+(GGET): 1, 0, 0;
+(TNEW): 2, 3, 0;
+(VARG): 3, 1, 0;
+(TSETM): 3, 0, 0;
+(CALL): 1, 2, 4;
+(JMP): 4, 8, 128;
+(KSTR): 6, 1, 0;
+(MOV): 7, 0, 0;
+(KSTR): 8, 2, 0;
+(MOV): 9, 5, 0;
+(CAT): 6, 9, 6;
+(GGET): 7, 3, 0;
+(MOV): 8, 6, 0;
+(CALL): 7, 2, 1;
+(ITERC): 4, 3, 3;
+(ITERL): 4, 246, 127;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ require };
+String{ / };
+String{ foundation/scripts/ };
+String{ ipairs };
+Double{ 4.5035996273705E+15 };
+
+--End--
+
+
+Prototype: 1
+Prototype_Size: 575; Flags: 0; #_Params: 0; Frame_Size: 5; Upvalue_Size: 0; KGC_Size: 20; KN_Size: 1; Instruction_Count: 56;
+
+--Bytecode Instructions--
+(GGET): 0, 0, 0;
+(KSTR): 1, 1, 0;
+(CALL): 0, 2, 1;
+(GGET): 0, 0, 0;
+(KSTR): 1, 2, 0;
+(GGET): 2, 3, 0;
+(TGETS): 2, 4, 2;
+(KSTR): 3, 5, 0;
+(CALL): 2, 2, 2;
+(CAT): 1, 2, 1;
+(CALL): 0, 2, 1;
+(GGET): 0, 0, 0;
+(KSTR): 1, 6, 0;
+(GGET): 2, 7, 0;
+(TGETS): 2, 8, 2;
+(CALL): 2, 1, 2;
+(CAT): 1, 2, 1;
+(CALL): 0, 2, 1;
+(GGET): 0, 0, 0;
+(KSTR): 1, 9, 0;
+(GGET): 2, 7, 0;
+(TGETS): 2, 10, 2;
+(CALL): 2, 1, 2;
+(CAT): 1, 2, 1;
+(CALL): 0, 2, 1;
+(GGET): 0, 0, 0;
+(KSTR): 1, 11, 0;
+(GGET): 2, 7, 0;
+(TGETS): 2, 12, 2;
+(CALL): 2, 1, 2;
+(CAT): 1, 2, 1;
+(CALL): 0, 2, 1;
+(GGET): 0, 0, 0;
+(KSTR): 1, 13, 0;
+(GGET): 2, 7, 0;
+(TGETS): 2, 14, 2;
+(CALL): 2, 1, 2;
+(CAT): 1, 2, 1;
+(CALL): 0, 2, 1;
+(GGET): 0, 0, 0;
+(KSTR): 1, 15, 0;
+(GGET): 2, 16, 0;
+(TGETS): 2, 17, 2;
+(TNEW): 3, 3, 0;
+(GGET): 4, 7, 0;
+(TGETS): 4, 18, 4;
+(CALL): 4, 1, 0;
+(TSETM): 4, 0, 0;
+(KSTR): 4, 19, 0;
+(CALL): 2, 3, 2;
+(CAT): 1, 2, 1;
+(CALL): 0, 2, 1;
+(GGET): 0, 0, 0;
+(KSTR): 1, 1, 0;
+(CALL): 0, 2, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{   };
+String{ argv };
+String{ concat };
+String{ table };
+String{ command line arguments:  };
+String{ build_identifier };
+String{ build_identifier:  };
+String{ build };
+String{ build:  };
+String{ source_platform };
+String{ source_platform:  };
+String{ platform };
+String{ Application };
+String{ platform:  };
+String{ %Y-%m-%d %X (%B/%A) };
+String{ date };
+String{ os };
+String{ date:  };
+String{ *************************************************************************** };
+String{ print };
+Double{ 4.5035996273705E+15 };
+
+--End--
+
+
+Prototype: 2
+Prototype_Size: 232; Flags: 0; #_Params: 0; Frame_Size: 3; Upvalue_Size: 0; KGC_Size: 5; KN_Size: 0; Instruction_Count: 11;
+
+--Bytecode Instructions--
+(GGET): 0, 0, 0;
+(TGETS): 0, 1, 0;
+(IST): 0, 0, 0;
+(JMP): 1, 1, 128;
+(RET0): 0, 1, 0;
+(GGET): 1, 2, 0;
+(KSTR): 2, 3, 0;
+(CALL): 1, 2, 1;
+(GGET): 1, 4, 0;
+(CALL): 1, 1, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ DevelopmentSetting_disable };
+String{ !!!!!!!!!!!!!!!!!! RUNNING BUNDLE. DISABLING DEVELOPMENT SETTINGS !!!!!!!!!!!!!!!!!! };
+String{ print };
+String{ bundle-dir };
+String{ PD_APPLICATION_PARAMETER };
+
+--End--
+
+
+Prototype: 3
+Prototype_Size: 197; Flags: 0; #_Params: 0; Frame_Size: 4; Upvalue_Size: 0; KGC_Size: 5; KN_Size: 0; Instruction_Count: 11;
+
+--Bytecode Instructions--
+(GGET): 0, 0, 0;
+(KSTR): 1, 1, 0;
+(CALL): 0, 2, 2;
+(ISF): 0, 0, 0;
+(JMP): 1, 5, 128;
+(GGET): 1, 2, 0;
+(GGET): 2, 4, 0;
+(MOV): 3, 0, 0;
+(CALL): 2, 2, 2;
+(TSETS): 2, 3, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ tonumber };
+String{ network-pong-timeout };
+String{ PD_APPLICATION_PARAMETER };
+String{ network_pong_timeout };
+String{ DevelopmentSetting };
+
+--End--
+
+
+Prototype: 4
+Prototype_Size: 652; Flags: 0; #_Params: 2; Frame_Size: 4; Upvalue_Size: 3; KGC_Size: 15; KN_Size: 0; Instruction_Count: 43;
+
+--Bytecode Instructions--
+(GGET): 2, 0, 0;
+(CALL): 2, 1, 1;
+(MOV): 3, 0, 0;
+(TGETS): 2, 1, 0;
+(CALL): 2, 2, 1;
+(MOV): 3, 0, 0;
+(TGETS): 2, 2, 0;
+(CALL): 2, 2, 1;
+(MOV): 3, 0, 0;
+(TGETS): 2, 3, 0;
+(CALL): 2, 2, 1;
+(GGET): 2, 4, 0;
+(KSTR): 3, 5, 0;
+(CALL): 2, 2, 2;
+(TGETS): 2, 6, 2;
+(CALL): 2, 1, 1;
+(GGET): 2, 4, 0;
+(KSTR): 3, 7, 0;
+(CALL): 2, 2, 1;
+(UGET): 2, 0, 0;
+(CALL): 2, 1, 1;
+(MOV): 3, 0, 0;
+(TGETS): 2, 8, 0;
+(CALL): 2, 2, 1;
+(GGET): 2, 9, 0;
+(KSTR): 3, 10, 0;
+(CALL): 2, 2, 2;
+(USETV): 1, 2, 0;
+(UGET): 2, 2, 0;
+(CALL): 2, 1, 1;
+(MOV): 3, 0, 0;
+(TGETS): 2, 11, 0;
+(CALL): 2, 2, 1;
+(MOV): 3, 0, 0;
+(TGETS): 2, 12, 0;
+(CALL): 2, 2, 1;
+(MOV): 2, 1, 0;
+(TGETS): 3, 13, 0;
+(CALL): 2, 2, 1;
+(MOV): 3, 0, 0;
+(TGETS): 2, 14, 0;
+(CALL): 2, 2, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+Upvalue{ 3, 192 };
+Upvalue{ 5, 128 };
+Upvalue{ 4, 192 };
+
+--Constants--
+String{ setup_statemachine };
+String{ package_manager };
+String{ setup_context };
+String{ load_entity_system };
+String{ foundation/scripts/util/engine/resolution };
+String{ require_bs };
+String{ load_scriptutils };
+String{ foundation/scripts/util/engine/user_setting };
+String{ parse_set };
+String{ foundation/scripts/util/pd_application_parameters };
+String{ require };
+String{ load_scriptfiles_package };
+String{ create_context };
+String{ load_context };
+String{ log_build_information_and_date };
+
+--End--
+
+
+Prototype: 5
+Prototype_Size: 165; Flags: 0; #_Params: 1; Frame_Size: 5; Upvalue_Size: 0; KGC_Size: 7; KN_Size: 0; Instruction_Count: 14;
+
+--Bytecode Instructions--
+(GGET): 1, 1, 0;
+(MOV): 2, 1, 0;
+(TGETS): 1, 2, 1;
+(CALL): 1, 2, 2;
+(TSETS): 1, 0, 0;
+(GGET): 1, 1, 0;
+(GGET): 2, 4, 0;
+(GGET): 3, 5, 0;
+(KSTR): 4, 6, 0;
+(CALL): 2, 3, 2;
+(NOT): 2, 2, 0;
+(NOT): 2, 2, 0;
+(TSETS): 2, 3, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ EDITOR_LAUNCH };
+String{ _G };
+String{ rawget };
+String{ loading_disabled };
+String{ init };
+String{ PackageManager };
+String{ package_manager };
+
+--End--
+
+
+Prototype: 6
+Prototype_Size: 23; Flags: 0; #_Params: 1; Frame_Size: 1; Upvalue_Size: 0; KGC_Size: 0; KN_Size: 0; Instruction_Count: 1;
+
+--Bytecode Instructions--
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+
+--End--
+
+
+Prototype: 7
+Prototype_Size: 145; Flags: 0; #_Params: 2; Frame_Size: 5; Upvalue_Size: 2; KGC_Size: 3; KN_Size: 0; Instruction_Count: 11;
+
+--Bytecode Instructions--
+(UGET): 2, 0, 0;
+(KSTR): 3, 0, 0;
+(CALL): 2, 2, 1;
+(TGETS): 2, 1, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 2, 2;
+(MOV): 4, 1, 0;
+(CALL): 2, 3, 1;
+(UGET): 2, 1, 0;
+(CALL): 2, 1, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+Upvalue{ 1, 192 };
+Upvalue{ 2, 192 };
+
+--Constants--
+String{ pre_update };
+String{ machine };
+String{ lua_pre_update };
+
+--End--
+
+
+Prototype: 8
+Prototype_Size: 383; Flags: 0; #_Params: 2; Frame_Size: 5; Upvalue_Size: 3; KGC_Size: 10; KN_Size: 0; Instruction_Count: 43;
+
+--Bytecode Instructions--
+(MOV): 3, 0, 0;
+(TGETS): 2, 0, 0;
+(MOV): 4, 1, 0;
+(CALL): 2, 3, 1;
+(UGET): 2, 0, 0;
+(KSTR): 3, 1, 0;
+(CALL): 2, 2, 1;
+(UGET): 2, 0, 0;
+(KSTR): 3, 2, 0;
+(CALL): 2, 2, 1;
+(TGETS): 2, 3, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 4, 2;
+(MOV): 4, 1, 0;
+(CALL): 2, 3, 1;
+(UGET): 2, 1, 0;
+(CALL): 2, 1, 1;
+(TGETS): 2, 5, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 4, 2;
+(MOV): 4, 1, 0;
+(CALL): 2, 3, 1;
+(GGET): 2, 6, 0;
+(GGET): 3, 7, 0;
+(KSTR): 4, 8, 0;
+(CALL): 2, 3, 2;
+(ISF): 0, 2, 0;
+(JMP): 3, 5, 128;
+(GGET): 2, 8, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 4, 2;
+(MOV): 4, 1, 0;
+(CALL): 2, 3, 1;
+(UGET): 2, 2, 0;
+(TGETS): 2, 9, 2;
+(ISF): 0, 2, 0;
+(JMP): 3, 3, 128;
+(UGET): 2, 2, 0;
+(TGETS): 2, 4, 2;
+(CALL): 2, 1, 1;
+(UGET): 2, 1, 0;
+(CALL): 2, 1, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+Upvalue{ 1, 192 };
+Upvalue{ 2, 192 };
+Upvalue{ 5, 128 };
+
+--Constants--
+String{ is_inited };
+String{ ui };
+String{ _G };
+String{ rawget };
+String{ machine };
+String{ update };
+String{ package_manager };
+String{ package_manager_update };
+String{ lua_update };
+String{ pre_update };
+
+--End--
+
+
+Prototype: 9
+Prototype_Size: 382; Flags: 0; #_Params: 2; Frame_Size: 5; Upvalue_Size: 2; KGC_Size: 13; KN_Size: 0; Instruction_Count: 40;
+
+--Bytecode Instructions--
+(UGET): 2, 0, 0;
+(KSTR): 3, 0, 0;
+(CALL): 2, 2, 1;
+(TGETS): 2, 1, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 2, 2;
+(MOV): 4, 1, 0;
+(CALL): 2, 3, 1;
+(GGET): 2, 3, 0;
+(GGET): 3, 4, 0;
+(KSTR): 4, 5, 0;
+(CALL): 2, 3, 2;
+(ISF): 0, 2, 0;
+(JMP): 3, 5, 128;
+(GGET): 2, 5, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 2, 2;
+(MOV): 4, 1, 0;
+(CALL): 2, 3, 1;
+(GGET): 2, 6, 0;
+(TGETS): 2, 7, 2;
+(CALL): 2, 1, 1;
+(GGET): 2, 6, 0;
+(TGETS): 2, 8, 2;
+(CALL): 2, 1, 1;
+(UGET): 2, 1, 0;
+(CALL): 2, 1, 1;
+(TGETS): 2, 9, 0;
+(ISF): 0, 2, 0;
+(JMP): 3, 9, 128;
+(GGET): 2, 3, 0;
+(GGET): 3, 4, 0;
+(KSTR): 4, 10, 0;
+(CALL): 2, 3, 2;
+(IST): 0, 2, 0;
+(JMP): 2, 3, 128;
+(GGET): 2, 11, 0;
+(TGETS): 2, 12, 2;
+(CALL): 2, 1, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+Upvalue{ 1, 192 };
+Upvalue{ 2, 192 };
+
+--Constants--
+String{ quit };
+String{ Application };
+String{ EDITOR_LAUNCH };
+String{ quit_game };
+String{ clear_tables };
+String{ swap_tables };
+String{ FrameTable };
+String{ ui };
+String{ _G };
+String{ rawget };
+String{ post_update };
+String{ machine };
+String{ lua_post_update };
+
+--End--
+
+
+Prototype: 10
+Prototype_Size: 152; Flags: 0; #_Params: 1; Frame_Size: 4; Upvalue_Size: 0; KGC_Size: 6; KN_Size: 0; Instruction_Count: 19;
+
+--Bytecode Instructions--
+(TGETS): 1, 0, 0;
+(MOV): 2, 1, 0;
+(TGETS): 1, 1, 1;
+(CALL): 1, 2, 1;
+(GGET): 1, 2, 0;
+(GGET): 2, 3, 0;
+(KSTR): 3, 4, 0;
+(CALL): 1, 3, 2;
+(ISF): 0, 1, 0;
+(JMP): 2, 8, 128;
+(GGET): 1, 4, 0;
+(MOV): 2, 1, 0;
+(TGETS): 1, 5, 1;
+(CALL): 1, 2, 1;
+(GGET): 1, 4, 0;
+(MOV): 2, 1, 0;
+(TGETS): 1, 1, 1;
+(CALL): 1, 2, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ pre_render };
+String{ ui };
+String{ _G };
+String{ rawget };
+String{ render };
+String{ machine };
+
+--End--
+
+
+Prototype: 11
+Prototype_Size: 124; Flags: 0; #_Params: 1; Frame_Size: 6; Upvalue_Size: 0; KGC_Size: 3; KN_Size: 0; Instruction_Count: 8;
+
+--Bytecode Instructions--
+(GGET): 1, 0, 0;
+(CALL): 1, 1, 3;
+(GGET): 3, 2, 0;
+(MOV): 4, 1, 0;
+(MOV): 5, 2, 0;
+(CALL): 3, 3, 2;
+(TSETS): 3, 1, 0;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ StateMachine };
+String{ machine };
+String{ entrypoint };
+
+--End--
+
+
+Prototype: 12
+Prototype_Size: 87; Flags: 0; #_Params: 1; Frame_Size: 4; Upvalue_Size: 1; KGC_Size: 2; KN_Size: 0; Instruction_Count: 5;
+
+--Bytecode Instructions--
+(UGET): 1, 0, 0;
+(KSTR): 2, 0, 0;
+(KSTR): 3, 1, 0;
+(CALL): 1, 3, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+Upvalue{ 0, 192 };
+
+--Constants--
+String{ package_manager };
+String{ package };
+
+--End--
+
+
+Prototype: 13
+Prototype_Size: 153; Flags: 0; #_Params: 1; Frame_Size: 5; Upvalue_Size: 0; KGC_Size: 3; KN_Size: 0; Instruction_Count: 7;
+
+--Bytecode Instructions--
+(KSTR): 1, 0, 0;
+(TGETS): 2, 1, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 2, 2;
+(MOV): 4, 1, 0;
+(CALL): 2, 3, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ load_package_sync };
+String{ package_manager };
+String{ foundation/resource_packages/foundation_package };
+
+--End--
+
+
+Prototype: 14
+Prototype_Size: 1964; Flags: 0; #_Params: 1; Frame_Size: 13; Upvalue_Size: 1; KGC_Size: 42; KN_Size: 0; Instruction_Count: 97;
+
+--Bytecode Instructions--
+(TDUP): 1, 0, 0;
+(TDUP): 2, 1, 0;
+(TDUP): 3, 2, 0;
+(TDUP): 4, 3, 0;
+(TDUP): 5, 4, 0;
+(TDUP): 6, 5, 0;
+(UGET): 7, 0, 0;
+(KSTR): 8, 6, 0;
+(KSTR): 9, 7, 0;
+(KSTR): 10, 8, 0;
+(KSTR): 11, 9, 0;
+(CALL): 7, 5, 1;
+(UGET): 7, 0, 0;
+(KSTR): 8, 10, 0;
+(KSTR): 9, 11, 0;
+(CALL): 7, 3, 1;
+(UGET): 7, 0, 0;
+(KSTR): 8, 12, 0;
+(GGET): 9, 13, 0;
+(MOV): 10, 1, 0;
+(CALL): 9, 2, 0;
+(CALLM): 7, 1, 1;
+(UGET): 7, 0, 0;
+(KSTR): 8, 6, 0;
+(GGET): 9, 13, 0;
+(MOV): 10, 2, 0;
+(CALL): 9, 2, 0;
+(CALLM): 7, 1, 1;
+(UGET): 7, 0, 0;
+(KSTR): 8, 14, 0;
+(GGET): 9, 13, 0;
+(MOV): 10, 6, 0;
+(CALL): 9, 2, 0;
+(CALLM): 7, 1, 1;
+(UGET): 7, 0, 0;
+(KSTR): 8, 15, 0;
+(KSTR): 9, 16, 0;
+(KSTR): 10, 17, 0;
+(KSTR): 11, 18, 0;
+(KSTR): 12, 19, 0;
+(CALL): 7, 6, 1;
+(UGET): 7, 0, 0;
+(KSTR): 8, 20, 0;
+(KSTR): 9, 21, 0;
+(CALL): 7, 3, 1;
+(UGET): 7, 0, 0;
+(KSTR): 8, 10, 0;
+(KSTR): 9, 22, 0;
+(KSTR): 10, 23, 0;
+(KSTR): 11, 24, 0;
+(CALL): 7, 5, 1;
+(UGET): 7, 0, 0;
+(KSTR): 8, 25, 0;
+(GGET): 9, 13, 0;
+(MOV): 10, 3, 0;
+(CALL): 9, 2, 0;
+(CALLM): 7, 1, 1;
+(UGET): 7, 0, 0;
+(KSTR): 8, 25, 0;
+(GGET): 9, 13, 0;
+(MOV): 10, 4, 0;
+(CALL): 9, 2, 0;
+(CALLM): 7, 1, 1;
+(UGET): 7, 0, 0;
+(KSTR): 8, 26, 0;
+(KSTR): 9, 27, 0;
+(CALL): 7, 3, 1;
+(UGET): 7, 0, 0;
+(KSTR): 8, 28, 0;
+(GGET): 9, 13, 0;
+(MOV): 10, 5, 0;
+(CALL): 9, 2, 0;
+(CALLM): 7, 1, 1;
+(UGET): 7, 0, 0;
+(KSTR): 8, 29, 0;
+(KSTR): 9, 30, 0;
+(KSTR): 10, 31, 0;
+(CALL): 7, 4, 1;
+(UGET): 7, 0, 0;
+(KSTR): 8, 32, 0;
+(KSTR): 9, 33, 0;
+(KSTR): 10, 34, 0;
+(KSTR): 11, 35, 0;
+(CALL): 7, 5, 1;
+(UGET): 7, 0, 0;
+(KSTR): 8, 36, 0;
+(KSTR): 9, 37, 0;
+(CALL): 7, 3, 1;
+(UGET): 7, 0, 0;
+(KSTR): 8, 38, 0;
+(KSTR): 9, 39, 0;
+(CALL): 7, 3, 1;
+(UGET): 7, 0, 0;
+(KSTR): 8, 40, 0;
+(KSTR): 9, 41, 0;
+(CALL): 7, 3, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+Upvalue{ 0, 192 };
+
+--Constants--
+String{ development_update };
+String{ development };
+String{ gui_manager };
+String{ gui };
+String{ unit_info_cache };
+String{ unit_cache };
+String{ network_game_version };
+String{ network_game_detail_synchronizer };
+String{ network_game_cookie };
+String{ network/authentication };
+String{ pd_network_state_variables_synchronizer };
+String{ network_game_start_synchronizer };
+String{ network/synchronization };
+String{ network/game/game_mode };
+String{ network_game };
+String{ network/game };
+String{ network };
+String{ debug_mouse };
+String{ debug_drawer };
+String{ print_aux };
+String{ camera_proxy };
+String{ camera };
+String{ ui_renderer };
+String{ ui_element };
+String{ ui_style };
+String{ input_manager };
+String{ ui };
+String{ util/engine };
+String{ unpack };
+String{ util/container };
+String{ category_print };
+String{ debug };
+String{ profiling_patches };
+String{ pd_assert };
+String{ patches };
+String{ util };
+Table{ 
+	Array Part{ 
+		Nil{ };
+		String{ math_aux };
+		String{ vector3_aux };
+		String{ vector2_aux };
+		String{ quaternion_aux };
+		String{ application_storage };
+		String{ resolution };
+	};
+	Hash Part{ 
+	};
+};
+
+Table{ 
+	Array Part{ 
+		Nil{ };
+		String{ network_game_mode };
+		String{ network_game_mode_client };
+		String{ network_game_mode_server };
+	};
+	Hash Part{ 
+	};
+};
+
+Table{ 
+	Array Part{ 
+		Nil{ };
+		String{ pd_network_unit_spawner };
+		String{ pd_network_transport };
+	};
+	Hash Part{ 
+	};
+};
+
+Table{ 
+	Array Part{ 
+		Nil{ };
+		String{ network_gameobject_event };
+		String{ network_gameobject_notifier };
+		String{ network_gamesession_peers };
+		String{ network_peer_transitions };
+		String{ network_handler };
+		String{ network_hotjoin_handler };
+		String{ network_spectator_handler };
+		String{ network_lobby_browser };
+		String{ network_lobby_lan };
+		String{ network_lobby_steam };
+		String{ network_lookup_base };
+		String{ network_server_handler };
+		String{ network_settings };
+		String{ network_unit };
+		String{ network_unit_storage };
+	};
+	Hash Part{ 
+	};
+};
+
+Table{ 
+	Array Part{ 
+		Nil{ };
+		String{ pd_table_allocate };
+		String{ input_aux };
+		String{ frame_table };
+		String{ varargs };
+		String{ class };
+		String{ callback };
+		String{ rectangle };
+		String{ state_machine };
+		String{ misc_util };
+		String{ unit_aux };
+		String{ stack };
+		String{ object_proxy };
+		String{ debug_utils };
+		String{ random_table };
+		String{ event_delegate };
+		String{ queue };
+		String{ pd_timer };
+		String{ timer };
+		String{ audio_aux };
+		String{ base64 };
+		String{ require_bs };
+	};
+	Hash Part{ 
+	};
+};
+
+Table{ 
+	Array Part{ 
+		Nil{ };
+		String{ array };
+		String{ array_aux };
+		String{ handle_vector };
+		String{ set };
+		String{ circle_buffer };
+	};
+	Hash Part{ 
+	};
+};
+
+
+--End--
+
+
+Prototype: 15
+Prototype_Size: 109; Flags: 0; #_Params: 1; Frame_Size: 5; Upvalue_Size: 1; KGC_Size: 3; KN_Size: 0; Instruction_Count: 6;
+
+--Bytecode Instructions--
+(UGET): 1, 0, 0;
+(KSTR): 2, 0, 0;
+(KSTR): 3, 1, 0;
+(KSTR): 4, 2, 0;
+(CALL): 1, 4, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+Upvalue{ 0, 192 };
+
+--Constants--
+String{ entity_manager };
+String{ entity_aux };
+String{ entity_system };
+
+--End--
+
+
+Prototype: 16
+Prototype_Size: 156; Flags: 0; #_Params: 1; Frame_Size: 5; Upvalue_Size: 0; KGC_Size: 5; KN_Size: 0; Instruction_Count: 17;
+
+--Bytecode Instructions--
+(KPRI): 1, 2, 0;
+(TGETS): 2, 0, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 1, 2;
+(MOV): 4, 1, 0;
+(CALL): 2, 3, 1;
+(GGET): 2, 2, 0;
+(GGET): 3, 3, 0;
+(KSTR): 4, 4, 0;
+(CALL): 2, 3, 2;
+(ISF): 0, 2, 0;
+(JMP): 3, 4, 128;
+(GGET): 2, 4, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 1, 2;
+(CALL): 2, 2, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ ui };
+String{ _G };
+String{ rawget };
+String{ destroy };
+String{ machine };
+
+--End--
+
+
+Prototype: 17
+Prototype_Size: 68; Flags: 0; #_Params: 1; Frame_Size: 3; Upvalue_Size: 0; KGC_Size: 2; KN_Size: 0; Instruction_Count: 5;
+
+--Bytecode Instructions--
+(TGETS): 1, 0, 0;
+(MOV): 2, 1, 0;
+(TGETS): 1, 1, 1;
+(CALL): 1, 2, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ destroy };
+String{ package_manager };
+
+--End--
+
+
+Prototype: 18
+Prototype_Size: 689; Flags: 3; #_Params: 0; Frame_Size: 8; Upvalue_Size: 0; KGC_Size: 38; KN_Size: 0; Instruction_Count: 59;
+
+--Bytecode Instructions--
+(FNEW): 0, 0, 0;
+(GGET): 1, 1, 0;
+(TGETS): 1, 2, 1;
+(GGET): 2, 1, 0;
+(TGETS): 2, 3, 2;
+(FNEW): 3, 4, 0;
+(GSET): 3, 5, 0;
+(FNEW): 3, 6, 0;
+(FNEW): 4, 7, 0;
+(GGET): 5, 8, 0;
+(GGET): 6, 9, 0;
+(IST): 0, 6, 0;
+(JMP): 7, 1, 128;
+(TNEW): 6, 0, 0;
+(GSET): 6, 9, 0;
+(GGET): 6, 9, 0;
+(FNEW): 7, 11, 0;
+(TSETS): 7, 10, 6;
+(GGET): 6, 9, 0;
+(FNEW): 7, 13, 0;
+(TSETS): 7, 12, 6;
+(GGET): 6, 9, 0;
+(FNEW): 7, 15, 0;
+(TSETS): 7, 14, 6;
+(GGET): 6, 9, 0;
+(FNEW): 7, 17, 0;
+(TSETS): 7, 16, 6;
+(GGET): 6, 9, 0;
+(FNEW): 7, 19, 0;
+(TSETS): 7, 18, 6;
+(GGET): 6, 9, 0;
+(FNEW): 7, 21, 0;
+(TSETS): 7, 20, 6;
+(GGET): 6, 9, 0;
+(FNEW): 7, 23, 0;
+(TSETS): 7, 22, 6;
+(GGET): 6, 9, 0;
+(FNEW): 7, 25, 0;
+(TSETS): 7, 24, 6;
+(GGET): 6, 9, 0;
+(FNEW): 7, 27, 0;
+(TSETS): 7, 26, 6;
+(GGET): 6, 9, 0;
+(FNEW): 7, 29, 0;
+(TSETS): 7, 28, 6;
+(GGET): 6, 9, 0;
+(FNEW): 7, 31, 0;
+(TSETS): 7, 30, 6;
+(GGET): 6, 9, 0;
+(FNEW): 7, 33, 0;
+(TSETS): 7, 32, 6;
+(GGET): 6, 9, 0;
+(FNEW): 7, 35, 0;
+(TSETS): 7, 34, 6;
+(GGET): 6, 9, 0;
+(FNEW): 7, 37, 0;
+(TSETS): 7, 36, 6;
+(UCLO): 0, 0, 128;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 18 };
+Child{ Prototype: 17 };
+Child{ Prototype: 16 };
+Child{ Prototype: 15 };
+Child{ Prototype: 14 };
+Child{ Prototype: 13 };
+Child{ Prototype: 12 };
+Child{ Prototype: 11 };
+Child{ Prototype: 10 };
+Child{ Prototype: 9 };
+Child{ Prototype: 8 };
+Child{ Prototype: 7 };
+Child{ Prototype: 6 };
+Child{ Prototype: 5 };
+Child{ Prototype: 4 };
+Child{ Prototype: 3 };
+Child{ Prototype: 2 };
+Child{ Prototype: 1 };
+Child{ Prototype: 0 };
+
+--Upvalues--
+
+--Constants--
+String{ destroy };
+String{ shutdown };
+String{ load_entity_system };
+String{ load_scriptutils };
+String{ load_scriptfiles_package };
+String{ load_context };
+String{ setup_statemachine };
+String{ render };
+String{ post_update };
+String{ update };
+String{ pre_update };
+String{ setup_context };
+String{ create_context };
+String{ setup };
+String{ Boot };
+String{ _Resolution };
+String{ log_build_information_and_date };
+String{ stop };
+String{ start };
+String{ Profiler };
+
+--End--
+
+

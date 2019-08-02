@@ -9,11 +9,10 @@ namespace Luajit_Decompiler.dec.Structures
 {
     /// <summary>
     /// The purposes of this class is to take conditional opcodes and translate them into boolean expressions. Options for returning an expression for if statements/loops are available.
+    /// Note: Currently needs reworked.
     /// </summary>
     class Expression
     {
-        /// TODO: Implement returning if statement/loop statement shells.
-
         //This is a map of inverted inequality symbols. It is necessary to match source code and be logically equivalent to the source regardless of operand order. (Theoretically...)
         private static Dictionary<OpCodes, string> map = new Dictionary<OpCodes, string>()
         {
@@ -38,36 +37,8 @@ namespace Luajit_Decompiler.dec.Structures
         /// </summary>
         /// <param name="condi">Conditional instruction.</param>
         /// <param name="vars">Current temporary variables. (From KSHORT instructions for example).</param>
-        public Expression(BytecodeInstruction condi, Variables vars)
+        public Expression(BytecodeInstruction condi)
         {
-            bool isCondi = false;
-            foreach (KeyValuePair<OpCodes, string> k in map)
-                if (condi.opcode == k.Key)
-                {
-                    isCondi = true;
-                    this.condi = condi;
-                    break;
-                }
-            if (!isCondi)
-                throw new Exception("Given opcode is not a conditional instruction. Opcode is: " + condi.opcode);
-
-            byte regAIndex = condi.registers[0];
-            int regDIndex = (condi.registers[2] << 8) | condi.registers[1];
-            bool isNotExpression = false; //if it is a NOT expression. see map comments about negated expressions.
-            switch (condi.opcode)
-            {
-                case OpCodes.ISLT:
-                case OpCodes.ISLE:
-                    isNotExpression = true;
-                    break;
-                default:
-                    break;
-            }
-            StringBuilder result = new StringBuilder();
-            if (isNotExpression)
-                result.Append("not ");
-            result.Append("(" + vars.vs[regAIndex].value.GetValue() + " " + map[condi.opcode] + " " + vars.vs[regDIndex].value.GetValue() + ")");
-            expression = result.ToString();
         }
     }
 

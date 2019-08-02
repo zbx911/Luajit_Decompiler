@@ -15,9 +15,11 @@ namespace Luajit_Decompiler
         public string bytecode_dir_path;
         public string disassembled_dir_path;
         public string decompiled_dir_path;
+        private static string debug_dir_path;
         private string bc_dir_name = "compiled_luajit_bytecode";
         private string dis_dir_name = "disassembled_luajit";
         private string dec_dir_name = "decompiled_luajit_source";
+        private static string debug_dir_name = "debug";
 
         public FileManager()
         {
@@ -32,9 +34,13 @@ namespace Luajit_Decompiler
                 if (!Directory.Exists(dec_dir_name))
                     Directory.CreateDirectory(dec_dir_name);
 
+                if (!Directory.Exists(debug_dir_name))
+                    Directory.CreateDirectory(debug_dir_name);
+
                 bytecode_dir_path = Path.GetFullPath(bc_dir_name);
                 disassembled_dir_path = Path.GetFullPath(dis_dir_name);
                 decompiled_dir_path = Path.GetFullPath(dec_dir_name);
+                debug_dir_path = Path.GetFullPath(debug_dir_name);
             }
             catch (Exception e)
             {
@@ -82,6 +88,18 @@ namespace Luajit_Decompiler
         {
             string oPath = decompiled_dir_path + @"\" + name + ".lua";
             System.IO.File.WriteAllText(oPath, dec);
+        }
+
+        /// <summary>
+        /// Useful for debugging.
+        /// </summary>
+        /// <param name="info"></param>
+        public static void WriteDebug(string info)
+        {
+            string IOPath = debug_dir_path + @"\" + "info" + ".txt";
+            if (!File.Exists(IOPath))
+                File.Create(IOPath);
+            System.IO.File.AppendAllText(IOPath, "\r\n" + info);
         }
         #endregion
     }
