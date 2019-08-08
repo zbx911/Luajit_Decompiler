@@ -47,6 +47,9 @@
     <Compile Include="dec\DecPrototypes.cs" />
     <Compile Include="dec\Structures\Block.cs" />
     <Compile Include="dec\Structures\Expression.cs" />
+    <Compile Include="dec\Structures\gir\CNode.cs" />
+    <Compile Include="dec\Structures\gir\IfNode.cs" />
+    <Compile Include="dec\Structures\gir\INode.cs" />
     <Compile Include="dec\Structures\Jump.cs" />
     <Compile Include="dis\BytecodeInstruction.cs" />
     <Compile Include="dis\Constants\BaseConstant.cs" />

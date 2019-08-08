@@ -14,38 +14,20 @@ namespace Luajit_Decompiler.dec.Structures
     {
         public int distance; //the distance or target.
         public int index; //where it was found.
-        private Block target; //the block it targets. not what it skips over.
+        public int jumpType; //1 = jmp, 2 = ret, 3 = comparison
+        public Block target; //the block it targets. not what it skips over.
 
-        public Jump(BytecodeInstruction jmp, int index)
+        public Jump(BytecodeInstruction jmp, int jumpType, int nameIndex) //!TODO: Replace handling returns as a jump of zero with a Return IR instruction instead.
         {
-            if (jmp.opcode != OpCodes.JMP)
-                throw new Exception("BCI is not a jump.");
-            distance = ((jmp.registers[2] << 8) | jmp.registers[1]) - 0x8000; //can be negative
-            this.index = index;
-        }
-
-        /// <summary>
-        /// TODO: Requires testing.
-        /// </summary>
-        /// <param name="pt"></param>
-        /// <param name="blocks"></param>
-        /// <returns></returns>
-        public Block GetTargetOfJump(Prototype pt, List<Block> blocks)
-        {
-            if (target == null) //calculate target if it hasn't been calculated already.
-            {
-                int hunt = index + distance + 1;
-                foreach(Block b in blocks)
-                {
-                    if(b.startB == hunt)
-                    {
-                        target = b;
-                        return b;
-                    }
-                }
-                throw new Exception("Block not found.");
-            }
-            else return target;
+            index = jmp.index;
+            this.jumpType = jumpType;
+            if (jumpType == 1) //calculate jump distance. may be negative.
+                distance = ((jmp.registers[2] << 8) | jmp.registers[1]) - 0x8000;
+            //else if (jumpType == 2) //return
+            //    distance = 0; //treating return opcodes as a jump of 0.
+            else if (jumpType == 3)
+                distance = 1; //conditionals/returns
+            target = new Block(index + distance + 1, nameIndex); //+1 to avoid off by 1 error for start of a block.
         }
 
         public override string ToString()

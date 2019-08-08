@@ -12,42 +12,25 @@ namespace Luajit_Decompiler.dec.Structures
 {
     class Block
     {
-        public int startB; //start of the block. (Relative to the asm lines).
-        public int endB; //end of the block.
-        private List<BytecodeInstruction> bcis; //all the bytecode instructions in a block.
-        public int iCount { get { return bcis.Count; } } //instruction count.
+        public int sIndex; //start of the block. (Relative to the asm lines).
+        public int nameIndex; //used for labeling blocks.
+        public List<BytecodeInstruction> bcis; //all the bytecode instructions in a block.
         public string label;
-        private Prototype pt;
 
-        public Block(Prototype pt)
+        public Block(int sIndex, int nameIndex)
         {
-            this.pt = pt;
-            //determine BCIs by using startB and endB.
-        }
-
-        public List<BytecodeInstruction> GetBcis()
-        {
-            label = "b" + startB + ":" + (endB - 1) + " " + "j@" + (startB - 1); //Note: this may not be accurate for negative jumps. (j@)
-            if (bcis == null)
-            {
-                bcis = new List<BytecodeInstruction>();
-                for (int i = startB; i < endB; i++)
-                    bcis.Add(pt.bytecodeInstructions[i]);
-                return bcis;
-            }
-            else
-                return bcis;
-
+            this.sIndex = sIndex;
+            this.nameIndex = nameIndex;
+            label = "Block[" + nameIndex + "]";
         }
 
         public override string ToString()
         {
-            if (bcis == null)
-                GetBcis();
-            StringBuilder res = new StringBuilder("---Block---\r\n");
+            StringBuilder res = new StringBuilder();
+            res.AppendLine(label);
             foreach (BytecodeInstruction bci in bcis)
                 res.AppendLine(bci.ToString());
-            res.AppendLine("---End Block---");
+            res.AppendLine(label + " end");
             return res.ToString();
         }
     }

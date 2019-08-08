@@ -14,9 +14,8 @@ namespace Luajit_Decompiler.dec
         private StringBuilder fileSource = new StringBuilder(); //source code for the entire file.
 
         #region Per Prototype
-        private Prototype pt; //reference to current prototype.
-        private List<Jump> jumps; //jumps and their associated targets.
-        private List<Block> blocks; //all blocks of a prototype.
+        public static Prototype pt; //reference to current prototype.
+        public static List<Jump> jumps; //jumps and their associated targets.
         #endregion
 
         /// <summary>
@@ -30,71 +29,70 @@ namespace Luajit_Decompiler.dec
             res.AppendLine("--Lua File Name: " + name);
             for (int i = pts.Count; i > 0; i--) //We go backwards here because the 'main' proto is always the last one and will have the most prototype children.
             {
-                jumps = new List<Jump>();
-                blocks = new List<Block>();
                 pt = pts[i - 1];
-                int start = 0;
-                BlockifyPT(ref start, pt.bytecodeInstructions.Count);
+                BlockPrototype(pt.bytecodeInstructions);
 
                 #region debugging
                 StringBuilder dbg = new StringBuilder();
-                foreach (Block b in blocks)
+
+                foreach(Jump j in jumps)
                 {
-                    dbg.AppendLine(b.label + " ->\r\n");
-                    dbg.AppendLine(b.ToString());
-                    dbg.AppendLine("end " + b.label + "\r\n");
+                    dbg.AppendLine("Jump@" + j.index + " Type: " + j.jumpType + " Block Starts: " + j.target.sIndex);
                 }
+
                 FileManager.WriteDebug(dbg.ToString());
                 #endregion
             }
         }
 
-        /// <summary>
-        /// Recursively separates the prototypes into blocks. 
-        /// These blocks need to be refined/simplified as some blocks will contain JMPs and other blocks. 
-        /// The final block will be a block that is basically the entire prototype minus the return statement.
-        /// </summary>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
-        private void BlockifyPT(ref int start, int end)
+        private void BlockPrototype(List<BytecodeInstruction> ptBcis)
         {
-            Block b = new Block(pt); //where it starts will be the name
-            b.startB = start;
-            while(start < end)
+            //find condi and jump treat them as jumps.
+            jumps = new List<Jump>();
+            int name = 0;
+            for(int i = 0; i < ptBcis.Count; i++)
             {
-                BytecodeInstruction bci = pt.bytecodeInstructions[start];
-                int check = IsJumpOrRet(bci);
-                if (check == 1)
+                int check = CheckCJR(ptBcis[i]);
+                if (check == 1 || check == 3) //jmp or comparison
                 {
-                    Jump j = new Jump(bci, start);
+                    Jump j = new Jump(ptBcis[i], check, name); //TODO: check if we need to merge jumps. and merge jumps.
                     jumps.Add(j);
-                    start++; //start of next block
-                    BlockifyPT(ref start, j.distance + start);
+                    name++;
                 }
-                else if (check == 2) //a return
-                    break;
-                else
-                    start++;
             }
-            b.endB = start; //base cases will break the loop and return since no JMPs. exclusive bci fetching so no -1
-            b.GetBcis();
-            blocks.Add(b);
-            return;
         }
 
-        public static int IsJumpOrRet(BytecodeInstruction bci)
+        /// <summary>
+        /// Check for Condi, Jump, or Ret opcodes.
+        /// </summary>
+        /// <param name="bci"></param>
+        /// <returns></returns>
+        public static int CheckCJR(BytecodeInstruction bci)
         {
             switch(bci.opcode)
             {
                 case OpCodes.JMP:
-                    return 1;
+                    return 1; //jump
                 case OpCodes.RET:
                 case OpCodes.RET0:
                 case OpCodes.RET1:
                 case OpCodes.RETM:
-                    return 2;
+                    return 2; //return
+                case OpCodes.ISEQN:
+                case OpCodes.ISEQP:
+                case OpCodes.ISEQS:
+                case OpCodes.ISEQV:
+                case OpCodes.ISGE:
+                case OpCodes.ISGT:
+                case OpCodes.ISLE:
+                case OpCodes.ISLT:
+                case OpCodes.ISNEN:
+                case OpCodes.ISNEP:
+                case OpCodes.ISNES:
+                case OpCodes.ISNEV:
+                    return 3; //conditional
                 default:
-                    return 0;
+                    return -1; //not condi/jmp/ret
             }
         }
 
