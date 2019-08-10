@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Luajit_Decompiler.dis;
 using Luajit_Decompiler.dec.Structures;
 using Luajit_Decompiler.dis.Constants;
+using Luajit_Decompiler.dec.gir;
 
 namespace Luajit_Decompiler.dec
 {
@@ -30,7 +31,8 @@ namespace Luajit_Decompiler.dec
             for (int i = pts.Count; i > 0; i--) //We go backwards here because the 'main' proto is always the last one and will have the most prototype children.
             {
                 pt = pts[i - 1];
-                BlockPrototype(pt.bytecodeInstructions);
+                BlockPrototype();
+                //PtGraph graph = new PtGraph();
 
                 #region debugging
                 StringBuilder dbg = new StringBuilder();
@@ -38,29 +40,65 @@ namespace Luajit_Decompiler.dec
                 foreach(Jump j in jumps)
                 {
                     dbg.AppendLine("Jump@" + j.index + " Type: " + j.jumpType + " Block Starts: " + j.target.sIndex);
+                    //dbg.AppendLine("Jump@" + j.index + "; Target =>\r\n" + j.target.ToString());
                 }
-
+                FileManager.ClearDebug();
                 FileManager.WriteDebug(dbg.ToString());
                 #endregion
             }
         }
 
-        private void BlockPrototype(List<BytecodeInstruction> ptBcis)
+        /// <summary>
+        /// Gets jump targets and finalizes those blocks.
+        /// </summary>
+        private void BlockPrototype()
         {
-            //find condi and jump treat them as jumps.
+            List<BytecodeInstruction> ptBcis = pt.bytecodeInstructions;
+
+            //find condi and jump treat them as jumps. pass #1 of bytecode
             jumps = new List<Jump>();
             int name = 0;
-            for(int i = 0; i < ptBcis.Count; i++)
+
+            //make a jmp bci to top of file
+            BytecodeInstruction jmpTop = new BytecodeInstruction(OpCodes.JMP, -1);
+            jmpTop.AddRegister(0);
+            jmpTop.AddRegister(0);
+            jmpTop.AddRegister(128); // *Should* result in a jump of -1. target *should* be index 0 of bci.
+            Jump top = new Jump(jmpTop, 1, 0);
+            jumps.Add(top);
+
+            //get jump targets
+            for (int i = 0; i < ptBcis.Count; i++)
             {
                 int check = CheckCJR(ptBcis[i]);
                 if (check == 1 || check == 3) //jmp or comparison
                 {
-                    Jump j = new Jump(ptBcis[i], check, name); //TODO: check if we need to merge jumps. and merge jumps.
+                    Jump j = new Jump(ptBcis[i], check, name);
                     jumps.Add(j);
                     name++;
                 }
             }
+            //FinalizeTargets();
         }
+
+        /// <summary>
+        /// Sets end index for each jump target.
+        /// </summary>
+        //private void FinalizeTargets()
+        //{
+        //    for (int i = 0; i < jumps.Count; i++)
+        //    {
+        //        if (i + 1 >= jumps.Count)
+        //        {
+        //            jumps[i].target.Finalize(pt.bytecodeInstructions.Count - 1);
+        //        }
+        //        else
+        //        {
+        //            int end = jumps[i + 1].target.sIndex;
+        //            jumps[i].target.Finalize(end);
+        //        }
+        //    }
+        //}
 
         /// <summary>
         /// Check for Condi, Jump, or Ret opcodes.

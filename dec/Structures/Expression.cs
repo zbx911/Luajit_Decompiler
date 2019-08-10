@@ -4,14 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Luajit_Decompiler.dis;
+using Luajit_Decompiler.dec.gir;
 
 namespace Luajit_Decompiler.dec.Structures
 {
-    /// <summary>
-    /// The purposes of this class is to take conditional opcodes and translate them into boolean expressions. Options for returning an expression for if statements/loops are available.
-    /// Note: Currently needs reworked.
-    /// Other note: might be able to determine *precisely* which logical operator is used based on the order of register loading?
-    /// </summary>
     class Expression
     {
         //This is a map of inverted inequality symbols. It is necessary to match source code and be logically equivalent to the source regardless of operand order. (Theoretically...)
@@ -32,14 +28,15 @@ namespace Luajit_Decompiler.dec.Structures
         };
 
         public string expression;
-        public BytecodeInstruction condi;
+
         /// <summary>
         /// Constructs an expression.
         /// </summary>
         /// <param name="condi">Conditional instruction.</param>
         /// <param name="vars">Current temporary variables. (From KSHORT instructions for example).</param>
-        public Expression(BytecodeInstruction condi)
+        public Expression(OpCodes op, string left, string right)
         {
+            expression = "(" + left + " " + map[op] + " " + right + ")";
         }
     }
 

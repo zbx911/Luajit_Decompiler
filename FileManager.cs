@@ -91,7 +91,7 @@ namespace Luajit_Decompiler
         }
 
         /// <summary>
-        /// Useful for debugging.
+        /// Writes to the debug file.
         /// </summary>
         /// <param name="info"></param>
         public static void WriteDebug(string info)
@@ -100,6 +100,17 @@ namespace Luajit_Decompiler
             if (!File.Exists(IOPath))
                 File.Create(IOPath);
             System.IO.File.AppendAllText(IOPath, "\r\n" + info);
+        }
+
+        /// <summary>
+        /// Clears the debug file.
+        /// </summary>
+        public static void ClearDebug()
+        {
+            string IOPath = debug_dir_path + @"\" + "info" + ".txt";
+            if (!File.Exists(IOPath))
+                File.Create(IOPath);
+            System.IO.File.WriteAllText(IOPath, "");
         }
         #endregion
     }

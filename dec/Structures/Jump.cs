@@ -23,8 +23,6 @@ namespace Luajit_Decompiler.dec.Structures
             this.jumpType = jumpType;
             if (jumpType == 1) //calculate jump distance. may be negative.
                 distance = ((jmp.registers[2] << 8) | jmp.registers[1]) - 0x8000;
-            //else if (jumpType == 2) //return
-            //    distance = 0; //treating return opcodes as a jump of 0.
             else if (jumpType == 3)
                 distance = 1; //conditionals/returns
             target = new Block(index + distance + 1, nameIndex); //+1 to avoid off by 1 error for start of a block.
