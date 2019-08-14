@@ -17,7 +17,7 @@ namespace Luajit_Decompiler.dec.Structures
         public int jumpType; //1 = jmp, 2 = ret, 3 = comparison
         public Block target; //the block it targets. not what it skips over.
 
-        public Jump(BytecodeInstruction jmp, int jumpType, int nameIndex) //!TODO: Replace handling returns as a jump of zero with a Return IR instruction instead.
+        public Jump(BytecodeInstruction jmp, int jumpType, int nameIndex)
         {
             index = jmp.index;
             this.jumpType = jumpType;

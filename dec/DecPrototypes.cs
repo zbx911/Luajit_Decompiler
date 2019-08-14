@@ -39,8 +39,8 @@ namespace Luajit_Decompiler.dec
 
                 foreach(Jump j in jumps)
                 {
-                    dbg.AppendLine("Jump@" + j.index + " Type: " + j.jumpType + " Block Starts: " + j.target.sIndex);
-                    //dbg.AppendLine("Jump@" + j.index + "; Target =>\r\n" + j.target.ToString());
+                    //dbg.AppendLine("Jump@" + j.index + " Type: " + j.jumpType + " Block Starts: " + j.target.sIndex);
+                    dbg.AppendLine("Jump@" + j.index + "; Target =>\r\n" + j.target.ToString());
                 }
                 FileManager.ClearDebug();
                 FileManager.WriteDebug(dbg.ToString());
@@ -63,8 +63,8 @@ namespace Luajit_Decompiler.dec
             BytecodeInstruction jmpTop = new BytecodeInstruction(OpCodes.JMP, -1);
             jmpTop.AddRegister(0);
             jmpTop.AddRegister(0);
-            jmpTop.AddRegister(128); // *Should* result in a jump of -1. target *should* be index 0 of bci.
-            Jump top = new Jump(jmpTop, 1, 0);
+            jmpTop.AddRegister(128);
+            Jump top = new Jump(jmpTop, 1, -1);
             jumps.Add(top);
 
             //get jump targets
@@ -78,27 +78,27 @@ namespace Luajit_Decompiler.dec
                     name++;
                 }
             }
-            //FinalizeTargets();
+            FinalizeTargets();
         }
 
         /// <summary>
         /// Sets end index for each jump target.
         /// </summary>
-        //private void FinalizeTargets()
-        //{
-        //    for (int i = 0; i < jumps.Count; i++)
-        //    {
-        //        if (i + 1 >= jumps.Count)
-        //        {
-        //            jumps[i].target.Finalize(pt.bytecodeInstructions.Count - 1);
-        //        }
-        //        else
-        //        {
-        //            int end = jumps[i + 1].target.sIndex;
-        //            jumps[i].target.Finalize(end);
-        //        }
-        //    }
-        //}
+        private void FinalizeTargets()
+        {
+            for (int i = 0; i < jumps.Count; i++)
+            {
+                if (i + 1 >= jumps.Count) //no next jump, then set target of last jump to end.
+                {
+                    jumps[i].target.Finalize(jumps.Count - 1);
+                    break;
+                }
+                else
+                {
+                    jumps[i].target.Finalize(jumps[i + 1].target.sIndex);
+                }
+            }
+        }
 
         /// <summary>
         /// Check for Condi, Jump, or Ret opcodes.

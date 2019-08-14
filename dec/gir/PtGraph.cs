@@ -28,10 +28,6 @@ namespace Luajit_Decompiler.dec.gir
 
         private void GraphPrototype()
         {
-            //pass #2 of bytecode
-            //go through until we hit isge/jmp
-            //if we hit one, finish the first code node, create new if node with expression, link code node to if node, continue.
-
             //handle first jump at top of file.
             Block top = jumps[0].target;
             if (jumps.Count > 1)
@@ -39,20 +35,6 @@ namespace Luajit_Decompiler.dec.gir
             else
                 top.Finalize(bcis.Count);
             root = new CNode(top);
-
-            //for(int i = 1; i < jumps.Count; i++)
-            //{
-            //    if (jumps[i].jumpType == 1) //regular jump
-            //    {
-            //        AddNode(new CNode(jumps[i].target)); //if false OR rest of code.
-            //    }
-            //    else //conditional jump
-            //    {
-            //        IfNode condi = new IfNode(new Expression(bcis[i].opcode, variables[bcis[i].registers[0]].ToString(), variables[bcis[i].registers[1]].ToString()));
-            //        AddNode(condi);
-            //        AddNode(new CNode(jumps[i].target)); //if true
-            //    }
-            //}
         }
 
         private Block FindJumpTarget(int jndx)
