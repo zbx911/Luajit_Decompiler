@@ -5,8 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Luajit_Decompiler.dis;
 using Luajit_Decompiler.dec.Structures;
-using Luajit_Decompiler.dis.Constants;
-using Luajit_Decompiler.dec.gir;
 
 namespace Luajit_Decompiler.dec
 {
@@ -17,6 +15,7 @@ namespace Luajit_Decompiler.dec
         #region Per Prototype
         public static Prototype pt; //reference to current prototype.
         public static List<Jump> jumps; //jumps and their associated targets.
+        public static List<BytecodeInstruction> comparisonBCIs;
         #endregion
 
         /// <summary>
@@ -30,8 +29,13 @@ namespace Luajit_Decompiler.dec
             res.AppendLine("--Lua File Name: " + name);
             for (int i = pts.Count; i > 0; i--) //We go backwards here because the 'main' proto is always the last one and will have the most prototype children.
             {
+                //init
                 pt = pts[i - 1];
-                BlockPrototype();
+                comparisonBCIs = new List<BytecodeInstruction>();
+                jumps = new List<Jump>();
+
+                //IR creation.
+                CreateIR();
                 //PtGraph graph = new PtGraph();
 
                 #region debugging
@@ -56,7 +60,6 @@ namespace Luajit_Decompiler.dec
             List<BytecodeInstruction> ptBcis = pt.bytecodeInstructions;
 
             //find condi and jump treat them as jumps. pass #1 of bytecode
-            jumps = new List<Jump>();
             int name = 0;
 
             //make a jmp bci to top of file
@@ -100,6 +103,56 @@ namespace Luajit_Decompiler.dec
             }
         }
 
+        private void CreateIR()
+        {
+            BlockPrototype(); //#1
+            PhaseOneIRTranslate(); //#2
+            //Create graph...
+        }
+
+        /// <summary>
+        /// Phase one of IR translation. Turn any comparsion opcodes and jumps to their linear IR equivalent.
+        /// </summary>
+        private void PhaseOneIRTranslate() //O((2N^2) * M) = O(N^2)? Perhaps rethink this method later for efficiency's sake. N = # jumps, M = # of bcis in jump N.
+        {
+            for (int i = 0; i < jumps.Count; i++)
+            {
+                ref List<BytecodeInstruction> targetBCIs = ref jumps[i].target.bcis;
+                for (int j = 0; j < targetBCIs.Count; j++)
+                {
+                    int check = CheckCJR(targetBCIs[j]);
+
+                    //# compound IF IR. if the assumption that after every comparison op exists a jump op is false, use the commented implementation @ bottom of file instead of this implementation.
+                    if (check == 3)
+                    {
+                        //take this instruction plus next and merge. (ISGE->JMP)
+                        BytecodeInstruction ir = new BytecodeInstruction(OpCodes._if, targetBCIs[j].index);
+                        ir.AddRegister((byte)FindJumpAtIndex(targetBCIs[j].index).target.nameIndex); //this register will hold block index of target if true. This can throw issues if nameIndex > 255 for a prototype.
+                        ir.AddRegister((byte)FindJumpAtIndex(targetBCIs[j+1].index).target.nameIndex); //this register holds the target block if the jump is false.
+                        comparisonBCIs.Add(targetBCIs[j]);
+                        ir.AddRegister(comparisonBCIs.IndexOf(targetBCIs[j])); //used for keeping track of index of original conditional expression.
+                        targetBCIs[j] = ir;
+                        
+                        //removed merged bci
+                        BytecodeInstruction rem = new BytecodeInstruction(OpCodes.removed, targetBCIs[j + 1].index);
+                        rem.AddRegister(0);
+                        rem.AddRegister(0);
+                        rem.AddRegister(0);
+                        targetBCIs[j + 1] = rem;
+                    }
+                    else if (check == 1)
+                    {
+                        BytecodeInstruction ir = new BytecodeInstruction(OpCodes._goto, targetBCIs[j].index);
+                        ir.AddRegister((byte)FindJumpAtIndex(targetBCIs[j].index).target.nameIndex);
+                        ir.AddRegister(255);
+                        ir.AddRegister(255);
+                        targetBCIs[j] = ir;
+                    }
+                    //#
+                }
+            }
+        }
+
         /// <summary>
         /// Check for Condi, Jump, or Ret opcodes.
         /// </summary>
@@ -134,9 +187,33 @@ namespace Luajit_Decompiler.dec
             }
         }
 
+        public static Jump FindJumpAtIndex(int index)
+        {
+            for (int i = 0; i < jumps.Count; i++)
+                if (jumps[i].index == index)
+                    return jumps[i];
+            throw new Exception("Jump not found.");
+        }
+
         public override string ToString()
         {
             return fileSource.ToString();
         }
+
+        //# implementation for non-compound _if statements.
+        //if (check == 3 || check == 1)
+        //{
+        //    BytecodeInstruction ir;
+        //    if (check == 3)
+        //        ir = new BytecodeInstruction(OpCodes._if, targetBCIs[j].index);
+        //    else
+        //        ir = new BytecodeInstruction(OpCodes._goto, targetBCIs[j].index);
+
+        //    ir.AddRegister((byte)FindJumpAtIndex(targetBCIs[j].index).target.nameIndex); //this register will hold block index of target if true. This can throw issues if nameIndex > 255 for a prototype.
+        //    ir.AddRegister(0);
+        //    ir.AddRegister(0);
+        //    targetBCIs[j] = ir;
+        //}
+        //#
     }
 }

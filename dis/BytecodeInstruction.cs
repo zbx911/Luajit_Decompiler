@@ -9,7 +9,7 @@ namespace Luajit_Decompiler.dis
     class BytecodeInstruction
     {
         public OpCodes opcode;
-        public byte[] registers = new byte[3];
+        public int[] registers = new int[3]; //these are bytes but decompiler requirements need space of > 255.
         private int registerCount = 0;
         public int index; //index of bci in prototype.
 
@@ -23,7 +23,7 @@ namespace Luajit_Decompiler.dis
         /// Adds registers incrementally. Ex: (OpCode: reg1, reg2, reg3) { OP, A, (BC) or (D) }
         /// </summary>
         /// <param name="b"></param>
-        public void AddRegister(byte b)
+        public void AddRegister(int b) //byte. see above.
         {
             registers[registerCount] = b;
             registerCount++;

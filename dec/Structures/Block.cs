@@ -41,11 +41,8 @@ namespace Luajit_Decompiler.dec.Structures
                 throw new Exception("Error. Block not finalized.");
             StringBuilder res = new StringBuilder();
             res.AppendLine(label);
-            res.AppendLine();
             foreach (BytecodeInstruction bci in bcis)
                 res.AppendLine(bci.index + ":" + bci.ToString());
-            res.AppendLine();
-            res.AppendLine(label + " end");
             return res.ToString();
         }
     }

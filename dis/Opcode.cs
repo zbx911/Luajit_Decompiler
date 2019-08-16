@@ -103,7 +103,14 @@ namespace Luajit_Decompiler.dis
         IFUNCV,
         JFUNCV,
         FUNCC,
-        FUNCCW
+        FUNCCW,
+
+        //Non-Luajit, IR Ocodes.
+        _if,
+        ifelse,
+        ieie, // if elseif... else
+        removed,
+        _goto
     }
 
     class Opcode

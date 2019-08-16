@@ -1,219 +1,152 @@
-
+// -- I've commented a few bits of the debug output for sake of viewing important bits in the repo.
 Jump@-1; Target =>
 Block[-1]
-
 0:(KSHORT): 0, 1, 0;
 1:(KSHORT): 1, 2, 0;
-2:(ISGE): 1, 0, 0;
-3:(JMP): 0, 3, 128;
-
-Block[-1] end
+2:(_if): 0, 1, 0;
+3:(removed): 0, 0, 0;
 
 Jump@2; Target =>
 Block[0]
-
 4:(GGET): 0, 0, 0;
 5:(KSHORT): 1, 0, 0;
 6:(CALL): 0, 2, 1;
 
-Block[0] end
-
 Jump@3; Target =>
 Block[1]
-
 7:(KSHORT): 0, 1, 0;
 8:(KSHORT): 1, 2, 0;
-9:(ISGE): 1, 0, 0;
-10:(JMP): 0, 4, 128;
-
-Block[1] end
+9:(_if): 2, 3, 1;
+10:(removed): 0, 0, 0;
 
 Jump@9; Target =>
 Block[2]
-
 11:(GGET): 0, 0, 0;
 12:(KSHORT): 1, 10, 0;
 13:(CALL): 0, 2, 1;
-14:(JMP): 0, 3, 128;
-
-Block[2] end
+14:(_goto): 4, 255, 255;
 
 Jump@10; Target =>
 Block[3]
-
 15:(GGET): 0, 0, 0;
 16:(KSHORT): 1, 11, 0;
 17:(CALL): 0, 2, 1;
 
-Block[3] end
-
 Jump@14; Target =>
 Block[4]
-
 18:(KSHORT): 0, 2, 0;
 19:(KSHORT): 1, 1, 0;
-20:(ISGE): 1, 0, 0;
-21:(JMP): 0, 4, 128;
-
-Block[4] end
+20:(_if): 5, 6, 2;
+21:(removed): 0, 0, 0;
 
 Jump@20; Target =>
 Block[5]
-
 22:(GGET): 0, 0, 0;
 23:(KSHORT): 1, 12, 0;
 24:(CALL): 0, 2, 1;
-25:(JMP): 0, 11, 128;
-
-Block[5] end
+25:(_goto): 7, 255, 255;
 
 Jump@21; Target =>
 Block[6]
-
 26:(KSHORT): 0, 2, 0;
 27:(KSHORT): 1, 1, 0;
-28:(ISGE): 1, 0, 0;
-29:(JMP): 0, 4, 128;
+28:(_if): 8, 9, 3;
+29:(removed): 0, 0, 0;
 30:(GGET): 0, 0, 0;
 31:(KSHORT): 1, 13, 0;
 32:(CALL): 0, 2, 1;
-33:(JMP): 0, 3, 128;
+33:(_goto): 10, 255, 255;
 34:(GGET): 0, 0, 0;
 35:(KSHORT): 1, 14, 0;
 36:(CALL): 0, 2, 1;
 
-Block[6] end
-
 Jump@25; Target =>
-Block[7]
-
-
-Block[7] end
+Block[7] // -- I'm empty so I'm my jump points to another jump!
 
 Jump@28; Target =>
 Block[8]
-
 30:(GGET): 0, 0, 0;
 31:(KSHORT): 1, 13, 0;
 32:(CALL): 0, 2, 1;
-33:(JMP): 0, 3, 128;
-
-Block[8] end
+33:(_goto): 10, 255, 255;
 
 Jump@29; Target =>
 Block[9]
-
 34:(GGET): 0, 0, 0;
 35:(KSHORT): 1, 14, 0;
 36:(CALL): 0, 2, 1;
 
-Block[9] end
-
 Jump@33; Target =>
 Block[10]
-
 37:(KSHORT): 0, 2, 0;
 38:(KSHORT): 1, 1, 0;
-39:(ISGE): 1, 0, 0;
-40:(JMP): 0, 8, 128;
-
-Block[10] end
+39:(_if): 11, 12, 4;
+40:(removed): 0, 0, 0;
 
 Jump@39; Target =>
 Block[11]
-
 41:(KSHORT): 0, 4, 0;
 42:(KSHORT): 1, 3, 0;
-43:(ISGE): 1, 0, 0;
-44:(JMP): 0, 4, 128;
+43:(_if): 13, 14, 5;
+44:(removed): 0, 0, 0;
 45:(GGET): 0, 0, 0;
 46:(KSHORT): 1, 12, 0;
 47:(CALL): 0, 2, 1;
-48:(JMP): 0, 15, 128;
-
-Block[11] end
+48:(_goto): 15, 255, 255;
 
 Jump@40; Target =>
 Block[12]
 
-
-Block[12] end
-
 Jump@43; Target =>
 Block[13]
-
 45:(GGET): 0, 0, 0;
 46:(KSHORT): 1, 12, 0;
 47:(CALL): 0, 2, 1;
-48:(JMP): 0, 15, 128;
-
-Block[13] end
+48:(_goto): 15, 255, 255;
 
 Jump@44; Target =>
 Block[14]
-
 49:(KSHORT): 0, 2, 0;
 50:(KSHORT): 1, 1, 0;
-51:(ISLT): 1, 0, 0;
-52:(JMP): 0, 4, 128;
+51:(_if): 16, 17, 6;
+52:(removed): 0, 0, 0;
 53:(KSHORT): 0, 4, 0;
 54:(KSHORT): 1, 3, 0;
-55:(ISGE): 1, 0, 0;
-56:(JMP): 0, 4, 128;
+55:(_if): 18, 19, 7;
+56:(removed): 0, 0, 0;
 57:(GGET): 0, 0, 0;
 58:(KSHORT): 1, 15, 0;
 59:(CALL): 0, 2, 1;
-60:(JMP): 0, 3, 128;
+60:(_goto): 20, 255, 255;
 61:(GGET): 0, 0, 0;
 62:(KSHORT): 1, 16, 0;
 63:(CALL): 0, 2, 1;
-
-Block[14] end
 
 Jump@48; Target =>
 Block[15]
 
-
-Block[15] end
-
 Jump@51; Target =>
 Block[16]
-
 53:(KSHORT): 0, 4, 0;
 54:(KSHORT): 1, 3, 0;
-55:(ISGE): 1, 0, 0;
-56:(JMP): 0, 4, 128;
-
-Block[16] end
+55:(_if): 18, 19, 7;
+56:(removed): 0, 0, 0;
 
 Jump@52; Target =>
 Block[17]
 
-
-Block[17] end
-
 Jump@55; Target =>
 Block[18]
-
 57:(GGET): 0, 0, 0;
 58:(KSHORT): 1, 15, 0;
 59:(CALL): 0, 2, 1;
-60:(JMP): 0, 3, 128;
-
-Block[18] end
+60:(_goto): 20, 255, 255;
 
 Jump@56; Target =>
 Block[19]
-
 61:(GGET): 0, 0, 0;
 62:(KSHORT): 1, 16, 0;
 63:(CALL): 0, 2, 1;
 
-Block[19] end
-
 Jump@60; Target =>
-Block[20]
-
-
-Block[20] end
-
+Block[20] // -- I'm the return opcode!
