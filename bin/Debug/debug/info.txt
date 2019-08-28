@@ -61,7 +61,7 @@ Block[6]
 36:(CALL): 0, 2, 1;
 
 Jump@25; Target =>
-Block[7] // -- I'm empty so I'm my jump points to another jump!
+Block[7] // -- I'm empty so I'm a jump points to another jump!
 
 Jump@28; Target =>
 Block[8]
