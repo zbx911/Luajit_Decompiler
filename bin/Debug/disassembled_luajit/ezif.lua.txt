@@ -1,3 +1,9 @@
+File Name: ezif.lua
+
+Prototype: 0
+Prototype_Size: 273; Flags: 2; #_Params: 0; Frame_Size: 2; Upvalue_Size: 0; KGC_Size: 1; KN_Size: 0; Instruction_Count: 65;
+
+--Bytecode Instructions--
 (KSHORT): 0, 1, 0;
 (KSHORT): 1, 2, 0;
 (ISGE): 1, 0, 0;

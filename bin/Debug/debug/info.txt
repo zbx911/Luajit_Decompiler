@@ -1,4 +1,4 @@
-// -- I've commented a few bits of the debug output for sake of viewing important bits in the repo.
+
 Jump@-1; Target =>
 Block[-1]
 0:(KSHORT): 0, 1, 0;
@@ -61,7 +61,7 @@ Block[6]
 36:(CALL): 0, 2, 1;
 
 Jump@25; Target =>
-Block[7] // -- I'm empty so I'm my jump points to another jump!
+Block[7]
 
 Jump@28; Target =>
 Block[8]
@@ -149,4 +149,5 @@ Block[19]
 63:(CALL): 0, 2, 1;
 
 Jump@60; Target =>
-Block[20] // -- I'm the return opcode!
+Block[20]
+
