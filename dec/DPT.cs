@@ -14,6 +14,7 @@ namespace Luajit_Decompiler.dec
         private List<BytecodeInstruction> ptBcis;
         public List<Jump> jumps; //public for now for debug purposes.
         private List<BytecodeInstruction> comparisonBCIs;
+        private List<Block> blocks;
 
         public DPT(Prototype pt)
         {
@@ -82,7 +83,8 @@ namespace Luajit_Decompiler.dec
         {
             BlockPrototype(); //#1
             SimplifyLIR(); //#2
-            SimplifyBlocks(); //#3
+            CreateBlockList(); //#3
+            SimplifyBlocks(); //#4
             //Create graph...
         }
 
@@ -130,11 +132,45 @@ namespace Luajit_Decompiler.dec
         }
 
         /// <summary>
+        /// Block index + 1 = Index in Block List.
+        /// </summary>
+        private void CreateBlockList()
+        {
+            blocks = new List<Block>();
+            foreach (Jump j in jumps)
+                blocks.Add(j.target);
+        }
+
+        /// <summary>
+        /// ****TRY USING .CONTAINS IN BCI LIST?
         /// Removes blocks that are a subset of another block to eliminate redundancy.
         /// </summary>
-        private void SimplifyBlocks()
+        private void SimplifyBlocks() //A fairly CPU intensive algorithm. Might want to make this more efficient later.
         {
-
+            for (int i = 0; i < jumps.Count; i++)
+            {
+                Block b0 = jumps[i].target;
+                for(int j = 0; j < b0.bcis.Count; j++)
+                {
+                    BytecodeInstruction bci = b0.bcis[i];
+                    if (bci.opcode == OpCodes._if)
+                    {
+                        int t1 = bci.registers[0]; //true block target
+                        int t2 = bci.registers[1]; //false block target
+                        t1++; //increment to access it in the block list.
+                        t2++;
+                        Block b1 = blocks[t1];
+                        Block b2 = blocks[t2];
+                        if (j + 2 >= b0.bcis.Count) //no subsets to check
+                            continue;
+                        for (int k = j + 2; k < b0.bcis.Count; k++) //+2 from the _if opcode = bci after the _if.
+                        {
+                              
+                        }
+                    }
+                    else continue;
+                }
+            }
         }
 
         /// <summary>

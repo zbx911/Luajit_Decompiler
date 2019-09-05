@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="dec\Decompiler.cs" />
     <Compile Include="dec\DecPrototypes.cs" />
+    <Compile Include="dec\DPT.cs" />
     <Compile Include="dec\gir\PtGraph.cs" />
     <Compile Include="dec\Structures\Block.cs" />
     <Compile Include="dec\Structures\Expression.cs" />
