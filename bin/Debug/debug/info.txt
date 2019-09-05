@@ -61,7 +61,7 @@ Block[6]
 36:(CALL): 0, 2, 1;
 
 Jump@25; Target =>
-Block[7]
+Block[7] // -- I'm empty so I'm a jump points to another jump!
 
 Jump@28; Target =>
 Block[8]
@@ -149,5 +149,4 @@ Block[19]
 63:(CALL): 0, 2, 1;
 
 Jump@60; Target =>
-Block[20]
-
+Block[20] // -- I'm the return opcode!
