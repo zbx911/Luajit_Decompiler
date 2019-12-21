@@ -1,153 +1,150 @@
 
-Jump@-1; Target =>
-Block[-1]
+Jump Index: -1 -> Block[0]
+Jump Index: 2 -> Block[1]
+Jump Index: 3 -> Block[2]
+Jump Index: 9 -> Block[3]
+Jump Index: 10 -> Block[4]
+Jump Index: 14 -> Block[5]
+Jump Index: 20 -> Block[6]
+Jump Index: 21 -> Block[7]
+Jump Index: 25 -> Block[10]
+Jump Index: 28 -> Block[8]
+Jump Index: 29 -> Block[9]
+Jump Index: 33 -> Block[10]
+Jump Index: 39 -> Block[11]
+Jump Index: 40 -> Block[13]
+Jump Index: 43 -> Block[12]
+Jump Index: 44 -> Block[13]
+Jump Index: 48 -> Block[17]
+Jump Index: 51 -> Block[14]
+Jump Index: 52 -> Block[15]
+Jump Index: 55 -> Block[15]
+Jump Index: 56 -> Block[16]
+Jump Index: 60 -> Block[17]
+
+
+------------------------------
+
+
+Block[0]
 0:(KSHORT): 0, 1, 0;
 1:(KSHORT): 1, 2, 0;
-2:(_if): 0, 1, 0;
-3:(removed): 0, 0, 0;
+2:(ISGE): 1, 0, 0;
+3:(JMP): 0, 3, 128;
 
-Jump@2; Target =>
-Block[0]
+Block[1]
 4:(GGET): 0, 0, 0;
 5:(KSHORT): 1, 0, 0;
 6:(CALL): 0, 2, 1;
 
-Jump@3; Target =>
-Block[1]
+Block[2]
 7:(KSHORT): 0, 1, 0;
 8:(KSHORT): 1, 2, 0;
-9:(_if): 2, 3, 1;
-10:(removed): 0, 0, 0;
+9:(ISGE): 1, 0, 0;
+10:(JMP): 0, 4, 128;
 
-Jump@9; Target =>
-Block[2]
+Block[3]
 11:(GGET): 0, 0, 0;
 12:(KSHORT): 1, 10, 0;
 13:(CALL): 0, 2, 1;
-14:(_goto): 4, 255, 255;
+14:(JMP): 0, 3, 128;
 
-Jump@10; Target =>
-Block[3]
+Block[4]
 15:(GGET): 0, 0, 0;
 16:(KSHORT): 1, 11, 0;
 17:(CALL): 0, 2, 1;
 
-Jump@14; Target =>
-Block[4]
+Block[5]
 18:(KSHORT): 0, 2, 0;
 19:(KSHORT): 1, 1, 0;
-20:(_if): 5, 6, 2;
-21:(removed): 0, 0, 0;
+20:(ISGE): 1, 0, 0;
+21:(JMP): 0, 4, 128;
 
-Jump@20; Target =>
-Block[5]
+Block[6]
 22:(GGET): 0, 0, 0;
 23:(KSHORT): 1, 12, 0;
 24:(CALL): 0, 2, 1;
-25:(_goto): 7, 255, 255;
+25:(JMP): 0, 11, 128;
 
-Jump@21; Target =>
-Block[6]
+Block[7]
 26:(KSHORT): 0, 2, 0;
 27:(KSHORT): 1, 1, 0;
-28:(_if): 8, 9, 3;
-29:(removed): 0, 0, 0;
+28:(ISGE): 1, 0, 0;
+29:(JMP): 0, 4, 128;
 30:(GGET): 0, 0, 0;
 31:(KSHORT): 1, 13, 0;
 32:(CALL): 0, 2, 1;
-33:(_goto): 10, 255, 255;
+33:(JMP): 0, 3, 128;
 34:(GGET): 0, 0, 0;
 35:(KSHORT): 1, 14, 0;
 36:(CALL): 0, 2, 1;
 
-Jump@25; Target => //!! Should point to block 9. error in FinalizeTargets end index since block 6 consists of 2 other blocks.
-Block[7]
-
-Jump@28; Target =>
 Block[8]
 30:(GGET): 0, 0, 0;
 31:(KSHORT): 1, 13, 0;
 32:(CALL): 0, 2, 1;
-33:(_goto): 10, 255, 255;
+33:(JMP): 0, 3, 128;
 
-Jump@29; Target =>
 Block[9]
 34:(GGET): 0, 0, 0;
 35:(KSHORT): 1, 14, 0;
 36:(CALL): 0, 2, 1;
 
-Jump@33; Target =>
 Block[10]
 37:(KSHORT): 0, 2, 0;
 38:(KSHORT): 1, 1, 0;
-39:(_if): 11, 12, 4;
-40:(removed): 0, 0, 0;
+39:(ISGE): 1, 0, 0;
+40:(JMP): 0, 8, 128;
 
-Jump@39; Target =>
 Block[11]
 41:(KSHORT): 0, 4, 0;
 42:(KSHORT): 1, 3, 0;
-43:(_if): 13, 14, 5;
-44:(removed): 0, 0, 0;
+43:(ISGE): 1, 0, 0;
+44:(JMP): 0, 4, 128;
 45:(GGET): 0, 0, 0;
 46:(KSHORT): 1, 12, 0;
 47:(CALL): 0, 2, 1;
-48:(_goto): 15, 255, 255;
+48:(JMP): 0, 15, 128;
 
-Jump@40; Target =>
 Block[12]
-
-Jump@43; Target =>
-Block[13]
 45:(GGET): 0, 0, 0;
 46:(KSHORT): 1, 12, 0;
 47:(CALL): 0, 2, 1;
-48:(_goto): 15, 255, 255;
+48:(JMP): 0, 15, 128;
 
-Jump@44; Target =>
-Block[14]
+Block[13]
 49:(KSHORT): 0, 2, 0;
 50:(KSHORT): 1, 1, 0;
-51:(_if): 16, 17, 6;
-52:(removed): 0, 0, 0;
+51:(ISLT): 1, 0, 0;
+52:(JMP): 0, 4, 128;
 53:(KSHORT): 0, 4, 0;
 54:(KSHORT): 1, 3, 0;
-55:(_if): 18, 19, 7;
-56:(removed): 0, 0, 0;
+55:(ISGE): 1, 0, 0;
+56:(JMP): 0, 4, 128;
 57:(GGET): 0, 0, 0;
 58:(KSHORT): 1, 15, 0;
 59:(CALL): 0, 2, 1;
-60:(_goto): 20, 255, 255;
+60:(JMP): 0, 3, 128;
 61:(GGET): 0, 0, 0;
 62:(KSHORT): 1, 16, 0;
 63:(CALL): 0, 2, 1;
 
-Jump@48; Target =>
+Block[14]
+53:(KSHORT): 0, 4, 0;
+54:(KSHORT): 1, 3, 0;
+55:(ISGE): 1, 0, 0;
+56:(JMP): 0, 4, 128;
+
 Block[15]
-
-Jump@51; Target =>
-Block[16]
-53:(KSHORT): 0, 4, 0;
-54:(KSHORT): 1, 3, 0;
-55:(_if): 18, 19, 7;
-56:(removed): 0, 0, 0;
-
-Jump@52; Target =>
-Block[17]
-
-Jump@55; Target =>
-Block[18]
 57:(GGET): 0, 0, 0;
 58:(KSHORT): 1, 15, 0;
 59:(CALL): 0, 2, 1;
-60:(_goto): 20, 255, 255;
+60:(JMP): 0, 3, 128;
 
-Jump@56; Target =>
-Block[19]
+Block[16]
 61:(GGET): 0, 0, 0;
 62:(KSHORT): 1, 16, 0;
 63:(CALL): 0, 2, 1;
 
-Jump@60; Target =>
-Block[20]
-
+Block[17]
+64:(RET0): 0, 1, 0;

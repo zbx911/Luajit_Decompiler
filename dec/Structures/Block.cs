@@ -20,7 +20,7 @@ namespace Luajit_Decompiler.dec.Structures
         private bool finalized = false; //for error checking.
         private Prototype pt;
 
-        public Block(int sIndex, int nameIndex, Prototype pt) //TODO: Find way to fill in bcis array. Though it probably isn't necessary.
+        public Block(int sIndex, int nameIndex, Prototype pt)
         {
             this.sIndex = sIndex;
             this.nameIndex = nameIndex;
