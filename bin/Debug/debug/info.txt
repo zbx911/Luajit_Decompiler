@@ -60,8 +60,8 @@ Block[6]
 35:(KSHORT): 1, 14, 0;
 36:(CALL): 0, 2, 1;
 
-Jump@25; Target =>
-Block[7] // -- I'm empty so I'm a jump points to another jump!
+Jump@25; Target => //!! Should point to block 9. error in FinalizeTargets end index since block 6 consists of 2 other blocks.
+Block[7]
 
 Jump@28; Target =>
 Block[8]
@@ -149,4 +149,5 @@ Block[19]
 63:(CALL): 0, 2, 1;
 
 Jump@60; Target =>
-Block[20] // -- I'm the return opcode!
+Block[20]
+

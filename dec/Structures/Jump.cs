@@ -17,7 +17,7 @@ namespace Luajit_Decompiler.dec.Structures
         public int jumpType; //1 = jmp, 2 = ret, 3 = comparison
         public Block target; //the block it targets. not what it skips over.
 
-        public Jump(BytecodeInstruction jmp, int jumpType, int nameIndex)
+        public Jump(BytecodeInstruction jmp, int jumpType, int nameIndex, Prototype pt)
         {
             index = jmp.index;
             this.jumpType = jumpType;
@@ -25,7 +25,7 @@ namespace Luajit_Decompiler.dec.Structures
                 distance = ((jmp.registers[2] << 8) | jmp.registers[1]) - 0x8000;
             else if (jumpType == 3)
                 distance = 1; //conditionals/returns
-            target = new Block(index + distance + 1, nameIndex); //+1 to avoid off by 1 error for start of a block.
+            target = new Block(index + distance + 1, nameIndex, pt); //+1 to avoid off by 1 error for start of a block.
         }
 
         public override string ToString()

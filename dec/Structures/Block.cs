@@ -18,12 +18,14 @@ namespace Luajit_Decompiler.dec.Structures
         public List<BytecodeInstruction> bcis; //all the bytecode instructions in a block.
         public string label;
         private bool finalized = false; //for error checking.
+        private Prototype pt;
 
-        public Block(int sIndex, int nameIndex) //TODO: Find way to fill in bcis array. Though it probably isn't necessary.
+        public Block(int sIndex, int nameIndex, Prototype pt) //TODO: Find way to fill in bcis array. Though it probably isn't necessary.
         {
             this.sIndex = sIndex;
             this.nameIndex = nameIndex;
             label = "Block[" + nameIndex + "]";
+            this.pt = pt;
         }
 
         public void Finalize(int eIndex)
@@ -31,7 +33,7 @@ namespace Luajit_Decompiler.dec.Structures
             this.eIndex = eIndex;
             bcis = new List<BytecodeInstruction>();
             for (int i = sIndex; i < eIndex; i++)
-                bcis.Add(DecPrototypes.pt.bytecodeInstructions[i]);
+                bcis.Add(pt.bytecodeInstructions[i]);
             finalized = true;
         }
 

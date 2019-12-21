@@ -17,12 +17,14 @@ namespace Luajit_Decompiler.dec.gir
         private List<BytecodeInstruction> bcis;
         private List<Jump> jumps;
         public CNode root;
+        private Prototype pt;
 
-        public PtGraph()
+        public PtGraph(Prototype pt, List<Jump> jumps)
         {
+            this.pt = pt;
             variables = new BaseConstant[2];
-            bcis = DecPrototypes.pt.bytecodeInstructions;
-            jumps = DecPrototypes.jumps;
+            bcis = pt.bytecodeInstructions;
+            this.jumps = jumps;
             GraphPrototype();
         }
 

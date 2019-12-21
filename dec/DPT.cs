@@ -40,7 +40,7 @@ namespace Luajit_Decompiler.dec
             jmpTop.AddRegister(0);
             jmpTop.AddRegister(0);
             jmpTop.AddRegister(128);
-            Jump top = new Jump(jmpTop, 1, -1);
+            Jump top = new Jump(jmpTop, 1, -1, pt);
             jumps.Add(top);
 
             //get jump targets
@@ -49,7 +49,7 @@ namespace Luajit_Decompiler.dec
                 int check = CheckCJR(ptBcis[i]);
                 if (check == 1 || check == 3) //jmp or comparison
                 {
-                    Jump j = new Jump(ptBcis[i], check, name);
+                    Jump j = new Jump(ptBcis[i], check, name, pt);
                     jumps.Add(j);
                     name++;
                 }
@@ -84,7 +84,7 @@ namespace Luajit_Decompiler.dec
             BlockPrototype(); //#1
             SimplifyLIR(); //#2
             CreateBlockList(); //#3
-            SimplifyBlocks(); //#4
+            //SimplifyBlocks(); //#4
             //Create graph...
         }
 
