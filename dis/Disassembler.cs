@@ -17,6 +17,9 @@ namespace Luajit_Decompiler.dis
         private byte[] expectedMagic = { 0x1B, 0x4C, 0x4A, 0x01 };
         private byte flags; //mainly for determining if the debug info has been stripped or not.
 
+        //unclassified bytes. Unknown bytes were found before luajit header.
+        private List<byte> unclassified = new List<byte>();
+
         private FileManager fileManager;
         public Dictionary<string, List<Prototype>> disFile { get; }
 
@@ -33,6 +36,22 @@ namespace Luajit_Decompiler.dis
         /// <param name="offset"></param>
         public void TrimHeader(byte[] bytes, ref int offset)
         {
+            //read unclassified bytes until we hit the luajit magic bytes.
+            for(int i = 0; i < bytes.Length; i++)
+            {
+                try
+                {
+                    if (bytes[offset] == expectedMagic[0])
+                        break;
+                    unclassified.Add(bytes[offset]);
+                    offset++;
+                }
+                catch (IndexOutOfRangeException ioe)
+                {
+                    Console.Out.WriteLine("Magic bytes not found during unclassified byte scan.");
+                }
+            }
+
             for (int i = 0; i < magic.Length; i++)
                 magic[i] = ConsumeByte(bytes, ref offset);
             flags = ConsumeByte(bytes, ref offset);

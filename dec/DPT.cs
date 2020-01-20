@@ -5,9 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Luajit_Decompiler.dis;
 using Luajit_Decompiler.dec.Structures;
+using Luajit_Decompiler.dec.lir;
 
 namespace Luajit_Decompiler.dec
 {
+    /// <summary>
+    /// TODO: Bugfix on line 75.
+    /// </summary>
     class DPT //Decompile Prototype
     {
         private Prototype pt;
@@ -24,6 +28,23 @@ namespace Luajit_Decompiler.dec
             comparisonBCIs = new List<BytecodeInstruction>();
             blocks = new List<Block>();
             CreateIR();
+        }
+
+        /// <summary>
+        /// Correctly orders certain method calls from 1 method call.
+        /// </summary>
+        private void CreateIR()
+        {
+            #region debugging map
+            //IRIMap ir = new IRIMap();
+            //FileManager.ClearDebug();
+            //var ops = Enum.GetValues(typeof(OpCodes));
+            //foreach(OpCodes op in ops)
+            //    FileManager.WriteDebug(ir.Translate(op).ToString());
+            #endregion
+
+            BlockPrototype(); //#1
+            //see plan in IRImap
         }
 
         /// <summary>
@@ -67,14 +88,16 @@ namespace Luajit_Decompiler.dec
             Stack<Jump> blockSkips = new Stack<Jump>();
             for(int i = 0; i < jumps.Count; i++)
             {
-                if (i + 1 >= jumps.Count)
-                {
-                    Block b = new Block(jumps[i].target, blockName, pt);
-                    b.Finalize(ptBcis.Count);
-                    blocks.Add(b);
-                    jumps[i].Block = b;
-                    break;
-                }
+                //looping jump:: jumps[i].index > jumps[i].target
+                Block b;
+                //if (i + 1 >= jumps.Count) //BUG: assumes the last jump is the jump to the return statement.
+                //{
+                //    b = new Block(jumps[i].target, blockName, pt);
+                //    b.Finalize(ptBcis.Count);
+                //    blocks.Add(b);
+                //    jumps[i].Block = b;
+                //    break;
+                //}
                 if (jumps[i].target > jumps[i + 1].target - 1)
                 {
                     blockSkips.Push(jumps[i]);
@@ -82,7 +105,7 @@ namespace Luajit_Decompiler.dec
                 }
                 else
                 {
-                    Block b = new Block(jumps[i].target, blockName, pt);
+                    b = new Block(jumps[i].target, blockName, pt);
                     b.Finalize(jumps[i + 1].target);
                     blocks.Add(b);
                     jumps[i].Block = b;
@@ -139,18 +162,6 @@ namespace Luajit_Decompiler.dec
             //Jump Index: 55 -> 57
             //Jump Index: 56 -> 61
             //Jump Index: 60 -> 64
-        }
-
-        /// <summary>
-        /// Correctly orders certain method calls from 1 method call.
-        /// </summary>
-        private void CreateIR()
-        {
-            BlockPrototype(); //#1
-            //SimplifyLIR(); //#2
-            //CreateBlockList(); //#3
-            //SimplifyBlocks(); //#4
-            //Create graph...
         }
 
         /// <summary>

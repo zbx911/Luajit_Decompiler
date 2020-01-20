@@ -1,7 +1,7 @@
+C:\Users\Nathan\source\repos\Luajit_Decompiler\Luajit_Decompiler\obj\Debug\Luajit_Decompiler.csprojAssemblyReference.cache
+C:\Users\Nathan\source\repos\Luajit_Decompiler\Luajit_Decompiler\obj\Debug\Luajit_Decompiler.csproj.CoreCompileInputs.cache
 C:\Users\Nathan\source\repos\Luajit_Decompiler\Luajit_Decompiler\bin\Debug\Luajit_Decompiler.exe.config
 C:\Users\Nathan\source\repos\Luajit_Decompiler\Luajit_Decompiler\bin\Debug\Luajit_Decompiler.exe
 C:\Users\Nathan\source\repos\Luajit_Decompiler\Luajit_Decompiler\bin\Debug\Luajit_Decompiler.pdb
-C:\Users\Nathan\source\repos\Luajit_Decompiler\Luajit_Decompiler\obj\Debug\Luajit_Decompiler.csprojAssemblyReference.cache
-C:\Users\Nathan\source\repos\Luajit_Decompiler\Luajit_Decompiler\obj\Debug\Luajit_Decompiler.csproj.CoreCompileInputs.cache
 C:\Users\Nathan\source\repos\Luajit_Decompiler\Luajit_Decompiler\obj\Debug\Luajit_Decompiler.exe
 C:\Users\Nathan\source\repos\Luajit_Decompiler\Luajit_Decompiler\obj\Debug\Luajit_Decompiler.pdb

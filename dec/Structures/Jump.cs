@@ -36,7 +36,6 @@ namespace Luajit_Decompiler.dec.Structures
         {
             StringBuilder res = new StringBuilder("J@" + index + "=>\n");
             res.AppendLine(target.ToString());
-            res.AppendLine("end");
             return res.ToString();
         }
     }

@@ -47,6 +47,7 @@
     <Compile Include="dec\DecPrototypes.cs" />
     <Compile Include="dec\DPT.cs" />
     <Compile Include="dec\gir\PtGraph.cs" />
+    <Compile Include="dec\lir\IRIMap.cs" />
     <Compile Include="dec\Structures\Block.cs" />
     <Compile Include="dec\Structures\Expression.cs" />
     <Compile Include="dec\gir\CNode.cs" />

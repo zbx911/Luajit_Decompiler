@@ -10,22 +10,39 @@ namespace Luajit_Decompiler.dec.Structures
 {
     class Expression
     {
-        //This is a map of inverted inequality symbols. It is necessary to match source code and be logically equivalent to the source regardless of operand order. (Theoretically...)
-        private static readonly Dictionary<OpCodes, string> map = new Dictionary<OpCodes, string>()
+        //Mapping of opcode to source code operators for an if statement.Uninverted so doesn't match source and is the logical negation of the source as well.
+        private static Dictionary<OpCodes, string> map = new Dictionary<OpCodes, string>()
         {
-            { OpCodes.ISLT, "<" }, //part of a negated expression. { if not (expression) for example. }
-            { OpCodes.ISGE, "<" },
-            { OpCodes.ISLE, "<=" }, //part of a negated expression. { if not (expression) for example. }
-            { OpCodes.ISGT, "<=" },
-            { OpCodes.ISEQV, "~=" },
-            { OpCodes.ISNEV, "==" },
-            { OpCodes.ISEQS, "~=" },
-            { OpCodes.ISNES, "==" },
-            { OpCodes.ISEQN, "~=" },
-            { OpCodes.ISNEN, "==" },
-            { OpCodes.ISEQP, "~=" },
-            { OpCodes.ISNEP, "==" }
+            { OpCodes.ISLT, "<" },
+            { OpCodes.ISGE, ">=" },
+            { OpCodes.ISLE, "<=" },
+            { OpCodes.ISGT, ">" },
+            { OpCodes.ISEQV, "==" },
+            { OpCodes.ISNEV, "~=" },
+            { OpCodes.ISEQS, "==" },
+            { OpCodes.ISNES, "~=" },
+            { OpCodes.ISEQN, "==" },
+            { OpCodes.ISNEN, "~=" },
+            { OpCodes.ISEQP, "==" },
+            { OpCodes.ISNEP, "~=" }
         };
+
+        ////This is a map of inverted inequality symbols. It is necessary to match source code and be logically equivalent to the source regardless of operand order. (Theoretically...)
+        //private static readonly Dictionary<OpCodes, string> map = new Dictionary<OpCodes, string>()
+        //{
+        //    { OpCodes.ISLT, "<" }, //part of a negated expression. { if not (expression) for example. }
+        //    { OpCodes.ISGE, "<" },
+        //    { OpCodes.ISLE, "<=" }, //part of a negated expression. { if not (expression) for example. }
+        //    { OpCodes.ISGT, "<=" },
+        //    { OpCodes.ISEQV, "~=" },
+        //    { OpCodes.ISNEV, "==" },
+        //    { OpCodes.ISEQS, "~=" },
+        //    { OpCodes.ISNES, "==" },
+        //    { OpCodes.ISEQN, "~=" },
+        //    { OpCodes.ISNEN, "==" },
+        //    { OpCodes.ISEQP, "~=" },
+        //    { OpCodes.ISNEP, "==" }
+        //};
 
         public string expression;
 
@@ -52,21 +69,4 @@ namespace Luajit_Decompiler.dec.Structures
     //ISNEN != //var != num ?
     //ISEQP == //var == primitive type ?
     //ISNEP != //var != primitive type ?
-
-    //Mapping of opcode to source code operators for an if statement. Uninverted so doesn't match source and is the logical negation of the source as well.
-    //private static Dictionary<OpCodes, string> map = new Dictionary<OpCodes, string>()
-    //{
-    //    { OpCodes.ISLT, "<" },
-    //    { OpCodes.ISGE, ">=" },
-    //    { OpCodes.ISLE, "<=" },
-    //    { OpCodes.ISGT, ">" },
-    //    { OpCodes.ISEQV, "==" },
-    //    { OpCodes.ISNEV, "~=" },
-    //    { OpCodes.ISEQS, "==" },
-    //    { OpCodes.ISNES, "~=" },
-    //    { OpCodes.ISEQN, "==" },
-    //    { OpCodes.ISNEN, "~=" },
-    //    { OpCodes.ISEQP, "==" },
-    //    { OpCodes.ISNEP, "~=" }
-    //};
 }

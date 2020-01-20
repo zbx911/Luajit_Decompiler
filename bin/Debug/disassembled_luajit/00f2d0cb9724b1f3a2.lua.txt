@@ -1,0 +1,847 @@
+File Name: 00f2d0cb9724b1f3a2.lua
+
+Prototype: 0
+Prototype_Size: 443; Flags: 0; #_Params: 3; Frame_Size: 6; Upvalue_Size: 0; KGC_Size: 19; KN_Size: 0; Instruction_Count: 37;
+
+--Bytecode Instructions--
+(TSETS): 1, 0, 0;
+(TSETS): 2, 1, 0;
+(KPRI): 3, 0, 0;
+(TSETS): 3, 2, 0;
+(GGET): 3, 4, 0;
+(TGETS): 3, 5, 3;
+(CALL): 3, 1, 2;
+(TSETS): 3, 3, 0;
+(KPRI): 3, 1, 0;
+(TSETS): 3, 6, 0;
+(KSTR): 3, 8, 0;
+(TSETS): 3, 7, 0;
+(KPRI): 3, 0, 0;
+(TSETS): 3, 9, 0;
+(GGET): 3, 11, 0;
+(TGETS): 3, 12, 3;
+(CALL): 3, 1, 2;
+(TSETS): 3, 10, 0;
+(GGET): 3, 11, 0;
+(TGETS): 3, 12, 3;
+(CALL): 3, 1, 2;
+(TSETS): 3, 13, 0;
+(GGET): 3, 11, 0;
+(TGETS): 3, 12, 3;
+(CALL): 3, 1, 2;
+(TSETS): 3, 14, 0;
+(GGET): 3, 11, 0;
+(TGETS): 3, 12, 3;
+(CALL): 3, 1, 2;
+(TSETS): 3, 15, 0;
+(KPRI): 3, 1, 0;
+(KPRI): 4, 1, 0;
+(KPRI): 5, 1, 0;
+(TSETS): 5, 18, 0;
+(TSETS): 4, 17, 0;
+(TSETS): 3, 16, 0;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ leaving };
+String{ failed };
+String{ joined };
+String{ member_joined_array };
+String{ member_left_array };
+String{ previous_member_array };
+String{ new };
+String{ pdArray };
+String{ member_array };
+String{ previous_state };
+String{ init };
+String{ current_state };
+String{ is_lobby_host };
+String{ peer_id };
+String{ Network };
+String{ own_peer_id };
+String{ lobby_host };
+String{ lobby };
+String{ backend_type };
+
+--End--
+
+
+Prototype: 1
+Prototype_Size: 423; Flags: 0; #_Params: 2; Frame_Size: 16; Upvalue_Size: 0; KGC_Size: 8; KN_Size: 0; Instruction_Count: 38;
+
+--Bytecode Instructions--
+(TGETS): 2, 0, 0;
+(TGETS): 3, 1, 0;
+(TSETS): 3, 0, 0;
+(TSETS): 2, 1, 0;
+(TGETS): 3, 0, 0;
+(TGETB): 4, 1, 3;
+(GGET): 5, 2, 0;
+(TGETS): 5, 3, 5;
+(TGETS): 6, 0, 0;
+(KSHORT): 7, 0, 0;
+(CALL): 5, 3, 1;
+(TGETS): 5, 4, 0;
+(MOV): 7, 5, 0;
+(TGETS): 6, 5, 5;
+(CALL): 6, 2, 2;
+(LEN): 7, 6, 0;
+(KSHORT): 8, 1, 0;
+(MOV): 9, 7, 0;
+(KSHORT): 10, 1, 0;
+(FORI): 8, 9, 128;
+(TGETV): 12, 11, 6;
+(GGET): 13, 2, 0;
+(TGETS): 13, 6, 13;
+(MOV): 14, 3, 0;
+(MOV): 15, 12, 0;
+(CALL): 13, 3, 1;
+(KPRI): 13, 2, 0;
+(TSETV): 13, 12, 4;
+(FORL): 8, 247, 127;
+(GGET): 8, 2, 0;
+(TGETS): 8, 3, 8;
+(TGETS): 9, 0, 0;
+(MOV): 10, 7, 0;
+(CALL): 8, 3, 1;
+(MOV): 9, 0, 0;
+(TGETS): 8, 7, 0;
+(CALL): 8, 2, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ update_members_joined_left };
+String{ push_back };
+String{ members };
+String{ lobby };
+String{ set_size };
+String{ pdArray };
+String{ previous_member_array };
+String{ member_array };
+
+--End--
+
+
+Prototype: 2
+Prototype_Size: 692; Flags: 0; #_Params: 1; Frame_Size: 15; Upvalue_Size: 0; KGC_Size: 13; KN_Size: 0; Instruction_Count: 63;
+
+--Bytecode Instructions--
+(GGET): 1, 0, 0;
+(TGETS): 1, 1, 1;
+(TGETS): 2, 2, 0;
+(KSHORT): 3, 0, 0;
+(CALL): 1, 3, 1;
+(GGET): 1, 0, 0;
+(TGETS): 1, 1, 1;
+(TGETS): 2, 3, 0;
+(KSHORT): 3, 0, 0;
+(CALL): 1, 3, 1;
+(GGET): 1, 0, 0;
+(TGETS): 1, 4, 1;
+(TGETS): 2, 5, 0;
+(CALL): 1, 2, 3;
+(GGET): 3, 0, 0;
+(TGETS): 3, 4, 3;
+(TGETS): 4, 6, 0;
+(CALL): 3, 2, 3;
+(KSHORT): 5, 1, 0;
+(MOV): 6, 2, 0;
+(KSHORT): 7, 1, 0;
+(FORI): 5, 17, 128;
+(TGETV): 9, 8, 1;
+(TGETV): 10, 9, 3;
+(IST): 0, 10, 0;
+(JMP): 10, 12, 128;
+(GGET): 10, 7, 0;
+(KSTR): 11, 8, 0;
+(TGETS): 12, 9, 0;
+(GGET): 13, 10, 0;
+(MOV): 14, 9, 0;
+(CALL): 13, 2, 0;
+(CALLM): 10, 2, 1;
+(GGET): 10, 0, 0;
+(TGETS): 10, 11, 10;
+(TGETS): 11, 2, 0;
+(MOV): 12, 9, 0;
+(CALL): 10, 3, 1;
+(FORL): 5, 239, 127;
+(KSHORT): 5, 1, 0;
+(MOV): 6, 4, 0;
+(KSHORT): 7, 1, 0;
+(FORI): 5, 19, 128;
+(TGETV): 9, 8, 3;
+(TGETV): 10, 9, 1;
+(IST): 0, 10, 0;
+(JMP): 10, 12, 128;
+(GGET): 10, 7, 0;
+(KSTR): 11, 12, 0;
+(TGETS): 12, 9, 0;
+(GGET): 13, 10, 0;
+(MOV): 14, 9, 0;
+(CALL): 13, 2, 0;
+(CALLM): 10, 2, 1;
+(GGET): 10, 0, 0;
+(TGETS): 10, 11, 10;
+(TGETS): 11, 3, 0;
+(MOV): 12, 9, 0;
+(CALL): 10, 3, 1;
+(KPRI): 10, 1, 0;
+(TSETV): 10, 9, 3;
+(FORL): 5, 237, 127;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ [%s_LOBBY] >>> peer_id '%s' left lobby };
+String{ push_back };
+String{ tostring };
+String{ backend_type };
+String{ [%s_LOBBY] >>> peer_id '%s' joined lobby };
+String{ printf };
+String{ previous_member_array };
+String{ member_array };
+String{ data };
+String{ member_left_array };
+String{ member_joined_array };
+String{ set_size };
+String{ pdArray };
+
+--End--
+
+
+Prototype: 3
+Prototype_Size: 64; Flags: 0; #_Params: 1; Frame_Size: 3; Upvalue_Size: 0; KGC_Size: 3; KN_Size: 0; Instruction_Count: 4;
+
+--Bytecode Instructions--
+(GGET): 1, 0, 0;
+(TGETS): 1, 1, 1;
+(TGETS): 2, 2, 0;
+(CALLT): 1, 2, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ member_array };
+String{ data };
+String{ pdArray };
+
+--End--
+
+
+Prototype: 4
+Prototype_Size: 69; Flags: 0; #_Params: 1; Frame_Size: 3; Upvalue_Size: 0; KGC_Size: 3; KN_Size: 0; Instruction_Count: 4;
+
+--Bytecode Instructions--
+(GGET): 1, 0, 0;
+(TGETS): 1, 1, 1;
+(TGETS): 2, 2, 0;
+(CALLT): 1, 2, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ member_left_array };
+String{ data };
+String{ pdArray };
+
+--End--
+
+
+Prototype: 5
+Prototype_Size: 71; Flags: 0; #_Params: 1; Frame_Size: 3; Upvalue_Size: 0; KGC_Size: 3; KN_Size: 0; Instruction_Count: 4;
+
+--Bytecode Instructions--
+(GGET): 1, 0, 0;
+(TGETS): 1, 1, 1;
+(TGETS): 2, 2, 0;
+(CALLT): 1, 2, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ member_joined_array };
+String{ data };
+String{ pdArray };
+
+--End--
+
+
+Prototype: 6
+Prototype_Size: 42; Flags: 0; #_Params: 1; Frame_Size: 2; Upvalue_Size: 0; KGC_Size: 1; KN_Size: 0; Instruction_Count: 2;
+
+--Bytecode Instructions--
+(TGETS): 1, 0, 0;
+(RET1): 1, 2, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ current_state };
+
+--End--
+
+
+Prototype: 7
+Prototype_Size: 86; Flags: 0; #_Params: 1; Frame_Size: 2; Upvalue_Size: 0; KGC_Size: 2; KN_Size: 0; Instruction_Count: 10;
+
+--Bytecode Instructions--
+(TGETS): 1, 0, 0;
+(ISF): 0, 1, 0;
+(JMP): 2, 6, 128;
+(TGETS): 1, 1, 0;
+(ISNEP): 1, 0, 0;
+(JMP): 1, 2, 128;
+(KPRI): 1, 1, 0;
+(JMP): 2, 1, 128;
+(KPRI): 1, 2, 0;
+(RET1): 1, 2, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ lobby_host };
+String{ joined };
+
+--End--
+
+
+Prototype: 8
+Prototype_Size: 97; Flags: 0; #_Params: 1; Frame_Size: 3; Upvalue_Size: 0; KGC_Size: 2; KN_Size: 0; Instruction_Count: 8;
+
+--Bytecode Instructions--
+(TGETS): 1, 0, 0;
+(ISF): 0, 1, 0;
+(JMP): 2, 2, 128;
+(KPRI): 1, 1, 0;
+(RET1): 1, 2, 0;
+(MOV): 2, 0, 0;
+(TGETS): 1, 1, 0;
+(CALLT): 1, 2, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ joined_and_has_valid_lobby_host };
+String{ failed };
+
+--End--
+
+
+Prototype: 9
+Prototype_Size: 702; Flags: 0; #_Params: 1; Frame_Size: 10; Upvalue_Size: 0; KGC_Size: 12; KN_Size: 0; Instruction_Count: 75;
+
+--Bytecode Instructions--
+(TGETS): 1, 0, 0;
+(ISNEP): 1, 0, 0;
+(JMP): 1, 2, 128;
+(KPRI): 1, 1, 0;
+(JMP): 2, 1, 128;
+(KPRI): 1, 2, 0;
+(TGETS): 2, 0, 0;
+(TGETS): 3, 1, 0;
+(ISEQV): 2, 3, 0;
+(JMP): 2, 2, 128;
+(KPRI): 2, 1, 0;
+(JMP): 3, 1, 128;
+(KPRI): 2, 2, 0;
+(TGETS): 3, 2, 0;
+(MOV): 4, 3, 0;
+(TGETS): 3, 0, 3;
+(CALL): 3, 2, 2;
+(TSETS): 3, 0, 0;
+(TGETS): 3, 0, 0;
+(ISNES): 3, 3, 0;
+(JMP): 3, 2, 128;
+(KPRI): 3, 0, 0;
+(TSETS): 3, 0, 0;
+(TGETS): 3, 0, 0;
+(TGETS): 4, 1, 0;
+(ISEQV): 3, 4, 0;
+(JMP): 3, 2, 128;
+(KPRI): 3, 1, 0;
+(JMP): 4, 1, 128;
+(KPRI): 3, 2, 0;
+(TSETS): 3, 4, 0;
+(TGETS): 4, 0, 0;
+(ISNEP): 4, 0, 0;
+(JMP): 4, 2, 128;
+(KPRI): 4, 1, 0;
+(JMP): 5, 1, 128;
+(KPRI): 4, 2, 0;
+(ISF): 0, 2, 0;
+(JMP): 5, 10, 128;
+(IST): 0, 3, 0;
+(JMP): 5, 8, 128;
+(GGET): 5, 5, 0;
+(KSTR): 6, 6, 0;
+(TGETS): 7, 7, 0;
+(GGET): 8, 8, 0;
+(TGETS): 9, 0, 0;
+(CALL): 8, 2, 0;
+(CALLM): 5, 2, 1;
+(JMP): 5, 14, 128;
+(ISF): 0, 3, 0;
+(JMP): 5, 12, 128;
+(IST): 0, 2, 0;
+(JMP): 5, 10, 128;
+(TGETS): 5, 9, 0;
+(ISF): 0, 5, 0;
+(JMP): 6, 3, 128;
+(MOV): 6, 0, 0;
+(TGETS): 5, 9, 0;
+(CALL): 5, 2, 1;
+(GGET): 5, 5, 0;
+(KSTR): 6, 10, 0;
+(TGETS): 7, 7, 0;
+(CALL): 5, 3, 1;
+(ISF): 0, 4, 0;
+(JMP): 5, 9, 128;
+(IST): 0, 1, 0;
+(JMP): 5, 7, 128;
+(GGET): 5, 5, 0;
+(KSTR): 6, 11, 0;
+(TGETS): 7, 7, 0;
+(GGET): 8, 8, 0;
+(TGETS): 9, 0, 0;
+(CALL): 8, 2, 0;
+(CALLM): 5, 2, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ [%s_LOBBY] got new (first) lobby host [%s]. };
+String{ [%s_LOBBY] self became lobby host! };
+String{ on_become_lobby_host };
+String{ tostring };
+String{ backend_type };
+String{ [%s_LOBBY] self WAS lobby host. new lobby host is [%s]. };
+String{ printf };
+String{ is_lobby_host };
+String{ 0 };
+String{ lobby };
+String{ own_peer_id };
+String{ lobby_host };
+
+--End--
+
+
+Prototype: 10
+Prototype_Size: 721; Flags: 0; #_Params: 1; Frame_Size: 11; Upvalue_Size: 0; KGC_Size: 17; KN_Size: 0; Instruction_Count: 56;
+
+--Bytecode Instructions--
+(TGETS): 1, 0, 0;
+(TGETS): 2, 1, 0;
+(GGET): 3, 2, 0;
+(TGETS): 3, 3, 3;
+(MOV): 4, 1, 0;
+(CALL): 3, 2, 2;
+(ISNES): 3, 4, 0;
+(JMP): 4, 13, 128;
+(ISEQS): 2, 4, 0;
+(JMP): 4, 11, 128;
+(MOV): 5, 0, 0;
+(TGETS): 4, 5, 0;
+(CALL): 4, 2, 1;
+(GGET): 4, 6, 0;
+(KSTR): 5, 7, 0;
+(TGETS): 6, 8, 0;
+(GGET): 7, 9, 0;
+(TGETS): 8, 10, 0;
+(CALL): 7, 2, 0;
+(CALLM): 4, 2, 1;
+(JMP): 4, 24, 128;
+(ISNES): 3, 11, 0;
+(JMP): 4, 22, 128;
+(ISEQS): 2, 11, 0;
+(JMP): 4, 20, 128;
+(KPRI): 4, 2, 0;
+(TSETS): 4, 11, 0;
+(GGET): 4, 2, 0;
+(TGETS): 4, 13, 4;
+(MOV): 5, 1, 0;
+(CALL): 4, 2, 2;
+(TSETS): 4, 12, 0;
+(GGET): 4, 6, 0;
+(KSTR): 5, 14, 0;
+(TGETS): 6, 8, 0;
+(GGET): 7, 9, 0;
+(TGETS): 8, 10, 0;
+(CALL): 7, 2, 2;
+(GGET): 8, 9, 0;
+(MOV): 9, 2, 0;
+(CALL): 8, 2, 2;
+(GGET): 9, 9, 0;
+(TGETS): 10, 12, 0;
+(CALL): 9, 2, 0;
+(CALLM): 4, 4, 1;
+(ISEQV): 2, 3, 0;
+(JMP): 4, 6, 128;
+(GGET): 4, 6, 0;
+(KSTR): 5, 15, 0;
+(TGETS): 6, 8, 0;
+(MOV): 7, 2, 0;
+(MOV): 8, 3, 0;
+(CALL): 4, 5, 1;
+(TSETS): 3, 1, 0;
+(TSETS): 2, 16, 0;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ previous_state };
+String{ [%s_LOBBY] lobby changed from state [%s] -> [%s] };
+String{ [%s_LOBBY] lobby with lobby host [%s] got into failed state. previous_state [%s]. fail_reason [%s] };
+String{ lobby_fail_reason_as_string };
+String{ fail_reason };
+String{ failed };
+String{ lobby_host };
+String{ tostring };
+String{ backend_type };
+String{ [%s_LOBBY] self joined lobby with lobby host [%s]. };
+String{ printf };
+String{ on_lobby_joined };
+String{ joined };
+String{ lobby_state_as_string };
+String{ NetworkLobbyAux };
+String{ current_state };
+String{ lobby };
+
+--End--
+
+
+Prototype: 11
+Prototype_Size: 109; Flags: 0; #_Params: 1; Frame_Size: 4; Upvalue_Size: 0; KGC_Size: 3; KN_Size: 0; Instruction_Count: 10;
+
+--Bytecode Instructions--
+(KPRI): 1, 2, 0;
+(TSETS): 1, 0, 0;
+(MOV): 2, 0, 0;
+(TGETS): 1, 1, 0;
+(CALL): 1, 2, 1;
+(MOV): 2, 0, 0;
+(TGETS): 1, 2, 0;
+(KPRI): 3, 2, 0;
+(CALL): 1, 3, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ update_members };
+String{ update_lobby_host };
+String{ joined };
+
+--End--
+
+
+Prototype: 12
+Prototype_Size: 238; Flags: 0; #_Params: 1; Frame_Size: 3; Upvalue_Size: 0; KGC_Size: 8; KN_Size: 0; Instruction_Count: 28;
+
+--Bytecode Instructions--
+(TGETS): 1, 0, 0;
+(IST): 0, 1, 0;
+(JMP): 1, 9, 128;
+(GGET): 1, 1, 0;
+(TGETS): 2, 2, 0;
+(ISEQP): 2, 2, 0;
+(JMP): 2, 2, 128;
+(KPRI): 2, 1, 0;
+(JMP): 3, 1, 128;
+(KPRI): 2, 2, 0;
+(CALL): 1, 2, 1;
+(RET0): 0, 1, 0;
+(MOV): 2, 0, 0;
+(TGETS): 1, 3, 0;
+(CALL): 1, 2, 1;
+(MOV): 2, 0, 0;
+(TGETS): 1, 4, 0;
+(CALL): 1, 2, 1;
+(TGETS): 1, 5, 0;
+(ISF): 0, 1, 0;
+(JMP): 2, 6, 128;
+(TGETS): 1, 6, 0;
+(IST): 0, 1, 0;
+(JMP): 1, 3, 128;
+(MOV): 2, 0, 0;
+(TGETS): 1, 7, 0;
+(CALL): 1, 2, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ update_members };
+String{ leaving };
+String{ joined };
+String{ update_lobby_host };
+String{ update_state };
+String{ left };
+String{ assert };
+String{ lobby };
+
+--End--
+
+
+Prototype: 13
+Prototype_Size: 59; Flags: 0; #_Params: 2; Frame_Size: 5; Upvalue_Size: 0; KGC_Size: 2; KN_Size: 0; Instruction_Count: 5;
+
+--Bytecode Instructions--
+(TGETS): 2, 0, 0;
+(MOV): 3, 2, 0;
+(TGETS): 2, 1, 2;
+(MOV): 4, 1, 0;
+(CALLT): 2, 3, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ data };
+String{ lobby };
+
+--End--
+
+
+Prototype: 14
+Prototype_Size: 117; Flags: 0; #_Params: 1; Frame_Size: 2; Upvalue_Size: 0; KGC_Size: 5; KN_Size: 0; Instruction_Count: 11;
+
+--Bytecode Instructions--
+(KSTR): 1, 1, 0;
+(TSETS): 1, 0, 0;
+(KPRI): 1, 0, 0;
+(TSETS): 1, 2, 0;
+(KPRI): 1, 0, 0;
+(TSETS): 1, 3, 0;
+(KPRI): 1, 1, 0;
+(TSETS): 1, 4, 0;
+(KPRI): 1, 2, 0;
+(TSETS): 1, 1, 0;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ joined };
+String{ lobby };
+String{ lobby_host };
+String{ left };
+String{ current_state };
+
+--End--
+
+
+Prototype: 15
+Prototype_Size: 163; Flags: 0; #_Params: 1; Frame_Size: 5; Upvalue_Size: 0; KGC_Size: 5; KN_Size: 0; Instruction_Count: 12;
+
+--Bytecode Instructions--
+(TGETS): 1, 0, 0;
+(GGET): 2, 1, 0;
+(TGETS): 2, 2, 2;
+(MOV): 3, 1, 0;
+(CALL): 2, 2, 1;
+(GGET): 2, 1, 0;
+(TGETS): 2, 3, 2;
+(MOV): 4, 1, 0;
+(TGETS): 3, 4, 1;
+(CALL): 3, 2, 0;
+(CALLM): 2, 0, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ game_session_host };
+String{ set_game_server_id };
+String{ set_game_lobby };
+String{ NetworkHandlerAux };
+String{ lobby };
+
+--End--
+
+
+Prototype: 16
+Prototype_Size: 53; Flags: 0; #_Params: 1; Frame_Size: 3; Upvalue_Size: 0; KGC_Size: 2; KN_Size: 0; Instruction_Count: 3;
+
+--Bytecode Instructions--
+(TGETS): 1, 0, 0;
+(TGETS): 2, 1, 0;
+(RET): 1, 3, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ fail_reason };
+String{ failed };
+
+--End--
+
+
+Prototype: 17
+Prototype_Size: 659; Flags: 3; #_Params: 0; Frame_Size: 2; Upvalue_Size: 0; KGC_Size: 38; KN_Size: 0; Instruction_Count: 59;
+
+--Bytecode Instructions--
+(GGET): 0, 0, 0;
+(KSTR): 1, 1, 0;
+(CALL): 0, 2, 1;
+(GGET): 0, 2, 0;
+(GGET): 1, 3, 0;
+(CALL): 0, 2, 2;
+(GSET): 0, 3, 0;
+(GGET): 0, 3, 0;
+(FNEW): 1, 5, 0;
+(TSETS): 1, 4, 0;
+(GGET): 0, 3, 0;
+(FNEW): 1, 7, 0;
+(TSETS): 1, 6, 0;
+(GGET): 0, 3, 0;
+(FNEW): 1, 9, 0;
+(TSETS): 1, 8, 0;
+(GGET): 0, 3, 0;
+(FNEW): 1, 11, 0;
+(TSETS): 1, 10, 0;
+(GGET): 0, 3, 0;
+(FNEW): 1, 13, 0;
+(TSETS): 1, 12, 0;
+(GGET): 0, 3, 0;
+(FNEW): 1, 15, 0;
+(TSETS): 1, 14, 0;
+(GGET): 0, 3, 0;
+(FNEW): 1, 17, 0;
+(TSETS): 1, 16, 0;
+(GGET): 0, 3, 0;
+(FNEW): 1, 19, 0;
+(TSETS): 1, 18, 0;
+(GGET): 0, 3, 0;
+(FNEW): 1, 21, 0;
+(TSETS): 1, 20, 0;
+(GGET): 0, 3, 0;
+(FNEW): 1, 23, 0;
+(TSETS): 1, 22, 0;
+(GGET): 0, 3, 0;
+(FNEW): 1, 25, 0;
+(TSETS): 1, 24, 0;
+(GGET): 0, 3, 0;
+(FNEW): 1, 27, 0;
+(TSETS): 1, 26, 0;
+(GGET): 0, 3, 0;
+(FNEW): 1, 29, 0;
+(TSETS): 1, 28, 0;
+(GGET): 0, 3, 0;
+(FNEW): 1, 31, 0;
+(TSETS): 1, 30, 0;
+(GGET): 0, 3, 0;
+(FNEW): 1, 33, 0;
+(TSETS): 1, 32, 0;
+(GGET): 0, 3, 0;
+(FNEW): 1, 35, 0;
+(TSETS): 1, 34, 0;
+(GGET): 0, 3, 0;
+(FNEW): 1, 37, 0;
+(TSETS): 1, 36, 0;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 17 };
+Child{ Prototype: 16 };
+Child{ Prototype: 15 };
+Child{ Prototype: 14 };
+Child{ Prototype: 13 };
+Child{ Prototype: 12 };
+Child{ Prototype: 11 };
+Child{ Prototype: 10 };
+Child{ Prototype: 9 };
+Child{ Prototype: 8 };
+Child{ Prototype: 7 };
+Child{ Prototype: 6 };
+Child{ Prototype: 5 };
+Child{ Prototype: 4 };
+Child{ Prototype: 3 };
+Child{ Prototype: 2 };
+Child{ Prototype: 1 };
+Child{ Prototype: 0 };
+
+--Upvalues--
+
+--Constants--
+String{ is_failed };
+String{ store_networkhandler_data };
+String{ leave_lobby };
+String{ get_lobby_data };
+String{ update };
+String{ on_lobby_joined };
+String{ update_state };
+String{ update_lobby_host };
+String{ joined_successfully };
+String{ joined_and_has_valid_lobby_host };
+String{ state };
+String{ members_joined };
+String{ members_left };
+String{ members };
+String{ update_members_joined_left };
+String{ update_members };
+String{ init };
+String{ NetworkLobbyProxy };
+String{ class };
+String{ foundation/scripts/network/network_lobby_aux };
+String{ require };
+
+--End--
+
+

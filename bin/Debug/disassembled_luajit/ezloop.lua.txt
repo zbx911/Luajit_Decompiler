@@ -1,0 +1,28 @@
+File Name: ezloop.lua
+
+Prototype: 0
+Prototype_Size: 49; Flags: 2; #_Params: 0; Frame_Size: 1; Upvalue_Size: 0; KGC_Size: 1; KN_Size: 0; Instruction_Count: 10;
+
+--Bytecode Instructions--
+(KPRI): 0, 2, 0;
+(GSET): 0, 0, 0;
+(GGET): 0, 0, 0;
+(ISF): 0, 0, 0;
+(JMP): 1, 4, 128;
+(LOOP): 0, 3, 128;
+(KPRI): 0, 1, 0;
+(GSET): 0, 0, 0;
+(JMP): 0, 249, 127;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ x };
+
+--End--
+
+

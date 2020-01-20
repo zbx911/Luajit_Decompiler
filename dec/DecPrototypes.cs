@@ -26,14 +26,14 @@ namespace Luajit_Decompiler.dec
                 DPT dpt = new DPT(pts[i - 1]);
 
                 #region debugging
-                StringBuilder dbg = new StringBuilder();
-                foreach (Jump j in dpt.jumps)
-                {
-                    //dbg.AppendLine("Jump@" + j.index + " Type: " + j.jumpType + " Block Starts: " + j.target.sIndex);
-                    dbg.AppendLine("Jump@" + j.index + "; Target =>\r\n" + j.target.ToString());
-                }
-                FileManager.ClearDebug();
-                FileManager.WriteDebug(dbg.ToString());
+                //StringBuilder dbg = new StringBuilder();
+                //foreach (Jump j in dpt.jumps)
+                //{
+                //    //dbg.AppendLine("Jump@" + j.index + " Type: " + j.jumpType + " Block Starts: " + j.target.sIndex);
+                //    dbg.AppendLine("Jump@" + j.index + "; Target =>\r\n" + j.target.ToString());
+                //}
+                //FileManager.ClearDebug();
+                //FileManager.WriteDebug(dbg.ToString());
                 #endregion
             }
         }
