@@ -40,7 +40,9 @@ namespace Luajit_Decompiler.dec.lir
             Loop, //generic while loop
             FLoop, //numeric for loop
             Func, //For all lua functions excluding new function closure.
-            CHeadFunc //for all psuedo header for C functions/wrapped C functions/etc.
+            CHeadFunc, //for all psuedo header for C functions/wrapped C functions/etc.
+            GTSet, //set to the global table
+            GTGet //get from the global table.
         }
 
         public IRMap Translate(OpCodes op)
@@ -117,10 +119,9 @@ namespace Luajit_Decompiler.dec.lir
                     return IRMap.SetUV;
 
                 //A = B[C]
-                case OpCodes.TGETB: //GGET and GSET are named 'global' get and set, but actually index the current function environment getfenv(1) (which is usually the same as _G).
+                case OpCodes.TGETB: 
                 case OpCodes.TGETS:
                 case OpCodes.TGETV:
-                case OpCodes.GGET: //A = _G[D]
                     return IRMap.TGet;
 
                 //B[C] = A
@@ -128,7 +129,6 @@ namespace Luajit_Decompiler.dec.lir
                 case OpCodes.TSETM:
                 case OpCodes.TSETS:
                 case OpCodes.TSETV:
-                case OpCodes.GSET: //_G[D] = A
                     return IRMap.TSet;
 
                 //CALL and CALLT for the call and tail call, CALLM and CALLMT for multiple result call and its tail call.
@@ -202,6 +202,13 @@ namespace Luajit_Decompiler.dec.lir
 
                 case OpCodes.JMP:
                     return IRMap.Goto;
+
+                //GGET and GSET are named 'global' get and set, but actually index the current function environment getfenv(1) (which is usually the same as _G).
+                case OpCodes.GGET: //A = _G[D]
+                    return IRMap.GTGet;
+
+                case OpCodes.GSET: //_G[D] = A
+                    return IRMap.GTSet;
 
                 #endregion
                 default:
