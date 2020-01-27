@@ -17,6 +17,7 @@ namespace Luajit_Decompiler.dec.lir
          * GIR1 -> GIR2 (same as LIR1 -> LIR2, simplify farther if possible)
          * GIR2 -> Target Source Code
          */
+         //!!! Note: I need to make sure that all operations can be grouped and handled by a single function. I know I will need to move around some already.
         public enum IRMap
         {
             Eval, //evaluate a conditional expression.

@@ -1,93 +1,151 @@
-Eval
-Eval
-Eval
-Eval
-Eval
-Eval
-Eval
-Eval
-Eval
-Eval
-Eval
-Eval
-Eval
-Eval
-Eval
-Eval
-Unary
-Unary
-Unary
-Unary
-Binop
-Binop
-Binop
-Binop
-Binop
-Binop
-Binop
-Binop
-Binop
-Binop
-Binop
-Binop
-Binop
-Binop
-Binop
-Binop
-Binop
-Const
-Const
-Const
-Const
-Const
-Const
-GetUV
-SetUV
-SetUV
-SetUV
-SetUV
-UVClose
-NewFunc
-NewTable
-CopyTable
-TGet
-TSet
-TGet
-TGet
-TGet
-TSet
-TSet
-TSet
-TSet
-Call
-Call
-Call
-Call
-Iterate
-Iterate
-VarArg
-IsNext
-Return
-Return
-Return
-Return
-FLoop
-FLoop
-FLoop
-FLoop
-FLoop
-FLoop
-FLoop
-FLoop
-Loop
-Loop
-Loop
-Goto
-Func
-Func
-Func
-Func
-Func
-Func
-CHeadFunc
-CHeadFunc
+
+Bci total: 65 From Index: 0-64
+Jump Index: -1 -> Block[0]
+Jump Index: 2 -> Block[1]
+Jump Index: 3 -> Block[2]
+Jump Index: 9 -> Block[3]
+Jump Index: 10 -> Block[4]
+Jump Index: 14 -> Block[5]
+Jump Index: 20 -> Block[6]
+Jump Index: 21 -> Block[7]
+Jump Index: 25 -> Block[10]
+Jump Index: 28 -> Block[8]
+Jump Index: 29 -> Block[9]
+Jump Index: 33 -> Block[10]
+Jump Index: 39 -> Block[11]
+Jump Index: 40 -> Block[13]
+Jump Index: 43 -> Block[12]
+Jump Index: 44 -> Block[13]
+Jump Index: 48 -> Block[17]
+Jump Index: 51 -> Block[14]
+Jump Index: 52 -> Block[13]
+Jump Index: 55 -> Block[15]
+Jump Index: 56 -> Block[16]
+Jump Index: 60 -> Block[17]
+
+
+------------------------------
+
+
+Block[0]
+0:(KSHORT): 0, 1, 0;
+1:(KSHORT): 1, 2, 0;
+2:(ISGE): 1, 0, 0;
+3:(JMP): 0, 3, 128;
+
+Block[1]
+4:(GGET): 0, 0, 0;
+5:(KSHORT): 1, 0, 0;
+6:(CALL): 0, 2, 1;
+
+Block[2]
+7:(KSHORT): 0, 1, 0;
+8:(KSHORT): 1, 2, 0;
+9:(ISGE): 1, 0, 0;
+10:(JMP): 0, 4, 128;
+
+Block[3]
+11:(GGET): 0, 0, 0;
+12:(KSHORT): 1, 10, 0;
+13:(CALL): 0, 2, 1;
+14:(JMP): 0, 3, 128;
+
+Block[4]
+15:(GGET): 0, 0, 0;
+16:(KSHORT): 1, 11, 0;
+17:(CALL): 0, 2, 1;
+
+Block[5]
+18:(KSHORT): 0, 2, 0;
+19:(KSHORT): 1, 1, 0;
+20:(ISGE): 1, 0, 0;
+21:(JMP): 0, 4, 128;
+
+Block[6]
+22:(GGET): 0, 0, 0;
+23:(KSHORT): 1, 12, 0;
+24:(CALL): 0, 2, 1;
+25:(JMP): 0, 11, 128;
+
+Block[7]
+26:(KSHORT): 0, 2, 0;
+27:(KSHORT): 1, 1, 0;
+28:(ISGE): 1, 0, 0;
+29:(JMP): 0, 4, 128;
+30:(GGET): 0, 0, 0;
+31:(KSHORT): 1, 13, 0;
+32:(CALL): 0, 2, 1;
+33:(JMP): 0, 3, 128;
+34:(GGET): 0, 0, 0;
+35:(KSHORT): 1, 14, 0;
+36:(CALL): 0, 2, 1;
+
+Block[8]
+30:(GGET): 0, 0, 0;
+31:(KSHORT): 1, 13, 0;
+32:(CALL): 0, 2, 1;
+33:(JMP): 0, 3, 128;
+
+Block[9]
+34:(GGET): 0, 0, 0;
+35:(KSHORT): 1, 14, 0;
+36:(CALL): 0, 2, 1;
+
+Block[10]
+37:(KSHORT): 0, 2, 0;
+38:(KSHORT): 1, 1, 0;
+39:(ISGE): 1, 0, 0;
+40:(JMP): 0, 8, 128;
+
+Block[11]
+41:(KSHORT): 0, 4, 0;
+42:(KSHORT): 1, 3, 0;
+43:(ISGE): 1, 0, 0;
+44:(JMP): 0, 4, 128;
+45:(GGET): 0, 0, 0;
+46:(KSHORT): 1, 12, 0;
+47:(CALL): 0, 2, 1;
+48:(JMP): 0, 15, 128;
+
+Block[12]
+45:(GGET): 0, 0, 0;
+46:(KSHORT): 1, 12, 0;
+47:(CALL): 0, 2, 1;
+48:(JMP): 0, 15, 128;
+
+Block[13]
+49:(KSHORT): 0, 2, 0;
+50:(KSHORT): 1, 1, 0;
+51:(ISLT): 1, 0, 0;
+52:(JMP): 0, 4, 128;
+53:(KSHORT): 0, 4, 0;
+54:(KSHORT): 1, 3, 0;
+55:(ISGE): 1, 0, 0;
+56:(JMP): 0, 4, 128;
+57:(GGET): 0, 0, 0;
+58:(KSHORT): 1, 15, 0;
+59:(CALL): 0, 2, 1;
+60:(JMP): 0, 3, 128;
+61:(GGET): 0, 0, 0;
+62:(KSHORT): 1, 16, 0;
+63:(CALL): 0, 2, 1;
+
+Block[14]
+53:(KSHORT): 0, 4, 0;
+54:(KSHORT): 1, 3, 0;
+55:(ISGE): 1, 0, 0;
+56:(JMP): 0, 4, 128;
+
+Block[15]
+57:(GGET): 0, 0, 0;
+58:(KSHORT): 1, 15, 0;
+59:(CALL): 0, 2, 1;
+60:(JMP): 0, 3, 128;
+
+Block[16]
+61:(GGET): 0, 0, 0;
+62:(KSHORT): 1, 16, 0;
+63:(CALL): 0, 2, 1;
+
+Block[17]
+64:(RET0): 0, 1, 0;

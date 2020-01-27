@@ -44,7 +44,10 @@ namespace Luajit_Decompiler.dec
             #endregion
 
             BlockPrototype(); //#1
-            //see plan in IRImap
+            //remove duplicate block instructions
+            //create control flow graph using adjacency matrix
+            //simplify graph if possible.
+            //translate block instructions into the first IR
         }
 
         /// <summary>
@@ -76,62 +79,70 @@ namespace Luajit_Decompiler.dec
                     name++;
                 }
             }
-            //FileManager.ClearDebug();
-            //foreach (Jump j in jumps)
-            //    FileManager.WriteDebug("Jump Index: " + j.index + " -> " + j.target);
-
-            //All blocks now have a starting index.
 
             //Block = (J).target to (J+1).target - 1
-            //if (J).target > (J+1).target - 1 then do not make block, push J to stack for second pass. (points to block not yet encountered).
-            int blockName = 0;
-            Stack<Jump> blockSkips = new Stack<Jump>();
-            for(int i = 0; i < jumps.Count; i++)
+            Stack<int> skips = new Stack<int>(); //indicies for jumps that skip more than 1 block.
+            for (int i = 0; i < jumps.Count; i++)
             {
-                //looping jump:: jumps[i].index > jumps[i].target
                 Block b;
-                //if (i + 1 >= jumps.Count) //BUG: assumes the last jump is the jump to the return statement.
-                //{
-                //    b = new Block(jumps[i].target, blockName, pt);
-                //    b.Finalize(ptBcis.Count);
-                //    blocks.Add(b);
-                //    jumps[i].Block = b;
-                //    break;
-                //}
-                if (jumps[i].target > jumps[i + 1].target - 1)
+                if(jumps[i].index > jumps[i].target) //points to a block that should already exist.
                 {
-                    blockSkips.Push(jumps[i]);
-                    continue;
+                    b = FindBlockByIndexRange(jumps[i].target);
+                    jumps[i].Block = b;
+                }
+                else if (i + 1 >= jumps.Count) //is the last block in the list and does not point back to an existing block.
+                {
+                    b = new Block(jumps[i].target, i, pt);
+                    b.Finalize(ptBcis.Count);
+                    blocks.Add(b);
+                    jumps[i].Block = b;
+                }
+                else if(i + 1 < jumps.Count) //there exists a block after this one.
+                {
+                    if (jumps[i].target > jumps[i + 1].target - 1) //skips ahead more than 1 block. push index to stack and deal with it later. another jump *should* jump to it.
+                        skips.Push(i);
+                    else //normal block to add where J.target -> j+1.target - 1
+                    {
+                        b = new Block(jumps[i].target, i, pt);
+                        b.Finalize(jumps[i + 1].target);
+                        blocks.Add(b);
+                        jumps[i].Block = b;
+                    }
                 }
                 else
                 {
-                    b = new Block(jumps[i].target, blockName, pt);
-                    b.Finalize(jumps[i + 1].target);
-                    blocks.Add(b);
-                    jumps[i].Block = b;
-                    blockName++;
+                    throw new Exception("BlockPrototype: Encountered something unexpected.");
                 }
             }
-
-            //second pass to deal with the jumps that went a bit too far.
-            while (blockSkips.Count > 0)
+            while(skips.Count > 0)
             {
-                Jump j = blockSkips.Pop();
-                bool success = false;
-                foreach(Block b in blocks)
+                int i = skips.Pop();
+                jumps[i].Block = FindBlockByIndexRange(jumps[i].target); //these long jumps can typically can hit a RET statement and be null.
+                if (jumps[i].Block == null)
                 {
-                    if (b.sIndex == j.target)
+                    if(jumps[i].target == ptBcis.Count - 1 && CheckCJR(ptBcis[jumps[i].target]) == 2)
                     {
-                        j.Block = b;
-                        success = true;
-                        break;
+                        //it's a return statement so lets make a block for the return and assign it to the jump.
+                        Block ret = new Block(jumps[i].target, i, pt);
+                        ret.Finalize(jumps[i].target + 1);
+                        jumps[i].Block = ret;
+                        blocks.Add(ret);
+                    }
+                    else
+                    {
+                        throw new Exception("BlockPrototype:2ndPass::Unexpected occurrence.");
                     }
                 }
-                if (!success)
-                    throw new Exception("Block not found.");
             }
+            //fix block labels in an unclean way :(
+            for (int i = 0; i < blocks.Count; i++)
+                blocks[i].label = "Block[" + i + "]";
 
             FileManager.ClearDebug();
+            FileManager.WriteDebug("Bci total: " + pt.bytecodeInstructions.Count + " From Index: 0-" + (pt.bytecodeInstructions.Count - 1));
+            //FileManager.WriteDebug("TEST: " + jumps[0].Block.label + " :: " + blocks[0].label);
+            //blocks[0].label = "banana";
+            //FileManager.WriteDebug("TEST: " + jumps[0].Block.label + " :: " + blocks[0].label); //confirmed by reference.
             foreach (Jump j in jumps)
                 FileManager.WriteDebug("Jump Index: " + j.index + " -> " + j.Block.label);
             FileManager.WriteDebug("\r\n");
@@ -139,105 +150,7 @@ namespace Luajit_Decompiler.dec
             FileManager.WriteDebug("\r\n");
             foreach (Block b in blocks)
                 FileManager.WriteDebug(b.ToString());
-
-            //Jump Index: -1 -> 0
-            //Jump Index: 2 -> 4 //0 to 3 is a block.
-            //Jump Index: 3 -> 7 //4 to 6 is a block
-            //Jump Index: 9 -> 11 //7 to 10 is a block.
-            //Jump Index: 10 -> 15 //11 to 14
-            //Jump Index: 14 -> 18 //15 to 17
-            //Jump Index: 20 -> 22 //18 to 21
-            //Jump Index: 21 -> 26 //22 to 25
-            //Jump Index: 25 -> 37 //26 to 36 (J)
-            //Jump Index: 28 -> 30 //37 to 29(J+1) -- skip block since j.target > j+1.target - 1. means that (J).target is a jump that targets a block not yet encountered. push jump to a stack?
-            //Jump Index: 29 -> 34 
-            //Jump Index: 33 -> 37
-            //Jump Index: 39 -> 41 
-            //Jump Index: 40 -> 49
-            //Jump Index: 43 -> 45
-            //Jump Index: 44 -> 49
-            //Jump Index: 48 -> 64
-            //Jump Index: 51 -> 53
-            //Jump Index: 52 -> 57
-            //Jump Index: 55 -> 57
-            //Jump Index: 56 -> 61
-            //Jump Index: 60 -> 64
         }
-
-        /// <summary>
-        /// Simplifies linear intermediate representation using some created opcodes.
-        /// </summary>
-        //private void SimplifyLIR() //O((2N^2) * M) = O(N^2)? Perhaps rethink this method later for efficiency's sake. N = # jumps, M = # of bcis in jump N.
-        //{
-        //    for (int i = 0; i < jumps.Count; i++)
-        //    {
-        //        ref List<BytecodeInstruction> targetBCIs = ref jumps[i].target.bcis;
-        //        for (int j = 0; j < targetBCIs.Count; j++)
-        //        {
-        //            int check = CheckCJR(targetBCIs[j]);
-
-        //            //# compound IF IR. if the assumption that after every comparison op exists a jump op is false, use the commented implementation @ bottom of file instead of this implementation.
-        //            if (check == 3)
-        //            {
-        //                //take this instruction plus next and merge. (ISGE->JMP)
-        //                BytecodeInstruction ir = new BytecodeInstruction(OpCodes._if, targetBCIs[j].index);
-        //                ir.AddRegister((byte)FindJumpAtIndex(targetBCIs[j].index).target.nameIndex); //this register will hold block index of target if true. This can throw issues if nameIndex > 255 for a prototype.
-        //                ir.AddRegister((byte)FindJumpAtIndex(targetBCIs[j + 1].index).target.nameIndex); //this register holds the target block if the jump is false.
-        //                comparisonBCIs.Add(targetBCIs[j]);
-        //                ir.AddRegister(comparisonBCIs.IndexOf(targetBCIs[j])); //used for keeping track of index of original conditional expression.
-        //                targetBCIs[j] = ir;
-
-        //                //removed merged bci
-        //                BytecodeInstruction rem = new BytecodeInstruction(OpCodes.removed, targetBCIs[j + 1].index);
-        //                rem.AddRegister(0);
-        //                rem.AddRegister(0);
-        //                rem.AddRegister(0);
-        //                targetBCIs[j + 1] = rem;
-        //            }
-        //            else if (check == 1)
-        //            {
-        //                BytecodeInstruction ir = new BytecodeInstruction(OpCodes._goto, targetBCIs[j].index);
-        //                ir.AddRegister((byte)FindJumpAtIndex(targetBCIs[j].index).target.nameIndex);
-        //                ir.AddRegister(255);
-        //                ir.AddRegister(255);
-        //                targetBCIs[j] = ir;
-        //            }
-        //            //#
-        //        }
-        //    }
-        //}
-
-        /// <summary>
-        /// ****TRY USING .CONTAINS IN BCI LIST?
-        /// Removes blocks that are a subset of another block to eliminate redundancy.
-        /// </summary>
-        //private void SimplifyBlocks() //A fairly CPU intensive algorithm. Might want to make this more efficient later.
-        //{
-        //    for (int i = 0; i < jumps.Count; i++)
-        //    {
-        //        Block b0 = jumps[i].target;
-        //        for(int j = 0; j < b0.bcis.Count; j++)
-        //        {
-        //            BytecodeInstruction bci = b0.bcis[i];
-        //            if (bci.opcode == OpCodes._if)
-        //            {
-        //                int t1 = bci.registers[0]; //true block target
-        //                int t2 = bci.registers[1]; //false block target
-        //                t1++; //increment to access it in the block list.
-        //                t2++;
-        //                Block b1 = blocks[t1];
-        //                Block b2 = blocks[t2];
-        //                if (j + 2 >= b0.bcis.Count) //no subsets to check
-        //                    continue;
-        //                for (int k = j + 2; k < b0.bcis.Count; k++) //+2 from the _if opcode = bci after the _if.
-        //                {
-                              
-        //                }
-        //            }
-        //            else continue;
-        //        }
-        //    }
-        //}
 
         /// <summary>
         /// Check for Condi, Jump, or Ret opcodes.
@@ -267,13 +180,18 @@ namespace Luajit_Decompiler.dec
                 case OpCodes.ISNEP:
                 case OpCodes.ISNES:
                 case OpCodes.ISNEV:
+
+                case OpCodes.ISF: //unary test/copy ops. (Evaluates register D in a boolean context).
+                case OpCodes.IST:
+                case OpCodes.ISFC:
+                case OpCodes.ISTC:
                     return 3; //conditional
                 default:
                     return -1; //not condi/jmp/ret
             }
         }
 
-        public Jump FindJumpAtIndex(int index)
+        private Jump FindJumpAtIndex(int index)
         {
             for (int i = 0; i < jumps.Count; i++)
                 if (jumps[i].index == index)
@@ -281,25 +199,20 @@ namespace Luajit_Decompiler.dec
             throw new Exception("Jump not found.");
         }
 
+        private Block FindBlockByIndexRange(int index)
+        {
+            foreach(Block b in blocks)
+            {
+                for (int i = b.sIndex; i < b.eIndex; i++)
+                    if (i == index)
+                        return b;
+            }
+            return null;
+        }
+
         public override string ToString()
         {
             return ""; //return prototype source here.
         }
-
-        //# implementation for non-compound _if statements.
-        //if (check == 3 || check == 1)
-        //{
-        //    BytecodeInstruction ir;
-        //    if (check == 3)
-        //        ir = new BytecodeInstruction(OpCodes._if, targetBCIs[j].index);
-        //    else
-        //        ir = new BytecodeInstruction(OpCodes._goto, targetBCIs[j].index);
-
-        //    ir.AddRegister((byte)FindJumpAtIndex(targetBCIs[j].index).target.nameIndex); //this register will hold block index of target if true. This can throw issues if nameIndex > 255 for a prototype.
-        //    ir.AddRegister(0);
-        //    ir.AddRegister(0);
-        //    targetBCIs[j] = ir;
-        //}
-        //#
     }
 }
