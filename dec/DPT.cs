@@ -81,14 +81,15 @@ namespace Luajit_Decompiler.dec
             }
 
             //Block = (J).target to (J+1).target - 1
-            Stack<int> skips = new Stack<int>(); //indicies for jumps that skip more than 1 block.
+            Stack<int> skips = new Stack<int>(); //indicies for jumps that skip more than 1 block or are looping jumps.
             for (int i = 0; i < jumps.Count; i++)
             {
                 Block b;
                 if(jumps[i].index > jumps[i].target) //points to a block that should already exist.
                 {
-                    b = FindBlockByIndexRange(jumps[i].target);
-                    jumps[i].Block = b;
+                    //b = FindBlockByIndexRange(jumps[i].target);
+                    //jumps[i].Block = b;
+                    skips.Push(i);
                 }
                 else if (i + 1 >= jumps.Count) //is the last block in the list and does not point back to an existing block.
                 {
@@ -114,6 +115,25 @@ namespace Luajit_Decompiler.dec
                     throw new Exception("BlockPrototype: Encountered something unexpected.");
                 }
             }
+
+            //remove duplicate information
+            for(int i = 0; i < blocks.Count; i++)
+            {
+                Block b1 = blocks[i];
+
+                for (int j = i + 1; j < blocks.Count; j++)
+                {
+                    if (j >= blocks.Count)
+                        break;
+
+                    Block b2 = blocks[j];
+                    int exists = b1.IndexExists(b2.sIndex);
+                    if (exists != -1)
+                        b1.RemoveDuplicateInfo(b2.sIndex, b2.eIndex, exists);
+                }
+            }
+
+            //handle pushed blocks.
             while(skips.Count > 0)
             {
                 int i = skips.Pop();
@@ -199,14 +219,12 @@ namespace Luajit_Decompiler.dec
             throw new Exception("Jump not found.");
         }
 
-        private Block FindBlockByIndexRange(int index)
+        private Block FindBlockByIndexRange(int index) //57
         {
             foreach(Block b in blocks)
-            {
-                for (int i = b.sIndex; i < b.eIndex; i++)
-                    if (i == index)
+                foreach(BytecodeInstruction bci in b.bcis)
+                    if (bci.index == index)
                         return b;
-            }
             return null;
         }
 

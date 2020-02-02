@@ -37,6 +37,34 @@ namespace Luajit_Decompiler.dec.Structures
             finalized = true;
         }
 
+        /// <summary>
+        /// Removes duplicate information between a range of indicies.
+        /// </summary>
+        /// <param name="rMin">Starting BCI index of duplicate info.</param>
+        /// <param name="rMax">Ending BCI Index of duplicate info.</param>
+        /// <param name="index">Starting index of duplicate info relative to this block.</param>
+        public void RemoveDuplicateInfo(int rMin, int rMax, int index)
+        {
+            int dist = Math.Abs(rMax - rMin);
+            bcis.RemoveRange(index, dist);
+        }
+
+        /// <summary>
+        /// Returns index if the index exists within this block. Returns -1 if it doesn't exist.
+        /// </summary>
+        /// <param name="range"></param>
+        /// <returns></returns>
+        public int IndexExists(int index)
+        {
+            int result = -1;
+
+            for (int i = 0; i < bcis.Count; i++)
+                if (bcis[i].index == index)
+                    return i;
+
+            return result;
+        }
+
         public override string ToString()
         {
             if (!finalized)
