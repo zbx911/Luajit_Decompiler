@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Luajit_Decompiler.dis;
 using Luajit_Decompiler.dec.Structures;
-using Luajit_Decompiler.dec.lir;
+using Luajit_Decompiler.dec.gir;
 
 namespace Luajit_Decompiler.dec
 {
@@ -16,8 +16,7 @@ namespace Luajit_Decompiler.dec
     {
         private Prototype pt;
         private List<BytecodeInstruction> ptBcis;
-        public List<Jump> jumps; //public for now for debug purposes.
-        private List<BytecodeInstruction> comparisonBCIs;
+        private List<Jump> jumps;
         private List<Block> blocks;
 
         public DPT(Prototype pt)
@@ -25,7 +24,6 @@ namespace Luajit_Decompiler.dec
             this.pt = pt;
             ptBcis = pt.bytecodeInstructions;
             jumps = new List<Jump>();
-            comparisonBCIs = new List<BytecodeInstruction>();
             blocks = new List<Block>();
             CreateIR();
         }
@@ -35,17 +33,9 @@ namespace Luajit_Decompiler.dec
         /// </summary>
         private void CreateIR()
         {
-            #region debugging map
-            //IRIMap ir = new IRIMap();
-            //FileManager.ClearDebug();
-            //var ops = Enum.GetValues(typeof(OpCodes));
-            //foreach(OpCodes op in ops)
-            //    FileManager.WriteDebug(ir.Translate(op).ToString());
-            #endregion
-
-            BlockPrototype(); //#1
-            //remove duplicate block instructions
+            BlockPrototype();
             //create control flow graph using adjacency matrix
+            Cfg cfg = new Cfg(jumps, blocks);
             //simplify graph if possible.
             //translate block instructions into the first IR
         }
@@ -86,11 +76,7 @@ namespace Luajit_Decompiler.dec
             {
                 Block b;
                 if(jumps[i].index > jumps[i].target) //points to a block that should already exist.
-                {
-                    //b = FindBlockByIndexRange(jumps[i].target);
-                    //jumps[i].Block = b;
                     skips.Push(i);
-                }
                 else if (i + 1 >= jumps.Count) //is the last block in the list and does not point back to an existing block.
                 {
                     b = new Block(jumps[i].target, i, pt);
@@ -156,20 +142,22 @@ namespace Luajit_Decompiler.dec
             }
             //fix block labels in an unclean way :(
             for (int i = 0; i < blocks.Count; i++)
-                blocks[i].label = "Block[" + i + "]";
+                blocks[i].ChangeLabel(i);
 
-            FileManager.ClearDebug();
-            FileManager.WriteDebug("Bci total: " + pt.bytecodeInstructions.Count + " From Index: 0-" + (pt.bytecodeInstructions.Count - 1));
-            //FileManager.WriteDebug("TEST: " + jumps[0].Block.label + " :: " + blocks[0].label);
-            //blocks[0].label = "banana";
-            //FileManager.WriteDebug("TEST: " + jumps[0].Block.label + " :: " + blocks[0].label); //confirmed by reference.
-            foreach (Jump j in jumps)
-                FileManager.WriteDebug("Jump Index: " + j.index + " -> " + j.Block.label);
-            FileManager.WriteDebug("\r\n");
-            FileManager.WriteDebug("------------------------------");
-            FileManager.WriteDebug("\r\n");
-            foreach (Block b in blocks)
-                FileManager.WriteDebug(b.ToString());
+            #region debugging BlockPrototype
+            //FileManager.ClearDebug();
+            //FileManager.WriteDebug("Bci total: " + pt.bytecodeInstructions.Count + " From Index: 0-" + (pt.bytecodeInstructions.Count - 1));
+            ////FileManager.WriteDebug("TEST: " + jumps[0].Block.label + " :: " + blocks[0].label);
+            ////blocks[0].label = "banana";
+            ////FileManager.WriteDebug("TEST: " + jumps[0].Block.label + " :: " + blocks[0].label); //confirmed by reference.
+            //foreach (Jump j in jumps)
+            //    FileManager.WriteDebug("Jump Index: " + j.index + " -> " + j.Block.label);
+            //FileManager.WriteDebug("\r\n");
+            //FileManager.WriteDebug("------------------------------");
+            //FileManager.WriteDebug("\r\n");
+            //foreach (Block b in blocks)
+            //    FileManager.WriteDebug(b.ToString());
+            #endregion
         }
 
         /// <summary>
@@ -177,7 +165,7 @@ namespace Luajit_Decompiler.dec
         /// </summary>
         /// <param name="bci"></param>
         /// <returns></returns>
-        public static int CheckCJR(BytecodeInstruction bci)
+        private int CheckCJR(BytecodeInstruction bci)
         {
             switch (bci.opcode)
             {

@@ -14,11 +14,12 @@ namespace Luajit_Decompiler.dec.Structures
     {
         public int sIndex; //start of the block. (Relative to the asm lines).
         public int eIndex; //end of block.
-        public int nameIndex; //used for labeling blocks.
         public List<BytecodeInstruction> bcis; //all the bytecode instructions in a block.
         public string label;
+
         private bool finalized = false; //for error checking.
         private Prototype pt;
+        private int nameIndex; //used for labeling blocks.
 
         public Block(int sIndex, int nameIndex, Prototype pt)
         {
@@ -63,6 +64,32 @@ namespace Luajit_Decompiler.dec.Structures
                     return i;
 
             return result;
+        }
+
+        /// <summary>
+        /// Returns the block's name index if the index of an instruction exists within the block. Otherwise, returns -1.
+        /// </summary>
+        /// <returns></returns>
+        public int InstructionExists(int index)
+        {
+            if (IndexExists(index) != -1)
+                return nameIndex;
+            return -1;
+        }
+
+        /// <summary>
+        /// Changes both the name index of this block and the label to match.
+        /// </summary>
+        /// <param name="index"></param>
+        public void ChangeLabel(int index)
+        {
+            nameIndex = index;
+            label = label = "Block[" + nameIndex + "]";
+        }
+
+        public int GetNameIndex()
+        {
+            return nameIndex;
         }
 
         public override string ToString()
