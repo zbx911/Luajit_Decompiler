@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2005
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Luajit_Decompiler", "Luajit_Decompiler.csproj", "{49F8CB01-7ADF-4543-9D01-9E83DE5A578D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{49F8CB01-7ADF-4543-9D01-9E83DE5A578D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49F8CB01-7ADF-4543-9D01-9E83DE5A578D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49F8CB01-7ADF-4543-9D01-9E83DE5A578D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49F8CB01-7ADF-4543-9D01-9E83DE5A578D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F97415ED-EBF1-422E-AD2E-19E6DCDE2521}
+	EndGlobalSection
+EndGlobal

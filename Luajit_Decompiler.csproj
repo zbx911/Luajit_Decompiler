@@ -48,6 +48,7 @@
     <Compile Include="dec\DPT.cs" />
     <Compile Include="dec\gir\Cfg.cs" />
     <Compile Include="dec\lir\IRIMap.cs" />
+    <Compile Include="dec\lir\IRParent.cs" />
     <Compile Include="dec\Structures\Block.cs" />
     <Compile Include="dec\Structures\Expression.cs" />
     <Compile Include="dec\Structures\Jump.cs" />

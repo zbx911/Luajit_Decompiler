@@ -43,7 +43,9 @@ namespace Luajit_Decompiler.dec.lir
             Func, //For all lua functions excluding new function closure.
             CHeadFunc, //for all psuedo header for C functions/wrapped C functions/etc.
             GTSet, //set to the global table
-            GTGet //get from the global table.
+            GTGet, //get from the global table.
+            Move, //Set A to D.
+            Length //Set A to the length of object D.
         }
 
         public IRMap Translate(OpCodes op)
@@ -97,10 +99,8 @@ namespace Luajit_Decompiler.dec.lir
                 case OpCodes.CAT: //A = B concat C; A=DST, B=rbase, C=rbase; (From luajit)-> Note: The CAT instruction concatenates all values in variable slots B to C inclusive.
                     return IRMap.Binop;
 
-                case OpCodes.MOV:
-                case OpCodes.NOT:
-                case OpCodes.UNM:
-                case OpCodes.LEN:
+                case OpCodes.NOT: //set A to !D
+                case OpCodes.UNM: //set A to -D
                     return IRMap.Unary;
 
                 //Sets slot A to D.
@@ -210,6 +210,12 @@ namespace Luajit_Decompiler.dec.lir
 
                 case OpCodes.GSET: //_G[D] = A
                     return IRMap.GTSet;
+
+                case OpCodes.MOV:
+                    return IRMap.Move;
+
+                case OpCodes.LEN:
+                    return IRMap.Length;
 
                 #endregion
                 default:
