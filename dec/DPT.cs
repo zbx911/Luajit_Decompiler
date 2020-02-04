@@ -59,7 +59,7 @@ namespace Luajit_Decompiler.dec
             jumps.Add(top);
 
             //get jump targets
-            for (int i = 0; i < ptBcis.Count; i++)
+            for (int i = 0; i < ptBcis.Count; i++) //O(N)
             {
                 int check = CheckCJR(ptBcis[i]);
                 if (check == 1 || check == 3) //jmp or comparison
@@ -72,7 +72,7 @@ namespace Luajit_Decompiler.dec
 
             //Block = (J).target to (J+1).target - 1
             Stack<int> skips = new Stack<int>(); //indicies for jumps that skip more than 1 block or are looping jumps.
-            for (int i = 0; i < jumps.Count; i++)
+            for (int i = 0; i < jumps.Count; i++) //O(N)
             {
                 Block b;
                 if(jumps[i].index > jumps[i].target) //points to a block that should already exist.
@@ -103,7 +103,7 @@ namespace Luajit_Decompiler.dec
             }
 
             //remove duplicate information
-            for(int i = 0; i < blocks.Count; i++)
+            for(int i = 0; i < blocks.Count; i++) //This is the main bottleneck in terms of function efficiency.
             {
                 Block b1 = blocks[i];
 
@@ -140,6 +140,7 @@ namespace Luajit_Decompiler.dec
                     }
                 }
             }
+
             //fix block labels in an unclean way :(
             for (int i = 0; i < blocks.Count; i++)
                 blocks[i].ChangeLabel(i);
