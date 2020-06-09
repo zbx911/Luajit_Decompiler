@@ -1,0 +1,29 @@
+File Name: call.lua
+
+Prototype: 0
+Prototype_Size: 68; Flags: 2; #_Params: 0; Frame_Size: 3; Upvalue_Size: 0; KGC_Size: 4; KN_Size: 0; Instruction_Count: 8;
+
+--Bytecode Instructions--
+(GGET): 0, 0, 0;
+(KSTR): 1, 1, 0;
+(CALL): 0, 2, 2;
+(GGET): 1, 2, 0;
+(TGETS): 2, 3, 0;
+(CALL): 2, 1, 0; op a (c b)
+(CALLM): 1, 0, 1;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ hello };
+String{ print };
+String{ somefunc };
+String{ require };
+
+--End--
+
+

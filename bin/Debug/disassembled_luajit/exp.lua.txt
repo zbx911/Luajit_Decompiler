@@ -1,0 +1,20 @@
+File Name: exp.lua
+
+Prototype: 0
+Prototype_Size: 19; Flags: 2; #_Params: 0; Frame_Size: 2; Upvalue_Size: 0; KGC_Size: 0; KN_Size: 0; Instruction_Count: 3;
+
+--Bytecode Instructions--
+(KSHORT): 0, 7, 0;
+(KSHORT): 1, 15, 0;
+(RET0): 0, 1, 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+
+--End--
+
+

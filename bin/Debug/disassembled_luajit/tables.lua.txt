@@ -1,0 +1,59 @@
+File Name: tables.lua
+
+Prototype: 0
+Prototype_Size: 162; Flags: 2; #_Params: 0; Frame_Size: 3; Upvalue_Size: 0; KGC_Size: 9; KN_Size: 0; Instruction_Count: 33;
+
+--Bytecode Instructions--
+(TNEW): A = 0, C = 0, B = 0;
+(GSET): A = 0, C = 0, B = 0;
+(GGET): A = 0, C = 0, B = 0;
+(KSHORT): A = 1, C = 57, B = 5;
+(TSETS): A = 1, C = 1, B = 0;
+(GGET): A = 0, C = 0, B = 0;
+(TGETS): A = 0, C = 1, B = 0;
+(GSET): A = 0, C = 2, B = 0;
+(KSHORT): A = 0, C = 40, B = 35;
+(GSET): A = 0, C = 3, B = 0;
+(KSHORT): A = 0, C = 1, B = 0;
+(GSET): A = 0, C = 4, B = 0;
+(KSHORT): A = 0, C = 2, B = 0;
+(GSET): A = 0, C = 5, B = 0;
+(KSHORT): A = 0, C = 3, B = 0;
+(GSET): A = 0, C = 6, B = 0;
+(KSHORT): A = 0, C = 4, B = 0;
+(GSET): A = 0, C = 7, B = 0;
+(GGET): A = 0, C = 8, B = 0;
+(GGET): A = 1, C = 4, B = 0;
+(GGET): A = 2, C = 3, B = 0;
+(ADDVV): A = 1, C = 2, B = 1;
+(GGET): A = 2, C = 5, B = 0;
+(ADDVV): A = 1, C = 2, B = 1;
+(GGET): A = 2, C = 6, B = 0;
+(ADDVV): A = 1, C = 2, B = 1;
+(GGET): A = 2, C = 7, B = 0;
+(ADDVV): A = 1, C = 2, B = 1;
+(CALL): A = 0, C = 2, B = 1;
+(GGET): A = 0, C = 8, B = 0;
+(GGET): A = 1, C = 2, B = 0;
+(CALL): A = 0, C = 2, B = 1;
+(RET0): A = 0, C = 1, B = 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ print };
+String{ e };
+String{ h };
+String{ s };
+String{ g };
+String{ z };
+String{ y };
+String{ x };
+String{ tb };
+
+--End--
+
+

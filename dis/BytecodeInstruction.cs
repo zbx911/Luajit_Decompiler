@@ -35,7 +35,7 @@ namespace Luajit_Decompiler.dis
         /// <returns></returns>
         public override string ToString()
         {
-            return "(" + opcode + "): " + registers[0] + ", " + registers[1] + ", " + registers[2] + ";";
+            return "(" + opcode + "): " + "A = " + registers[0] + ", " + "C = " + registers[1] + ", " + "B = " + registers[2] + ";";
         }
     }
 }
