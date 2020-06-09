@@ -12,15 +12,6 @@ namespace Luajit_Decompiler.dec.gir
         private byte[,] adj; //adjacency matrix
         private List<Jump> jumps;
         private List<Block> blocks;
-        
-        private enum Patterns
-        {
-            _loop,
-            _if,
-            _ifelse,
-            _ifelseif,
-            _ifelseifelse //where elseif can go to N elseifs.
-        }
 
         public Cfg(List<Jump> jumps, List<Block> blocks)
         {
@@ -52,12 +43,26 @@ namespace Luajit_Decompiler.dec.gir
             #endregion
         }
 
-        public List<Block> GetChildren(Block b)
+        /// <summary>
+        /// Returns a list of indicies of block children.
+        /// </summary>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public List<int> GetChildren(Block b)
         {
-            throw new NotImplementedException();
+            List<int> result = new List<int>();
+            for(int i = 0; i < adj.GetLength(1); i++)
+                if (adj[b.GetNameIndex(), i] == 1)
+                    result.Add(i);
+            return result;
         }
 
-        public Block GetParent(Block b)
+        /// <summary>
+        /// Returns the index of the parent of a given block.
+        /// </summary>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public int GetParent(Block b)
         {
             throw new NotImplementedException();
         }
