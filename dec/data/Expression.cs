@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Luajit_Decompiler.dis;
-using Luajit_Decompiler.dec.gir;
 
-namespace Luajit_Decompiler.dec.Structures
+namespace Luajit_Decompiler.dec.data
 {
     class Expression
     {
-        //Mapping of opcode to source code operators for an if statement.Uninverted so doesn't match source and is the logical negation of the source as well.
+        //Mapping of opcode to source code operators for an if statement. Uninverted so doesn't match source and is the logical negation of the source as well.
         private static Dictionary<OpCodes, string> map = new Dictionary<OpCodes, string>()
         {
             { OpCodes.ISLT, "<" },

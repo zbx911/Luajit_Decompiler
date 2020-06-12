@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Luajit_Decompiler.dis.Constants
+﻿namespace Luajit_Decompiler.dis.consts
 {
     class LuaNumber
     {
-        public int low { get; }
-        public int high { get; }
+        public int Low { get; }
+        public int High { get; }
         public LuaNumber(int low, int high)
         {
-            this.low = low;
-            this.high = high;
+            this.Low = low;
+            this.High = high;
         }
         
         /// <summary>
@@ -22,7 +16,7 @@ namespace Luajit_Decompiler.dis.Constants
         /// <returns></returns>
         public override string ToString()
         {
-            return "LuaNum{ " + low + ":" + high + " };";
+            return "LuaNum{ " + Low + ":" + High + " };";
         }
     }
 

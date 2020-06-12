@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
-using Luajit_Decompiler.dis.Constants;
 
-namespace Luajit_Decompiler.dis
+namespace Luajit_Decompiler.dis.consts
 {
     /// <summary>
     /// Based off of luajit's enumeration for reading tables.

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Luajit_Decompiler.dec.Structures;
+using Luajit_Decompiler.dec.data;
 
 namespace Luajit_Decompiler.dec.gir
 {
@@ -10,7 +10,7 @@ namespace Luajit_Decompiler.dec.gir
     class Cfg
     {
         private byte[,] adj; //adjacency matrix
-        private List<Jump> jumps;
+        private readonly List<Jump> jumps;
         private List<Block> blocks;
 
         public Cfg(List<Jump> jumps, List<Block> blocks)

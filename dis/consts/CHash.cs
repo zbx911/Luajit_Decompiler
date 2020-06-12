@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Luajit_Decompiler.dis.Constants
+﻿namespace Luajit_Decompiler.dis.consts
 {
     /// <summary>
     /// Storage for hash map key/value pairings.
     /// </summary>
     class HashValue
     {
-        BaseConstant key;
-        BaseConstant value;
+        readonly BaseConstant key;
+        readonly BaseConstant value;
 
         public HashValue(BaseConstant key, BaseConstant value)
         {

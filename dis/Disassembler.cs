@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using System.IO;
 
 namespace Luajit_Decompiler.dis
 {
@@ -13,20 +10,20 @@ namespace Luajit_Decompiler.dis
     class Disassembler
     {
         //header
-        private byte[] magic = new byte[4];
-        private byte[] expectedMagic = { 0x1B, 0x4C, 0x4A, 0x01 };
+        private readonly byte[] magic = new byte[4];
+        private readonly byte[] expectedMagic = { 0x1B, 0x4C, 0x4A, 0x01 };
         private byte flags; //mainly for determining if the debug info has been stripped or not.
 
         //unclassified bytes. Unknown bytes were found before luajit header.
         private List<byte> unclassified = new List<byte>();
 
         private FileManager fileManager;
-        public Dictionary<string, List<Prototype>> disFile { get; }
+        public Dictionary<string, List<Prototype>> DisFile { get; }
 
         public Disassembler(FileManager fileManager)
         {
             this.fileManager = fileManager;
-            disFile = new Dictionary<string, List<Prototype>>();
+            DisFile = new Dictionary<string, List<Prototype>>();
         }
 
         /// <summary>
@@ -111,7 +108,7 @@ namespace Luajit_Decompiler.dis
                 disassembledFile.AppendLine(pro.ToString()); //append for writing to file.
                 nameNDX++;
             }
-            disFile.Add(fileName, fileProtos);
+            DisFile.Add(fileName, fileProtos);
             fileManager.WriteDisassembledBytecode(fileName, disassembledFile.ToString());
         }
 

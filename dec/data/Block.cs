@@ -1,15 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Luajit_Decompiler.dis.Constants;
 using Luajit_Decompiler.dis;
-using Luajit_Decompiler.dec.Structures;
-using Luajit_Decompiler.dec;
 using Luajit_Decompiler.dec.lir;
 
-namespace Luajit_Decompiler.dec.Structures
+namespace Luajit_Decompiler.dec.data
 {
     class Block
     {
@@ -20,7 +15,7 @@ namespace Luajit_Decompiler.dec.Structures
 
         private bool finalized = false; //for error checking.
         private Prototype pt;
-        private int nameIndex; //used for labeling blocks.
+        private readonly int nameIndex; //used for labeling blocks.
 
         public Block(int sIndex, int nameIndex, Prototype pt)
         {
@@ -41,12 +36,6 @@ namespace Luajit_Decompiler.dec.Structures
                 IntegratedInstruction ii = new IntegratedInstruction(map.Translate(bci.opcode), bci.opcode, bci.index, bci.regA, bci.regB, bci.regC);
                 iis.Add(ii);
             }
-
-            //bcis = new List<BytecodeInstruction>();
-            //for (int i = sIndex; i < eIndex; i++)
-            //{
-            //    bcis.Add(pt.bytecodeInstructions[i]);
-            //}
             finalized = true;
         }
 

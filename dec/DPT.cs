@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Luajit_Decompiler.dis;
-using Luajit_Decompiler.dec.Structures;
+using Luajit_Decompiler.dec.data;
 using Luajit_Decompiler.dec.gir;
-using Luajit_Decompiler.dec.lir;
 
 namespace Luajit_Decompiler.dec
 {
-    /// <summary>
-    /// TODO: Bugfix on line 75.
-    /// </summary>
     class DPT //Decompile Prototype
     {
         private Prototype pt;
-        private List<BytecodeInstruction> ptBcis;
+        private readonly List<BytecodeInstruction> ptBcis;
         private List<Jump> jumps;
         private List<Block> blocks;
 
@@ -40,7 +33,7 @@ namespace Luajit_Decompiler.dec
             //create control flow graph using adjacency matrix
             Cfg cfg = new Cfg(jumps, blocks);
 
-            //Iterate over each block minding the CFG and attempt to generate lua source.
+            //TODO: Iterate over each block minding the CFG and attempt to generate lua source.
         }
 
         /// <summary>
@@ -52,10 +45,12 @@ namespace Luajit_Decompiler.dec
             List<BytecodeInstruction> ptBcis = pt.bytecodeInstructions;
 
             //make a jmp bci to top of file
-            BytecodeInstruction jmpTop = new BytecodeInstruction(OpCodes.JMP, -1);
-            jmpTop.regA = 0;
-            jmpTop.regC = 0;
-            jmpTop.regB = 128;
+            BytecodeInstruction jmpTop = new BytecodeInstruction(OpCodes.JMP, -1)
+            {
+                regA = 0,
+                regC = 0,
+                regB = 128
+            };
             Jump top = new Jump(jmpTop, 1, -1, pt);
             jumps.Add(top);
 

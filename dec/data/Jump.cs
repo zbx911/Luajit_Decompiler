@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using Luajit_Decompiler.dis;
 
-namespace Luajit_Decompiler.dec.Structures
+namespace Luajit_Decompiler.dec.data
 {
     /// <summary>
     /// Stores jump information including the jump distance, target of jump (what it skips TO. not what it skips over.), and the bci index it was found at.
@@ -27,7 +23,6 @@ namespace Luajit_Decompiler.dec.Structures
                 distance = ((jmp.regB << 8) | jmp.regC) - 0x8000;
             else if (jumpType == 3)
                 distance = 1; //conditionals/returns
-            //target = new Block(index + distance + 1, nameIndex, pt); //+1 to avoid off by 1 error for start of a block.
             target = index + distance + 1; //the target bci.
         }
 

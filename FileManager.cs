@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace Luajit_Decompiler
@@ -16,9 +14,9 @@ namespace Luajit_Decompiler
         public string disassembled_dir_path;
         public string decompiled_dir_path;
         private static string debug_dir_path;
-        private string bc_dir_name = "compiled_luajit_bytecode";
-        private string dis_dir_name = "disassembled_luajit";
-        private string dec_dir_name = "decompiled_luajit_source";
+        private readonly string bc_dir_name = "compiled_luajit_bytecode";
+        private readonly string dis_dir_name = "disassembled_luajit";
+        private readonly string dec_dir_name = "decompiled_luajit_source";
         private static string debug_dir_name = "debug";
 
         public FileManager()

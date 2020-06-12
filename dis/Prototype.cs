@@ -1,30 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
-using System.Threading.Tasks;
-using Luajit_Decompiler.dis.Constants;
+using Luajit_Decompiler.dis.consts;
 
 namespace Luajit_Decompiler.dis
 {
     class Prototype
     {
-        private byte[] bytes; //remaining bytes of the bytecode. The file header must be stripped from this list. Assumes next 7 bytes are for the prototype header.
+        private readonly byte[] bytes; //remaining bytes of the bytecode. The file header must be stripped from this list. Assumes next 7 bytes are for the prototype header.
 
         //Prototype Header Info : These 7 bytes are also from luajit lj_bcwrite.
-        private byte flags; //whether or not to strip debug info.
-        private byte numberOfParams; //number of params in the method
-        private byte frameSize; //# of prototypes - 1 inside the prototype?
-        private byte sizeUV; //# of upvalues
-        private int sizeKGC; //size of the constants section? number of strings?
-        private int sizeKN; //# of constant numbers to be read after strings.
+        private readonly byte flags; //whether or not to strip debug info.
+        private readonly byte numberOfParams; //number of params in the method
+        private readonly byte frameSize; //# of prototypes - 1 inside the prototype?
+        private readonly byte sizeUV; //# of upvalues
+        private readonly int sizeKGC; //size of the constants section? number of strings?
+        private readonly int sizeKN; //# of constant numbers to be read after strings.
         //Instruction Count: This part of header is handled in PackBCInstructions.
 
         private Stack<Prototype> protoStack; //the stack of all prototypes.
         private int debugSize; //size of the debug info section
         private int firstLine; //size of the first line of debug info?
         private int numLines; //number of debug info lines?
-        private int prototypeSize;
+        private readonly int prototypeSize;
 
         //These fields define the prototype. Useful for the decompilation module.
         public List<BytecodeInstruction> bytecodeInstructions; //bytecode asm instructions. { OP, A (BC or D) }
@@ -87,16 +84,14 @@ namespace Luajit_Decompiler.dis
             int bciIndex = 0;
             for(int i = 0; i < instructionBytes.Length; i += 4)
             {
-                BytecodeInstruction bci = new BytecodeInstruction(Opcode.ParseOpByte(instructionBytes[i]), bciIndex);
-                //bci.AddRegister(instructionBytes[i + 1]); //A
-                //bci.AddRegister(instructionBytes[i + 2]); //C {C + B = D}
-                //bci.AddRegister(instructionBytes[i + 3]); //B
-                bci.regA = instructionBytes[i + 1];
-                bci.regC = instructionBytes[i + 2];
-                bci.regB = instructionBytes[i + 3];
+                BytecodeInstruction bci = new BytecodeInstruction(Opcode.ParseOpByte(instructionBytes[i]), bciIndex)
+                {
+                    regA = instructionBytes[i + 1], // {C union B -> D}
+                    regC = instructionBytes[i + 2],
+                    regB = instructionBytes[i + 3]
+                };
                 bytecodeInstructions.Add(bci);
                 bciIndex++;
-               //Console.Out.WriteLine(bci); //debug
             }
         }
 
@@ -175,9 +170,11 @@ namespace Luajit_Decompiler.dis
             if(isDouble)
             {
                 int b = Disassembler.ConsumeUleb(bytes, ref offset);
-                CDouble.KNUnion knu = new CDouble.KNUnion();
-                knu.ulebA = a;
-                knu.ulebB = b;
+                CDouble.KNUnion knu = new CDouble.KNUnion
+                {
+                    ulebA = a,
+                    ulebB = b
+                };
                 //Console.Out.WriteLine(knu.knumVal); //debug
                 constantsSection.Add(new CDouble(knu.knumVal));
             }
@@ -245,18 +242,18 @@ namespace Luajit_Decompiler.dis
     /// </summary>
     class UpValue
     {
-        public int value1 { get; set; }
-        public int value2 { get; set; }
+        public int Value1 { get; set; }
+        public int Value2 { get; set; }
 
         public UpValue(int v1, int v2)
         {
-            value1 = v1;
-            value2 = v2;
+            Value1 = v1;
+            Value2 = v2;
         }
 
         public override string ToString()
         {
-            return "Upvalue{ " + value1 + ", " + value2 + " };";
+            return "Upvalue{ " + Value1 + ", " + Value2 + " };";
         }
     }
 }

@@ -9,7 +9,6 @@ namespace Luajit_Decompiler.dec.lir
         public OpCodes originalOp;
         public Registers registers;
         public int originalIndex;
-        // Register: {C + B = D}
 
         /// <summary>
         /// Contains an IRMap translated opcode and the registers at execution time for a particular bytecode instruction.
@@ -33,11 +32,9 @@ namespace Luajit_Decompiler.dec.lir
 
         public override string ToString()
         {
-            //return "(" + opcode + "): " + "A = " + regA + ", " + "C = " + regC + ", " + "B = " + regB + ";";
-            return " II{ IIop: " + iROp.ToString() + ", original: " + originalOp.ToString() + ", A: " + registers.regA + ", C: " + registers.regC + ", B: " + registers.regB + ", D: " + registers.regD +" };";
+            return " II{ Op: " + iROp.ToString() + ", OriOp: " + originalOp.ToString() + ", A: " + registers.regA + ", C: " + registers.regC + ", B: " + registers.regB + ", D: " + registers.regD +" };";
         }
 
-        //Requires testing.
         [StructLayout(LayoutKind.Explicit)] //size of byte = 1, size of short = 2, size of int = 4
         public struct Registers
         {
@@ -50,7 +47,7 @@ namespace Luajit_Decompiler.dec.lir
             [FieldOffset(2)]
             public byte regB;
 
-            [FieldOffset(1)] //C |U| B = D
+            [FieldOffset(1)] //C union B -> D
             public ushort regD;
         }
     }

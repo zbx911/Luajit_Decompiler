@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Luajit_Decompiler.dis;
 
 namespace Luajit_Decompiler.dec
@@ -17,7 +14,7 @@ namespace Luajit_Decompiler.dec
             this.fm = fm;
             Disassembler dis = new Disassembler(fm);
             dis.DisassembleAll();
-            disFile = dis.disFile;
+            disFile = dis.DisFile;
             Decompile();
         }
 
