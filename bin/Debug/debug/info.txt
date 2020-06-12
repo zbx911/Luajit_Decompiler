@@ -1,22 +1,42 @@
 
-Block[0] -> Block[1] :: 1
-Block[0] -> Block[2] :: 1
-Block[2] -> Block[3] :: 1
-Block[2] -> Block[4] :: 1
-Block[3] -> Block[5] :: 1
-Block[5] -> Block[6] :: 1
-Block[5] -> Block[7] :: 1
-Block[6] -> Block[10] :: 1
-Block[7] -> Block[8] :: 1
-Block[7] -> Block[9] :: 1
-Block[8] -> Block[10] :: 1
-Block[10] -> Block[11] :: 1
-Block[10] -> Block[13] :: 1
-Block[11] -> Block[12] :: 1
-Block[11] -> Block[13] :: 1
-Block[12] -> Block[17] :: 1
-Block[13] -> Block[14] :: 1
-Block[13] -> Block[15] :: 1
-Block[14] -> Block[15] :: 1
-Block[14] -> Block[16] :: 1
-Block[15] -> Block[17] :: 1
+Bci total: 33 From Index: 0-32
+Jump Index: -1 -> Block[0]
+
+
+------------------------------
+
+
+Block[0]
+0: II{ IIop: NewTable, original: TNEW, A: 0, C: 0, B: 0, D: 0 };
+1: II{ IIop: GTSet, original: GSET, A: 0, C: 0, B: 0, D: 0 };
+2: II{ IIop: GTGet, original: GGET, A: 0, C: 0, B: 0, D: 0 };
+3: II{ IIop: Const, original: KSHORT, A: 1, C: 57, B: 5, D: 1337 }; //Confirming D register works properly after refactoring...it is working.
+4: II{ IIop: TSet, original: TSETS, A: 1, C: 1, B: 0, D: 1 };
+5: II{ IIop: GTGet, original: GGET, A: 0, C: 0, B: 0, D: 0 };
+6: II{ IIop: TGet, original: TGETS, A: 0, C: 1, B: 0, D: 1 };
+7: II{ IIop: GTSet, original: GSET, A: 0, C: 2, B: 0, D: 2 };
+8: II{ IIop: Const, original: KSHORT, A: 0, C: 40, B: 35, D: 9000 };
+9: II{ IIop: GTSet, original: GSET, A: 0, C: 3, B: 0, D: 3 };
+10: II{ IIop: Const, original: KSHORT, A: 0, C: 1, B: 0, D: 1 };
+11: II{ IIop: GTSet, original: GSET, A: 0, C: 4, B: 0, D: 4 };
+12: II{ IIop: Const, original: KSHORT, A: 0, C: 2, B: 0, D: 2 };
+13: II{ IIop: GTSet, original: GSET, A: 0, C: 5, B: 0, D: 5 };
+14: II{ IIop: Const, original: KSHORT, A: 0, C: 3, B: 0, D: 3 };
+15: II{ IIop: GTSet, original: GSET, A: 0, C: 6, B: 0, D: 6 };
+16: II{ IIop: Const, original: KSHORT, A: 0, C: 4, B: 0, D: 4 };
+17: II{ IIop: GTSet, original: GSET, A: 0, C: 7, B: 0, D: 7 };
+18: II{ IIop: GTGet, original: GGET, A: 0, C: 8, B: 0, D: 8 };
+19: II{ IIop: GTGet, original: GGET, A: 1, C: 4, B: 0, D: 4 };
+20: II{ IIop: GTGet, original: GGET, A: 2, C: 3, B: 0, D: 3 };
+21: II{ IIop: Add, original: ADDVV, A: 1, C: 2, B: 1, D: 258 };
+22: II{ IIop: GTGet, original: GGET, A: 2, C: 5, B: 0, D: 5 };
+23: II{ IIop: Add, original: ADDVV, A: 1, C: 2, B: 1, D: 258 };
+24: II{ IIop: GTGet, original: GGET, A: 2, C: 6, B: 0, D: 6 };
+25: II{ IIop: Add, original: ADDVV, A: 1, C: 2, B: 1, D: 258 };
+26: II{ IIop: GTGet, original: GGET, A: 2, C: 7, B: 0, D: 7 };
+27: II{ IIop: Add, original: ADDVV, A: 1, C: 2, B: 1, D: 258 };
+28: II{ IIop: Call, original: CALL, A: 0, C: 2, B: 1, D: 258 };
+29: II{ IIop: GTGet, original: GGET, A: 0, C: 8, B: 0, D: 8 };
+30: II{ IIop: GTGet, original: GGET, A: 1, C: 2, B: 0, D: 2 };
+31: II{ IIop: Call, original: CALL, A: 0, C: 2, B: 1, D: 258 };
+32: II{ IIop: Return, original: RET0, A: 0, C: 1, B: 0, D: 1 };

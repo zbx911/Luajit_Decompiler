@@ -8,6 +8,7 @@ namespace Luajit_Decompiler.dec.lir
         public IRIMap.IRMap iROp;
         public OpCodes originalOp;
         public Registers registers;
+        public int originalIndex;
         // Register: {C + B = D}
 
         /// <summary>
@@ -15,13 +16,15 @@ namespace Luajit_Decompiler.dec.lir
         /// </summary>
         /// <param name="iROp"></param>
         /// <param name="originalOp"></param>
+        /// <param name="originalIndex">Index of original instruction.</param>
         /// <param name="regA"></param>
         /// <param name="regB"></param>
         /// <param name="regC"></param>
-        public IntegratedInstruction(IRIMap.IRMap iROp, OpCodes originalOp, byte regA, byte regB, byte regC)
+        public IntegratedInstruction(IRIMap.IRMap iROp, OpCodes originalOp, int indexOfOp, byte regA, byte regB, byte regC)
         {
             this.iROp = iROp;
             this.originalOp = originalOp;
+            this.originalIndex = indexOfOp;
             registers = new Registers();
             registers.regA = regA;
             registers.regB = regB;
@@ -30,7 +33,8 @@ namespace Luajit_Decompiler.dec.lir
 
         public override string ToString()
         {
-            return "II{ " + iROp.ToString() + " A: " + registers.regA + " C: " + registers.regC + " B: " + registers.regB + " D: " + registers.regD +" };";
+            //return "(" + opcode + "): " + "A = " + regA + ", " + "C = " + regC + ", " + "B = " + regB + ";";
+            return " II{ IIop: " + iROp.ToString() + ", original: " + originalOp.ToString() + ", A: " + registers.regA + ", C: " + registers.regC + ", B: " + registers.regB + ", D: " + registers.regD +" };";
         }
 
         //Requires testing.

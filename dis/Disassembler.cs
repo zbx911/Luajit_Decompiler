@@ -48,7 +48,7 @@ namespace Luajit_Decompiler.dis
                 }
                 catch (IndexOutOfRangeException ioe)
                 {
-                    Console.Out.WriteLine("Magic bytes not found during unclassified byte scan.");
+                    Console.Out.WriteLine("Magic bytes not found during unclassified byte scan. -> " + ioe.Message);
                 }
             }
 

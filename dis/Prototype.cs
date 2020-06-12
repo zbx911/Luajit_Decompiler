@@ -88,9 +88,12 @@ namespace Luajit_Decompiler.dis
             for(int i = 0; i < instructionBytes.Length; i += 4)
             {
                 BytecodeInstruction bci = new BytecodeInstruction(Opcode.ParseOpByte(instructionBytes[i]), bciIndex);
-                bci.AddRegister(instructionBytes[i + 1]); //A
-                bci.AddRegister(instructionBytes[i + 2]); //C {C + B = D}
-                bci.AddRegister(instructionBytes[i + 3]); //B
+                //bci.AddRegister(instructionBytes[i + 1]); //A
+                //bci.AddRegister(instructionBytes[i + 2]); //C {C + B = D}
+                //bci.AddRegister(instructionBytes[i + 3]); //B
+                bci.regA = instructionBytes[i + 1];
+                bci.regC = instructionBytes[i + 2];
+                bci.regB = instructionBytes[i + 3];
                 bytecodeInstructions.Add(bci);
                 bciIndex++;
                //Console.Out.WriteLine(bci); //debug

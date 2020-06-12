@@ -7,6 +7,7 @@ using Luajit_Decompiler.dis.Constants;
 using Luajit_Decompiler.dis;
 using Luajit_Decompiler.dec.Structures;
 using Luajit_Decompiler.dec;
+using Luajit_Decompiler.dec.lir;
 
 namespace Luajit_Decompiler.dec.Structures
 {
@@ -14,7 +15,7 @@ namespace Luajit_Decompiler.dec.Structures
     {
         public int sIndex; //start of the block. (Relative to the asm lines).
         public int eIndex; //end of block.
-        public List<BytecodeInstruction> bcis; //all the bytecode instructions in a block.
+        public List<IntegratedInstruction> iis;
         public string label;
 
         private bool finalized = false; //for error checking.
@@ -29,25 +30,24 @@ namespace Luajit_Decompiler.dec.Structures
             this.pt = pt;
         }
 
-        public void Finalize(int eIndex)
+        public void Finalize(int eIndex) //finalize to integrated instructions
         {
             this.eIndex = eIndex;
-            bcis = new List<BytecodeInstruction>();
-            for (int i = sIndex; i < eIndex; i++)
-                bcis.Add(pt.bytecodeInstructions[i]);
-            finalized = true;
-        }
+            iis = new List<IntegratedInstruction>();
+            IRIMap map = new IRIMap();
+            for(int i = sIndex; i < eIndex; i++)
+            {
+                BytecodeInstruction bci = pt.bytecodeInstructions[i];
+                IntegratedInstruction ii = new IntegratedInstruction(map.Translate(bci.opcode), bci.opcode, bci.index, bci.regA, bci.regB, bci.regC);
+                iis.Add(ii);
+            }
 
-        /// <summary>
-        /// Removes duplicate information between a range of indicies.
-        /// </summary>
-        /// <param name="rMin">Starting BCI index of duplicate info.</param>
-        /// <param name="rMax">Ending BCI Index of duplicate info.</param>
-        /// <param name="index">Starting index of duplicate info relative to this block.</param>
-        public void RemoveDuplicateInfo(int rMin, int rMax, int index)
-        {
-            int dist = Math.Abs(rMax - rMin);
-            bcis.RemoveRange(index, dist);
+            //bcis = new List<BytecodeInstruction>();
+            //for (int i = sIndex; i < eIndex; i++)
+            //{
+            //    bcis.Add(pt.bytecodeInstructions[i]);
+            //}
+            finalized = true;
         }
 
         /// <summary>
@@ -59,15 +59,15 @@ namespace Luajit_Decompiler.dec.Structures
         {
             int result = -1;
 
-            for (int i = 0; i < bcis.Count; i++)
-                if (bcis[i].index == index)
+            for (int i = 0; i < iis.Count; i++)
+                if (iis[i].originalIndex == index)
                     return i;
 
             return result;
         }
 
         /// <summary>
-        /// Returns the block's name index if the index of an instruction exists within the block. Otherwise, returns -1.
+        /// returns the block's name index if the index of an instruction exists within the block. otherwise, returns -1.
         /// </summary>
         /// <returns></returns>
         public int InstructionExists(int index)
@@ -75,16 +75,6 @@ namespace Luajit_Decompiler.dec.Structures
             if (IndexExists(index) != -1)
                 return nameIndex;
             return -1;
-        }
-
-        /// <summary>
-        /// Changes both the name index of this block and the label to match.
-        /// </summary>
-        /// <param name="index"></param>
-        public void ChangeLabel(int index)
-        {
-            nameIndex = index;
-            label = label = "Block[" + nameIndex + "]";
         }
 
         public int GetNameIndex()
@@ -96,10 +86,11 @@ namespace Luajit_Decompiler.dec.Structures
         {
             if (!finalized)
                 throw new Exception("Error. Block not finalized.");
+
             StringBuilder res = new StringBuilder();
             res.AppendLine(label);
-            foreach (BytecodeInstruction bci in bcis)
-                res.AppendLine(bci.index + ":" + bci.ToString());
+            foreach (IntegratedInstruction ii in iis)
+                res.AppendLine(ii.originalIndex + ":" + ii.ToString());
             return res.ToString();
         }
     }

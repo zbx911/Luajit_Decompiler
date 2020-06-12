@@ -20,7 +20,12 @@ namespace Luajit_Decompiler.dec.lir
         public enum IRMap
         {
             Eval, //evaluate a conditional expression.
-            Binop, //binary operations including: + - * / & | >> << etc.
+            Binop, //binary operations including: & | >> << etc.
+            Add, //+
+            Sub, //-
+            Div, // /
+            Mult, // *
+            Mod, // %
             Unary, //move, not, unary minus, length
             Const, //used to set constants.
             SetUV, //Set upvalue.
@@ -71,28 +76,32 @@ namespace Luajit_Decompiler.dec.lir
                     return IRMap.Eval;
 
                 #region A=DST, B=var, C=num
-                //A = B op C
-                case OpCodes.ADDVN:
+                
+                case OpCodes.ADDVN: //A = B op C ; Generally, VN is this. variable op number?
+                case OpCodes.ADDNV: //A = C op B ; Generally, NV is this. number op variable?
+                case OpCodes.ADDVV: //A = B op C ; Generally, VV is this. variable op variable?
+                    return IRMap.Add;
+
                 case OpCodes.SUBVN:
-                case OpCodes.MULVN:
-                case OpCodes.DIVVN:
-                case OpCodes.MODVN:
-
-                //A = C op B
-                case OpCodes.ADDNV:
                 case OpCodes.SUBNV:
-                case OpCodes.MULNV:
-                case OpCodes.MODNV:
-                case OpCodes.DIVNV:
-                #endregion
-
-                #region A=DST, B=var, C=var
-                //A = B op C
-                case OpCodes.ADDVV:
                 case OpCodes.SUBVV:
+                    return IRMap.Sub;
+
+                case OpCodes.MULVN:
+                case OpCodes.MULNV:
                 case OpCodes.MULVV:
-                case OpCodes.MODVV:
+                    return IRMap.Mult;
+
+                case OpCodes.DIVVN:
+                case OpCodes.DIVNV:
                 case OpCodes.DIVVV:
+                    return IRMap.Div;
+
+                case OpCodes.MODNV:
+                case OpCodes.MODVN:
+                case OpCodes.MODVV:
+                    return IRMap.Mod;
+
                 #endregion
 
                 case OpCodes.POW: //A = B^C

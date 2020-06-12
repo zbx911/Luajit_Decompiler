@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Luajit_Decompiler.dis;
 using Luajit_Decompiler.dec.Structures;
 using Luajit_Decompiler.dec.gir;
+using Luajit_Decompiler.dec.lir;
 
 namespace Luajit_Decompiler.dec
 {
@@ -33,12 +34,12 @@ namespace Luajit_Decompiler.dec
         /// </summary>
         private void CreateIR()
         {
+            //Chop a prototype into managable blocks based on jumps.
             BlockPrototype();
+
             //create control flow graph using adjacency matrix
             Cfg cfg = new Cfg(jumps, blocks);
 
-            //simplify graph if possible.
-            //translate block instructions into the first IR using IRMap
             //Iterate over each block minding the CFG and attempt to generate lua source.
         }
 
@@ -52,9 +53,9 @@ namespace Luajit_Decompiler.dec
 
             //make a jmp bci to top of file
             BytecodeInstruction jmpTop = new BytecodeInstruction(OpCodes.JMP, -1);
-            jmpTop.AddRegister(0);
-            jmpTop.AddRegister(0);
-            jmpTop.AddRegister(128);
+            jmpTop.regA = 0;
+            jmpTop.regC = 0;
+            jmpTop.regB = 128;
             Jump top = new Jump(jmpTop, 1, -1, pt);
             jumps.Add(top);
 
@@ -97,7 +98,7 @@ namespace Luajit_Decompiler.dec
             }
 
             //set jumps to their targeted block
-            foreach(Jump j in jumps)
+            foreach(Jump j in jumps) // ~ O(N^2) :(
             {
                 foreach(Block b in blocks)
                 {
@@ -162,28 +163,6 @@ namespace Luajit_Decompiler.dec
                 default:
                     return -1; //not condi/jmp/ret
             }
-        }
-
-        private Jump FindJumpAtIndex(int index)
-        {
-            for (int i = 0; i < jumps.Count; i++)
-                if (jumps[i].index == index)
-                    return jumps[i];
-            throw new Exception("Jump not found.");
-        }
-
-        private Block FindBlockByIndexRange(int index) //57
-        {
-            foreach(Block b in blocks)
-                foreach(BytecodeInstruction bci in b.bcis)
-                    if (bci.index == index)
-                        return b;
-            return null;
-        }
-
-        public override string ToString()
-        {
-            return ""; //return prototype source here.
         }
     }
 
