@@ -24,14 +24,14 @@ namespace Luajit_Decompiler.dec.gir
                 for (int j = 0; j < adj.GetLength(1); j++)
                     adj[i, j] = 0;
 
-            foreach(Jump j in jumps)
+            foreach (Jump j in jumps)
             {
                 int b1 = FindBlockNameByJIndex(j);
                 if (b1 == -2) //-2 is a flag for the very first jump at the top of the file.
                     continue;
                 if (b1 == -1)
                     throw new Exception("Cfg:Cfg:: Jump does not exist in any block.");
-                int b2 = j.Block.GetNameIndex();
+                int b2 = j.TargetedBlock.GetNameIndex();
                 adj[b1, b2] = 1;
             }
             #region debugging adj matrix
@@ -39,7 +39,7 @@ namespace Luajit_Decompiler.dec.gir
             for (int i = 0; i < adj.GetLength(0); i++)
                 for (int j = 0; j < adj.GetLength(1); j++)
                     if (adj[i, j] == 1)
-                        FileManager.WriteDebug("Block[" + i + "] -> Block[" + j + "] :: " + adj[i,j]);
+                        FileManager.WriteDebug("Block[" + i + "] -> Block[" + j + "] :: " + adj[i, j]);
             #endregion
         }
 
@@ -51,7 +51,7 @@ namespace Luajit_Decompiler.dec.gir
         public List<int> GetChildren(Block b)
         {
             List<int> result = new List<int>();
-            for(int i = 0; i < adj.GetLength(1); i++)
+            for (int i = 0; i < adj.GetLength(1); i++)
                 if (adj[b.GetNameIndex(), i] == 1)
                     result.Add(i);
             return result;
@@ -75,7 +75,7 @@ namespace Luajit_Decompiler.dec.gir
         {
             if (j.index == -1)
                 return -2; //returns -2 in the event that the jump is the very first jump that was artifically created at the top of the file.
-            for(int i = 0; i < blocks.Count; i++)
+            for (int i = 0; i < blocks.Count; i++)
                 if (blocks[i].InstructionExists(j.index) != -1)
                     return blocks[i].GetNameIndex();
             return -1;

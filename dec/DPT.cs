@@ -36,19 +36,19 @@ namespace Luajit_Decompiler.dec
             BlockPrototype();
             //create control flow graph using adjacency matrix
             Cfg cfg = new Cfg(jumps, blocks);
+
             //simplify graph if possible.
-            //translate block instructions into the first IR
+            //translate block instructions into the first IR using IRMap
+            //Iterate over each block minding the CFG and attempt to generate lua source.
         }
 
         /// <summary>
         /// Gets jump targets and finalizes those blocks.
+        /// Refactored based on DiLemming's suggestion.
         /// </summary>
         private void BlockPrototype()
         {
             List<BytecodeInstruction> ptBcis = pt.bytecodeInstructions;
-
-            //find condi and jump treat them as jumps. pass #1 of bytecode
-            int name = 0;
 
             //make a jmp bci to top of file
             BytecodeInstruction jmpTop = new BytecodeInstruction(OpCodes.JMP, -1);
@@ -57,6 +57,8 @@ namespace Luajit_Decompiler.dec
             jmpTop.AddRegister(128);
             Jump top = new Jump(jmpTop, 1, -1, pt);
             jumps.Add(top);
+
+            int name = 0;
 
             //get jump targets
             for (int i = 0; i < ptBcis.Count; i++) //O(N)
@@ -70,94 +72,56 @@ namespace Luajit_Decompiler.dec
                 }
             }
 
-            //Block = (J).target to (J+1).target - 1
-            Stack<int> skips = new Stack<int>(); //indicies for jumps that skip more than 1 block or are looping jumps.
-            for (int i = 0; i < jumps.Count; i++) //O(N)
+            SortedSet<int> targets = new SortedSet<int>(new ByDescending());
+
+            foreach(Jump j in jumps)
+                targets.Add(j.target);
+
+            name = 0;
+            
+            for (int i = 0; i < targets.Count; i++) //i = start of block, i+1 = end of block.
             {
-                Block b;
-                if(jumps[i].index > jumps[i].target) //points to a block that should already exist.
-                    skips.Push(i);
-                else if (i + 1 >= jumps.Count) //is the last block in the list and does not point back to an existing block.
+                Block b = new Block(targets.ElementAt(i), name, pt);
+
+                if (i+1 >= targets.Count)
                 {
-                    b = new Block(jumps[i].target, i, pt);
                     b.Finalize(ptBcis.Count);
                     blocks.Add(b);
-                    jumps[i].Block = b;
-                }
-                else if(i + 1 < jumps.Count) //there exists a block after this one.
-                {
-                    if (jumps[i].target > jumps[i + 1].target - 1) //skips ahead more than 1 block. push index to stack and deal with it later. another jump *should* jump to it.
-                        skips.Push(i);
-                    else //normal block to add where J.target -> j+1.target - 1
-                    {
-                        b = new Block(jumps[i].target, i, pt);
-                        b.Finalize(jumps[i + 1].target);
-                        blocks.Add(b);
-                        jumps[i].Block = b;
-                    }
                 }
                 else
                 {
-                    throw new Exception("BlockPrototype: Encountered something unexpected.");
+                    b.Finalize(targets.ElementAt(i+1));
+                    blocks.Add(b);
                 }
+                name++;
             }
 
-            //remove duplicate information
-            for(int i = 0; i < blocks.Count; i++) //This is the main bottleneck in terms of function efficiency.
+            //set jumps to their targeted block
+            foreach(Jump j in jumps)
             {
-                Block b1 = blocks[i];
-
-                for (int j = i + 1; j < blocks.Count; j++)
+                foreach(Block b in blocks)
                 {
-                    if (j >= blocks.Count)
+                    if(j.target == b.sIndex)
+                    {
+                        j.TargetedBlock = b;
                         break;
-
-                    Block b2 = blocks[j];
-                    int exists = b1.IndexExists(b2.sIndex);
-                    if (exists != -1)
-                        b1.RemoveDuplicateInfo(b2.sIndex, b2.eIndex, exists);
-                }
-            }
-
-            //handle pushed blocks.
-            while(skips.Count > 0)
-            {
-                int i = skips.Pop();
-                jumps[i].Block = FindBlockByIndexRange(jumps[i].target); //these long jumps can typically can hit a RET statement and be null.
-                if (jumps[i].Block == null)
-                {
-                    if(jumps[i].target == ptBcis.Count - 1 && CheckCJR(ptBcis[jumps[i].target]) == 2)
-                    {
-                        //it's a return statement so lets make a block for the return and assign it to the jump.
-                        Block ret = new Block(jumps[i].target, i, pt);
-                        ret.Finalize(jumps[i].target + 1);
-                        jumps[i].Block = ret;
-                        blocks.Add(ret);
-                    }
-                    else
-                    {
-                        throw new Exception("BlockPrototype:2ndPass::Unexpected occurrence.");
                     }
                 }
             }
-
-            //fix block labels in an unclean way :(
-            for (int i = 0; i < blocks.Count; i++)
-                blocks[i].ChangeLabel(i);
 
             #region debugging BlockPrototype
-            //FileManager.ClearDebug();
-            //FileManager.WriteDebug("Bci total: " + pt.bytecodeInstructions.Count + " From Index: 0-" + (pt.bytecodeInstructions.Count - 1));
-            ////FileManager.WriteDebug("TEST: " + jumps[0].Block.label + " :: " + blocks[0].label);
-            ////blocks[0].label = "banana";
-            ////FileManager.WriteDebug("TEST: " + jumps[0].Block.label + " :: " + blocks[0].label); //confirmed by reference.
-            //foreach (Jump j in jumps)
-            //    FileManager.WriteDebug("Jump Index: " + j.index + " -> " + j.Block.label);
-            //FileManager.WriteDebug("\r\n");
-            //FileManager.WriteDebug("------------------------------");
-            //FileManager.WriteDebug("\r\n");
-            //foreach (Block b in blocks)
-            //    FileManager.WriteDebug(b.ToString());
+            FileManager.ClearDebug();
+            FileManager.WriteDebug("Bci total: " + pt.bytecodeInstructions.Count + " From Index: 0-" + (pt.bytecodeInstructions.Count - 1));
+            //FileManager.WriteDebug("TEST: " + jumps[0].Block.label + " :: " + blocks[0].label);
+            //blocks[0].label = "banana";
+            //FileManager.WriteDebug("TEST: " + jumps[0].Block.label + " :: " + blocks[0].label); //confirmed by reference.
+            foreach (Jump j in jumps)
+                FileManager.WriteDebug("Jump Index: " + j.index + " -> " + j.TargetedBlock.label);
+            FileManager.WriteDebug("\r\n");
+            FileManager.WriteDebug("------------------------------");
+            FileManager.WriteDebug("\r\n");
+            foreach (Block b in blocks)
+                FileManager.WriteDebug(b.ToString());
             #endregion
         }
 
@@ -220,6 +184,19 @@ namespace Luajit_Decompiler.dec
         public override string ToString()
         {
             return ""; //return prototype source here.
+        }
+    }
+
+    internal class ByDescending : IComparer<int>
+    {
+        public int Compare(int x, int y)
+        {
+            if (x < y)
+                return -1;
+            if (x > y)
+                return 1;
+            else //equal
+                return 0;
         }
     }
 }

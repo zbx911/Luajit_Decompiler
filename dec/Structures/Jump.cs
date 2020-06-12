@@ -15,10 +15,9 @@ namespace Luajit_Decompiler.dec.Structures
         public int distance; //the distance or target.
         public int index; //where it was found.
         public int jumpType; //1 = jmp, 2 = ret, 3 = comparison
-        //public Block target; //the block it targets. not what it skips over.
         public int target;
 
-        public Block Block { get; set; }
+        public Block TargetedBlock { get; set; }
 
         public Jump(BytecodeInstruction jmp, int jumpType, int nameIndex, Prototype pt)
         {

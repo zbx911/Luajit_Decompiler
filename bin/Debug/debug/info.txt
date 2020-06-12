@@ -1,42 +1,22 @@
 
-Bci total: 33 From Index: 0-32
-Jump Index: -1 -> Block[0]
-
-
-------------------------------
-
-
-Block[0]
-0:(TNEW): A = 0, C = 0, B = 0;
-1:(GSET): A = 0, C = 0, B = 0;
-2:(GGET): A = 0, C = 0, B = 0;
-3:(KSHORT): A = 1, C = 57, B = 5;
-4:(TSETS): A = 1, C = 1, B = 0;
-5:(GGET): A = 0, C = 0, B = 0;
-6:(TGETS): A = 0, C = 1, B = 0;
-7:(GSET): A = 0, C = 2, B = 0;
-8:(KSHORT): A = 0, C = 40, B = 35;
-9:(GSET): A = 0, C = 3, B = 0;
-10:(KSHORT): A = 0, C = 1, B = 0;
-11:(GSET): A = 0, C = 4, B = 0;
-12:(KSHORT): A = 0, C = 2, B = 0;
-13:(GSET): A = 0, C = 5, B = 0;
-14:(KSHORT): A = 0, C = 3, B = 0;
-15:(GSET): A = 0, C = 6, B = 0;
-16:(KSHORT): A = 0, C = 4, B = 0;
-17:(GSET): A = 0, C = 7, B = 0;
-18:(GGET): A = 0, C = 8, B = 0;
-19:(GGET): A = 1, C = 4, B = 0;
-20:(GGET): A = 2, C = 3, B = 0;
-21:(ADDVV): A = 1, C = 2, B = 1;
-22:(GGET): A = 2, C = 5, B = 0;
-23:(ADDVV): A = 1, C = 2, B = 1;
-24:(GGET): A = 2, C = 6, B = 0;
-25:(ADDVV): A = 1, C = 2, B = 1;
-26:(GGET): A = 2, C = 7, B = 0;
-27:(ADDVV): A = 1, C = 2, B = 1;
-28:(CALL): A = 0, C = 2, B = 1;
-29:(GGET): A = 0, C = 8, B = 0;
-30:(GGET): A = 1, C = 2, B = 0;
-31:(CALL): A = 0, C = 2, B = 1;
-32:(RET0): A = 0, C = 1, B = 0;
+Block[0] -> Block[1] :: 1
+Block[0] -> Block[2] :: 1
+Block[2] -> Block[3] :: 1
+Block[2] -> Block[4] :: 1
+Block[3] -> Block[5] :: 1
+Block[5] -> Block[6] :: 1
+Block[5] -> Block[7] :: 1
+Block[6] -> Block[10] :: 1
+Block[7] -> Block[8] :: 1
+Block[7] -> Block[9] :: 1
+Block[8] -> Block[10] :: 1
+Block[10] -> Block[11] :: 1
+Block[10] -> Block[13] :: 1
+Block[11] -> Block[12] :: 1
+Block[11] -> Block[13] :: 1
+Block[12] -> Block[17] :: 1
+Block[13] -> Block[14] :: 1
+Block[13] -> Block[15] :: 1
+Block[14] -> Block[15] :: 1
+Block[14] -> Block[16] :: 1
+Block[15] -> Block[17] :: 1
