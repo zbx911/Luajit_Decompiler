@@ -52,7 +52,8 @@
     <Compile Include="dec\data\Block.cs" />
     <Compile Include="dec\data\Expression.cs" />
     <Compile Include="dec\data\Jump.cs" />
-    <Compile Include="dec\tluastates\IWriteStateBase.cs" />
+    <Compile Include="dec\tluastates\BaseState.cs" />
+    <Compile Include="dec\tluastates\InitializeState.cs" />
     <Compile Include="dec\tluastates\TLuaState.cs" />
     <Compile Include="dis\BytecodeInstruction.cs" />
     <Compile Include="dis\consts\BaseConstant.cs" />

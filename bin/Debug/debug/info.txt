@@ -1,8 +1,8 @@
 
-iBlock[0] -> jBlock[1] :: Indentation of child jBlock: 1
-iBlock[0] -> jBlock[5] :: Indentation of child jBlock: 0
-iBlock[1] -> jBlock[2] :: Indentation of child jBlock: 2
-iBlock[1] -> jBlock[5] :: Indentation of child jBlock: 0
-iBlock[2] -> jBlock[3] :: Indentation of child jBlock: 3
-iBlock[2] -> jBlock[4] :: Indentation of child jBlock: 3
-iBlock[3] -> jBlock[5] :: Indentation of child jBlock: 0
+iBlock[0] -> jBlock[1] :: Indentation of Parent Block: 0; Indentation of Child Block: 1;
+iBlock[0] -> jBlock[5] :: Indentation of Parent Block: 0; Indentation of Child Block: 0;
+iBlock[1] -> jBlock[2] :: Indentation of Parent Block: 1; Indentation of Child Block: 2;
+iBlock[1] -> jBlock[5] :: Indentation of Parent Block: 1; Indentation of Child Block: 0;
+iBlock[2] -> jBlock[3] :: Indentation of Parent Block: 2; Indentation of Child Block: 3;
+iBlock[2] -> jBlock[4] :: Indentation of Parent Block: 2; Indentation of Child Block: 3;
+iBlock[3] -> jBlock[5] :: Indentation of Parent Block: 3; Indentation of Child Block: 0;

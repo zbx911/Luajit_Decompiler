@@ -11,7 +11,7 @@ namespace Luajit_Decompiler.dec.gir
     {
         private byte[,] adj; //adjacency matrix where adj[i,j] = Child of I called J has an indentation/nest level of adj[i,j] - 1.
         private readonly List<Jump> jumps;
-        private readonly List<Block> blocks;
+        private readonly List<Block> blocks; //index in this list and block name should be the same.
 
         public Cfg(ref List<Jump> jumps, ref List<Block> blocks)
         {
@@ -56,7 +56,9 @@ namespace Luajit_Decompiler.dec.gir
             for (int i = 0; i < adj.GetLength(0); i++)
                 for (int j = 0; j < adj.GetLength(1); j++)
                     if (adj[i, j] >= 1)
-                        FileManager.WriteDebug("iBlock[" + i + "] -> jBlock[" + j + "] :: Indentation of child jBlock: " + (adj[i,j] - 1));
+                        FileManager.WriteDebug("iBlock[" + i + "] -> jBlock[" + j + "] :: " +
+                            "Indentation of Parent Block: " + GetIndentationLevel(blocks[i]) + ";" + 
+                            " Indentation of Child Block: " + (adj[i, j] - 1) + ";");
             #endregion
         }
 
@@ -103,6 +105,18 @@ namespace Luajit_Decompiler.dec.gir
                 if (adj[i, b.GetNameIndex()] >= 1)
                     return i;
             return -1;
+        }
+
+        /// <summary>
+        /// Returns the indentation level of a given block.
+        /// </summary>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public int GetIndentationLevel(Block b)
+        {
+            int pIndex = GetParent(b);
+            if (pIndex == -1) return 0;
+            return adj[pIndex, b.GetNameIndex()] - 1;
         }
 
         /// <summary>

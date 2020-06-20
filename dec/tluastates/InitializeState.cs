@@ -2,6 +2,9 @@
 
 namespace Luajit_Decompiler.dec.tluastates
 {
+    /// <summary>
+    /// Initializes TLuaState information.
+    /// </summary>
     class InitializeState : BaseState
     {
         public InitializeState(TLuaState state) : base(state) { }
