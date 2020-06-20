@@ -1,0 +1,125 @@
+File Name: funcs.lua
+
+Prototype: 0
+Prototype_Size: 49; Flags: 0; #_Params: 0; Frame_Size: 5; Upvalue_Size: 4; KGC_Size: 1; KN_Size: 0; Instruction_Count: 7;
+
+--Bytecode Instructions--
+(GGET): A = 0, C = 0, B = 0;
+(UGET): A = 1, C = 0, B = 0;
+(UGET): A = 2, C = 1, B = 0;
+(UGET): A = 3, C = 2, B = 0;
+(UGET): A = 4, C = 3, B = 0;
+(CALL): A = 0, C = 5, B = 1;
+(RET0): A = 0, C = 1, B = 0;
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+Upvalue{ 0, 0 };
+Upvalue{ 1, 0 };
+Upvalue{ 2, 0 };
+Upvalue{ 0, 192 };
+
+--Constants--
+String{ print };
+
+--End--
+
+
+Prototype: 1
+Prototype_Size: 51; Flags: 1; #_Params: 0; Frame_Size: 2; Upvalue_Size: 3; KGC_Size: 3; KN_Size: 0; Instruction_Count: 5;
+
+--Bytecode Instructions--
+(KSTR): A = 0, C = 0, B = 0;
+(FNEW): A = 1, C = 1, B = 0;
+(GSET): A = 1, C = 2, B = 0;
+(UCLO): A = 0, C = 0, B = 128;
+(RET0): A = 0, C = 1, B = 0;
+
+--Prototype Children--
+Count{ 1 };
+Child{ Prototype: 0 };
+
+--Upvalues--
+Upvalue{ 0, 0 };
+Upvalue{ 1, 0 };
+Upvalue{ 0, 192 };
+
+--Constants--
+String{ myfunc5 };
+String{ wait nvm };
+
+--End--
+
+
+Prototype: 2
+Prototype_Size: 48; Flags: 1; #_Params: 0; Frame_Size: 2; Upvalue_Size: 2; KGC_Size: 3; KN_Size: 0; Instruction_Count: 5;
+
+--Bytecode Instructions--
+(KSTR): A = 0, C = 0, B = 0;
+(FNEW): A = 1, C = 1, B = 0;
+(GSET): A = 1, C = 2, B = 0;
+(UCLO): A = 0, C = 0, B = 128;
+(RET0): A = 0, C = 1, B = 0;
+
+--Prototype Children--
+Count{ 1 };
+Child{ Prototype: 1 };
+
+--Upvalues--
+Upvalue{ 0, 192 };
+Upvalue{ 1, 192 };
+
+--Constants--
+String{ myfunc4 };
+String{ to live };
+
+--End--
+
+
+Prototype: 3
+Prototype_Size: 61; Flags: 1; #_Params: 0; Frame_Size: 3; Upvalue_Size: 0; KGC_Size: 4; KN_Size: 0; Instruction_Count: 6;
+
+--Bytecode Instructions--
+(KSTR): A = 0, C = 0, B = 0;
+(KSTR): A = 1, C = 1, B = 0;
+(FNEW): A = 2, C = 2, B = 0;
+(GSET): A = 2, C = 3, B = 0;
+(UCLO): A = 0, C = 0, B = 128;
+(RET0): A = 0, C = 1, B = 0;
+
+--Prototype Children--
+Count{ 1 };
+Child{ Prototype: 2 };
+
+--Upvalues--
+
+--Constants--
+String{ myfunc3 };
+String{ bashu's will };
+String{ i found };
+
+--End--
+
+
+Prototype: 4
+Prototype_Size: 28; Flags: 3; #_Params: 0; Frame_Size: 1; Upvalue_Size: 0; KGC_Size: 2; KN_Size: 0; Instruction_Count: 3;
+
+--Bytecode Instructions--
+(FNEW): A = 0, C = 0, B = 0;
+(GSET): A = 0, C = 1, B = 0;
+(RET0): A = 0, C = 1, B = 0;
+
+--Prototype Children--
+Count{ 1 };
+Child{ Prototype: 3 };
+
+--Upvalues--
+
+--Constants--
+String{ myfunc2 };
+
+--End--
+
+

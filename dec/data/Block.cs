@@ -12,6 +12,8 @@ namespace Luajit_Decompiler.dec.data
         public int eIndex; //end of block.
         public List<IntegratedInstruction> iis;
         public string label;
+        public bool hasJmp = false;
+        public bool hasCondi = false;
 
         private bool finalized = false; //for error checking.
         private Prototype pt;
@@ -34,6 +36,10 @@ namespace Luajit_Decompiler.dec.data
             {
                 BytecodeInstruction bci = pt.bytecodeInstructions[i];
                 IntegratedInstruction ii = new IntegratedInstruction(map.Translate(bci.opcode), bci.opcode, bci.index, bci.regA, bci.regB, bci.regC);
+                if (ii.iROp == IRIMap.IRMap.Goto) //goto = jump
+                    hasJmp = true;
+                if (ii.iROp == IRIMap.IRMap.Eval)
+                    hasCondi = true;
                 iis.Add(ii);
             }
             finalized = true;

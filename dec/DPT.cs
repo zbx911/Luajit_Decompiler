@@ -3,6 +3,7 @@ using System.Linq;
 using Luajit_Decompiler.dis;
 using Luajit_Decompiler.dec.data;
 using Luajit_Decompiler.dec.gir;
+using Luajit_Decompiler.dec.tluastates;
 
 namespace Luajit_Decompiler.dec
 {
@@ -31,9 +32,10 @@ namespace Luajit_Decompiler.dec
             BlockPrototype();
 
             //create control flow graph using adjacency matrix
-            Cfg cfg = new Cfg(jumps, blocks);
+            Cfg cfg = new Cfg(ref jumps, ref blocks);
 
             //TODO: Iterate over each block minding the CFG and attempt to generate lua source.
+            TLuaState tls = new TLuaState(ref pt, ref cfg, ref blocks);
         }
 
         /// <summary>

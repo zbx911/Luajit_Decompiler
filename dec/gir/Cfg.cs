@@ -9,11 +9,11 @@ namespace Luajit_Decompiler.dec.gir
     /// </summary>
     class Cfg
     {
-        private byte[,] adj; //adjacency matrix
+        private byte[,] adj; //adjacency matrix where adj[i,j] = Child of I called J has an indentation/nest level of adj[i,j] - 1.
         private readonly List<Jump> jumps;
-        private List<Block> blocks;
+        private readonly List<Block> blocks;
 
-        public Cfg(List<Jump> jumps, List<Block> blocks)
+        public Cfg(ref List<Jump> jumps, ref List<Block> blocks)
         {
             adj = new byte[blocks.Count, blocks.Count];
             this.jumps = jumps;
@@ -34,13 +34,48 @@ namespace Luajit_Decompiler.dec.gir
                 int b2 = j.TargetedBlock.GetNameIndex();
                 adj[b1, b2] = 1;
             }
+
+            //increment each skipped over block in the adj matrix.
+            //TODO: Might want to consider trying to make this more efficient. It is a little slow with the number of nested loops. (3).
+            for(int i = 1; i < jumps.Count; i++) //skip the first jump which is -1
+            {
+                int[] skipped = JumpSkipsOver(jumps[i]);
+                if(skipped.Length > 0)
+                {
+                    for(int j = 0; j < skipped.Length; j++)
+                    {
+                        int parent = GetParent(blocks[skipped[j]]); //get the parent which is i in [i,j]
+                        adj[parent, skipped[j]]++; //increment
+                    }
+                }
+            }
+
+
             #region debugging adj matrix
             FileManager.ClearDebug();
             for (int i = 0; i < adj.GetLength(0); i++)
                 for (int j = 0; j < adj.GetLength(1); j++)
-                    if (adj[i, j] == 1)
-                        FileManager.WriteDebug("Block[" + i + "] -> Block[" + j + "] :: " + adj[i, j]);
+                    if (adj[i, j] >= 1)
+                        FileManager.WriteDebug("iBlock[" + i + "] -> jBlock[" + j + "] :: Indentation of child jBlock: " + (adj[i,j] - 1));
             #endregion
+        }
+
+        /// <summary>
+        /// Returns block indices which the jump has skipped over. Can return an empty array.
+        /// </summary>
+        /// <param name="j"></param>
+        /// <returns></returns>
+        private int[] JumpSkipsOver(Jump j)
+        {
+            List<int> result = new List<int>();
+
+            int origin = FindBlockNameByJIndex(j); //origin block
+            int targeted = j.TargetedBlock.GetNameIndex();
+
+            while (++origin < targeted)
+                result.Add(origin);
+
+            return result.ToArray();
         }
 
         /// <summary>
@@ -48,23 +83,26 @@ namespace Luajit_Decompiler.dec.gir
         /// </summary>
         /// <param name="b"></param>
         /// <returns></returns>
-        public List<int> GetChildren(Block b)
+        public int[] GetChildren(Block b)
         {
             List<int> result = new List<int>();
             for (int i = 0; i < adj.GetLength(1); i++)
                 if (adj[b.GetNameIndex(), i] == 1)
                     result.Add(i);
-            return result;
+            return result.ToArray();
         }
 
         /// <summary>
-        /// Returns the index of the parent of a given block.
+        /// Returns the index of the parent of a given block. -1 if not found.
         /// </summary>
         /// <param name="b"></param>
         /// <returns></returns>
         public int GetParent(Block b)
         {
-            throw new NotImplementedException();
+            for (int i = 0; i < adj.GetLength(0); i++)
+                if (adj[i, b.GetNameIndex()] >= 1)
+                    return i;
+            return -1;
         }
 
         /// <summary>

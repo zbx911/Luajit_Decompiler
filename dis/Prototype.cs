@@ -4,6 +4,9 @@ using Luajit_Decompiler.dis.consts;
 
 namespace Luajit_Decompiler.dis
 {
+    /// <summary>
+    /// TODO: Make CUInt base constant and fix ReadKGC's uint64 read.
+    /// </summary>
     class Prototype
     {
         private readonly byte[] bytes; //remaining bytes of the bytecode. The file header must be stripped from this list. Assumes next 7 bytes are for the prototype header.
@@ -242,18 +245,18 @@ namespace Luajit_Decompiler.dis
     /// </summary>
     class UpValue
     {
-        public int Value1 { get; set; }
-        public int Value2 { get; set; }
+        public int tableIndex { get; set; } //which index of the table to look at.
+        public int tableLocation { get; set; } //which table to look at. If it is 192, look at the global constants table at tableIndex. 0 means look at the upvalues table at index in the prototype's parent.
 
         public UpValue(int v1, int v2)
         {
-            Value1 = v1;
-            Value2 = v2;
+            tableIndex = v1;
+            tableLocation = v2;
         }
 
         public override string ToString()
         {
-            return "Upvalue{ " + Value1 + ", " + Value2 + " };";
+            return "Upvalue{ " + tableIndex + ", " + tableLocation + " };";
         }
     }
 }
