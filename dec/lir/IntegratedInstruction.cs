@@ -5,7 +5,7 @@ namespace Luajit_Decompiler.dec.lir
 {
     class IntegratedInstruction
     {
-        public IRIMap.IRMap iROp;
+        public IRMap iROp;
         public OpCodes originalOp;
         public Registers registers;
         public int originalIndex;
@@ -19,7 +19,7 @@ namespace Luajit_Decompiler.dec.lir
         /// <param name="regA"></param>
         /// <param name="regB"></param>
         /// <param name="regC"></param>
-        public IntegratedInstruction(IRIMap.IRMap iROp, OpCodes originalOp, int indexOfOp, byte regA, byte regB, byte regC)
+        public IntegratedInstruction(IRMap iROp, OpCodes originalOp, int indexOfOp, byte regA, byte regB, byte regC)
         {
             this.iROp = iROp;
             this.originalOp = originalOp;

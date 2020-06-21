@@ -36,9 +36,9 @@ namespace Luajit_Decompiler.dec.data
             {
                 BytecodeInstruction bci = pt.bytecodeInstructions[i];
                 IntegratedInstruction ii = new IntegratedInstruction(map.Translate(bci.opcode), bci.opcode, bci.index, bci.regA, bci.regB, bci.regC);
-                if (ii.iROp == IRIMap.IRMap.Goto) //goto = jump
+                if (ii.iROp == IRMap.Goto) //goto = jump
                     hasJmp = true;
-                if (ii.iROp == IRIMap.IRMap.Eval)
+                if (ii.iROp == IRMap.Eval)
                     hasCondi = true;
                 iis.Add(ii);
             }

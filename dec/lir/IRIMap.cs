@@ -3,51 +3,51 @@ using Luajit_Decompiler.dis;
 
 namespace Luajit_Decompiler.dec.lir
 {
+    /*
+ * Plan for Linear/Graphical IR
+ * BCI in Blocks -> LIR1 (This class)
+ * LIR1 -> LIR2 (applying simple rules to IR1 to group and simplify farther)
+ * LIR2 -> GIR1 (Creating a graph to recreate flow of control)
+ * GIR1 -> GIR2 (same as LIR1 -> LIR2, simplify farther if possible)
+ * GIR2 -> Target Source Code
+ */
+    public enum IRMap
+    {
+        Eval, //evaluate a conditional expression.
+        Binop, //binary operations including: & | >> << etc.
+        Add, //+
+        Sub, //-
+        Div, // /
+        Mult, // *
+        Mod, // %
+        Unary, //move, not, unary minus, length
+        Const, //used to set constants.
+        SetUV, //Set upvalue.
+        GetUV, //Get upvalue
+        NewFunc, //new function
+        UVClose, //close upvalues
+        TGet, //get for tables
+        TSet, //set for tables
+        NewTable, //new table
+        CopyTable, //copy a table
+        Call, //for function calls and their respective tail calls
+        Iterate, //for iteration loop function calls. [pairs(), next()]
+        VarArg, //helps with variable arguments in iterate
+        IsNext, //helps with iteration loop
+        Return, //all return statements w/ or w/o return value(s)
+        Goto, //jump statements
+        Loop, //generic while loop
+        FLoop, //numeric for loop
+        Func, //For all lua functions excluding new function closure.
+        CHeadFunc, //for all psuedo header for C functions/wrapped C functions/etc.
+        GTSet, //set to the global table
+        GTGet, //get from the global table.
+
+        EndOfIIStream //A flag instruction for when the decompiler runs out of instructions to interpret.
+    }
+
     class IRIMap //Intermediate Representation Instruction Mapping
     {
-        /*
-         * Plan for Linear/Graphical IR
-         * BCI in Blocks -> LIR1 (This class)
-         * LIR1 -> LIR2 (applying simple rules to IR1 to group and simplify farther)
-         * LIR2 -> GIR1 (Creating a graph to recreate flow of control)
-         * GIR1 -> GIR2 (same as LIR1 -> LIR2, simplify farther if possible)
-         * GIR2 -> Target Source Code
-         */
-        public enum IRMap
-        {
-            Eval, //evaluate a conditional expression.
-            Binop, //binary operations including: & | >> << etc.
-            Add, //+
-            Sub, //-
-            Div, // /
-            Mult, // *
-            Mod, // %
-            Unary, //move, not, unary minus, length
-            Const, //used to set constants.
-            SetUV, //Set upvalue.
-            GetUV, //Get upvalue
-            NewFunc, //new function
-            UVClose, //close upvalues
-            TGet, //get for tables
-            TSet, //set for tables
-            NewTable, //new table
-            CopyTable, //copy a table
-            Call, //for function calls and their respective tail calls
-            Iterate, //for iteration loop function calls. [pairs(), next()]
-            VarArg, //helps with variable arguments in iterate
-            IsNext, //helps with iteration loop
-            Return, //all return statements w/ or w/o return value(s)
-            Goto, //jump statements
-            Loop, //generic while loop
-            FLoop, //numeric for loop
-            Func, //For all lua functions excluding new function closure.
-            CHeadFunc, //for all psuedo header for C functions/wrapped C functions/etc.
-            GTSet, //set to the global table
-            GTGet, //get from the global table.
-            Move, //Set A to D.
-            Length //Set A to the length of object D.
-        }
-
         public IRMap Translate(OpCodes op)
         {
             switch (op)
@@ -106,6 +106,8 @@ namespace Luajit_Decompiler.dec.lir
 
                 case OpCodes.NOT: //set A to !D
                 case OpCodes.UNM: //set A to -D
+                case OpCodes.LEN: //set A to D
+                case OpCodes.MOV: //set A to #D (Obj Length)
                     return IRMap.Unary;
 
                 //Sets slot A to D.
@@ -185,14 +187,14 @@ namespace Luajit_Decompiler.dec.lir
                 #region 1:1 Translations
 
                 //sets A to (upvalue D).
-                case OpCodes.UGET:
-                    return IRMap.GetUV;
+                case OpCodes.UGET: 
+                    return IRMap.GetUV; //done
 
                 case OpCodes.FNEW:
                     return IRMap.NewFunc;
 
-                case OpCodes.UCLO:
-                    return IRMap.UVClose;
+                case OpCodes.UCLO: //apparently has a jump target...probably around the FNEW statement?
+                    return IRMap.UVClose; 
 
                 case OpCodes.TNEW:
                     return IRMap.NewTable;
@@ -207,20 +209,14 @@ namespace Luajit_Decompiler.dec.lir
                     return IRMap.IsNext;
 
                 case OpCodes.JMP:
-                    return IRMap.Goto;
+                    return IRMap.Goto; //done
 
                 //GGET and GSET are named 'global' get and set, but actually index the current function environment getfenv(1) (which is usually the same as _G).
                 case OpCodes.GGET: //A = _G[D]
-                    return IRMap.GTGet;
+                    return IRMap.GTGet; //done
 
                 case OpCodes.GSET: //_G[D] = A
-                    return IRMap.GTSet;
-
-                case OpCodes.MOV:
-                    return IRMap.Move;
-
-                case OpCodes.LEN:
-                    return IRMap.Length;
+                    return IRMap.GTSet; //done
 
                 #endregion
                 default:

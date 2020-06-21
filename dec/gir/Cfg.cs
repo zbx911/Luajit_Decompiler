@@ -36,7 +36,7 @@ namespace Luajit_Decompiler.dec.gir
             }
 
             //increment each skipped over block in the adj matrix.
-            //TODO: Might want to consider trying to make this more efficient. It is a little slow with the number of nested loops. (3).
+            //TODO: Might want to consider trying to make this more efficient. It is a little slow with the number of nested loops. (3) -> O(N^3)?
             for(int i = 1; i < jumps.Count; i++) //skip the first jump which is -1
             {
                 int[] skipped = JumpSkipsOver(jumps[i]);

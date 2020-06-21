@@ -36,6 +36,9 @@ namespace Luajit_Decompiler.dec
 
             //TODO: Iterate over each block minding the CFG and attempt to generate lua source.
             TLuaState tls = new TLuaState(ref pt, ref cfg, ref blocks);
+
+            //begin decompilation state machine.
+            new BeginState(tls);
         }
 
         /// <summary>

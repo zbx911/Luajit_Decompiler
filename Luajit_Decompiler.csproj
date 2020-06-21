@@ -53,8 +53,12 @@
     <Compile Include="dec\data\Expression.cs" />
     <Compile Include="dec\data\Jump.cs" />
     <Compile Include="dec\tluastates\BaseState.cs" />
-    <Compile Include="dec\tluastates\InitializeState.cs" />
+    <Compile Include="dec\tluastates\BeginState.cs" />
+    <Compile Include="dec\tluastates\GetUVState.cs" />
+    <Compile Include="dec\tluastates\GTGetState.cs" />
+    <Compile Include="dec\tluastates\GTSetState.cs" />
     <Compile Include="dec\tluastates\TLuaState.cs" />
+    <Compile Include="dec\tluastates\UnaryState.cs" />
     <Compile Include="dis\BytecodeInstruction.cs" />
     <Compile Include="dis\consts\BaseConstant.cs" />
     <Compile Include="dis\consts\CBool.cs" />
