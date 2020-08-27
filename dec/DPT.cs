@@ -4,6 +4,7 @@ using Luajit_Decompiler.dis;
 using Luajit_Decompiler.dec.data;
 using Luajit_Decompiler.dec.gir;
 using Luajit_Decompiler.dec.tluastates;
+using System.Text;
 
 namespace Luajit_Decompiler.dec
 {
@@ -13,6 +14,7 @@ namespace Luajit_Decompiler.dec
         private readonly List<BytecodeInstruction> ptBcis;
         private List<Jump> jumps;
         private List<Block> blocks;
+        private StringBuilder ptDecomp; //Prototype decompilation buffer. TODO: have the class return this.
 
         public DPT(Prototype pt)
         {
@@ -20,13 +22,13 @@ namespace Luajit_Decompiler.dec
             ptBcis = pt.bytecodeInstructions;
             jumps = new List<Jump>();
             blocks = new List<Block>();
-            CreateIR();
+            BeginDecompile();
         }
 
         /// <summary>
         /// Correctly orders certain method calls from 1 method call.
         /// </summary>
-        private void CreateIR()
+        private void BeginDecompile()
         {
             //Chop a prototype into managable blocks based on jumps.
             BlockPrototype();
@@ -34,8 +36,10 @@ namespace Luajit_Decompiler.dec
             //create control flow graph using adjacency matrix
             Cfg cfg = new Cfg(ref jumps, ref blocks);
 
+            ptDecomp = new StringBuilder();
+
             //TODO: Iterate over each block minding the CFG and attempt to generate lua source.
-            TLuaState tls = new TLuaState(ref pt, ref cfg, ref blocks);
+            TLuaState tls = new TLuaState(ref pt, ref cfg, ref blocks, ref ptDecomp);
 
             //begin decompilation state machine.
             new BeginState(tls);

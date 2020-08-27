@@ -24,12 +24,12 @@ namespace Luajit_Decompiler.dec.tluastates
                 case IRMap.Unary:
                     new UnaryState(state);
                     break;
+                #region Skip over these instructions
                 case IRMap.Goto: //we do not worry about jumps anymore since Cfg has the control flow recorded.
-                    new BeginState(state);
-                    break;
                 default:
                     new BeginState(state); //skip over...
                     break;
+                #endregion
             }
         }
 

@@ -1,4 +1,6 @@
-﻿namespace Luajit_Decompiler.dec.tluastates
+﻿using Luajit_Decompiler.dis;
+
+namespace Luajit_Decompiler.dec.tluastates
 {
     class UnaryState : BaseState
     {
@@ -21,9 +23,43 @@
 
         //TODO: IMPLEMENT METHOD
         //More slot operations...these probably have lua translations associated with them...
-        public override void WriteLua(TLuaState state)
+        public override void WriteLua(TLuaState state) //write the code first then handle the back end in the constructor...
         {
-            throw new System.NotImplementedException();
+            switch (state.curII.originalOp)
+            {
+                case dis.OpCodes.MOV:
+                    HandleMov(state);
+                    break;
+                case dis.OpCodes.NOT:
+                    HandleNot(state);
+                    break;
+                case dis.OpCodes.UNM:
+                    HandleUnaryMinus(state);
+                    break;
+                case dis.OpCodes.LEN:
+                    HandleLength(state);
+                    break;
+            }
+        }
+
+        private void HandleMov(TLuaState state)
+        {
+            
+        }
+
+        private void HandleNot(TLuaState state)
+        {
+
+        }
+
+        private void HandleUnaryMinus(TLuaState state)
+        {
+
+        }
+
+        private void HandleLength(TLuaState state)
+        {
+
         }
     }
 }

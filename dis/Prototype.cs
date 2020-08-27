@@ -30,6 +30,7 @@ namespace Luajit_Decompiler.dis
         public List<BytecodeInstruction> bytecodeInstructions; //bytecode asm instructions. { OP, A (BC or D) }
         public List<UpValue> upvalues;
         public List<BaseConstant> constantsSection; //entire constants section byte values (excluding upvalues). Order is important as constants operate by index in the bc instruction registers.
+        public List<string> variableNames; //contains variable names for the prototype assuming that debug information is NOT stripped.
         public List<Prototype> prototypeChildren; //references to child prototypes.
         public Prototype parent; //each child will only have 1 parent. or is the root.
         public int index; //naming purposes.
@@ -124,15 +125,49 @@ namespace Luajit_Decompiler.dis
             }
             if(debugSize > 0)
             {
-                //for now, skip over the debug section.
-                Disassembler.ConsumeBytes(bytes, ref offset, debugSize);
+                byte[] debugSection = Disassembler.ConsumeBytes(bytes, ref offset, debugSize);
+                PackVariableNames(debugSection);
             }
-            #region constants debugging
-            //foreach (UpValue v in upvalues)
-            //    Console.Out.WriteLine(v);
-            //foreach (BaseConstant b in constantsSection)
-            //    Console.Out.WriteLine(b);
-            #endregion
+        }
+
+        private void PackVariableNames(byte[] debugSection)
+        {
+            //Format:
+            //Line number section which probably map to slots. Duplicates are sometimes present...just skip through until we hit numLines and begin searching for the var names.
+            //Var names: ASCII characters terminated with 0x00. 2 bytes of unidentified data after each variable name.
+
+            variableNames = new List<string>();
+
+            //Skip to variable names.
+            int nameOffset = 0;
+            for(int i = 0; i < debugSection.Length; i++)
+            {
+                if(debugSection[i] == numLines) //could be duplicated line number due to what I think is a LJ optimization for certain in-lines so we check next as well.
+                {
+                    if (debugSection[i + 1] == numLines)
+                        i++;
+                    nameOffset = i + 1; //should be on top of the first ASCII char of a var name.
+                    break;
+                }
+            }
+            if (nameOffset == 0) throw new System.Exception("Prototype:PackVariableNames::nameOffset is zero.");
+
+            //begin collection of variable names.
+            StringBuilder name = new StringBuilder();
+            while(nameOffset < debugSection.Length)
+            {
+                if(debugSection[nameOffset] == 0)
+                {
+                    variableNames.Add(name.ToString());
+                    name = new StringBuilder();
+                    nameOffset += 3; //skip over terminator + 2 bytes of unknown data.
+                }
+                if (nameOffset < debugSection.Length)
+                {
+                    name.Append((char)debugSection[nameOffset]);
+                    nameOffset++;
+                }
+            }
         }
 
         private void ReadKGC(byte[] bytes, ref int offset)

@@ -6,6 +6,7 @@ namespace Luajit_Decompiler.dec.tluastates
     {
         protected Registers regs; //registers from the current integrated instruction.
 
+        //Child constructors act as sort of the things to do in the background AFTER the lua has been written such as setting slots.
         public BaseState(TLuaState state)
         {
             regs = state.curII.registers;

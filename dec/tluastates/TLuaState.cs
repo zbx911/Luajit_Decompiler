@@ -4,6 +4,7 @@ using Luajit_Decompiler.dis;
 using System.Collections.Generic;
 using Luajit_Decompiler.dis.consts;
 using Luajit_Decompiler.dec.lir;
+using System.Text;
 
 namespace Luajit_Decompiler.dec.tluastates
 {
@@ -17,6 +18,17 @@ namespace Luajit_Decompiler.dec.tluastates
         loop
     }
 
+    #region To-Do
+    //1: Modify my prototype structure to recover the debug info. Mainly to recover variable names for now.Hopefully we can map them properly afterwards.
+    //  numlines - (last byte of lineinfo) = index in source code line # array.
+    //  Slot index might map to variable name array index provided we recover var names in the order in which they were declared.
+    //2: Modify my state machine info to handle more slots. Slots can go much higher than 0-2.
+    //3: Make a new IR map to further condense certain operations.
+    //  For example, Constant ops + Unary ops may result in a single line that just fetches the length of the constant op and stores it in 1 line instead of 2 lines of lua source.
+    //4: Implement Unary operations utilizing the new map.
+    //5: Double check that the GTGet states do not actually require any lua to be written.
+    #endregion
+
     class TLuaState
     {
         public readonly Prototype pt; //reference to the prototype we are working with
@@ -25,16 +37,16 @@ namespace Luajit_Decompiler.dec.tluastates
         public readonly BaseConstant[] _G; //reference to the prototype's global constants table.   
         public readonly BaseConstant[] _U; //value of upvalues in each prototype.
 
-
         public int indent; //current nest level. aka the # of tab indentations. Fetch this from the control flow graph.
         public BaseConstant[] slots = new BaseConstant[3]; //0, 1, 2 are the slots in luajit. They act sort of like registers as temporary memory locations for an operation to use.
         public IntegratedInstruction curII; //Current integrated instruction we are working with.
         public Dictionary<string, BaseConstant> variables; //keeping track of variables as we discover them.
+        public StringBuilder ptDecomp; //buffer for the states to write to.
 
         private Block curBlock; //current block we are looking at
         private int bIndex; //current instruction index relative to the block's IIs.
 
-        public TLuaState(ref Prototype pt, ref Cfg cfg, ref List<Block> blocks)
+        public TLuaState(ref Prototype pt, ref Cfg cfg, ref List<Block> blocks, ref StringBuilder ptDecomp)
         {
             this.pt = pt;
             this.cfg = cfg;
