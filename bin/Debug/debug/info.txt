@@ -1,48 +1,6 @@
 
-Bci total: 39 From Index: 0-38
-Jump Index: -1 -> Block[0]
+--KSHORT. We assume local variable here for now.
+local x = 1
 
-
-------------------------------
-
-
-Block[0]
-0: II{ Op: Const, OriOp: KSHORT, A: 0, C: 1, B: 0, D: 1 };
-1: II{ Op: Unary, OriOp: MOV, A: 1, C: 0, B: 0, D: 0 };
-2: II{ Op: Const, OriOp: KPRI, A: 2, C: 2, B: 0, D: 2 };
-3: II{ Op: Unary, OriOp: NOT, A: 3, C: 2, B: 0, D: 2 };
-4: II{ Op: Const, OriOp: KSHORT, A: 4, C: 1, B: 0, D: 1 };
-5: II{ Op: Unary, OriOp: UNM, A: 5, C: 4, B: 0, D: 4 };
-6: II{ Op: Mult, OriOp: MULVN, A: 6, C: 0, B: 4, D: 1024 };
-7: II{ Op: Const, OriOp: KSTR, A: 7, C: 0, B: 0, D: 0 };
-8: II{ Op: Unary, OriOp: LEN, A: 7, C: 7, B: 0, D: 7 };
-9: II{ Op: Const, OriOp: KSTR, A: 8, C: 1, B: 0, D: 1 };
-10: II{ Op: Const, OriOp: KSTR, A: 9, C: 2, B: 0, D: 2 };
-11: II{ Op: Unary, OriOp: LEN, A: 9, C: 9, B: 0, D: 9 };
-12: II{ Op: Const, OriOp: KSTR, A: 10, C: 2, B: 0, D: 2 };
-13: II{ Op: Unary, OriOp: LEN, A: 10, C: 10, B: 0, D: 10 };
-14: II{ Op: Const, OriOp: KSTR, A: 11, C: 2, B: 0, D: 2 };
-15: II{ Op: Unary, OriOp: LEN, A: 11, C: 11, B: 0, D: 11 };
-16: II{ Op: Const, OriOp: KSTR, A: 12, C: 2, B: 0, D: 2 };
-17: II{ Op: Unary, OriOp: LEN, A: 12, C: 12, B: 0, D: 12 };
-18: II{ Op: Const, OriOp: KSTR, A: 13, C: 2, B: 0, D: 2 };
-19: II{ Op: Unary, OriOp: LEN, A: 13, C: 13, B: 0, D: 13 };
-20: II{ Op: Const, OriOp: KSTR, A: 14, C: 2, B: 0, D: 2 };
-21: II{ Op: Unary, OriOp: LEN, A: 14, C: 14, B: 0, D: 14 };
-22: II{ Op: Const, OriOp: KSTR, A: 15, C: 2, B: 0, D: 2 };
-23: II{ Op: Unary, OriOp: LEN, A: 15, C: 15, B: 0, D: 15 };
-24: II{ Op: Const, OriOp: KSTR, A: 16, C: 2, B: 0, D: 2 };
-25: II{ Op: Unary, OriOp: LEN, A: 16, C: 16, B: 0, D: 16 };
-26: II{ Op: Const, OriOp: KSTR, A: 17, C: 2, B: 0, D: 2 };
-27: II{ Op: Unary, OriOp: LEN, A: 17, C: 17, B: 0, D: 17 };
-28: II{ Op: Const, OriOp: KSTR, A: 18, C: 2, B: 0, D: 2 };
-29: II{ Op: Unary, OriOp: LEN, A: 18, C: 18, B: 0, D: 18 };
-30: II{ Op: Const, OriOp: KSTR, A: 19, C: 2, B: 0, D: 2 };
-31: II{ Op: Unary, OriOp: LEN, A: 19, C: 19, B: 0, D: 19 };
-32: II{ Op: Const, OriOp: KSTR, A: 20, C: 2, B: 0, D: 2 };
-33: II{ Op: Unary, OriOp: LEN, A: 20, C: 20, B: 0, D: 20 };
-34: II{ Op: Const, OriOp: KSTR, A: 21, C: 2, B: 0, D: 2 };
-35: II{ Op: Unary, OriOp: LEN, A: 21, C: 21, B: 0, D: 21 };
-36: II{ Op: Const, OriOp: KSHORT, A: 22, C: 13, B: 0, D: 13 };
-37: II{ Op: Const, OriOp: KSHORT, A: 23, C: 14, B: 0, D: 14 };
-38: II{ Op: Return, OriOp: RET0, A: 0, C: 1, B: 0, D: 1 };
+--MOV
+local y = x

@@ -7,8 +7,17 @@ namespace Luajit_Decompiler.dec.tluastates
     /// </summary>
     class BeginState : BaseState
     {
-        public BeginState(TLuaState state) : base(state)
+        public BeginState(TLuaState state) : base(state) { }
+
+        //We do not write any lua in this state.
+        public override void WriteLua(TLuaState state)
         {
+            return;
+        }
+
+        public override void Operation(TLuaState state)
+        {
+            backToBeginState = false;
             state.NextII();
             switch (state.curII.iROp)
             {
@@ -24,18 +33,16 @@ namespace Luajit_Decompiler.dec.tluastates
                 case IRMap.Unary:
                     new UnaryState(state);
                     break;
+                case IRMap.Const:
+                    new ConstState(state);
+                    break;
                 #region Skip over these instructions
                 case IRMap.Goto: //we do not worry about jumps anymore since Cfg has the control flow recorded.
                 default:
                     new BeginState(state); //skip over...
                     break;
-                #endregion
+                    #endregion
             }
-        }
-
-        //We do not write any lua in this state.
-        public override void WriteLua(TLuaState state)
-        {
             return;
         }
     }

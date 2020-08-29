@@ -14,7 +14,7 @@ namespace Luajit_Decompiler.dec
         private readonly List<BytecodeInstruction> ptBcis;
         private List<Jump> jumps;
         private List<Block> blocks;
-        private StringBuilder ptDecomp; //Prototype decompilation buffer. TODO: have the class return this.
+        private List<string> decompLines; //Prototype decompilation buffer.
 
         public DPT(Prototype pt)
         {
@@ -36,10 +36,10 @@ namespace Luajit_Decompiler.dec
             //create control flow graph using adjacency matrix
             Cfg cfg = new Cfg(ref jumps, ref blocks);
 
-            ptDecomp = new StringBuilder();
+            decompLines = new List<string>();
 
             //TODO: Iterate over each block minding the CFG and attempt to generate lua source.
-            TLuaState tls = new TLuaState(ref pt, ref cfg, ref blocks, ref ptDecomp);
+            TLuaState tls = new TLuaState(ref pt, ref cfg, ref blocks, ref decompLines);
 
             //begin decompilation state machine.
             new BeginState(tls);

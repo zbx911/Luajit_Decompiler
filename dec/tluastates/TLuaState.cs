@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using Luajit_Decompiler.dis.consts;
 using Luajit_Decompiler.dec.lir;
 using System.Text;
+using static Luajit_Decompiler.dec.lir.IntegratedInstruction;
+using System;
 
 namespace Luajit_Decompiler.dec.tluastates
 {
@@ -38,15 +40,17 @@ namespace Luajit_Decompiler.dec.tluastates
         public readonly BaseConstant[] _U; //value of upvalues in each prototype.
 
         public int indent; //current nest level. aka the # of tab indentations. Fetch this from the control flow graph.
-        public BaseConstant[] slots = new BaseConstant[3]; //0, 1, 2 are the slots in luajit. They act sort of like registers as temporary memory locations for an operation to use.
+        public List<BaseConstant> slots = new List<BaseConstant>(); //Slots act sort of like registers as temporary memory locations for an operation to use.
         public IntegratedInstruction curII; //Current integrated instruction we are working with.
-        public Dictionary<string, BaseConstant> variables; //keeping track of variables as we discover them.
-        public StringBuilder ptDecomp; //buffer for the states to write to.
+        public List<string> varNames; //names of variables from the prototype.
+        public List<string> decompLines; //buffer for the states to write to. Per prototype. Each index represents an individual line in the decomp. Allows for in-lining some things.
+        public Registers regs; //registers for the state to look at and use.
 
         private Block curBlock; //current block we are looking at
         private int bIndex; //current instruction index relative to the block's IIs.
+        private int varCount;
 
-        public TLuaState(ref Prototype pt, ref Cfg cfg, ref List<Block> blocks, ref StringBuilder ptDecomp)
+        public TLuaState(ref Prototype pt, ref Cfg cfg, ref List<Block> blocks, ref List<string> decompLines)
         {
             this.pt = pt;
             this.cfg = cfg;
@@ -55,9 +59,12 @@ namespace Luajit_Decompiler.dec.tluastates
             _U = GetUpvalues().ToArray();
             curBlock = blocks[0];
             bIndex = -1; //we start here due to NextII.
-            variables = new Dictionary<string, BaseConstant>();
-            NextII();
-    }
+            this.decompLines = decompLines; //*hopefully* stores it by reference.
+            varNames = pt.variableNames; //may be an empty list.
+            varCount = 0;
+            indent = 0;
+            //NextII();
+        }
 
         /// <summary>
         /// Advances the current integrated instruction to the next. EndOfIIStream is the IROP flag for end of instructions for this prototype.
@@ -80,6 +87,49 @@ namespace Luajit_Decompiler.dec.tluastates
                 }
             }
             curII = curBlock.iis[bIndex];
+            regs = curII.registers;
+        }
+
+        /// <summary>
+        /// Adds a slot to the LJ slot tracker.
+        /// Returns True when a slot was successfully added in the correct place.
+        /// Returns False when a slot was added, but in an incorrect location.
+        /// </summary>
+        /// <param name="value"></param>
+        /// <returns></returns>
+        public bool AddSlot(BaseConstant value)
+        {
+            slots.Add(value);
+            if (value.GetValue() != slots[regs.regA].GetValue())
+                return false;
+            else return true;
+        }
+
+        /// <summary>
+        /// Returns an incrementing variable for nameless variables. (Or when debug info is stripped).
+        /// </summary>
+        /// <returns></returns>
+        private string GenerateVarName()
+        {
+            string result = "var" + varCount;
+            varCount++;
+            return result;
+        }
+
+        /// <summary>
+        /// Gets variable name based on given register as index. If none exist at the register, then we insert a name at that slot.
+        /// </summary>
+        /// <returns></returns>
+        public string GetVariableName(int reg)
+        {
+            if (reg < varNames.Count) //return it if possible.
+                return varNames[reg]; //I think it is mapped by index...
+
+            //No variable in given slot. Create a slot for it with that variable name.
+            string name = GenerateVarName();
+            slots.Add(new BaseConstant()); //give it a blank constant for now...
+            varNames.Insert(reg, name);
+            return name;
         }
 
         private List<BaseConstant> GetUpvalues()
@@ -94,9 +144,9 @@ namespace Luajit_Decompiler.dec.tluastates
         {
             //apparently the first bit of 192 determines if we look at the constants section table or not. 
             //the second bit of 192 means if it is mutable or not. 1 = immutable upvalue -- whatever that means in terms of upvalues...
-            if (uv.tableLocation == 192) 
-                return pt.parent.constantsSection[uv.tableIndex];
-            return RecursiveGetUpvalue(pt.parent, pt.parent.upvalues[uv.tableIndex]);
+            if (uv.TableLocation == 192) 
+                return pt.parent.constantsSection[uv.TableIndex];
+            return RecursiveGetUpvalue(pt.parent, pt.parent.upvalues[uv.TableIndex]);
         }
     }
 }

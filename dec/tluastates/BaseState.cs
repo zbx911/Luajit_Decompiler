@@ -4,14 +4,17 @@ namespace Luajit_Decompiler.dec.tluastates
 {
     abstract class BaseState
     {
-        protected Registers regs; //registers from the current integrated instruction.
+        protected bool backToBeginState = true; //whether or not child classes return to BeginState.
 
         //Child constructors act as sort of the things to do in the background AFTER the lua has been written such as setting slots.
         public BaseState(TLuaState state)
         {
-            regs = state.curII.registers;
             WriteLua(state);
+            Operation(state);
+            if (backToBeginState)
+                new BeginState(state);
         }
-        public abstract void WriteLua(TLuaState state); //THIS IS CALLED FIRST BEFORE ANY CHILD CONSTRUCTOR IS CALLED.
+        public abstract void WriteLua(TLuaState state); //write the necessary lua. Runs first.
+        public abstract void Operation(TLuaState state); //perform any slot operations. Runs last.
     }
 }

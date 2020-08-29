@@ -54,6 +54,7 @@
     <Compile Include="dec\data\Jump.cs" />
     <Compile Include="dec\tluastates\BaseState.cs" />
     <Compile Include="dec\tluastates\BeginState.cs" />
+    <Compile Include="dec\tluastates\ConstState.cs" />
     <Compile Include="dec\tluastates\GetUVState.cs" />
     <Compile Include="dec\tluastates\GTGetState.cs" />
     <Compile Include="dec\tluastates\GTSetState.cs" />
@@ -67,6 +68,7 @@
     <Compile Include="dis\consts\CInt.cs" />
     <Compile Include="dis\consts\CLuaNumber.cs" />
     <Compile Include="dis\consts\CNil.cs" />
+    <Compile Include="dis\consts\CShort.cs" />
     <Compile Include="dis\consts\CString.cs" />
     <Compile Include="dis\consts\CTable.cs" />
     <Compile Include="dis\Disassembler.cs" />

@@ -7,16 +7,17 @@
     /// </summary>
     class GTSetState : BaseState
     {
-        public GTSetState(TLuaState state) : base(state)
-        {
-            state._G[regs.regD] = state.slots[regs.regA]; //_G[D] = A
-            new BeginState(state);
-        }
+        public GTSetState(TLuaState state) : base(state) { }
 
-        //only sets the slot. no lua writing needed.
+        //This state only sets the slot. There is a lua equivalent...it may be necessary.
         public override void WriteLua(TLuaState state)
         {
             return;
+        }
+
+        public override void Operation(TLuaState state)
+        {
+            state._G[state.regs.regD] = state.slots[state.regs.regA]; //_G[D] = A
         }
     }
 }

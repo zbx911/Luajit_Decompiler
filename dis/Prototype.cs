@@ -12,7 +12,7 @@ namespace Luajit_Decompiler.dis
         private readonly byte[] bytes; //remaining bytes of the bytecode. The file header must be stripped from this list. Assumes next 7 bytes are for the prototype header.
 
         //Prototype Header Info : These 7 bytes are also from luajit lj_bcwrite.
-        private readonly byte flags; //whether or not to strip debug info.
+        private readonly byte flags; //individual prototype flags. I think it also contains if it has debug info?
         private readonly byte numberOfParams; //number of params in the method
         private readonly byte frameSize; //# of prototypes - 1 inside the prototype?
         private readonly byte sizeUV; //# of upvalues
@@ -35,6 +35,9 @@ namespace Luajit_Decompiler.dis
         public Prototype parent; //each child will only have 1 parent. or is the root.
         public int index; //naming purposes.
 
+        public byte fileFlag; //If it has debug info or not.
+        public bool HasVarNames { get { return (fileFlag & 0x02) == 0; } } //whether or not the prototype has variable names.
+
         /// <summary>
         /// Stores all information related to a single prototype.
         /// </summary>
@@ -54,6 +57,8 @@ namespace Luajit_Decompiler.dis
             constantsSection = new List<BaseConstant>();
             prototypeChildren = new List<Prototype>();
             this.index = index;
+            this.fileFlag = fileFlag;
+            variableNames = new List<string>();
 
             //prototype header and instructions section
             flags = Disassembler.ConsumeByte(bytes, ref offset); //# of tables for instance?
@@ -135,8 +140,6 @@ namespace Luajit_Decompiler.dis
             //Format:
             //Line number section which probably map to slots. Duplicates are sometimes present...just skip through until we hit numLines and begin searching for the var names.
             //Var names: ASCII characters terminated with 0x00. 2 bytes of unidentified data after each variable name.
-
-            variableNames = new List<string>();
 
             //Skip to variable names.
             int nameOffset = 0;
@@ -280,18 +283,18 @@ namespace Luajit_Decompiler.dis
     /// </summary>
     class UpValue
     {
-        public int tableIndex { get; set; } //which index of the table to look at.
-        public int tableLocation { get; set; } //which table to look at. If it is 192, look at the global constants table at tableIndex. 0 means look at the upvalues table at index in the prototype's parent.
+        public int TableIndex { get; set; } //which index of the table to look at.
+        public int TableLocation { get; set; } //which table to look at. If it is 192, look at the global constants table at tableIndex. 0 means look at the upvalues table at index in the prototype's parent.
 
         public UpValue(int v1, int v2)
         {
-            tableIndex = v1;
-            tableLocation = v2;
+            TableIndex = v1;
+            TableLocation = v2;
         }
 
         public override string ToString()
         {
-            return "Upvalue{ " + tableIndex + ", " + tableLocation + " };";
+            return "Upvalue{ " + TableIndex + ", " + TableLocation + " };";
         }
     }
 }

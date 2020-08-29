@@ -5,16 +5,17 @@
     /// </summary>
     class GTGetState : BaseState
     {
-        public GTGetState(TLuaState state) : base(state)
-        {
-            state.slots[regs.regA] = state._G[regs.regD]; //slot A = _G[D]
-            new BeginState(state);
-        }
+        public GTGetState(TLuaState state) : base(state) { }
 
-        //This state only sets the slot. There is a lua equivalent, but it is unnecessary.
+        //This state only sets the slot. There is a lua equivalent...it may be necessary.
         public override void WriteLua(TLuaState state)
         {
             return;
+        }
+
+        public override void Operation(TLuaState state)
+        {
+            state.slots[state.regs.regA] = state._G[state.regs.regD]; //slot A = _G[D]
         }
     }
 }
