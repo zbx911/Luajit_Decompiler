@@ -10,12 +10,10 @@
         //This state only sets the slot. There is a lua equivalent...it may be necessary.
         public override void WriteLua(TLuaState state)
         {
-            return;
-        }
-
-        public override void Operation(TLuaState state)
-        {
+            #region op
             state.slots[state.regs.regA] = state._G[state.regs.regD]; //slot A = _G[D]
+            #endregion
+            return;
         }
     }
 }

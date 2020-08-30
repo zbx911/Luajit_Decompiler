@@ -34,38 +34,21 @@ namespace Luajit_Decompiler.dec.tluastates
             }
         }
 
-        public override void Operation(TLuaState state)
-        {
-            //handle slot changes. These are additions to slots.
-            switch (state.curII.originalOp)
-            {
-                case dis.OpCodes.KSHORT:
-                    CShort value = new CShort((short)state.regs.regD); //for KSHORT, the short is signed.
-                    if (!state.AddSlot(value))
-                        throw new Exception("KSHORT slot not added in correct location.");
-                    break;
-
-                case dis.OpCodes.KCDATA:
-                    break;
-                case dis.OpCodes.KSTR:
-                    break;
-                case dis.OpCodes.KNUM:
-                    break;
-                case dis.OpCodes.KPRI:
-                    break;
-                case dis.OpCodes.KNIL:
-                    break;
-            }
-        }
-
         //Set A to 16 bit signed integer D.
         private void HandleKShort(TLuaState state)
         {
+            #region write
             StringBuilder line = new StringBuilder();
             line.AppendLine("--KSHORT. We assume local variable here for now.");
             string dstName = state.GetVariableName(state.regs.regA);
             line.AppendLine("local " + dstName + " = " + state.regs.regD);
             state.decompLines.Add(line.ToString());
+            #endregion
+
+            #region op
+            CShort value = new CShort((short)state.regs.regD); //for KSHORT, the short is signed.
+            state.CheckAddSlot(value, state.regs.regA);
+            #endregion
 
             //debugging
             FileManager.WriteDebug(line.ToString());
@@ -86,9 +69,47 @@ namespace Luajit_Decompiler.dec.tluastates
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Sets register A to one of the following from register D: nil, true, false.
+        /// Note: A single nil value is set with KPRI. KNIL is only used when multiple values need to be set to nil.
+        /// Potential register D values:
+        ///     nil = 0
+        ///     false = 1
+        ///     true = 2
+        /// </summary>
+        /// <param name="state"></param>
         private void HandleKPri(TLuaState state)
         {
-            throw new NotImplementedException();
+            #region write
+            StringBuilder line = new StringBuilder();
+            line.AppendLine("--KPRI");
+            string dst = state.GetVariableName(state.regs.regA);
+            BaseConstant value;
+            string valueText;
+            if (state.regs.regD == 0)
+            {
+                value = new CNil();
+                valueText = "nil";
+            }
+            else
+            {
+                bool v = state.regs.regD == 1 ? false : true;
+                valueText = v.ToString().ToLower();
+                value = new CBool(v);
+            }
+            int check = state.CheckAddSlot(value, state.regs.regA);
+            if (check == 1)
+                line.Append("local ");
+            line.AppendLine(dst + " = " + valueText);
+            state.decompLines.Add(line.ToString());
+            #endregion
+
+            #region op
+            state.slots[state.regs.regA] = value; //set slot at A to value corresponding to regD.
+            #endregion
+
+            //debugging
+            FileManager.WriteDebug(line.ToString());
         }
 
         private void HandleKNil(TLuaState state)

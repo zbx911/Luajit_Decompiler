@@ -1,6 +1,21 @@
 
+--KPRI
+local derp = nil
+
 --KSHORT. We assume local variable here for now.
 local x = 1
 
 --MOV
 local y = x
+
+--KPRI
+local bool1 = true
+
+--KPRI
+local bool2 = false
+
+--KPRI
+bool1 = false
+
+--KPRI
+bool2 = true

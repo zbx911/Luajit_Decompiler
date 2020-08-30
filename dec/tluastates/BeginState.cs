@@ -4,18 +4,14 @@ namespace Luajit_Decompiler.dec.tluastates
 {
     /// <summary>
     /// The state that is returned to to check the integrated instruction (II) and point it to the correct state for writing lua source.
+    /// State controller.
     /// </summary>
     class BeginState : BaseState
     {
         public BeginState(TLuaState state) : base(state) { }
 
-        //We do not write any lua in this state.
+        //We do not write any lua in this state. We just manage the other states.
         public override void WriteLua(TLuaState state)
-        {
-            return;
-        }
-
-        public override void Operation(TLuaState state)
         {
             backToBeginState = false;
             state.NextII();
@@ -43,7 +39,6 @@ namespace Luajit_Decompiler.dec.tluastates
                     break;
                     #endregion
             }
-            return;
         }
     }
 }

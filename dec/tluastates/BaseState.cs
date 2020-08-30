@@ -10,11 +10,9 @@ namespace Luajit_Decompiler.dec.tluastates
         public BaseState(TLuaState state)
         {
             WriteLua(state);
-            Operation(state);
             if (backToBeginState)
                 new BeginState(state);
         }
         public abstract void WriteLua(TLuaState state); //write the necessary lua. Runs first.
-        public abstract void Operation(TLuaState state); //perform any slot operations. Runs last.
     }
 }

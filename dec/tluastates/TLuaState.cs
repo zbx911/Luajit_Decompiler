@@ -21,14 +21,9 @@ namespace Luajit_Decompiler.dec.tluastates
     }
 
     #region To-Do
-    //1: Modify my prototype structure to recover the debug info. Mainly to recover variable names for now.Hopefully we can map them properly afterwards.
-    //  numlines - (last byte of lineinfo) = index in source code line # array.
-    //  Slot index might map to variable name array index provided we recover var names in the order in which they were declared.
-    //2: Modify my state machine info to handle more slots. Slots can go much higher than 0-2.
-    //3: Make a new IR map to further condense certain operations.
-    //  For example, Constant ops + Unary ops may result in a single line that just fetches the length of the constant op and stores it in 1 line instead of 2 lines of lua source.
-    //4: Implement Unary operations utilizing the new map.
-    //5: Double check that the GTGet states do not actually require any lua to be written.
+    //Implement Unary operations and Const operations.
+    //Double check that the GTGet states do not actually require any lua to be written.
+    //Optional: We can probably track slots by keeping track of the A register to see if we need to create a new slot/variable or not.
     #endregion
 
     class TLuaState
@@ -49,6 +44,7 @@ namespace Luajit_Decompiler.dec.tluastates
         private Block curBlock; //current block we are looking at
         private int bIndex; //current instruction index relative to the block's IIs.
         private int varCount;
+        private int curSlot; //current slot we are working with.
 
         public TLuaState(ref Prototype pt, ref Cfg cfg, ref List<Block> blocks, ref List<string> decompLines)
         {
@@ -63,7 +59,7 @@ namespace Luajit_Decompiler.dec.tluastates
             varNames = pt.variableNames; //may be an empty list.
             varCount = 0;
             indent = 0;
-            //NextII();
+            curSlot = -1;
         }
 
         /// <summary>
@@ -91,18 +87,27 @@ namespace Luajit_Decompiler.dec.tluastates
         }
 
         /// <summary>
-        /// Adds a slot to the LJ slot tracker.
-        /// Returns True when a slot was successfully added in the correct place.
-        /// Returns False when a slot was added, but in an incorrect location.
+        /// Checks to see if a slot needs to be added for a variable.
+        /// Returns -- 1: Successfully added variable in correct slot. 0: Slot already exists. -1: Slot did not get added to correct location and value has been removed.
         /// </summary>
         /// <param name="value"></param>
+        /// <param name="slotIndex"></param>
         /// <returns></returns>
-        public bool AddSlot(BaseConstant value)
+        public int CheckAddSlot(BaseConstant value, int slotIndex)
         {
-            slots.Add(value);
-            if (value.GetValue() != slots[regs.regA].GetValue())
-                return false;
-            else return true;
+            if(slotIndex > curSlot)
+            {
+                slots.Add(value);
+                if (value.GetValue() != slots[regs.regA].GetValue())
+                {
+                    slots.Remove(value);
+                    return -1;
+                }
+                curSlot++;
+                return 1;
+            }
+            else
+                return 0;
         }
 
         /// <summary>
@@ -120,15 +125,15 @@ namespace Luajit_Decompiler.dec.tluastates
         /// Gets variable name based on given register as index. If none exist at the register, then we insert a name at that slot.
         /// </summary>
         /// <returns></returns>
-        public string GetVariableName(int reg)
+        public string GetVariableName(int slot)
         {
-            if (reg < varNames.Count) //return it if possible.
-                return varNames[reg]; //I think it is mapped by index...
+            if (slot < varNames.Count) //return it if possible.
+                return varNames[slot]; //I think it is mapped by index...
 
             //No variable in given slot. Create a slot for it with that variable name.
             string name = GenerateVarName();
             slots.Add(new BaseConstant()); //give it a blank constant for now...
-            varNames.Insert(reg, name);
+            varNames.Insert(slot, name);
             return name;
         }
 
