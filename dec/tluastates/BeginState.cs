@@ -1,4 +1,5 @@
 ﻿using Luajit_Decompiler.dec.lir;
+using Luajit_Decompiler.dec.tluastates.get;
 
 namespace Luajit_Decompiler.dec.tluastates
 {
@@ -17,6 +18,9 @@ namespace Luajit_Decompiler.dec.tluastates
             state.NextII();
             switch (state.curII.iROp)
             {
+                case IRMap.Concat:
+                    new ConcatState(state);
+                    break;
                 case IRMap.GTGet: //global table get.
                     new GTGetState(state);
                     break;
@@ -31,6 +35,20 @@ namespace Luajit_Decompiler.dec.tluastates
                     break;
                 case IRMap.Const:
                     new ConstState(state);
+                    break;
+                case IRMap.TGet:
+                    new TableGetState(state);
+                    break;
+                case IRMap.MathNV:
+                case IRMap.MathVN:
+                case IRMap.MathVV:
+                    new ArithmeticState(state);
+                    break;
+                case IRMap.EndOfIIStream:
+                    FileManager.ClearDebug();
+                    foreach (string line in state.decompLines)
+                        FileManager.WriteDebug(line);
+                    state = null;
                     break;
                 #region Skip over these instructions
                 case IRMap.Goto: //we do not worry about jumps anymore since Cfg has the control flow recorded.

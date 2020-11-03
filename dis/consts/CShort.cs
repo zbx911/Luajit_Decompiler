@@ -7,6 +7,8 @@
             this.value = value;
         }
 
+        public static CShort operator -(CShort v) => new CShort((short)-(short)v.GetValue());
+
         public override string ToString()
         {
             return "Short{ " + value + " };";

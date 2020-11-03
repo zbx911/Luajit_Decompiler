@@ -34,39 +34,54 @@ namespace Luajit_Decompiler.dec.tluastates
             }
         }
 
+        //TODO: Handle Unsigned shorts as well if necessary.
         //Set A to 16 bit signed integer D.
         private void HandleKShort(TLuaState state)
         {
-            #region write
-            StringBuilder line = new StringBuilder();
-            line.AppendLine("--KSHORT. We assume local variable here for now.");
-            string dstName = state.GetVariableName(state.regs.regA);
-            line.AppendLine("local " + dstName + " = " + state.regs.regD);
-            state.decompLines.Add(line.ToString());
-            #endregion
+            //slot operation: slot[A] = num_G[D]
+            state.slots[state.regs.regA] = new CShort((short)state.regs.regD);
 
-            #region op
-            CShort value = new CShort((short)state.regs.regD); //for KSHORT, the short is signed.
-            state.CheckAddSlot(value, state.regs.regA);
-            #endregion
+            //source
+            StringBuilder line = new StringBuilder();
+            var dst = state.CheckGetVarName(state.regs.regA);
+            state.CheckLocal(dst, ref line);
+            line.Append(dst.Item2 + " = " + state.regs.regD);
+            line.AppendLine(" --KSHORT");
+            state.decompLines.Add(line.ToString());
 
             //debugging
-            FileManager.WriteDebug(line.ToString());
+            //FileManager.WriteDebug(line.ToString());
         }
 
         private void HandleKCData(TLuaState state)
         {
-            throw new NotImplementedException();
+            state.UnimplementedOpcode(state.curII);
         }
 
+
+        //TODO: troublemaking function...try to figure out if we need to access from slot index or from global table.
+        //We also need to handle in-lining any LEN operators as well, but that is handled in LEN function.
         private void HandleKStr(TLuaState state)
         {
-            throw new NotImplementedException();
+            //slot operation: slot[A] = string_G[D]
+            state.slots[state.regs.regA] = state.string_G[state.regs.regD];
+
+            //source
+            StringBuilder line = new StringBuilder();
+            var dst = state.CheckGetVarName(state.regs.regA);
+            state.CheckLocal(dst, ref line);
+            line.Append(dst.Item2 + " = " + "\"" + state.string_G[state.regs.regD].GetValue() + "\"");
+            line.AppendLine(" --KSTR");
+            state.decompLines.Add(line.ToString());
+
+            //debugging
+            //FileManager.WriteDebug(line.ToString());
         }
 
         private void HandleKNum(TLuaState state)
         {
-            throw new NotImplementedException();
+            state.UnimplementedOpcode(state.curII);
+            //throw new NotImplementedException();
         }
 
         /// <summary>
@@ -80,41 +95,36 @@ namespace Luajit_Decompiler.dec.tluastates
         /// <param name="state"></param>
         private void HandleKPri(TLuaState state)
         {
-            #region write
-            StringBuilder line = new StringBuilder();
-            line.AppendLine("--KPRI");
-            string dst = state.GetVariableName(state.regs.regA);
-            BaseConstant value;
-            string valueText;
+            //slot operation: slot[A] = regD->(CBool, CNil)
             if (state.regs.regD == 0)
-            {
-                value = new CNil();
-                valueText = "nil";
-            }
+                state.slots[state.regs.regA] = new CNil();
             else
-            {
-                bool v = state.regs.regD == 1 ? false : true;
-                valueText = v.ToString().ToLower();
-                value = new CBool(v);
-            }
-            int check = state.CheckAddSlot(value, state.regs.regA);
-            if (check == 1)
-                line.Append("local ");
-            line.AppendLine(dst + " = " + valueText);
-            state.decompLines.Add(line.ToString());
-            #endregion
+                state.slots[state.regs.regA] = state.regs.regD == 1 ? new CBool(false) : new CBool(true);
 
-            #region op
-            state.slots[state.regs.regA] = value; //set slot at A to value corresponding to regD.
-            #endregion
+            //source
+            StringBuilder line = new StringBuilder();
+
+            var dst = state.CheckGetVarName(state.regs.regA);
+            string valueText;
+
+            if (state.regs.regD == 0)
+                valueText = "nil";
+            else
+                valueText = state.regs.regD == 1 ? "false" : "true";
+
+            state.CheckLocal(dst, ref line);
+                
+            line.Append(dst.Item2 + " = " + valueText);
+            line.AppendLine(" --KPRI");
+            state.decompLines.Add(line.ToString());
 
             //debugging
-            FileManager.WriteDebug(line.ToString());
+            //FileManager.WriteDebug(line.ToString());
         }
 
         private void HandleKNil(TLuaState state)
         {
-            throw new NotImplementedException();
+            state.UnimplementedOpcode(state.curII);
         }
     }
 }

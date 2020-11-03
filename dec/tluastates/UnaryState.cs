@@ -31,51 +31,100 @@ namespace Luajit_Decompiler.dec.tluastates
         //Copy D into A operation.
         private void HandleMov(TLuaState state)
         {
-            #region write
-            StringBuilder line = new StringBuilder();
-            string dst = state.GetVariableName(state.regs.regA);
-            string src = state.GetVariableName(state.regs.regD);
-            line.AppendLine("--MOV");
-
-            //if a slot needs to be created, create one and prepend local.
-            int check = state.CheckAddSlot(state.slots[state.regs.regD], state.regs.regA);
-            if (check == 1)
-                line.Append("local ");
-            else if (check == -1)
-                throw new Exception("UnaryState:HandleMov::Slot failed to add in correct location.");
-
-            line.AppendLine(dst + " = " + src);
-            #endregion
-
-            #region op
+            //slot operation:  slot[A] = slot[D]
             state.slots[state.regs.regA] = state.slots[state.regs.regD];
-            #endregion
-            //debugging
-            FileManager.WriteDebug(line.ToString());
 
-            //createSlot = state.regs.regA >= state.slots.Count; //D should already exist if we are moving it into A.
-            //if (createSlot) //we need to make a slot for it.
-            //{
-            //    if (!state.AddSlot(state.slots[state.regs.regD]))
-            //        throw new Exception("MOV slot not added in correct location.");
-            //    if(state.CheckAddSlot())
-            //    line.Append("local ");
-            //}
+            //source
+            StringBuilder line = new StringBuilder();
+            var dst = state.CheckGetVarName(state.regs.regA);
+            var src = state.CheckGetVarName(state.regs.regD);
+            state.CheckLocal(dst, ref line);
+            line.Append(dst.Item2 + " = " + src.Item2);
+            line.AppendLine(" --MOV");
+            state.decompLines.Add(line.ToString());
+
+            //debugging
+            //FileManager.WriteDebug(line.ToString());
         }
 
         private void HandleNot(TLuaState state)
         {
-            throw new NotImplementedException();
+            //slot operation: slot[A] = !slot[D]
+            if (state.slots[state.regs.regD].GetType() == typeof(CBool))
+                state.slots[state.regs.regA] = !(CBool)state.slots[state.regs.regD]; //bug here currently
+            else throw new Exception("NOT declared on non-boolean operand.");
+
+            //source
+            StringBuilder line = new StringBuilder();
+            var dst = state.CheckGetVarName(state.regs.regA);
+            var src = state.CheckGetVarName(state.regs.regD);
+            state.CheckLocal(dst, ref line);          
+            line.Append(dst.Item2 + " = not " + src.Item2);
+            line.AppendLine(" --NOT");
+            state.decompLines.Add(line.ToString());
+
+            //debugging
+            //FileManager.WriteDebug(line.ToString());
         }
 
         private void HandleUnaryMinus(TLuaState state)
         {
-            throw new NotImplementedException();
+            //slot operation: slot[A] = -slot[D] //TODO: Error checking
+            if (state.slots[state.regs.regD].GetType() == typeof(CInt))
+                state.slots[state.regs.regA] = -(CInt)state.slots[state.regs.regD];
+
+            else if (state.slots[state.regs.regD].GetType() == typeof(CShort))
+                state.slots[state.regs.regA] = -(CShort)state.slots[state.regs.regD];
+
+            else if (state.slots[state.regs.regD].GetType() == typeof(CLuaNumber))
+            {
+                //state.slots[state.regs.regA] = -(CLuaNumber)state.slots[state.regs.regD];
+                throw new NotImplementedException("UNM declared on a lua number. Currently unimplemented.");
+            }
+            else
+                throw new Exception("UNM declared on non-numeric data.");
+            
+            //source
+            StringBuilder line = new StringBuilder();
+            var dst = state.CheckGetVarName(state.regs.regA);
+            var src = state.CheckGetVarName(state.regs.regD);
+            state.CheckLocal(dst, ref line);
+            line.Append(dst.Item2 + " = -" + src.Item2);
+            line.AppendLine(" --UNM");
+            state.decompLines.Add(line.ToString());
+
+            //debugging
+            //FileManager.WriteDebug(line.ToString());
         }
 
+
+        //TODO: Handle if it is accessing a global OR a slot value.
+        //Handle non-inline length operations.
         private void HandleLength(TLuaState state)
         {
-            throw new NotImplementedException();
+            StringBuilder line = new StringBuilder();
+
+            //Length operator # is indicated by registers A and D being the same as the previous line's constant's A register.
+            //If these conditions are met, we inline a length operator and the constant.
+
+            var pReg = state.prevII.registers;
+            var dst = state.CheckGetVarName(state.regs.regA); //should be the same destiation as the last line...
+            if (pReg.regA == state.curII.registers.regA && state.curII.registers.regA == state.curII.registers.regD) //inline check
+            {
+                state.decompLines.RemoveAt(state.decompLines.Count - 1); //remove last entry.
+
+                line.Append("local " + dst.Item2 + " = " + "#" + state.slots[state.regs.regD].GetValue()); //might want to ensure that we are really working with a new variable declaration for length later...and we assume global constants table here too.
+
+                //debugging
+                //FileManager.WriteDebug(line.ToString());
+            }
+            else
+            {
+                state.CheckLocal(dst, ref line);        
+                line.Append(dst.Item2 + " = " + "#" + state.slots[state.regs.regD].GetValue());
+            }
+            line.AppendLine(" --LEN");
+            state.decompLines.Add(line.ToString());
         }
     }
 }

@@ -11,7 +11,7 @@
         public override void WriteLua(TLuaState state)
         {
             #region op
-            state.slots[state.regs.regA] = state._U[state.regs.regD];
+            //state.slots[state.regs.regA] = state._U[state.regs.regD];
             #endregion
             return;
         }

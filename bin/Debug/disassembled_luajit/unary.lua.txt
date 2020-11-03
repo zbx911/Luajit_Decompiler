@@ -1,7 +1,7 @@
 File Name: unary.lua
 
 Prototype: 0
-Prototype_Size: 434; Flags: 2; #_Params: 0; Frame_Size: 26; Upvalue_Size: 0; KGC_Size: 3; KN_Size: 1; Instruction_Count: 43;
+Prototype_Size: 382; Flags: 2; #_Params: 0; Frame_Size: 23; Upvalue_Size: 0; KGC_Size: 8; KN_Size: 2; Instruction_Count: 33;
 
 --Bytecode Instructions--
 (KPRI): A = 0, C = 0, B = 0;
@@ -15,37 +15,27 @@ Prototype_Size: 434; Flags: 2; #_Params: 0; Frame_Size: 26; Upvalue_Size: 0; KGC
 (KSHORT): A = 6, C = 1, B = 0;
 (UNM): A = 7, C = 6, B = 0;
 (MULVN): A = 8, C = 0, B = 6;
-(KSTR): A = 9, C = 0, B = 0;
-(LEN): A = 9, C = 9, B = 0;
-(KSTR): A = 10, C = 1, B = 0;
-(KSTR): A = 11, C = 2, B = 0;
+(KSHORT): A = 9, C = 4, B = 0;
+(KSHORT): A = 10, C = 10, B = 0;
+(KSTR): A = 11, C = 0, B = 0;
 (LEN): A = 11, C = 11, B = 0;
-(KSTR): A = 12, C = 2, B = 0;
-(LEN): A = 12, C = 12, B = 0;
+(KSTR): A = 12, C = 1, B = 0;
 (KSTR): A = 13, C = 2, B = 0;
 (LEN): A = 13, C = 13, B = 0;
-(KSTR): A = 14, C = 2, B = 0;
+(KSTR): A = 14, C = 3, B = 0;
 (LEN): A = 14, C = 14, B = 0;
-(KSTR): A = 15, C = 2, B = 0;
+(KSTR): A = 15, C = 4, B = 0;
 (LEN): A = 15, C = 15, B = 0;
-(KSTR): A = 16, C = 2, B = 0;
+(KSTR): A = 16, C = 5, B = 0;
 (LEN): A = 16, C = 16, B = 0;
-(KSTR): A = 17, C = 2, B = 0;
+(KSTR): A = 17, C = 6, B = 0;
 (LEN): A = 17, C = 17, B = 0;
-(KSTR): A = 18, C = 2, B = 0;
+(KSTR): A = 18, C = 7, B = 0;
 (LEN): A = 18, C = 18, B = 0;
-(KSTR): A = 19, C = 2, B = 0;
-(LEN): A = 19, C = 19, B = 0;
-(KSTR): A = 20, C = 2, B = 0;
-(LEN): A = 20, C = 20, B = 0;
-(KSTR): A = 21, C = 2, B = 0;
-(LEN): A = 21, C = 21, B = 0;
-(KSTR): A = 22, C = 2, B = 0;
-(LEN): A = 22, C = 22, B = 0;
-(KSTR): A = 23, C = 2, B = 0;
-(LEN): A = 23, C = 23, B = 0;
-(KSHORT): A = 24, C = 13, B = 0;
-(KSHORT): A = 25, C = 14, B = 0;
+(MULVN): A = 19, C = 0, B = 6;
+(MULVN): A = 20, C = 1, B = 6;
+(MULNV): A = 21, C = 1, B = 20;
+(MULVV): A = 22, C = 19, B = 21;
 (RET0): A = 0, C = 1, B = 0;
 
 --Prototype Children--
@@ -54,10 +44,16 @@ Count{ 0 };
 --Upvalues--
 
 --Constants--
+String{ e };
+String{ f };
+String{ d };
+String{ c };
+String{ b };
 String{ a };
 String{ apple };
 String{ I feel like UNM pretty much multiplies by -1 };
 Int{ -1 };
+Double{ -2.30000095367432 };
 
 --End--
 

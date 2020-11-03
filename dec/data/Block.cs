@@ -35,7 +35,7 @@ namespace Luajit_Decompiler.dec.data
             for(int i = sIndex; i < eIndex; i++)
             {
                 BytecodeInstruction bci = pt.bytecodeInstructions[i];
-                IntegratedInstruction ii = new IntegratedInstruction(map.Translate(bci.opcode), bci.opcode, bci.index, bci.regA, bci.regB, bci.regC);
+                IntegratedInstruction ii = new IntegratedInstruction(map.Translate(bci.opcode), bci);
                 if (ii.iROp == IRMap.Goto) //goto = jump
                     hasJmp = true;
                 if (ii.iROp == IRMap.Eval)

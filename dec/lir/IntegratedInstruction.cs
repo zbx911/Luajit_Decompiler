@@ -7,8 +7,9 @@ namespace Luajit_Decompiler.dec.lir
     {
         public IRMap iROp;
         public OpCodes originalOp;
-        public Registers registers;
+        public InstructionRegisters registers;
         public int originalIndex;
+        public BytecodeInstruction bci;
 
         /// <summary>
         /// Contains an IRMap translated opcode and the registers at execution time for a particular bytecode instruction.
@@ -19,36 +20,18 @@ namespace Luajit_Decompiler.dec.lir
         /// <param name="regA"></param>
         /// <param name="regB"></param>
         /// <param name="regC"></param>
-        public IntegratedInstruction(IRMap iROp, OpCodes originalOp, int indexOfOp, byte regA, byte regB, byte regC)
+        public IntegratedInstruction(IRMap iROp, BytecodeInstruction bci)
         {
+            this.bci = bci;
             this.iROp = iROp;
-            this.originalOp = originalOp;
-            this.originalIndex = indexOfOp;
-            registers = new Registers();
-            registers.regA = regA;
-            registers.regB = regB;
-            registers.regC = regC;
+            registers = bci.regs;
+            originalOp = bci.opcode;
+            originalIndex = bci.index;
         }
 
         public override string ToString()
         {
-            return " II{ Op: " + iROp.ToString() + ", OriOp: " + originalOp.ToString() + ", A: " + registers.regA + ", C: " + registers.regC + ", B: " + registers.regB + ", D: " + registers.regD +" };";
-        }
-
-        [StructLayout(LayoutKind.Explicit)] //size of byte = 1, size of short = 2, size of int = 4
-        public struct Registers
-        {
-            [FieldOffset(0)]
-            public byte regA;
-
-            [FieldOffset(1)]
-            public byte regC;
-
-            [FieldOffset(2)]
-            public byte regB;
-
-            [FieldOffset(1)] //C union B -> D
-            public ushort regD;
+            return " II{ Op: " + iROp.ToString() + ", OriOp: " + originalOp.ToString() + ", A: " + bci.regs.regA + ", C: " + bci.regs.regC + ", B: " + bci.regs.regB + ", D: " + bci.regs.regD +" };";
         }
     }
 }

@@ -1,21 +1,41 @@
 
---KPRI
-local derp = nil
+local a = 1 --KSHORT
 
---KSHORT. We assume local variable here for now.
-local x = 1
+local b = 2 --KSHORT
 
---MOV
-local y = x
+local c = 3 --KSHORT
 
---KPRI
-local bool1 = true
+local d = 4 --KSHORT
 
---KPRI
-local bool2 = false
+local e = 5 --KSHORT
 
---KPRI
-bool1 = false
+local expression = b * a --ARITHMETIC
 
---KPRI
-bool2 = true
+expression = c + expression --ARITHMETIC
+
+local fuckali = a ^ e --ARITHMETIC
+
+fuckali = fuckali / d --ARITHMETIC
+
+expression = fuckali - expression --ARITHMETIC
+
+fuckali = "abc" --KSTR
+
+local sqrt = "def" --KSTR
+
+local x = ">:(" --KSTR
+
+--CAT
+fuckali = fuckali .. sqrt .. x
+
+--GGET: sqrt = print
+
+x = fuckali--MOV
+
+--GGET: sqrt = math
+
+x = b--MOV
+
+x = sqrt + 1 --ARITHMETIC
+
+local len = #2 --LEN

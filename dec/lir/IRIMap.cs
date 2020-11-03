@@ -13,35 +13,33 @@ namespace Luajit_Decompiler.dec.lir
  */
     public enum IRMap
     {
-        Eval, //evaluate a conditional expression.
-        Binop, //binary operations including: & | >> << etc.
-        Add, //+
-        Sub, //-
-        Div, // /
-        Mult, // *
-        Mod, // %
-        Unary, //move, not, unary minus, length
-        Const, //used to set constants.
-        SetUV, //Set upvalue.
-        GetUV, //Get upvalue
-        NewFunc, //new function
-        UVClose, //close upvalues
-        TGet, //get for tables
-        TSet, //set for tables
-        NewTable, //new table
-        CopyTable, //copy a table
-        Call, //for function calls and their respective tail calls
-        Iterate, //for iteration loop function calls. [pairs(), next()]
-        VarArg, //helps with variable arguments in iterate
-        IsNext, //helps with iteration loop
-        Return, //all return statements w/ or w/o return value(s)
-        Goto, //jump statements
-        Loop, //generic while loop
-        FLoop, //numeric for loop
-        Func, //For all lua functions excluding new function closure.
-        CHeadFunc, //for all psuedo header for C functions/wrapped C functions/etc.
-        GTSet, //set to the global table
-        GTGet, //get from the global table.
+        Eval,       //evaluate a conditional expression.
+        Concat,     //Concatenate Operation
+        MathVN,     //variable op constant# (arithmetic)
+        MathVV,     //variable op variable (arithmetic)
+        MathNV,     //constant# op variable (arithmetic
+        Unary,      //move, not, unary minus, length
+        Const,      //used to set constants.
+        SetUV,      //Set upvalue.
+        GetUV,      //Get upvalue
+        NewFunc,    //new function
+        UVClose,    //close upvalues
+        TGet,       //get for tables
+        TSet,       //set for tables
+        NewTable,   //new table
+        CopyTable,  //copy a table
+        Call,       //for function calls and their respective tail calls
+        Iterate,    //for iteration loop function calls. [pairs(), next()]
+        VarArg,     //helps with variable arguments in iterate
+        IsNext,     //helps with iteration loop
+        Return,     //all return statements w/ or w/o return value(s)
+        Goto,       //jump statements
+        Loop,       //generic while loop
+        FLoop,      //numeric for loop
+        Func,       //For all lua functions excluding new function closure.
+        CHeadFunc,  //for all psuedo header for C functions/wrapped C functions/etc.
+        GTSet,      //set to the global table
+        GTGet,      //get from the global table.
 
         EndOfIIStream //A flag instruction for when the decompiler runs out of instructions to interpret.
     }
@@ -64,6 +62,7 @@ namespace Luajit_Decompiler.dec.lir
                 case OpCodes.ISNEN:
                 case OpCodes.ISEQP:
                 case OpCodes.ISNEP:
+
                 //Unary operation. 'C' copys D to A then jumps.
                 case OpCodes.ISTC:
                 case OpCodes.IST:
@@ -71,38 +70,35 @@ namespace Luajit_Decompiler.dec.lir
                 case OpCodes.ISF:
                     return IRMap.Eval;
 
-                #region A=DST, B=var, C=num
-                
-                case OpCodes.ADDVN: //A = B op C ; Generally, VN is this. variable op number?
-                case OpCodes.ADDNV: //A = C op B ; Generally, NV is this. number op variable?
-                case OpCodes.ADDVV: //A = B op C ; Generally, VV is this. variable op variable?
-                    return IRMap.Add;
+                #region Arithmetic
 
+                //VN
+                case OpCodes.ADDVN:
                 case OpCodes.SUBVN:
-                case OpCodes.SUBNV:
-                case OpCodes.SUBVV:
-                    return IRMap.Sub;
-
                 case OpCodes.MULVN:
-                case OpCodes.MULNV:
-                case OpCodes.MULVV:
-                    return IRMap.Mult;
-
                 case OpCodes.DIVVN:
-                case OpCodes.DIVNV:
-                case OpCodes.DIVVV:
-                    return IRMap.Div;
-
-                case OpCodes.MODNV:
                 case OpCodes.MODVN:
+                    return IRMap.MathVN;
+                
+                //NV
+                case OpCodes.ADDNV:
+                case OpCodes.SUBNV:
+                case OpCodes.MULNV:
+                case OpCodes.DIVNV:
+                case OpCodes.MODNV:
+                    return IRMap.MathNV;
+
+                
+                //VV
+                case OpCodes.SUBVV:
+                case OpCodes.ADDVV:
+                case OpCodes.MULVV:
+                case OpCodes.DIVVV:
                 case OpCodes.MODVV:
-                    return IRMap.Mod;
+                case OpCodes.POW: //A = B^C (Similar to VV as it operates with 2 variable slots).
+                    return IRMap.MathVV;
 
                 #endregion
-
-                case OpCodes.POW: //A = B^C
-                case OpCodes.CAT: //A = B concat C; A=DST, B=rbase, C=rbase; (From luajit)-> Note: The CAT instruction concatenates all values in variable slots B to C inclusive.
-                    return IRMap.Binop;
 
                 case OpCodes.NOT: //set A to !D
                 case OpCodes.UNM: //set A to -D
@@ -188,7 +184,10 @@ namespace Luajit_Decompiler.dec.lir
 
                 //sets A to (upvalue D).
                 case OpCodes.UGET: 
-                    return IRMap.GetUV; //done
+                    return IRMap.GetUV;
+
+                case OpCodes.CAT: //A = B concat C; A=DST, B=rbase, C=rbase; (From luajit)-> Note: The CAT instruction concatenates all values in variable slots B to C inclusive.
+                    return IRMap.Concat;
 
                 case OpCodes.FNEW:
                     return IRMap.NewFunc;

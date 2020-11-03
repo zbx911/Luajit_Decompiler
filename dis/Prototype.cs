@@ -12,9 +12,9 @@ namespace Luajit_Decompiler.dis
         private readonly byte[] bytes; //remaining bytes of the bytecode. The file header must be stripped from this list. Assumes next 7 bytes are for the prototype header.
 
         //Prototype Header Info : These 7 bytes are also from luajit lj_bcwrite.
-        private readonly byte flags; //individual prototype flags. I think it also contains if it has debug info?
-        private readonly byte numberOfParams; //number of params in the method
-        private readonly byte frameSize; //# of prototypes - 1 inside the prototype?
+        public readonly byte flags; //individual prototype flags. I think it also contains if it has debug info?
+        public readonly byte numberOfParams; //number of params in the method
+        public readonly byte frameSize; //# of prototypes - 1 inside the prototype?
         private readonly byte sizeUV; //# of upvalues
         private readonly int sizeKGC; //size of the constants section? number of strings?
         private readonly int sizeKN; //# of constant numbers to be read after strings.
@@ -93,12 +93,10 @@ namespace Luajit_Decompiler.dis
             int bciIndex = 0;
             for(int i = 0; i < instructionBytes.Length; i += 4)
             {
-                BytecodeInstruction bci = new BytecodeInstruction(Opcode.ParseOpByte(instructionBytes[i]), bciIndex)
-                {
-                    regA = instructionBytes[i + 1], // {C union B -> D}
-                    regC = instructionBytes[i + 2],
-                    regB = instructionBytes[i + 3]
-                };
+                BytecodeInstruction bci = new BytecodeInstruction(Opcode.ParseOpByte(instructionBytes[i]), bciIndex);
+                bci.regs.regA = instructionBytes[i + 1];
+                bci.regs.regC = instructionBytes[i + 2];
+                bci.regs.regB = instructionBytes[i + 3];
                 bytecodeInstructions.Add(bci);
                 bciIndex++;
             }
@@ -147,7 +145,7 @@ namespace Luajit_Decompiler.dis
             {
                 if(debugSection[i] == numLines) //could be duplicated line number due to what I think is a LJ optimization for certain in-lines so we check next as well.
                 {
-                    if (debugSection[i + 1] == numLines)
+                    while(debugSection[i + 1] == numLines)
                         i++;
                     nameOffset = i + 1; //should be on top of the first ASCII char of a var name.
                     break;

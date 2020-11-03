@@ -1,0 +1,48 @@
+File Name: mul.lua
+
+Prototype: 0
+Prototype_Size: 220; Flags: 2; #_Params: 0; Frame_Size: 10; Upvalue_Size: 0; KGC_Size: 6; KN_Size: 1; Instruction_Count: 24;
+
+--Bytecode Instructions--
+(KSHORT): A = 0, C = 1, B = 0, [D: 1];
+(KSHORT): A = 1, C = 2, B = 0, [D: 2];
+(KSHORT): A = 2, C = 3, B = 0, [D: 3];
+(KSHORT): A = 3, C = 4, B = 0, [D: 4];
+(KSHORT): A = 4, C = 5, B = 0, [D: 5];
+(MULVV): A = 5, C = 1, B = 0, [D: 1];
+(ADDVV): A = 5, C = 2, B = 5, [D: 1282];
+(POW): A = 6, C = 0, B = 4, [D: 1024];
+(DIVVV): A = 6, C = 6, B = 3, [D: 774];
+(SUBVV): A = 5, C = 6, B = 5, [D: 1286];
+(KSTR): A = 6, C = 0, B = 0, [D: 0];
+(KSTR): A = 7, C = 1, B = 0, [D: 1];
+(KSTR): A = 8, C = 2, B = 0, [D: 2];
+(CAT): A = 6, C = 8, B = 6, [D: 1544];
+(GGET): A = 7, C = 3, B = 0, [D: 3];
+(MOV): A = 8, C = 6, B = 0, [D: 6];
+(CALL): A = 7, C = 2, B = 1, [D: 258];
+(GGET): A = 7, C = 4, B = 0, [D: 4];
+(TGETS): A = 7, C = 5, B = 7, [D: 1797];
+(MOV): A = 8, C = 1, B = 0, [D: 1];
+(CALL): A = 7, C = 2, B = 2, [D: 514];
+(ADDVN): A = 8, C = 0, B = 7, [D: 1792];
+(LEN): A = 9, C = 8, B = 0, [D: 8];
+(RET0): A = 0, C = 1, B = 0, [D: 1];
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+String{ sqrt };
+String{ math };
+String{ print };
+String{ >:( };
+String{ def };
+String{ abc };
+Int{ 1 };
+
+--End--
+
+

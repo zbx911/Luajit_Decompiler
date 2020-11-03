@@ -52,11 +52,14 @@
     <Compile Include="dec\data\Block.cs" />
     <Compile Include="dec\data\Expression.cs" />
     <Compile Include="dec\data\Jump.cs" />
+    <Compile Include="dec\tluastates\ArithmeticState.cs" />
     <Compile Include="dec\tluastates\BaseState.cs" />
     <Compile Include="dec\tluastates\BeginState.cs" />
+    <Compile Include="dec\tluastates\ConcatState.cs" />
     <Compile Include="dec\tluastates\ConstState.cs" />
     <Compile Include="dec\tluastates\GetUVState.cs" />
-    <Compile Include="dec\tluastates\GTGetState.cs" />
+    <Compile Include="dec\tluastates\get\GTGetState.cs" />
+    <Compile Include="dec\tluastates\get\TableGetState.cs" />
     <Compile Include="dec\tluastates\GTSetState.cs" />
     <Compile Include="dec\tluastates\TLuaState.cs" />
     <Compile Include="dec\tluastates\UnaryState.cs" />

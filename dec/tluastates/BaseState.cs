@@ -1,6 +1,4 @@
-﻿using static Luajit_Decompiler.dec.lir.IntegratedInstruction;
-
-namespace Luajit_Decompiler.dec.tluastates
+﻿namespace Luajit_Decompiler.dec.tluastates
 {
     abstract class BaseState
     {

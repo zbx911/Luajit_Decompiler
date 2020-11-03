@@ -54,12 +54,10 @@ namespace Luajit_Decompiler.dec
             List<BytecodeInstruction> ptBcis = pt.bytecodeInstructions;
 
             //make a jmp bci to top of file
-            BytecodeInstruction jmpTop = new BytecodeInstruction(OpCodes.JMP, -1)
-            {
-                regA = 0,
-                regC = 0,
-                regB = 128
-            };
+            BytecodeInstruction jmpTop = new BytecodeInstruction(OpCodes.JMP, -1);
+            jmpTop.regs.regA = 0;
+            jmpTop.regs.regC = 0;
+            jmpTop.regs.regB = 128;
             Jump top = new Jump(jmpTop, 1, -1, pt);
             jumps.Add(top);
 
