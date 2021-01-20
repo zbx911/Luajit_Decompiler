@@ -11,7 +11,6 @@ namespace Luajit_Decompiler.dec.tluastates
         public override void WriteLua(TLuaState state)
         {
             StringBuilder line = new StringBuilder();
-            line.AppendLine("--CAT");
             var dst = state.CheckGetVarName(state.regs.regA);
             var b = state.CheckGetVarName(state.regs.regB);
 
@@ -26,6 +25,7 @@ namespace Luajit_Decompiler.dec.tluastates
                 if (i + 1 <= state.regs.regC)
                     line.Append(" .. ");
             }
+            line.Append(" --CAT");
             state.decompLines.Add(line.ToString() + "\n");
         }
     }

@@ -20,7 +20,7 @@ namespace Luajit_Decompiler.dec.data
             index = jmp.index;
             this.jumpType = jumpType;
             if (jumpType == 1) //calculate jump distance. may be negative.
-                distance = ((jmp.regs.regB << 8) | jmp.regs.regC) - 0x8000;
+                distance = ((jmp.registers.b << 8) | jmp.registers.c) - 0x8000;
             else if (jumpType == 3)
                 distance = 1; //conditionals/returns
             target = index + distance + 1; //the target bci.

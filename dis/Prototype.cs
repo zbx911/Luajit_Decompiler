@@ -4,39 +4,36 @@ using Luajit_Decompiler.dis.consts;
 
 namespace Luajit_Decompiler.dis
 {
-    /// <summary>
-    /// TODO: Make CUInt base constant and fix ReadKGC's uint64 read.
-    /// </summary>
     class Prototype
     {
-        private readonly byte[] bytes; //remaining bytes of the bytecode. The file header must be stripped from this list. Assumes next 7 bytes are for the prototype header.
+        private readonly byte[] bytes;                                      //remaining bytes of the bytecode. The file header must be stripped from this list. Assumes next 7 bytes are for the prototype header.
 
         //Prototype Header Info : These 7 bytes are also from luajit lj_bcwrite.
-        public readonly byte flags; //individual prototype flags. I think it also contains if it has debug info?
-        public readonly byte numberOfParams; //number of params in the method
-        public readonly byte frameSize; //# of prototypes - 1 inside the prototype?
-        private readonly byte sizeUV; //# of upvalues
-        private readonly int sizeKGC; //size of the constants section? number of strings?
-        private readonly int sizeKN; //# of constant numbers to be read after strings.
-        //Instruction Count: This part of header is handled in PackBCInstructions.
+        public readonly byte flags;                                         //individual prototype flags.
+        public readonly byte numberOfParams;                                //number of params in the method
+        public readonly byte frameSize;                                     //# of slots luajit uses to store variable info.
+        private readonly byte sizeUV;                                       //# of upvalues
+        private readonly int sizeKGC;                                       //size of the global constants section
+        private readonly int sizeKN;                                        //# of constant numbers to be read after strings.
 
-        private Stack<Prototype> protoStack; //the stack of all prototypes.
-        private int debugSize; //size of the debug info section
-        private int firstLine; //size of the first line of debug info?
-        private int numLines; //number of debug info lines?
+        //Instruction Count: This part of header is handled in PackBCInstructions.
+        private Stack<Prototype> protoStack;                                
+        private int debugSize;                                              //size of the debug info section
+        private int firstLine;                                              //size of the first line of debug info
+        private int numLines;                                               //number of debug info lines
         private readonly int prototypeSize;
 
         //These fields define the prototype. Useful for the decompilation module.
-        public List<BytecodeInstruction> bytecodeInstructions; //bytecode asm instructions. { OP, A (BC or D) }
-        public List<UpValue> upvalues;
-        public List<BaseConstant> constantsSection; //entire constants section byte values (excluding upvalues). Order is important as constants operate by index in the bc instruction registers.
-        public List<string> variableNames; //contains variable names for the prototype assuming that debug information is NOT stripped.
-        public List<Prototype> prototypeChildren; //references to child prototypes.
-        public Prototype parent; //each child will only have 1 parent. or is the root.
-        public int index; //naming purposes.
+        public List<BytecodeInstruction> bytecodeInstructions;              //bytecode asm instructions. { OP, A (BC or D) }
+        public List<UpValue> upvalues;                                      
+        public List<BaseConstant> constantsSection;                         //entire constants section byte values (excluding upvalues). Order is important as constants operate by index in the bc instruction registers.
+        public List<string> variableNames;                                  //contains variable names for the prototype assuming that debug information is NOT stripped.
+        public List<Prototype> prototypeChildren;                           //references to child prototypes.
+        public Prototype parent;                                            //each child will only have 1 parent. or is the root.
+        public int index;                                                   //naming purposes.
 
-        public byte fileFlag; //If it has debug info or not.
-        public bool HasVarNames { get { return (fileFlag & 0x02) == 0; } } //whether or not the prototype has variable names.
+        public byte fileFlag;                                               //If it has debug info or not.
+        public bool HasVarNames { get { return (fileFlag & 0x02) == 0; } }  //whether or not the prototype has variable names.
 
         /// <summary>
         /// Stores all information related to a single prototype.
@@ -94,9 +91,9 @@ namespace Luajit_Decompiler.dis
             for(int i = 0; i < instructionBytes.Length; i += 4)
             {
                 BytecodeInstruction bci = new BytecodeInstruction(Opcode.ParseOpByte(instructionBytes[i]), bciIndex);
-                bci.regs.regA = instructionBytes[i + 1];
-                bci.regs.regC = instructionBytes[i + 2];
-                bci.regs.regB = instructionBytes[i + 3];
+                bci.registers.a = instructionBytes[i + 1];
+                bci.registers.c = instructionBytes[i + 2];
+                bci.registers.b = instructionBytes[i + 3];
                 bytecodeInstructions.Add(bci);
                 bciIndex++;
             }
@@ -151,15 +148,16 @@ namespace Luajit_Decompiler.dis
                     break;
                 }
             }
-            if (nameOffset == 0) throw new System.Exception("Prototype:PackVariableNames::nameOffset is zero.");
+            if (nameOffset == 0)
+                return;
 
             //begin collection of variable names.
             StringBuilder name = new StringBuilder();
-            while(nameOffset < debugSection.Length)
+            while (nameOffset < debugSection.Length)
             {
                 if(debugSection[nameOffset] == 0)
                 {
-                    variableNames.Add(name.ToString());
+                    variableNames.Add(CleanVariableName(name.ToString()));
                     name = new StringBuilder();
                     nameOffset += 3; //skip over terminator + 2 bytes of unknown data.
                 }
@@ -169,8 +167,9 @@ namespace Luajit_Decompiler.dis
                     nameOffset++;
                 }
             }
+            variableNames.RemoveAll(s => s == "");
         }
-
+        
         private void ReadKGC(byte[] bytes, ref int offset)
         {
             byte typeByte;
@@ -214,13 +213,11 @@ namespace Luajit_Decompiler.dis
                     ulebA = a,
                     ulebB = b
                 };
-                //Console.Out.WriteLine(knu.knumVal); //debug
                 constantsSection.Add(new CDouble(knu.knumVal));
             }
-            else //is integer
+            else
             {
                 constantsSection.Add(new CInt(a));
-                //Console.Out.WriteLine(a); //debug
             }
         }
 
@@ -249,6 +246,10 @@ namespace Luajit_Decompiler.dis
             for (int i = 0; i < constantsSection.Count; i++)
                 result.AppendLine(constantsSection[i].ToString());
             result.AppendLine();
+            result.AppendLine("--Variable Names--");
+            for (int i = 0; i < variableNames.Count; i++)
+                result.AppendLine(variableNames[i]);
+            result.AppendLine();
             result.AppendLine("--End--");
             result.AppendLine();
             return result.ToString();
@@ -260,39 +261,18 @@ namespace Luajit_Decompiler.dis
         /// <returns></returns>
         private string GetHeaderText()
         {
-            return "Prototype_Size: " + prototypeSize + "; " + "Flags: " + flags + "; " + "#_Params: " + numberOfParams + "; " + "Frame_Size: " + frameSize + "; " +
-                "Upvalue_Size: " + sizeUV + "; " + "KGC_Size: " + sizeKGC + "; " + "KN_Size: " + sizeKN + "; " + "Instruction_Count: " + bytecodeInstructions.Count + ";\n";
+            return "Prototype Size: " + prototypeSize + "; " + "Flags: " + flags + "; " + "# of Params: " + numberOfParams + "; " + "Frame Size: " + frameSize + "; " +
+                "Upvalue Size: " + sizeUV + "; " + "KGC Size: " + sizeKGC + "; " + "KN Size: " + sizeKN + "; " + "Instruction Count: " + bytecodeInstructions.Count + "; " 
+                + "Debug Size: " + debugSize + "; " + "# of Debug Lines: " + numLines + ";\n";
         }
 
-        /// <summary>
-        /// Generates a somewhat unique ID label by summing header information and hashing it, then returning the first 5 characters of the hash.
-        /// </summary>
-        /// <returns></returns>
-        public string GetIdFromHeader()
+        private string CleanVariableName(string unclean)
         {
-            int sum = prototypeSize + flags + numberOfParams + frameSize + sizeUV + sizeKGC + sizeKN + bytecodeInstructions.Count;
-            char[] hash = sum.GetHashCode().ToString().ToCharArray();
-            return hash.ToString();
-        }
-    }
-
-    /// <summary>
-    /// Storage class for lua upvalues.
-    /// </summary>
-    class UpValue
-    {
-        public int TableIndex { get; set; } //which index of the table to look at.
-        public int TableLocation { get; set; } //which table to look at. If it is 192, look at the global constants table at tableIndex. 0 means look at the upvalues table at index in the prototype's parent.
-
-        public UpValue(int v1, int v2)
-        {
-            TableIndex = v1;
-            TableLocation = v2;
-        }
-
-        public override string ToString()
-        {
-            return "Upvalue{ " + TableIndex + ", " + TableLocation + " };";
+            string clean = "";
+            for (int i = 0; i < unclean.Length; i++)
+                if (unclean[i] > 32)
+                    clean += unclean[i];
+            return clean;
         }
     }
 }

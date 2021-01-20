@@ -1,47 +1,41 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
 using Luajit_Decompiler.dis;
-using Luajit_Decompiler.dec.lir;
 
 namespace Luajit_Decompiler.dec.data
 {
     class Block
     {
-        public int sIndex; //start of the block. (Relative to the asm lines).
-        public int eIndex; //end of block.
-        public List<IntegratedInstruction> iis;
+        public int startIndex;
+        public int endIndex;
+        public BytecodeInstruction[] bytecodeInstructions;
         public string label;
-        public bool hasJmp = false;
-        public bool hasCondi = false;
+        public readonly int blockIndex;
+        public bool visited = false;
+        public int indent = 0;
+        public bool needsEndStatement = false;
 
-        private bool finalized = false; //for error checking.
+        private bool finalized = false;
         private Prototype pt;
-        private readonly int nameIndex; //used for labeling blocks.
 
-        public Block(int sIndex, int nameIndex, Prototype pt)
+
+        public Block(int startIndex, int blockIndex, Prototype pt)
         {
-            this.sIndex = sIndex;
-            this.nameIndex = nameIndex;
-            label = "Block[" + nameIndex + "]";
+            this.startIndex = startIndex;
+            this.blockIndex = blockIndex;
+            label = "Block[" + blockIndex + "]";
             this.pt = pt;
         }
 
-        public void Finalize(int eIndex) //finalize to integrated instructions
+        public void Finalize(int endIndex)
         {
-            this.eIndex = eIndex;
-            iis = new List<IntegratedInstruction>();
-            IRIMap map = new IRIMap();
-            for(int i = sIndex; i < eIndex; i++)
-            {
-                BytecodeInstruction bci = pt.bytecodeInstructions[i];
-                IntegratedInstruction ii = new IntegratedInstruction(map.Translate(bci.opcode), bci);
-                if (ii.iROp == IRMap.Goto) //goto = jump
-                    hasJmp = true;
-                if (ii.iROp == IRMap.Eval)
-                    hasCondi = true;
-                iis.Add(ii);
-            }
+            this.endIndex = endIndex;
+            int instLen = endIndex - startIndex;
+            bytecodeInstructions = new BytecodeInstruction[instLen];
+
+            for (int i = startIndex, j = 0; i < endIndex; i++, j++)
+                bytecodeInstructions[j] = pt.bytecodeInstructions[i];
+
             finalized = true;
         }
 
@@ -54,27 +48,22 @@ namespace Luajit_Decompiler.dec.data
         {
             int result = -1;
 
-            for (int i = 0; i < iis.Count; i++)
-                if (iis[i].originalIndex == index)
+            for (int i = 0; i < bytecodeInstructions.Length; i++)
+                if (bytecodeInstructions[i].index == index)
                     return i;
 
             return result;
         }
 
         /// <summary>
-        /// returns the block's name index if the index of an instruction exists within the block. otherwise, returns -1.
+        /// Returns the block index if the index of an instruction exists within the block. otherwise, returns -1.
         /// </summary>
         /// <returns></returns>
         public int InstructionExists(int index)
         {
             if (IndexExists(index) != -1)
-                return nameIndex;
+                return blockIndex;
             return -1;
-        }
-
-        public int GetNameIndex()
-        {
-            return nameIndex;
         }
 
         public override string ToString()
@@ -84,8 +73,9 @@ namespace Luajit_Decompiler.dec.data
 
             StringBuilder res = new StringBuilder();
             res.AppendLine(label);
-            foreach (IntegratedInstruction ii in iis)
-                res.AppendLine(ii.originalIndex + ":" + ii.ToString());
+            foreach (BytecodeInstruction bci in bytecodeInstructions)
+                res.AppendLine(bci.index + ":" + bci.ToString());
+            res.AppendLine();
             return res.ToString();
         }
     }

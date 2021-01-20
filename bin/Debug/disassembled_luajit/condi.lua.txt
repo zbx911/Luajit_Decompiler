@@ -1,0 +1,66 @@
+File Name: condi.lua
+
+Prototype: 0
+Prototype Size: 267; Flags: 2; # of Params: 0; Frame Size: 3; Upvalue Size: 0; KGC Size: 0; KN Size: 5; Instruction Count: 39; Debug Size: 96; # of Debug Lines: 40;
+
+--Bytecode Instructions--
+(KSHORT): A = 0, C = 1, B = 0, [D: 1];
+(KSHORT): A = 1, C = 1, B = 0, [D: 1];
+(KPRI): A = 2, C = 0, B = 0, [D: 0];
+(ISNEN): A = 0, C = 0, B = 0, [D: 0];
+(JMP): A = 3, C = 1, B = 128, [D: -32767];
+(KSHORT): A = 1, C = 2, B = 0, [D: 2];
+(LEN): A = 0, C = 0, B = 0, [D: 0];
+(ISNEN): A = 1, C = 1, B = 0, [D: 1];
+(JMP): A = 3, C = 2, B = 128, [D: -32766];
+(KSHORT): A = 1, C = 2, B = 0, [D: 2];
+(JMP): A = 3, C = 1, B = 128, [D: -32767];
+(KSHORT): A = 0, C = 1, B = 0, [D: 1];
+(LEN): A = 0, C = 0, B = 0, [D: 0];
+(ISNEN): A = 0, C = 0, B = 0, [D: 0];
+(JMP): A = 3, C = 5, B = 128, [D: -32763];
+(ISNEN): A = 0, C = 1, B = 0, [D: 1];
+(JMP): A = 3, C = 2, B = 128, [D: -32766];
+(KSHORT): A = 0, C = 3, B = 0, [D: 3];
+(JMP): A = 3, C = 1, B = 128, [D: -32767];
+(KSHORT): A = 0, C = 4, B = 0, [D: 4];
+(LEN): A = 0, C = 0, B = 0, [D: 0];
+(ISNEN): A = 0, C = 0, B = 0, [D: 0];
+(JMP): A = 3, C = 2, B = 128, [D: -32766];
+(KSHORT): A = 0, C = 5, B = 0, [D: 5];
+(JMP): A = 3, C = 13, B = 128, [D: -32755];
+(ISNEN): A = 0, C = 2, B = 0, [D: 2];
+(JMP): A = 3, C = 2, B = 128, [D: -32766];
+(KSHORT): A = 0, C = 6, B = 0, [D: 6];
+(JMP): A = 3, C = 9, B = 128, [D: -32759];
+(ISNEN): A = 0, C = 3, B = 0, [D: 3];
+(JMP): A = 3, C = 2, B = 128, [D: -32766];
+(KSHORT): A = 0, C = 7, B = 0, [D: 7];
+(JMP): A = 3, C = 5, B = 128, [D: -32763];
+(ISNEN): A = 0, C = 4, B = 0, [D: 4];
+(JMP): A = 3, C = 2, B = 128, [D: -32766];
+(KSHORT): A = 0, C = 8, B = 0, [D: 8];
+(JMP): A = 3, C = 1, B = 128, [D: -32767];
+(KSHORT): A = 0, C = 100, B = 0, [D: 100];
+(RET0): A = 0, C = 1, B = 0, [D: 1];
+
+--Prototype Children--
+Count{ 0 };
+
+--Upvalues--
+
+--Constants--
+Int{ 1 };
+Int{ 2 };
+Int{ 3 };
+Int{ 9 };
+Int{ 33 };
+
+--Variable Names--
+x
+y
+aAaAaAaAaBbB__bBBbc31240000sSsSsS_s_S_SS_Ss_S
+
+--End--
+
+

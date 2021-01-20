@@ -88,6 +88,7 @@ namespace Luajit_Decompiler
             System.IO.File.WriteAllText(oPath, dec);
         }
 
+        #region refactor
         /// <summary>
         /// Writes to the debug file.
         /// </summary>
@@ -96,19 +97,26 @@ namespace Luajit_Decompiler
         {
             string IOPath = debug_dir_path + @"\" + "info" + ".txt";
             if (!File.Exists(IOPath))
-                File.Create(IOPath);
-            System.IO.File.AppendAllText(IOPath, "\r\n" + info);
+                File.Create(IOPath).Close();
+            System.IO.File.AppendAllText(IOPath, info);
         }
 
+        public static void WriteDebugAppend(string info)
+        {
+            string IOPath = debug_dir_path + @"\" + "info" + ".txt";
+            if (!File.Exists(IOPath))
+                File.Create(IOPath).Close();
+            System.IO.File.AppendAllText(IOPath, info);
+        }
+        #endregion
         /// <summary>
         /// Clears the debug file.
         /// </summary>
         public static void ClearDebug()
         {
             string IOPath = debug_dir_path + @"\" + "info" + ".txt";
-            if (!File.Exists(IOPath))
-                File.Create(IOPath);
-            System.IO.File.WriteAllText(IOPath, "");
+            if(File.Exists(IOPath))
+                File.Delete(IOPath);
         }
         #endregion
     }

@@ -29,7 +29,7 @@ namespace Luajit_Decompiler.dec.tluastates
     class TLuaState
     {
         public readonly Prototype pt; //reference to the prototype we are working with
-        public readonly Cfg cfg; //reference to a prototype's control flow graph.
+        public readonly ControlFlowGraph cfg; //reference to a prototype's control flow graph.
         public readonly List<Block> blocks; //reference to a prototype's blocks which contain its integrated instructions.
         //public BaseConstant[] _G; //reference to the prototype's global constants table.   
         public readonly BaseConstant[] _U; //value of upvalues in each prototype.
@@ -51,7 +51,7 @@ namespace Luajit_Decompiler.dec.tluastates
         private int varCount; //for keeping track of generated variable names
         private int curSlot; //for keeping track of declared variables.
 
-        public TLuaState(ref Prototype pt, ref Cfg cfg, ref List<Block> blocks, ref List<string> decompLines)
+        public TLuaState(ref Prototype pt, ref ControlFlowGraph cfg, ref List<Block> blocks, ref List<string> decompLines)
         {
             this.pt = pt;
             this.cfg = cfg;

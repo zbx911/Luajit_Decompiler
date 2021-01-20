@@ -1,7 +1,7 @@
 File Name: mul.lua
 
 Prototype: 0
-Prototype_Size: 220; Flags: 2; #_Params: 0; Frame_Size: 10; Upvalue_Size: 0; KGC_Size: 6; KN_Size: 1; Instruction_Count: 24;
+Prototype Size: 220; Flags: 2; # of Params: 0; Frame Size: 10; Upvalue Size: 0; KGC Size: 6; KN Size: 1; Instruction Count: 24; Debug Size: 85; # of Debug Lines: 12;
 
 --Bytecode Instructions--
 (KSHORT): A = 0, C = 1, B = 0, [D: 1];

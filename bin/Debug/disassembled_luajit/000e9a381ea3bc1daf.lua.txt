@@ -1,75 +1,75 @@
 File Name: 000e9a381ea3bc1daf.lua
 
 Prototype: 0
-Prototype_Size: 994; Flags: 0; #_Params: 6; Frame_Size: 15; Upvalue_Size: 0; KGC_Size: 30; KN_Size: 0; Instruction_Count: 66;
+Prototype Size: 994; Flags: 0; # of Params: 6; Frame Size: 15; Upvalue Size: 0; KGC Size: 30; KN Size: 0; Instruction Count: 66; Debug Size: 201; # of Debug Lines: 36;
 
 --Bytecode Instructions--
-(GGET): 6, 1, 0;
-(TGETS): 6, 2, 6;
-(CALL): 6, 1, 2;
-(TSETS): 6, 0, 0;
-(TGETS): 6, 3, 1;
-(TGETS): 7, 4, 1;
-(TSETS): 7, 4, 0;
-(TSETS): 6, 3, 0;
-(TGETS): 7, 5, 1;
-(TSETS): 7, 5, 0;
-(TGETS): 7, 6, 1;
-(TSETS): 7, 6, 0;
-(TGETS): 7, 7, 1;
-(TSETS): 7, 7, 0;
-(TGETS): 7, 8, 1;
-(TSETS): 7, 8, 0;
-(TGETS): 7, 9, 1;
-(TSETS): 7, 9, 0;
-(TGETS): 7, 9, 1;
-(TGETS): 7, 11, 7;
-(TSETS): 7, 10, 0;
-(ISF): 0, 5, 0;
-(JMP): 7, 2, 128;
-(TGETS): 7, 12, 5;
-(TSETS): 7, 12, 0;
-(TGETS): 7, 9, 1;
-(TGETS): 7, 13, 7;
-(TSETS): 7, 13, 0;
-(TGETS): 7, 14, 1;
-(TSETS): 7, 14, 0;
-(TGETS): 7, 15, 1;
-(TSETS): 7, 15, 0;
-(TGETS): 7, 16, 1;
-(GGET): 8, 17, 0;
-(MOV): 9, 7, 0;
-(CALL): 8, 2, 4;
-(ISNEXT): 11, 4, 128;
-(KSTR): 13, 18, 0;
-(MOV): 14, 11, 0;
-(CAT): 13, 14, 13;
-(TSETV): 12, 13, 0;
-(ITERN): 11, 3, 3;
-(ITERL): 11, 250, 127;
-(TSETS): 2, 19, 0;
-(TSETS): 3, 20, 0;
-(GGET): 8, 22, 0;
-(TGETS): 9, 23, 0;
-(TGETV): 9, 3, 9;
-(KSTR): 10, 24, 0;
-(MOV): 11, 3, 0;
-(CAT): 10, 11, 10;
-(CALL): 8, 3, 2;
-(TSETS): 8, 21, 0;
-(GGET): 8, 22, 0;
-(TGETS): 9, 26, 0;
-(TGETV): 9, 4, 9;
-(KSTR): 10, 27, 0;
-(MOV): 11, 4, 0;
-(CAT): 10, 11, 10;
-(CALL): 8, 3, 2;
-(TSETS): 8, 25, 0;
-(MOV): 9, 0, 0;
-(TGETS): 8, 28, 0;
-(KSTR): 10, 29, 0;
-(CALL): 8, 3, 1;
-(RET0): 0, 1, 0;
+(GGET): A = 6, C = 1, B = 0, [D: 1];
+(TGETS): A = 6, C = 2, B = 6, [D: 1538];
+(CALL): A = 6, C = 1, B = 2, [D: 513];
+(TSETS): A = 6, C = 0, B = 0, [D: 0];
+(TGETS): A = 6, C = 3, B = 1, [D: 259];
+(TGETS): A = 7, C = 4, B = 1, [D: 260];
+(TSETS): A = 7, C = 4, B = 0, [D: 4];
+(TSETS): A = 6, C = 3, B = 0, [D: 3];
+(TGETS): A = 7, C = 5, B = 1, [D: 261];
+(TSETS): A = 7, C = 5, B = 0, [D: 5];
+(TGETS): A = 7, C = 6, B = 1, [D: 262];
+(TSETS): A = 7, C = 6, B = 0, [D: 6];
+(TGETS): A = 7, C = 7, B = 1, [D: 263];
+(TSETS): A = 7, C = 7, B = 0, [D: 7];
+(TGETS): A = 7, C = 8, B = 1, [D: 264];
+(TSETS): A = 7, C = 8, B = 0, [D: 8];
+(TGETS): A = 7, C = 9, B = 1, [D: 265];
+(TSETS): A = 7, C = 9, B = 0, [D: 9];
+(TGETS): A = 7, C = 9, B = 1, [D: 265];
+(TGETS): A = 7, C = 11, B = 7, [D: 1803];
+(TSETS): A = 7, C = 10, B = 0, [D: 10];
+(ISF): A = 0, C = 5, B = 0, [D: 5];
+(JMP): A = 7, C = 2, B = 128, [D: -32766];
+(TGETS): A = 7, C = 12, B = 5, [D: 1292];
+(TSETS): A = 7, C = 12, B = 0, [D: 12];
+(TGETS): A = 7, C = 9, B = 1, [D: 265];
+(TGETS): A = 7, C = 13, B = 7, [D: 1805];
+(TSETS): A = 7, C = 13, B = 0, [D: 13];
+(TGETS): A = 7, C = 14, B = 1, [D: 270];
+(TSETS): A = 7, C = 14, B = 0, [D: 14];
+(TGETS): A = 7, C = 15, B = 1, [D: 271];
+(TSETS): A = 7, C = 15, B = 0, [D: 15];
+(TGETS): A = 7, C = 16, B = 1, [D: 272];
+(GGET): A = 8, C = 17, B = 0, [D: 17];
+(MOV): A = 9, C = 7, B = 0, [D: 7];
+(CALL): A = 8, C = 2, B = 4, [D: 1026];
+(ISNEXT): A = 11, C = 4, B = 128, [D: -32764];
+(KSTR): A = 13, C = 18, B = 0, [D: 18];
+(MOV): A = 14, C = 11, B = 0, [D: 11];
+(CAT): A = 13, C = 14, B = 13, [D: 3342];
+(TSETV): A = 12, C = 13, B = 0, [D: 13];
+(ITERN): A = 11, C = 3, B = 3, [D: 771];
+(ITERL): A = 11, C = 250, B = 127, [D: 32762];
+(TSETS): A = 2, C = 19, B = 0, [D: 19];
+(TSETS): A = 3, C = 20, B = 0, [D: 20];
+(GGET): A = 8, C = 22, B = 0, [D: 22];
+(TGETS): A = 9, C = 23, B = 0, [D: 23];
+(TGETV): A = 9, C = 3, B = 9, [D: 2307];
+(KSTR): A = 10, C = 24, B = 0, [D: 24];
+(MOV): A = 11, C = 3, B = 0, [D: 3];
+(CAT): A = 10, C = 11, B = 10, [D: 2571];
+(CALL): A = 8, C = 3, B = 2, [D: 515];
+(TSETS): A = 8, C = 21, B = 0, [D: 21];
+(GGET): A = 8, C = 22, B = 0, [D: 22];
+(TGETS): A = 9, C = 26, B = 0, [D: 26];
+(TGETV): A = 9, C = 4, B = 9, [D: 2308];
+(KSTR): A = 10, C = 27, B = 0, [D: 27];
+(MOV): A = 11, C = 4, B = 0, [D: 4];
+(CAT): A = 10, C = 11, B = 10, [D: 2571];
+(CALL): A = 8, C = 3, B = 2, [D: 515];
+(TSETS): A = 8, C = 25, B = 0, [D: 25];
+(MOV): A = 9, C = 0, B = 0, [D: 0];
+(TGETS): A = 8, C = 28, B = 0, [D: 28];
+(KSTR): A = 10, C = 29, B = 0, [D: 29];
+(CALL): A = 8, C = 3, B = 1, [D: 259];
+(RET0): A = 0, C = 1, B = 0, [D: 1];
 
 --Prototype Children--
 Count{ 0 };
@@ -112,10 +112,10 @@ String{ own_peer_id };
 
 
 Prototype: 1
-Prototype_Size: 23; Flags: 0; #_Params: 1; Frame_Size: 1; Upvalue_Size: 0; KGC_Size: 0; KN_Size: 0; Instruction_Count: 1;
+Prototype Size: 23; Flags: 0; # of Params: 1; Frame Size: 1; Upvalue Size: 0; KGC Size: 0; KN Size: 0; Instruction Count: 1; Debug Size: 9; # of Debug Lines: 1;
 
 --Bytecode Instructions--
-(RET0): 0, 1, 0;
+(RET0): A = 0, C = 1, B = 0, [D: 1];
 
 --Prototype Children--
 Count{ 0 };
@@ -128,10 +128,10 @@ Count{ 0 };
 
 
 Prototype: 2
-Prototype_Size: 23; Flags: 0; #_Params: 1; Frame_Size: 1; Upvalue_Size: 0; KGC_Size: 0; KN_Size: 0; Instruction_Count: 1;
+Prototype Size: 23; Flags: 0; # of Params: 1; Frame Size: 1; Upvalue Size: 0; KGC Size: 0; KN Size: 0; Instruction Count: 1; Debug Size: 9; # of Debug Lines: 1;
 
 --Bytecode Instructions--
-(RET0): 0, 1, 0;
+(RET0): A = 0, C = 1, B = 0, [D: 1];
 
 --Prototype Children--
 Count{ 0 };
@@ -144,25 +144,25 @@ Count{ 0 };
 
 
 Prototype: 3
-Prototype_Size: 245; Flags: 0; #_Params: 2; Frame_Size: 6; Upvalue_Size: 0; KGC_Size: 7; KN_Size: 0; Instruction_Count: 16;
+Prototype Size: 245; Flags: 0; # of Params: 2; Frame Size: 6; Upvalue Size: 0; KGC Size: 7; KN Size: 0; Instruction Count: 16; Debug Size: 31; # of Debug Lines: 5;
 
 --Bytecode Instructions--
-(GGET): 2, 0, 0;
-(TGETV): 3, 1, 0;
-(KSTR): 4, 1, 0;
-(MOV): 5, 1, 0;
-(CAT): 4, 5, 4;
-(CALL): 2, 3, 1;
-(TSETS): 1, 2, 0;
-(MOV): 2, 1, 0;
-(KSTR): 3, 4, 0;
-(CAT): 2, 3, 2;
-(TSETS): 2, 3, 0;
-(MOV): 2, 1, 0;
-(KSTR): 3, 6, 0;
-(CAT): 2, 3, 2;
-(TSETS): 2, 5, 0;
-(RET0): 0, 1, 0;
+(GGET): A = 2, C = 0, B = 0, [D: 0];
+(TGETV): A = 3, C = 1, B = 0, [D: 1];
+(KSTR): A = 4, C = 1, B = 0, [D: 1];
+(MOV): A = 5, C = 1, B = 0, [D: 1];
+(CAT): A = 4, C = 5, B = 4, [D: 1029];
+(CALL): A = 2, C = 3, B = 1, [D: 259];
+(TSETS): A = 1, C = 2, B = 0, [D: 2];
+(MOV): A = 2, C = 1, B = 0, [D: 1];
+(KSTR): A = 3, C = 4, B = 0, [D: 4];
+(CAT): A = 2, C = 3, B = 2, [D: 515];
+(TSETS): A = 2, C = 3, B = 0, [D: 3];
+(MOV): A = 2, C = 1, B = 0, [D: 1];
+(KSTR): A = 3, C = 6, B = 0, [D: 6];
+(CAT): A = 2, C = 3, B = 2, [D: 515];
+(TSETS): A = 2, C = 5, B = 0, [D: 5];
+(RET0): A = 0, C = 1, B = 0, [D: 1];
 
 --Prototype Children--
 Count{ 0 };
@@ -182,18 +182,18 @@ String{ assert };
 
 
 Prototype: 4
-Prototype_Size: 100; Flags: 0; #_Params: 2; Frame_Size: 7; Upvalue_Size: 0; KGC_Size: 1; KN_Size: 0; Instruction_Count: 9;
+Prototype Size: 100; Flags: 0; # of Params: 2; Frame Size: 7; Upvalue Size: 0; KGC Size: 1; KN Size: 0; Instruction Count: 9; Debug Size: 34; # of Debug Lines: 4;
 
 --Bytecode Instructions--
-(TGETS): 2, 0, 0;
-(TGETV): 3, 2, 0;
-(ISF): 0, 3, 0;
-(JMP): 4, 4, 128;
-(MOV): 4, 3, 0;
-(MOV): 5, 0, 0;
-(MOV): 6, 1, 0;
-(CALL): 4, 3, 1;
-(RET0): 0, 1, 0;
+(TGETS): A = 2, C = 0, B = 0, [D: 0];
+(TGETV): A = 3, C = 2, B = 0, [D: 2];
+(ISF): A = 0, C = 3, B = 0, [D: 3];
+(JMP): A = 4, C = 4, B = 128, [D: -32764];
+(MOV): A = 4, C = 3, B = 0, [D: 3];
+(MOV): A = 5, C = 0, B = 0, [D: 0];
+(MOV): A = 6, C = 1, B = 0, [D: 1];
+(CALL): A = 4, C = 3, B = 1, [D: 259];
+(RET0): A = 0, C = 1, B = 0, [D: 1];
 
 --Prototype Children--
 Count{ 0 };
@@ -207,15 +207,15 @@ String{ pre_update_function };
 
 
 Prototype: 5
-Prototype_Size: 82; Flags: 0; #_Params: 2; Frame_Size: 6; Upvalue_Size: 0; KGC_Size: 1; KN_Size: 0; Instruction_Count: 6;
+Prototype Size: 82; Flags: 0; # of Params: 2; Frame Size: 6; Upvalue Size: 0; KGC Size: 1; KN Size: 0; Instruction Count: 6; Debug Size: 27; # of Debug Lines: 3;
 
 --Bytecode Instructions--
-(TGETS): 2, 0, 0;
-(TGETV): 3, 2, 0;
-(MOV): 4, 0, 0;
-(MOV): 5, 1, 0;
-(CALL): 3, 3, 1;
-(RET0): 0, 1, 0;
+(TGETS): A = 2, C = 0, B = 0, [D: 0];
+(TGETV): A = 3, C = 2, B = 0, [D: 2];
+(MOV): A = 4, C = 0, B = 0, [D: 0];
+(MOV): A = 5, C = 1, B = 0, [D: 1];
+(CALL): A = 3, C = 3, B = 1, [D: 259];
+(RET0): A = 0, C = 1, B = 0, [D: 1];
 
 --Prototype Children--
 Count{ 0 };
@@ -229,18 +229,18 @@ String{ update_function_name };
 
 
 Prototype: 6
-Prototype_Size: 101; Flags: 0; #_Params: 2; Frame_Size: 7; Upvalue_Size: 0; KGC_Size: 1; KN_Size: 0; Instruction_Count: 9;
+Prototype Size: 101; Flags: 0; # of Params: 2; Frame Size: 7; Upvalue Size: 0; KGC Size: 1; KN Size: 0; Instruction Count: 9; Debug Size: 34; # of Debug Lines: 4;
 
 --Bytecode Instructions--
-(TGETS): 2, 0, 0;
-(TGETV): 3, 2, 0;
-(ISF): 0, 3, 0;
-(JMP): 4, 4, 128;
-(MOV): 4, 3, 0;
-(MOV): 5, 0, 0;
-(MOV): 6, 1, 0;
-(CALL): 4, 3, 1;
-(RET0): 0, 1, 0;
+(TGETS): A = 2, C = 0, B = 0, [D: 0];
+(TGETV): A = 3, C = 2, B = 0, [D: 2];
+(ISF): A = 0, C = 3, B = 0, [D: 3];
+(JMP): A = 4, C = 4, B = 128, [D: -32764];
+(MOV): A = 4, C = 3, B = 0, [D: 3];
+(MOV): A = 5, C = 0, B = 0, [D: 0];
+(MOV): A = 6, C = 1, B = 0, [D: 1];
+(CALL): A = 4, C = 3, B = 1, [D: 259];
+(RET0): A = 0, C = 1, B = 0, [D: 1];
 
 --Prototype Children--
 Count{ 0 };
@@ -254,10 +254,10 @@ String{ post_update_function };
 
 
 Prototype: 7
-Prototype_Size: 23; Flags: 0; #_Params: 1; Frame_Size: 1; Upvalue_Size: 0; KGC_Size: 0; KN_Size: 0; Instruction_Count: 1;
+Prototype Size: 23; Flags: 0; # of Params: 1; Frame Size: 1; Upvalue Size: 0; KGC Size: 0; KN Size: 0; Instruction Count: 1; Debug Size: 9; # of Debug Lines: 0;
 
 --Bytecode Instructions--
-(RET0): 0, 1, 0;
+(RET0): A = 0, C = 1, B = 0, [D: 1];
 
 --Prototype Children--
 Count{ 0 };
@@ -270,10 +270,10 @@ Count{ 0 };
 
 
 Prototype: 8
-Prototype_Size: 28; Flags: 0; #_Params: 2; Frame_Size: 2; Upvalue_Size: 0; KGC_Size: 0; KN_Size: 0; Instruction_Count: 1;
+Prototype Size: 28; Flags: 0; # of Params: 2; Frame Size: 2; Upvalue Size: 0; KGC Size: 0; KN Size: 0; Instruction Count: 1; Debug Size: 14; # of Debug Lines: 0;
 
 --Bytecode Instructions--
-(RET0): 0, 1, 0;
+(RET0): A = 0, C = 1, B = 0, [D: 1];
 
 --Prototype Children--
 Count{ 0 };
@@ -286,41 +286,41 @@ Count{ 0 };
 
 
 Prototype: 9
-Prototype_Size: 318; Flags: 3; #_Params: 0; Frame_Size: 2; Upvalue_Size: 0; KGC_Size: 20; KN_Size: 0; Instruction_Count: 32;
+Prototype Size: 318; Flags: 3; # of Params: 0; Frame Size: 2; Upvalue Size: 0; KGC Size: 20; KN Size: 0; Instruction Count: 32; Debug Size: 33; # of Debug Lines: 74;
 
 --Bytecode Instructions--
-(GGET): 0, 0, 0;
-(GGET): 1, 1, 0;
-(CALL): 0, 2, 2;
-(GSET): 0, 1, 0;
-(GGET): 0, 1, 0;
-(FNEW): 1, 3, 0;
-(TSETS): 1, 2, 0;
-(GGET): 0, 1, 0;
-(FNEW): 1, 5, 0;
-(TSETS): 1, 4, 0;
-(GGET): 0, 1, 0;
-(FNEW): 1, 7, 0;
-(TSETS): 1, 6, 0;
-(GGET): 0, 1, 0;
-(FNEW): 1, 9, 0;
-(TSETS): 1, 8, 0;
-(GGET): 0, 1, 0;
-(FNEW): 1, 11, 0;
-(TSETS): 1, 10, 0;
-(GGET): 0, 1, 0;
-(FNEW): 1, 13, 0;
-(TSETS): 1, 12, 0;
-(GGET): 0, 1, 0;
-(FNEW): 1, 15, 0;
-(TSETS): 1, 14, 0;
-(GGET): 0, 1, 0;
-(FNEW): 1, 17, 0;
-(TSETS): 1, 16, 0;
-(GGET): 0, 1, 0;
-(FNEW): 1, 19, 0;
-(TSETS): 1, 18, 0;
-(RET0): 0, 1, 0;
+(GGET): A = 0, C = 0, B = 0, [D: 0];
+(GGET): A = 1, C = 1, B = 0, [D: 1];
+(CALL): A = 0, C = 2, B = 2, [D: 514];
+(GSET): A = 0, C = 1, B = 0, [D: 1];
+(GGET): A = 0, C = 1, B = 0, [D: 1];
+(FNEW): A = 1, C = 3, B = 0, [D: 3];
+(TSETS): A = 1, C = 2, B = 0, [D: 2];
+(GGET): A = 0, C = 1, B = 0, [D: 1];
+(FNEW): A = 1, C = 5, B = 0, [D: 5];
+(TSETS): A = 1, C = 4, B = 0, [D: 4];
+(GGET): A = 0, C = 1, B = 0, [D: 1];
+(FNEW): A = 1, C = 7, B = 0, [D: 7];
+(TSETS): A = 1, C = 6, B = 0, [D: 6];
+(GGET): A = 0, C = 1, B = 0, [D: 1];
+(FNEW): A = 1, C = 9, B = 0, [D: 9];
+(TSETS): A = 1, C = 8, B = 0, [D: 8];
+(GGET): A = 0, C = 1, B = 0, [D: 1];
+(FNEW): A = 1, C = 11, B = 0, [D: 11];
+(TSETS): A = 1, C = 10, B = 0, [D: 10];
+(GGET): A = 0, C = 1, B = 0, [D: 1];
+(FNEW): A = 1, C = 13, B = 0, [D: 13];
+(TSETS): A = 1, C = 12, B = 0, [D: 12];
+(GGET): A = 0, C = 1, B = 0, [D: 1];
+(FNEW): A = 1, C = 15, B = 0, [D: 15];
+(TSETS): A = 1, C = 14, B = 0, [D: 14];
+(GGET): A = 0, C = 1, B = 0, [D: 1];
+(FNEW): A = 1, C = 17, B = 0, [D: 17];
+(TSETS): A = 1, C = 16, B = 0, [D: 16];
+(GGET): A = 0, C = 1, B = 0, [D: 1];
+(FNEW): A = 1, C = 19, B = 0, [D: 19];
+(TSETS): A = 1, C = 18, B = 0, [D: 18];
+(RET0): A = 0, C = 1, B = 0, [D: 1];
 
 --Prototype Children--
 Count{ 9 };

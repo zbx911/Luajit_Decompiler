@@ -1,19 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using Luajit_Decompiler.dec.data;
+using Luajit_Decompiler.dec.lir;
 
 namespace Luajit_Decompiler.dec.gir
 {
     /// <summary>
     /// Control Flow Graph
     /// </summary>
-    class Cfg
+    class ControlFlowGraph
     {
         private byte[,] adj; //adjacency matrix where adj[i,j] = Child of I called J has an indentation/nest level of adj[i,j] - 1.
-        private readonly List<Jump> jumps;
-        private readonly List<Block> blocks; //index in this list and block name should be the same.
+        public readonly List<Jump> jumps;
+        public readonly List<Block> blocks; //index in this list and block name should be the same.
 
-        public Cfg(ref List<Jump> jumps, ref List<Block> blocks)
+        public ControlFlowGraph(ref List<Jump> jumps, ref List<Block> blocks)
         {
             adj = new byte[blocks.Count, blocks.Count];
             this.jumps = jumps;
@@ -26,7 +27,7 @@ namespace Luajit_Decompiler.dec.gir
 
             foreach (Jump j in jumps)
             {
-                int b1 = FindBlockNameByJIndex(j);
+                int b1 = FindBlockIndexByInstructionIndex(j.index);
                 if (b1 == -2) //-2 is a flag for the very first jump at the top of the file.
                     continue;
                 if (b1 == -1)
@@ -62,6 +63,13 @@ namespace Luajit_Decompiler.dec.gir
             #endregion
         }
 
+        //Checks if a conditional integrated instruction is the start of a loop or an if statement.
+        public bool IIStartsLoop(IntegratedInstruction ii)
+        {
+            //look at the next block, see if it points back to us.
+            return false;
+        }
+
         /// <summary>
         /// Returns block indices which the jump has skipped over. Can return an empty array.
         /// </summary>
@@ -71,7 +79,7 @@ namespace Luajit_Decompiler.dec.gir
         {
             List<int> result = new List<int>();
 
-            int origin = FindBlockNameByJIndex(j); //origin block
+            int origin = FindBlockIndexByInstructionIndex(j.index); //origin block
             int targeted = j.TargetedBlock.GetNameIndex();
 
             while (++origin < targeted)
@@ -123,14 +131,19 @@ namespace Luajit_Decompiler.dec.gir
         /// Returns the name of a block based on the index of a jump. If a jump is not found, return -1.
         /// </summary>
         /// <returns></returns>
-        private int FindBlockNameByJIndex(Jump j)
+        private int FindBlockIndexByInstructionIndex(int index)
         {
-            if (j.index == -1)
+            if (index == -1)
                 return -2; //returns -2 in the event that the jump is the very first jump that was artifically created at the top of the file.
             for (int i = 0; i < blocks.Count; i++)
-                if (blocks[i].InstructionExists(j.index) != -1)
+                if (blocks[i].InstructionExists(index) != -1)
                     return blocks[i].GetNameIndex();
             return -1;
+        }
+
+        private Block FindBlockByInstructionIndex(int index)
+        {
+            return blocks[FindBlockIndexByInstructionIndex(index)];
         }
     }
 }

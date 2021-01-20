@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Luajit_Decompiler.dec.lua_formatting;
 using Luajit_Decompiler.dis;
 
 namespace Luajit_Decompiler.dec
@@ -15,25 +16,33 @@ namespace Luajit_Decompiler.dec
             Disassembler dis = new Disassembler(fm);
             dis.DisassembleAll();
             disFile = dis.DisFile;
-            Decompile();
+            StartDecompilation();
         }
 
-        /// <summary>
-        /// Decompile each file and its prototypes.
-        /// </summary>
-        private void Decompile()
+        private void StartDecompilation()
         {
             if (disFile != null)
             {
-                //for each file, decompile their prototypes.
                 foreach (KeyValuePair<string, List<Prototype>> kv in disFile)
                 {
-                    DecPrototypes dp = new DecPrototypes(kv.Key, kv.Value);
-                    fm.WriteDecompiledCode(kv.Key, dp.ToString());
+                    DecompiledLua lua = new DecompiledLua(0);
+                    Decompile(kv.Key, kv.Value, lua);
+                    fm.WriteDecompiledCode(kv.Key, lua.ToString());
                 }
             }
             else
                 throw new Exception("Disassembled file is null.");
+        }
+
+        private void Decompile(string name, List<Prototype> pts, DecompiledLua lua)
+        {
+            //We go backwards here because the 'main' prototype is always the last one and will have the most prototype children.
+            //In addition, the 'main' prototype will contain the local variables that are referenced as upvalues in most child prototypes.
+            for (int i = pts.Count; i > 0; i--)
+            {
+                DecompilePrototype dpt = new DecompilePrototype(pts[i - 1], lua);
+                dpt.StartProtoDecomp();
+            }
         }
     }
 }

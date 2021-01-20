@@ -6,22 +6,22 @@ namespace Luajit_Decompiler.dis
     public struct InstructionRegisters
     {
         [FieldOffset(0)]
-        public byte regA;
+        public byte a;
 
         [FieldOffset(1)]
-        public byte regC;
+        public byte c;
 
         [FieldOffset(2)] //offset is in bytes.
-        public byte regB;
+        public byte b;
 
         [FieldOffset(1)]
-        public short regD;
+        public short d;
     }
 
     class BytecodeInstruction
     {
         public OpCodes opcode;
-        public InstructionRegisters regs;
+        public InstructionRegisters registers;
         //public byte regA;
         //public byte regB;
         //public byte regC;
@@ -39,7 +39,7 @@ namespace Luajit_Decompiler.dis
         /// <returns></returns>
         public override string ToString()
         {
-            return "(" + opcode + "): " + "A = " + regs.regA + ", " + "C = " + regs.regC + ", " + "B = " + regs.regB + ", [D: " + regs.regD + "]" +";";
+            return "(" + opcode + "): " + "A = " + registers.a + ", " + "C = " + registers.c + ", " + "B = " + registers.b + ", [D: " + registers.d + "]" +";";
         }
     }
 }
