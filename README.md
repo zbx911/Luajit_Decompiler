@@ -27,6 +27,8 @@ Decompiles LuaJit 2.0 compiled Lua files into an equivalent representation of Lu
     - matrix[block1, block2] = 1 -> block1's jump/comparsion instructions points to block2
     - matrix[block1, block1] = 2 -> block1 is the start of the loop.
     - matrix[block1, block2] = 3 -> block1 is the body of a loop that starts at block2
+- dec/lua_formatting **[High level tools for writing lua source]**
+  - DecompiledLua.cs **[Stores the decompiled lua source of a single prototype]**
 - dec/state_machine
   - LStateContext.cs **[Contains information required by LState derived classes to write lua]**
   - dec/statemachine/states **[All LState derived states used to write the lua of a particular bytecode instruction]**
