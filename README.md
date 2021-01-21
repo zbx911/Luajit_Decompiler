@@ -18,3 +18,17 @@ Decompiles LuaJit 2.0 compiled Lua files into an equivalent representation of Lu
 - UpValue.cs **[A container class for LuaJit upvalues. An upvalue references a constant (and/or maybe a slot index?) in a parent prototype if the value of TableLocation is 192]**
 
 # Decompiler (dec/)
+
+# Road Map
+- [ ] Refactor FileManager.cs
+- [ ] Refactor dis/*.cs
+- [ ] Finish dec/
+  - [ ] Implement all states in dec/states/
+  - [ ] Finish dec/lua_formatting/
+  - [ ] Finish DecompilePrototype.cs
+- [ ] Refactor dec/
+  - [ ] Refactor dec/data/*.cs
+  - [ ] Refactor dec/lua_formatting/*.cs
+  - [ ] Refactor dec/state_machine/*.cs
+    - [ ] Refactor dec/state_machine/states/*.cs
+  
