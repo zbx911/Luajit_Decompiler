@@ -1,5 +1,7 @@
 # Luajit_Decompiler
 
+Decompiles LuaJit 2.0 compiled Lua files into an equivalent representation of Lua source code.
+
 ***The dec/ part of this project is currently unfinished.***
 
 # Disassembler (dis/)
