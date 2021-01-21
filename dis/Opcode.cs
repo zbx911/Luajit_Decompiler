@@ -7,7 +7,7 @@ namespace Luajit_Decompiler.dis
     /// </summary>
     public enum OpCodes
     {
-        ISLT, //Eval
+        ISLT,
         ISGE,
         ISLE,
         ISGT,
@@ -20,35 +20,38 @@ namespace Luajit_Decompiler.dis
         ISEQP,
         ISNEP,
 
-        ISTC, //Unary Test & Copy
+        ISTC,
         ISFC,
         IST,
         ISF,
 
-        MOV, //Unary ops
+        MOV,
         NOT,
         UNM,
         LEN,
 
-        ADDVN, //Binop
+        ADDVN,
         SUBVN,
         MULVN,
         DIVVN,
         MODVN,
+
         ADDNV,
         SUBNV,
         MULNV,
         DIVNV,
         MODNV,
+
         ADDVV,
         SUBVV,
         MULVV,
         DIVVV,
         MODVV,
+
         POW,
         CAT,
         
-        KSTR, //constants
+        KSTR,
         KCDATA,
         KSHORT,
         KNUM,
@@ -56,7 +59,7 @@ namespace Luajit_Decompiler.dis
         KNIL,
 
         UGET,
-        USETV, //set?
+        USETV,
         USETS,
         USETN,
         USETP,
@@ -66,7 +69,7 @@ namespace Luajit_Decompiler.dis
         TNEW,
         TDUP,
 
-        GGET, //get?
+        GGET,
         GSET,
         TGETV,
         TGETS,
@@ -85,12 +88,12 @@ namespace Luajit_Decompiler.dis
         VARG,
         ISNEXT,
 
-        RETM, //ret
+        RETM,
         RET,
         RET0,
         RET1,
 
-        FORI, //loop
+        FORI,
         JFORI,
         FORL,
         IFORL,
@@ -112,13 +115,6 @@ namespace Luajit_Decompiler.dis
         JFUNCV,
         FUNCC,
         FUNCCW,
-
-        ////Non-Luajit, IR Ocodes.
-        //_if,
-        //ifelse,
-        //ieie, // if elseif... else
-        //removed,
-        //_goto
     }
 
     class Opcode

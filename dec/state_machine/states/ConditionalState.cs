@@ -22,11 +22,11 @@ namespace Luajit_Decompiler.dec.state_machine.states
 
             Context.lua.AddLuaConstructHeader(header);
 
-            Block trueBlock = Context.cfg.GetJumpBlockTargetByJIndex(Bci.index);
+            Block trueBlock = Context.cfg.GetJumpBlockTargetByJIndex(Bci.bciIndexInPrototype);
             trueBlock.indent++;
             Context.blockWriter.blockQueue.Enqueue(trueBlock);
 
-            Block nextBlock = Context.cfg.GetJumpBlockTargetByJIndex(Bci.index + 1);
+            Block nextBlock = Context.cfg.GetJumpBlockTargetByJIndex(Bci.bciIndexInPrototype + 1);
 
 
             if (!Context.cfg.IsIfStatement(Context.currentBlock, trueBlock)) //indicitive of an if/else statement.

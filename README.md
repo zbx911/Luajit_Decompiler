@@ -39,9 +39,10 @@ Decompiles LuaJit 2.0 compiled Lua files into an equivalent representation of Lu
   - BlockWriter.cs **[Writes the blocks associated with one prototype]**
   
 # Road Map
-- [ ] Refactor FileManager.cs
-- [ ] Refactor dis/*.cs
+- [x] Refactor FileManager.cs
+- [x] Refactor dis/*.cs
 - [ ] Finish dec/
+  - [ ] Regroup bytecode instructions by state based on dis.opcodes grouping.
   - [ ] Implement all states in dec/states/
   - [ ] Finish dec/lua_formatting/
   - [ ] Finish DecompilePrototype.cs

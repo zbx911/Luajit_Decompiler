@@ -23,17 +23,10 @@ namespace Luajit_Decompiler
         {
             try
             {
-                if (!Directory.Exists(bc_dir_name))
-                    Directory.CreateDirectory(bc_dir_name);
-
-                if (!Directory.Exists(dis_dir_name))
-                    Directory.CreateDirectory(dis_dir_name);
-
-                if (!Directory.Exists(dec_dir_name))
-                    Directory.CreateDirectory(dec_dir_name);
-
-                if (!Directory.Exists(debug_dir_name))
-                    Directory.CreateDirectory(debug_dir_name);
+                CreateDirIfNotExists(bc_dir_name);
+                CreateDirIfNotExists(dis_dir_name);
+                CreateDirIfNotExists(dec_dir_name);
+                CreateDirIfNotExists(debug_dir_name);
 
                 bytecode_dir_path = Path.GetFullPath(bc_dir_name);
                 disassembled_dir_path = Path.GetFullPath(dis_dir_name);
@@ -48,7 +41,13 @@ namespace Luajit_Decompiler
                 Console.Read();
             }
         }
-        #region Input
+
+        private void CreateDirIfNotExists(string dirName)
+        {
+            if (!Directory.Exists(dirName))
+                Directory.CreateDirectory(dirName);
+        }
+
         /// <summary>
         /// Returns a dictionary containing the name of a file and its associated bytecode inside a byte array.
         /// </summary>
@@ -64,8 +63,14 @@ namespace Luajit_Decompiler
             }
             return fileData;
         }
-        #endregion
-        #region Output
+
+        private void WriteAllText(string path, string text)
+        {
+            if (!File.Exists(path))
+                File.Create(path);
+            System.IO.File.WriteAllText(path, text);
+        }
+
         /// <summary>
         /// Writes disassembled bytecode output to its proper directory.
         /// </summary>
@@ -73,8 +78,7 @@ namespace Luajit_Decompiler
         /// <param name="dis">The output from the disassembler.</param>
         public void WriteDisassembledBytecode(string name, string dis)
         {
-            string oPath = disassembled_dir_path + @"\" + name + ".txt";
-            System.IO.File.WriteAllText(oPath, dis);
+            WriteAllText(disassembled_dir_path + @"\" + name + ".txt", dis);
         }
 
         /// <summary>
@@ -84,11 +88,9 @@ namespace Luajit_Decompiler
         /// <param name="dec">Decompiled lua source code.</param>
         public void WriteDecompiledCode(string name, string dec)
         {
-            string oPath = decompiled_dir_path + @"\" + name + ".lua";
-            System.IO.File.WriteAllText(oPath, dec);
+            WriteAllText(decompiled_dir_path + @"\" + name + ".lua", dec);
         }
 
-        #region refactor
         /// <summary>
         /// Writes to the debug file.
         /// </summary>
@@ -101,14 +103,6 @@ namespace Luajit_Decompiler
             System.IO.File.AppendAllText(IOPath, info);
         }
 
-        public static void WriteDebugAppend(string info)
-        {
-            string IOPath = debug_dir_path + @"\" + "info" + ".txt";
-            if (!File.Exists(IOPath))
-                File.Create(IOPath).Close();
-            System.IO.File.AppendAllText(IOPath, info);
-        }
-        #endregion
         /// <summary>
         /// Clears the debug file.
         /// </summary>
@@ -118,6 +112,5 @@ namespace Luajit_Decompiler
             if(File.Exists(IOPath))
                 File.Delete(IOPath);
         }
-        #endregion
     }
 }

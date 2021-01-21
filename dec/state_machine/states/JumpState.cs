@@ -4,8 +4,8 @@
     {
         public override void HandleLua()
         {
-            if(!Context.cfg.GetParentBlock(Context.currentBlock).visited)
-                Context.blockWriter.blockQueue.Enqueue(Context.cfg.GetJumpBlockTargetByJIndex(Bci.index));
+            if(!Context.cfg.GetParentBlock(Context.currentBlock).visited) //add null check.
+                Context.blockWriter.blockQueue.Enqueue(Context.cfg.GetJumpBlockTargetByJIndex(Bci.bciIndexInPrototype));
         }
 
         public override void HandleSlots()

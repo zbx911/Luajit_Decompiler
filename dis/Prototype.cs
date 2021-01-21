@@ -6,8 +6,6 @@ namespace Luajit_Decompiler.dis
 {
     class Prototype
     {
-        private readonly byte[] bytes;                                      //remaining bytes of the bytecode. The file header must be stripped from this list. Assumes next 7 bytes are for the prototype header.
-
         //Prototype Header Info : These 7 bytes are also from luajit lj_bcwrite.
         public readonly byte flags;                                         //individual prototype flags.
         public readonly byte numberOfParams;                                //number of params in the method
@@ -44,9 +42,8 @@ namespace Luajit_Decompiler.dis
         /// <param name="protoStack">Stack of all prototypes to determine children of prototypes.</param>
         /// <param name="fileFlag">If debug information is stripped or not.</param>
         /// <param name="index">For naming purposes to determine children.</param>
-        public Prototype(byte[] bytes, ref int offset, int protoSize, Stack<Prototype> protoStack, byte fileFlag, int index) //fileFlag from the file header. 0x02 = strip debug info.
+        public Prototype(ByteManager bm, int protoSize, Stack<Prototype> protoStack, byte fileFlag, int index) //fileFlag from the file header. 0x02 = strip debug info.
         {
-            this.bytes = bytes;
             this.protoStack = protoStack;
             prototypeSize = protoSize;
             bytecodeInstructions = new List<BytecodeInstruction>();
@@ -58,36 +55,37 @@ namespace Luajit_Decompiler.dis
             variableNames = new List<string>();
 
             //prototype header and instructions section
-            flags = Disassembler.ConsumeByte(bytes, ref offset); //# of tables for instance?
-            numberOfParams = Disassembler.ConsumeByte(bytes, ref offset);
-            frameSize = Disassembler.ConsumeByte(bytes, ref offset); //# of functions - 1?
-            sizeUV = Disassembler.ConsumeByte(bytes, ref offset);
-            sizeKGC = Disassembler.ConsumeUleb(bytes, ref offset);
-            sizeKN = Disassembler.ConsumeUleb(bytes, ref offset);
-            PackBCInstructions(bytes, ref offset, fileFlag); //must be here since the next bytes are the instruction count & bytecode instruction bytes.
-            PackConstants(bytes, ref offset);
+            flags = bm.ConsumeByte(); //# of tables for instance?
+            numberOfParams = bm.ConsumeByte();
+            frameSize = bm.ConsumeByte(); //# of functions - 1?
+            sizeUV = bm.ConsumeByte();
+            sizeKGC = bm.ConsumeUleb();
+            sizeKN = bm.ConsumeUleb();
+            PackBCInstructions(bm, fileFlag); //must be here since the next bytes are the instruction count & bytecode instruction bytes.
+            PackConstants(bm);
         }
 
         /// <summary>
         /// Interprets the bytecode instructions and packs them up into the list.
         /// </summary>
-        private void PackBCInstructions(byte[] bytes, ref int offset, byte fileFlag)
+        private void PackBCInstructions(ByteManager bm, byte fileFlag)
         {
-            //Console.Out.WriteLine(GetHeaderText()); //debug
-            int instructionSize = 4; //size of bc instructions.
-            int instructionCount = Disassembler.ConsumeUleb(bytes, ref offset) * instructionSize; //# of bytecode instructions. Part of the 7 byte proto header.
-            //There is debug info here if flags are present.
+            int instructionSize = 4;
+            int instructionCount = bm.ConsumeUleb() * instructionSize;
+
             if ((fileFlag & 0x02) == 0)
             {
-                debugSize = Disassembler.ConsumeUleb(bytes, ref offset);
+                debugSize = bm.ConsumeUleb();
                 if (debugSize > 0)
                 {
-                    firstLine = Disassembler.ConsumeUleb(bytes, ref offset);
-                    numLines = Disassembler.ConsumeUleb(bytes, ref offset);
+                    firstLine = bm.ConsumeUleb();
+                    numLines = bm.ConsumeUleb();
                 }
             }
-            byte[] instructionBytes = Disassembler.ConsumeBytes(bytes, ref offset, instructionCount);
+
+            byte[] instructionBytes = bm.ConsumeBytes(instructionCount);
             int bciIndex = 0;
+
             for(int i = 0; i < instructionBytes.Length; i += 4)
             {
                 BytecodeInstruction bci = new BytecodeInstruction(Opcode.ParseOpByte(instructionBytes[i]), bciIndex);
@@ -104,28 +102,27 @@ namespace Luajit_Decompiler.dis
         /// </summary>
         /// <param name="bytes"></param>
         /// <param name="offset"></param>
-        private void PackConstants(byte[] bytes, ref int offset)
+        private void PackConstants(ByteManager bm)
         {
-            //upvalues first, then global constants, then numbers. Lastly, any debug info
+            //Upvalues first, then global constants, then numbers. Lastly, any debug info. *Must be in that order*
             if(sizeUV > 0)
             {
-                byte[] uv = Disassembler.ConsumeBytes(bytes, ref offset, sizeUV * 2);
+                byte[] uv = bm.ConsumeBytes(sizeUV * 2);
                 for(int i = 0; i < uv.Length; i += 2)
                     upvalues.Add(new UpValue(uv[i], uv[i + 1]));
             }
+
             if(sizeKGC > 0)
-            {
                 for (int i = 0; i < sizeKGC; i++)
-                    ReadKGC(bytes, ref offset);
-            }
+                    ReadKGC(bm);
+
             if(sizeKN > 0)
-            {
                 for (int i = 0; i < sizeKN; i++)
-                    ReadKN(bytes, ref offset);
-            }
+                    ReadKN(bm);
+
             if(debugSize > 0)
             {
-                byte[] debugSection = Disassembler.ConsumeBytes(bytes, ref offset, debugSize);
+                byte[] debugSection = bm.ConsumeBytes(debugSize);
                 PackVariableNames(debugSection);
             }
         }
@@ -136,78 +133,94 @@ namespace Luajit_Decompiler.dis
             //Line number section which probably map to slots. Duplicates are sometimes present...just skip through until we hit numLines and begin searching for the var names.
             //Var names: ASCII characters terminated with 0x00. 2 bytes of unidentified data after each variable name.
 
-            //Skip to variable names.
-            int nameOffset = 0;
-            for(int i = 0; i < debugSection.Length; i++)
-            {
-                if(debugSection[i] == numLines) //could be duplicated line number due to what I think is a LJ optimization for certain in-lines so we check next as well.
-                {
-                    while(debugSection[i + 1] == numLines)
-                        i++;
-                    nameOffset = i + 1; //should be on top of the first ASCII char of a var name.
-                    break;
-                }
-            }
+            int nameOffset = SkipToVariableNameOffset(debugSection);
+
             if (nameOffset == 0)
                 return;
 
-            //begin collection of variable names.
+            CollectVariableNamesToList(debugSection, ref nameOffset);
+
+            variableNames.RemoveAll(s => s == "");
+        }
+
+        private void CollectVariableNamesToList(byte[] debugSection, ref int nameOffset)
+        {
             StringBuilder name = new StringBuilder();
+
             while (nameOffset < debugSection.Length)
             {
-                if(debugSection[nameOffset] == 0)
+                if (debugSection[nameOffset] == 0)
                 {
                     variableNames.Add(CleanVariableName(name.ToString()));
                     name = new StringBuilder();
                     nameOffset += 3; //skip over terminator + 2 bytes of unknown data.
                 }
+
                 if (nameOffset < debugSection.Length)
                 {
                     name.Append((char)debugSection[nameOffset]);
                     nameOffset++;
                 }
             }
-            variableNames.RemoveAll(s => s == "");
         }
-        
-        private void ReadKGC(byte[] bytes, ref int offset)
+
+        private int SkipToVariableNameOffset(byte[] debugSection)
+        {
+            int nameOffset = 0;
+            for (int i = 0; i < debugSection.Length; i++)
+            {
+                if (debugSection[i] == numLines)
+                {
+                    while (debugSection[i + 1] == numLines)
+                        i++;
+
+                    nameOffset = i + 1;
+                    break;
+                }
+            }
+            return nameOffset;
+        }
+
+        private void ReadKGC(ByteManager bm)
         {
             byte typeByte;
-            typeByte = Disassembler.ConsumeByte(bytes, ref offset);
+            typeByte = bm.ConsumeByte();
+
             switch (typeByte)
             {
                 case 0: //Child Prototype
                     Prototype child = protoStack.Pop();
-                    child.parent = this; //store a reference to this parent in the child proto.
+                    child.parent = this;
                     prototypeChildren.Add(child);
                     break;
                 case 1: //Table
-                    constantsSection.Add(new CTable(new TableConstant(bytes, ref offset)));
+                    constantsSection.Add(new CTable(new TableConstant(bm)));
                     break;
                 case 2: //sInt64 => Uleb
-                    constantsSection.Add(new CInt(Disassembler.ConsumeUleb(bytes, ref offset)));
+                    constantsSection.Add(new CInt(bm.ConsumeUleb()));
                     break;
                 case 3: //uInt64 => Uleb
-                    constantsSection.Add(new CInt(Disassembler.ConsumeUleb(bytes, ref offset))); //May need special treatment; but for now, just read it as an integer.
+                    constantsSection.Add(new CInt(bm.ConsumeUleb())); //May need special treatment; but for now, just read it as an integer.
                     break;
                 case 4: //complex number => LuaNumber => 2 Ulebs --Note: according to DiLemming, double is 2 ulebs and complex is 4 ulebs.
-                    constantsSection.Add(new CLuaNumber(new LuaNumber(Disassembler.ConsumeUleb(bytes, ref offset), Disassembler.ConsumeUleb(bytes, ref offset))));
+                    constantsSection.Add(new CLuaNumber(new LuaNumber(bm.ConsumeUleb(), bm.ConsumeUleb())));
                     break;
                 default: //string: length is typebyte - 5.
-                    constantsSection.Add(new CString(ASCIIEncoding.Default.GetString(Disassembler.ConsumeBytes(bytes, ref offset, typeByte - 5))));
+                    constantsSection.Add(new CString(ASCIIEncoding.Default.GetString(bm.ConsumeBytes(typeByte - 5))));
                     break;
             }
         }
 
-        private void ReadKN(byte[] bytes, ref int offset)
+        private void ReadKN(ByteManager bm)
         {
             //Slightly modified DiLemming's code for reading number constants.
-            int a = Disassembler.ConsumeUleb(bytes, ref offset);
+            int a = bm.ConsumeUleb();
             bool isDouble = (a & 1) > 0;
             a >>= 1;
+
             if(isDouble)
             {
-                int b = Disassembler.ConsumeUleb(bytes, ref offset);
+                int b = bm.ConsumeUleb();
                 CDouble.KNUnion knu = new CDouble.KNUnion
                 {
                     ulebA = a,
@@ -228,30 +241,66 @@ namespace Luajit_Decompiler.dis
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
+
             result.AppendLine(GetHeaderText());
+
+            result.AppendLine(GetBciText());
+
+            result.AppendLine(GetChildProtoText());
+
+            result.AppendLine(GetUpvaluesText());
+
+            result.AppendLine(GetConstantsText());
+
+            result.AppendLine(GetVariableNamesText());
+
+            result.AppendLine("--End--");
+            return result.ToString();
+        }
+
+        private string GetBciText()
+        {
+            StringBuilder result = new StringBuilder();
             result.AppendLine("--Bytecode Instructions--");
             for (int i = 0; i < bytecodeInstructions.Count; i++)
                 result.AppendLine(bytecodeInstructions[i].ToString());
-            result.AppendLine();
+            return result.ToString();
+        }
+
+        private string GetChildProtoText()
+        {
+            StringBuilder result = new StringBuilder();
             result.AppendLine("--Prototype Children--");
             result.AppendLine("Count{ " + prototypeChildren.Count + " };");
             for (int i = 0; i < prototypeChildren.Count; i++)
                 result.AppendLine("Child{ " + "Prototype: " + prototypeChildren[i].index + " };");
-            result.AppendLine();
+            return result.ToString();
+        }
+
+        private string GetUpvaluesText()
+        {
+            StringBuilder result = new StringBuilder();
             result.AppendLine("--Upvalues--");
             for (int i = 0; i < upvalues.Count; i++)
                 result.AppendLine(upvalues[i].ToString());
-            result.AppendLine();
+            return result.ToString();
+        }
+
+        private string GetConstantsText()
+        {
+            StringBuilder result = new StringBuilder();
             result.AppendLine("--Constants--");
             for (int i = 0; i < constantsSection.Count; i++)
                 result.AppendLine(constantsSection[i].ToString());
-            result.AppendLine();
+            return result.ToString();
+        }
+
+        private string GetVariableNamesText()
+        {
+            StringBuilder result = new StringBuilder();
             result.AppendLine("--Variable Names--");
             for (int i = 0; i < variableNames.Count; i++)
                 result.AppendLine(variableNames[i]);
-            result.AppendLine();
-            result.AppendLine("--End--");
-            result.AppendLine();
             return result.ToString();
         }
 

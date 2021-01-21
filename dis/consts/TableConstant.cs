@@ -4,19 +4,6 @@ using System.Text;
 namespace Luajit_Decompiler.dis.consts
 {
     /// <summary>
-    /// Based off of luajit's enumeration for reading tables.
-    /// </summary>
-    public enum TabType
-    {
-        _nil,
-        _false,
-        _true,
-        _int,
-        _number,
-        _string
-    };
-
-    /// <summary>
     /// The purpose of this class is to store whatever values are found inside lua tables and their respective indice.
     /// </summary>
     class TableConstant
@@ -26,25 +13,38 @@ namespace Luajit_Decompiler.dis.consts
         public List<BaseConstant> arrayPart;
         public List<BaseConstant> hashPart;
 
-        public TableConstant(byte[] bytes, ref int offset)
+        public TableConstant(ByteManager bm)
         {
             arrayPart = new List<BaseConstant>();
             hashPart = new List<BaseConstant>();
-            ReadTable(bytes, ref offset);
+            ReadTable(bm);
         }
 
-        public void ReadTable(byte[] bytes, ref int offset)
+        /// <summary>
+        /// Tables are comprised of 4 parts; The length of array part, then the length of the hash part, then the array part, then the hash part. hash = key, array = value.
+        /// </summary>
+        /// <param name="bm"></param>
+        public void ReadTable(ByteManager bm)
         {
-            arrayPartLength = Disassembler.ConsumeUleb(bytes, ref offset);
-            hashPartLength = Disassembler.ConsumeUleb(bytes, ref offset);
-            //read the array part
+            arrayPartLength = bm.ConsumeUleb();
+            hashPartLength = bm.ConsumeUleb();
+
+            ReadArrayPart(bm, arrayPartLength);
+            ReadHashPart(bm, hashPartLength);
+        }
+
+        private void ReadArrayPart(ByteManager bm, int arrayPartLength)
+        {
             if (arrayPartLength != 0)
                 for (int i = 0; i < arrayPartLength; i++)
-                    arrayPart.Add(ReadTableValue(bytes, ref offset));
-            //read the hash part
+                    arrayPart.Add(ReadTableValue(bm));
+        }
+
+        private void ReadHashPart(ByteManager bm, int hashPartLength)
+        {
             if (hashPartLength != 0)
-                for(int i = 0; i < hashPartLength; i++)
-                    hashPart.Add(new CHash(new HashValue(ReadTableValue(bytes, ref offset), ReadTableValue(bytes, ref offset))));
+                for (int i = 0; i < hashPartLength; i++)
+                    hashPart.Add(new CHash(new HashValue(ReadTableValue(bm), ReadTableValue(bm))));
         }
 
         /// <summary>
@@ -53,9 +53,9 @@ namespace Luajit_Decompiler.dis.consts
         /// <param name="bytes"></param>
         /// <param name="offset"></param>
         /// <returns></returns>
-        private BaseConstant ReadTableValue(byte[] bytes, ref int offset)
+        private BaseConstant ReadTableValue(ByteManager bm)
         {
-            int typebyte = Disassembler.ConsumeUleb(bytes, ref offset);
+            int typebyte = bm.ConsumeUleb();
             switch (typebyte)
             {
                 case 0: //nil
@@ -65,11 +65,11 @@ namespace Luajit_Decompiler.dis.consts
                 case 2: //true
                     return new CBool(true);
                 case 3: //int
-                    return new CInt(Disassembler.ConsumeUleb(bytes, ref offset));
+                    return new CInt(bm.ConsumeUleb());
                 case 4: //lua number
-                    return new CLuaNumber(new LuaNumber(Disassembler.ConsumeUleb(bytes, ref offset), Disassembler.ConsumeUleb(bytes, ref offset)));
+                    return new CLuaNumber(new LuaNumber(bm.ConsumeUleb(), bm.ConsumeUleb()));
                 default: //string
-                    return new CString(ASCIIEncoding.Default.GetString(Disassembler.ConsumeBytes(bytes, ref offset, typebyte - 5)));
+                    return new CString(ASCIIEncoding.Default.GetString(bm.ConsumeBytes(typebyte - 5)));
             }
         }
 

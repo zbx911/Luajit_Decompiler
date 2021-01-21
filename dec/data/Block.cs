@@ -49,7 +49,7 @@ namespace Luajit_Decompiler.dec.data
             int result = -1;
 
             for (int i = 0; i < bytecodeInstructions.Length; i++)
-                if (bytecodeInstructions[i].index == index)
+                if (bytecodeInstructions[i].bciIndexInPrototype == index)
                     return i;
 
             return result;
@@ -74,7 +74,7 @@ namespace Luajit_Decompiler.dec.data
             StringBuilder res = new StringBuilder();
             res.AppendLine(label);
             foreach (BytecodeInstruction bci in bytecodeInstructions)
-                res.AppendLine(bci.index + ":" + bci.ToString());
+                res.AppendLine(bci.bciIndexInPrototype + ":" + bci.ToString());
             res.AppendLine();
             return res.ToString();
         }

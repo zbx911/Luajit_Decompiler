@@ -88,6 +88,7 @@
     <Compile Include="dec\state_machine\states\UpValueCloseState.cs" />
     <Compile Include="dec\state_machine\states\VarArgState.cs" />
     <Compile Include="dis\BytecodeInstruction.cs" />
+    <Compile Include="dis\ByteManager.cs" />
     <Compile Include="dis\consts\BaseConstant.cs" />
     <Compile Include="dis\consts\CBool.cs" />
     <Compile Include="dis\consts\CDouble.cs" />

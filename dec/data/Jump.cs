@@ -17,7 +17,7 @@ namespace Luajit_Decompiler.dec.data
 
         public Jump(BytecodeInstruction jmp, int jumpType, int nameIndex, Prototype pt)
         {
-            index = jmp.index;
+            index = jmp.bciIndexInPrototype;
             this.jumpType = jumpType;
             if (jumpType == 1) //calculate jump distance. may be negative.
                 distance = ((jmp.registers.b << 8) | jmp.registers.c) - 0x8000;

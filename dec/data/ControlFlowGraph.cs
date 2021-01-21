@@ -65,18 +65,18 @@ namespace Luajit_Decompiler.dec.data
         private void DebugAdjMatrix()
         {
             //FileManager.ClearDebug();
-            FileManager.WriteDebugAppend("\n");
+            FileManager.WriteDebug("\n");
             for (int i = 0; i < adj.GetLength(0); i++)
                 for (int j = 0; j < adj.GetLength(1); j++)
                     if (adj[i, j] >= 1 && i != j) //blocks can't point to themselves by definition.
                         FileManager.WriteDebug("iBlock[" + i + "] -> jBlock[" + j + "]");
 
-            FileManager.WriteDebugAppend("\n\n");
+            FileManager.WriteDebug("\n\n");
             for (int i = 0; i < adj.GetLength(0); i++)
             {
                 for (int j = 0; j < adj.GetLength(1); j++)
-                    FileManager.WriteDebugAppend(adj[i, j] + " ");
-                FileManager.WriteDebugAppend("\n");
+                    FileManager.WriteDebug(adj[i, j] + " ");
+                FileManager.WriteDebug("\n");
             }
         }
 
@@ -146,7 +146,10 @@ namespace Luajit_Decompiler.dec.data
 
         public Block GetParentBlock(Block b)
         {
-            return blocks[GetParent(b)];
+            int i = GetParent(b);
+            if (i >= 0)
+                return blocks[i];
+            else return null;
         }
 
         public int FindBlockIndexByInstructionIndex(int index)
