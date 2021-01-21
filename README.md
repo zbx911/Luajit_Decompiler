@@ -7,6 +7,8 @@ Decompiles LuaJit 2.0 compiled Lua files into an equivalent representation of Lu
 # Disassembler (dis/)
 - consts/ **[Lua dynamic data types restructured as a class tree]**
   - TableConstant.cs **[Reads a constant table from the LuaJit bytecode]**
+  - C(Type).cs **[A container for a variable whos type can vary]**
+  - BaseConstant.cs **[Parent of all C(Type).cs files]**
 - Disassembler.cs **[Responsible for creating LuaJit prototypes from raw bytes and writing the disassembled prototypes to file]**
 - BytecodeInstruction.cs **[A container class for LuaJit bytecode instructions]**
   - Bytecode instructions are read: Opcode, Registers.
