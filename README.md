@@ -31,6 +31,9 @@ Decompiles LuaJit 2.0 compiled Lua files into an equivalent representation of Lu
   - DecompiledLua.cs **[Stores the decompiled lua source of a single prototype]**
 - dec/state_machine
   - LStateContext.cs **[Contains information required by LState derived classes to write lua]**
+    - LuaJit stores its variables in slots. Length of slots = frameSize so "frame" may be a better name then slots.
+    - LuaJit references constants by index in separate constant tables. One per Lua type (I think).
+    - Register A in bytecode instructions typically refers to a destination slot. Some instructions refer to multiple slots.
   - dec/statemachine/states **[All LState derived states used to write the lua of a particular bytecode instruction]**
   - StateMap.cs **[A mapping of Opcode -> LState]**
   - BlockWriter.cs **[Writes the blocks associated with one prototype]**
