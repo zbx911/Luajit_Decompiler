@@ -30,7 +30,6 @@ namespace Luajit_Decompiler.dec.data
 
             SetBlockAdjacenciesByBlockIndex();
             FindAndMarkLoops();
-
             DebugAdjMatrix();
         }
 

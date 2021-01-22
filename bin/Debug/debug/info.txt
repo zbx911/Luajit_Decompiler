@@ -32,94 +32,75 @@ Block[0]
 3:(ISNEN): A = 0, C = 0, B = 0, [D: 0];
 4:(JMP): A = 3, C = 1, B = 128, [D: -32767];
 
-
 Block[1]
 5:(KSHORT): A = 1, C = 2, B = 0, [D: 2];
-
 
 Block[2]
 6:(LEN): A = 0, C = 0, B = 0, [D: 0];
 7:(ISNEN): A = 1, C = 1, B = 0, [D: 1];
 8:(JMP): A = 3, C = 2, B = 128, [D: -32766];
 
-
 Block[3]
 9:(KSHORT): A = 1, C = 2, B = 0, [D: 2];
 10:(JMP): A = 3, C = 1, B = 128, [D: -32767];
 
-
 Block[4]
 11:(KSHORT): A = 0, C = 1, B = 0, [D: 1];
-
 
 Block[5]
 12:(LEN): A = 0, C = 0, B = 0, [D: 0];
 13:(ISNEN): A = 0, C = 0, B = 0, [D: 0];
 14:(JMP): A = 3, C = 5, B = 128, [D: -32763];
 
-
 Block[6]
 15:(ISNEN): A = 0, C = 1, B = 0, [D: 1];
 16:(JMP): A = 3, C = 2, B = 128, [D: -32766];
-
 
 Block[7]
 17:(KSHORT): A = 0, C = 3, B = 0, [D: 3];
 18:(JMP): A = 3, C = 1, B = 128, [D: -32767];
 
-
 Block[8]
 19:(KSHORT): A = 0, C = 4, B = 0, [D: 4];
-
 
 Block[9]
 20:(LEN): A = 0, C = 0, B = 0, [D: 0];
 21:(ISNEN): A = 0, C = 0, B = 0, [D: 0];
 22:(JMP): A = 3, C = 2, B = 128, [D: -32766];
 
-
 Block[10]
 23:(KSHORT): A = 0, C = 5, B = 0, [D: 5];
 24:(JMP): A = 3, C = 13, B = 128, [D: -32755];
-
 
 Block[11]
 25:(ISNEN): A = 0, C = 2, B = 0, [D: 2];
 26:(JMP): A = 3, C = 2, B = 128, [D: -32766];
 
-
 Block[12]
 27:(KSHORT): A = 0, C = 6, B = 0, [D: 6];
 28:(JMP): A = 3, C = 9, B = 128, [D: -32759];
-
 
 Block[13]
 29:(ISNEN): A = 0, C = 3, B = 0, [D: 3];
 30:(JMP): A = 3, C = 2, B = 128, [D: -32766];
 
-
 Block[14]
 31:(KSHORT): A = 0, C = 7, B = 0, [D: 7];
 32:(JMP): A = 3, C = 5, B = 128, [D: -32763];
-
 
 Block[15]
 33:(ISNEN): A = 0, C = 4, B = 0, [D: 4];
 34:(JMP): A = 3, C = 2, B = 128, [D: -32766];
 
-
 Block[16]
 35:(KSHORT): A = 0, C = 8, B = 0, [D: 8];
 36:(JMP): A = 3, C = 1, B = 128, [D: -32767];
 
-
 Block[17]
 37:(KSHORT): A = 0, C = 100, B = 0, [D: 100];
 
-
 Block[18]
 38:(RET0): A = 0, C = 1, B = 0, [D: 1];
-
 
 
 iBlock[0] -> jBlock[1]iBlock[0] -> jBlock[2]iBlock[1] -> jBlock[2]iBlock[2] -> jBlock[3]iBlock[2] -> jBlock[4]iBlock[3] -> jBlock[5]iBlock[4] -> jBlock[5]iBlock[5] -> jBlock[6]iBlock[5] -> jBlock[9]iBlock[6] -> jBlock[7]iBlock[6] -> jBlock[8]iBlock[7] -> jBlock[9]iBlock[8] -> jBlock[9]iBlock[9] -> jBlock[10]iBlock[9] -> jBlock[11]iBlock[10] -> jBlock[18]iBlock[11] -> jBlock[12]iBlock[11] -> jBlock[13]iBlock[12] -> jBlock[18]iBlock[13] -> jBlock[14]iBlock[13] -> jBlock[15]iBlock[14] -> jBlock[18]iBlock[15] -> jBlock[16]iBlock[15] -> jBlock[17]iBlock[16] -> jBlock[18]iBlock[17] -> jBlock[18]

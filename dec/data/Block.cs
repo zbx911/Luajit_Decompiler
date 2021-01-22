@@ -75,7 +75,6 @@ namespace Luajit_Decompiler.dec.data
             res.AppendLine(label);
             foreach (BytecodeInstruction bci in bytecodeInstructions)
                 res.AppendLine(bci.bciIndexInPrototype + ":" + bci.ToString());
-            res.AppendLine();
             return res.ToString();
         }
     }

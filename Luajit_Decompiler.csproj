@@ -64,6 +64,11 @@
     <Compile Include="dec\state_machine\states\ArithVVState.cs" />
     <Compile Include="dec\state_machine\states\CallState.cs" />
     <Compile Include="dec\state_machine\states\CFuncState.cs" />
+    <Compile Include="dec\state_machine\states\comparisons\Comparison.cs" />
+    <Compile Include="dec\state_machine\states\comparisons\ComparisonN.cs" />
+    <Compile Include="dec\state_machine\states\comparisons\ComparisonP.cs" />
+    <Compile Include="dec\state_machine\states\comparisons\ComparisonS.cs" />
+    <Compile Include="dec\state_machine\states\comparisons\ComparisonV.cs" />
     <Compile Include="dec\state_machine\states\ConcatState.cs" />
     <Compile Include="dec\state_machine\states\ConditionalState.cs" />
     <Compile Include="dec\state_machine\states\ConstStateNew.cs" />

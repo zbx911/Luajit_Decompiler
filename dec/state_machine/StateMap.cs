@@ -1,5 +1,6 @@
 ﻿using System;
 using Luajit_Decompiler.dec.state_machine.states;
+using Luajit_Decompiler.dec.state_machine.states.comparisons;
 using Luajit_Decompiler.dis;
 
 namespace Luajit_Decompiler.dec.state_machine
@@ -16,19 +17,25 @@ namespace Luajit_Decompiler.dec.state_machine
                 case OpCodes.ISLE:
                 case OpCodes.ISEQV:
                 case OpCodes.ISNEV:
+                    return new ComparisonV();
+
                 case OpCodes.ISEQS:
                 case OpCodes.ISNES:
+                    return new ComparisonS();
+
                 case OpCodes.ISEQN:
                 case OpCodes.ISNEN:
+                    return new ComparisonN();
+
                 case OpCodes.ISEQP:
                 case OpCodes.ISNEP:
+                    return new ComparisonP();
 
-                //Unary operation. 'C' copys D to A then jumps.
                 case OpCodes.ISTC:
                 case OpCodes.IST:
                 case OpCodes.ISFC:
                 case OpCodes.ISF:
-                    return new ConditionalState();
+                    throw new Exception("Unhandled comparison. These are more or less unary jumps.");
 
                 #region Arithmetic
 

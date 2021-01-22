@@ -18,6 +18,7 @@ namespace Luajit_Decompiler.dec.state_machine
         public List<BaseConstant> num_G;
         public List<CString> string_G;
         public List<CTable> table_G;
+        public List<string> varNames;
 
         public ControlFlowGraph cfg;
         public string[] upvalueNames;
@@ -31,6 +32,7 @@ namespace Luajit_Decompiler.dec.state_machine
             this.pt = pt;
             this.cfg = cfg;
             this.lua = lua;
+            varNames = pt.variableNames;
             upvalues = new BaseConstant[pt.upvalues.Count];
             upvalueNames = new string[upvalues.Length];
             slots = new BaseConstant[pt.frameSize];
