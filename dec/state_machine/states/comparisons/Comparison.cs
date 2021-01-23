@@ -19,7 +19,7 @@ namespace Luajit_Decompiler.dec.state_machine.states.comparisons
 
         public string GetCompN()
         {
-            return ctx.slots[bci.registers.d].GetValue().ToString();
+            return ctx.num_G[bci.registers.d].GetValue().ToString(); //numg? slots?
         }
 
         public string GetCompP()
@@ -50,36 +50,33 @@ namespace Luajit_Decompiler.dec.state_machine.states.comparisons
         {
             ConditionalHeader header;
 
-            if (ctx.cfg.IsBlockLoopStart(ctx.currentBlock))
+            if (ctx.cfg.IsBlockLoopStart(ctx.cfg.FindBlockByInstructionIndex(bci.bciIndexInPrototype)))
                 header = new WhileHeader(bci.opcode,
-                    ctx.slots[bci.registers.a].GetValue().ToString(),
+                    ctx.varNames[bci.registers.a],
                     getRegDValue(),
-                    ctx.currentBlock.indent);
+                    ctx.lua.indent);
             else
                 header = new IfHeader(bci.opcode,
-                    ctx.slots[bci.registers.a].GetValue().ToString(),
+                    ctx.varNames[bci.registers.a],
                     getRegDValue(),
-                    ctx.currentBlock.indent);
+                    ctx.lua.indent);
 
             ctx.lua.AddLuaConstructHeader(header);
 
             Block trueBlock = ctx.cfg.GetJumpBlockTargetByJIndex(bci.bciIndexInPrototype);
-            trueBlock.indent++;
-            ctx.blockWriter.blockQueue.Enqueue(trueBlock);
+            ctx.lua.indent++;
+            ctx.blockWriter.WriteBlock(trueBlock, ctx);
+            ctx.lua.indent--;
 
             Block nextBlock = ctx.cfg.GetJumpBlockTargetByJIndex(bci.bciIndexInPrototype + 1);
-
-
-            if (!ctx.cfg.IsIfStatement(ctx.currentBlock, trueBlock)) //indicitive of an if/else statement.
+            if (!ctx.cfg.IsIfStatement(ctx.cfg.FindBlockByInstructionIndex(bci.bciIndexInPrototype), trueBlock)) //indicitive of an if/else statement.
             {
                 ctx.lua.AddElseClause();
-                nextBlock.indent++;
-                nextBlock.needsEndStatement = true;
+                ctx.lua.indent++;
+                ctx.blockWriter.WriteBlock(nextBlock, ctx);
+                ctx.lua.indent--;
             }
-            else
-                ctx.currentBlock.needsEndStatement = true;
-
-            ctx.blockWriter.blockQueue.Enqueue(nextBlock);
+            ctx.lua.AddEnd();
         }
     }
 }

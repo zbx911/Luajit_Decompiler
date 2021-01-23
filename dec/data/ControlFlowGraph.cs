@@ -36,6 +36,9 @@ namespace Luajit_Decompiler.dec.data
         //Detects an IfStatement if the parent block points to the child block's child.
         public bool IsIfStatement(Block parent, Block child)
         {
+            if (parent.blockIndex == child.blockIndex)
+                return false;
+
             int[] children1 = GetChildren(parent);
             int[] children2 = GetChildren(child);
 

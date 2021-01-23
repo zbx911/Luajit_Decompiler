@@ -33,18 +33,10 @@ namespace Luajit_Decompiler.dec.state_machine
         public void WriteBlock(Block b, LStateContext ctx)
         {
             if (b.visited) return;
-            ctx.currentBlock = b;
+            //ctx.currentBlock = b;
 
             for (int i = 0; i < b.bytecodeInstructions.Length; i++)
                 ctx.Transition(StateMap.GetState(b.bytecodeInstructions[i].opcode), b.bytecodeInstructions[i]);
-
-            if (b.needsEndStatement)
-            {
-                if(ctx.lua.indent > 0)
-                    ctx.lua.indent--;
-                lua.AddEnd();
-            }
-
             b.visited = true;
         }
     }

@@ -70,7 +70,6 @@
     <Compile Include="dec\state_machine\states\comparisons\ComparisonS.cs" />
     <Compile Include="dec\state_machine\states\comparisons\ComparisonV.cs" />
     <Compile Include="dec\state_machine\states\ConcatState.cs" />
-    <Compile Include="dec\state_machine\states\ConditionalState.cs" />
     <Compile Include="dec\state_machine\states\ConstStateNew.cs" />
     <Compile Include="dec\state_machine\states\ConstStateRef.cs" />
     <Compile Include="dec\state_machine\states\DuplicateTableState.cs" />

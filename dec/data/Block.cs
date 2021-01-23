@@ -12,8 +12,8 @@ namespace Luajit_Decompiler.dec.data
         public string label;
         public readonly int blockIndex;
         public bool visited = false;
-        public int indent = 0;
-        public bool needsEndStatement = false;
+        //public int indent = 0;
+        //public bool needsEndStatement = false;
 
         private bool finalized = false;
         private Prototype pt;

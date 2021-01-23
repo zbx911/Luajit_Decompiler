@@ -22,7 +22,7 @@ namespace Luajit_Decompiler.dec.state_machine
 
         public ControlFlowGraph cfg;
         public string[] upvalueNames;
-        public Block currentBlock;
+        //public Block currentBlock;
         public BlockWriter blockWriter;
 
         private Prototype pt;
@@ -38,6 +38,7 @@ namespace Luajit_Decompiler.dec.state_machine
             slots = new BaseConstant[pt.frameSize];
             blockWriter = bw;
             InitUpvalues();
+            PrepareGlobals();
         }
 
         public void Transition(LState state, BytecodeInstruction bci)
