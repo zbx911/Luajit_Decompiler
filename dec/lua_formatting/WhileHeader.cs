@@ -8,7 +8,7 @@ namespace Luajit_Decompiler.dec.lua_formatting
 
         public override string ToString()
         {
-            return "while " + base.ToString() + "do";
+            return "while " + base.ToString() + " do";
         }
     }
 }

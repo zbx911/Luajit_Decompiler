@@ -41,21 +41,21 @@ namespace Luajit_Decompiler.dec.state_machine.states
             }
         }
 
-        //TODO: Modify VarNames to be its own class. To figure out if local, if the varname at registers has NOT been accessed before, we should do a new local variable.
         private void NewNumLua()
         {
-            Context.lua.AddAssignment(Context.varNames[Bci.registers.a], Bci.registers.d.ToString());
+            (string, bool) dstAndAccessed = Context.varNames.GetVarNameAndCheckAccessed(Bci.registers.a);
+            Context.lua.CheckAddAssignmentAndSetAccessed(dstAndAccessed, Bci.registers.d.ToString(), Context);
         }
 
         private void NewNumSlots()
         {
-            //set slot[a] = d
             Context.slots[Bci.registers.a] = new CShort(Bci.registers.d);
         }
 
         private void NilLua()
         {
-
+            (string, bool) dstAndAccessed = Context.varNames.GetVarNameAndCheckAccessed(Bci.registers.a);
+            Context.lua.CheckAddAssignmentAndSetAccessed(dstAndAccessed, "nil", Context);
         }
 
         private void NilSlots()

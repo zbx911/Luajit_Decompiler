@@ -35,6 +35,9 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.ValueTuple, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ValueTuple.4.5.0\lib\net461\System.ValueTuple.dll</HintPath>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -44,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="dec\data\ControlFlowGraph.cs" />
+    <Compile Include="dec\data\VariableNames.cs" />
     <Compile Include="dec\lua_formatting\LuaConstruct.cs" />
     <Compile Include="dec\lua_formatting\ForLoopHeader.cs" />
     <Compile Include="dec\lua_formatting\DecompiledLua.cs" />
@@ -69,7 +73,6 @@
     <Compile Include="dec\state_machine\states\comparisons\ComparisonP.cs" />
     <Compile Include="dec\state_machine\states\comparisons\ComparisonS.cs" />
     <Compile Include="dec\state_machine\states\comparisons\ComparisonV.cs" />
-    <Compile Include="dec\state_machine\states\ConcatState.cs" />
     <Compile Include="dec\state_machine\states\ConstStateNew.cs" />
     <Compile Include="dec\state_machine\states\ConstStateRef.cs" />
     <Compile Include="dec\state_machine\states\DuplicateTableState.cs" />
@@ -114,6 +117,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

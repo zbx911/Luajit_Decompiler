@@ -15,14 +15,13 @@ namespace Luajit_Decompiler.dec.state_machine
         public BaseConstant[] slots;
 
         //global constants organized by frame index.
-        public List<BaseConstant> num_G;
+        public List<BaseConstant> num_G; //consider packing these 3 lists into a class.
         public List<CString> string_G;
         public List<CTable> table_G;
-        public List<string> varNames;
+        public VariableNames varNames;
 
         public ControlFlowGraph cfg;
         public string[] upvalueNames;
-        //public Block currentBlock;
         public BlockWriter blockWriter;
 
         private Prototype pt;
@@ -32,7 +31,7 @@ namespace Luajit_Decompiler.dec.state_machine
             this.pt = pt;
             this.cfg = cfg;
             this.lua = lua;
-            varNames = pt.variableNames;
+            varNames = new VariableNames(pt.variableNames);
             upvalues = new BaseConstant[pt.upvalues.Count];
             upvalueNames = new string[upvalues.Length];
             slots = new BaseConstant[pt.frameSize];

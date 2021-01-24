@@ -5,3 +5,6 @@ C:\Users\Nathan\source\repos\Luajit_Decompiler\Luajit_Decompiler\bin\Debug\Luaji
 C:\Users\Nathan\source\repos\Luajit_Decompiler\Luajit_Decompiler\bin\Debug\Luajit_Decompiler.pdb
 C:\Users\Nathan\source\repos\Luajit_Decompiler\Luajit_Decompiler\obj\Debug\Luajit_Decompiler.exe
 C:\Users\Nathan\source\repos\Luajit_Decompiler\Luajit_Decompiler\obj\Debug\Luajit_Decompiler.pdb
+C:\Users\Nathan\source\repos\Luajit_Decompiler\Luajit_Decompiler\bin\Debug\System.ValueTuple.dll
+C:\Users\Nathan\source\repos\Luajit_Decompiler\Luajit_Decompiler\bin\Debug\System.ValueTuple.xml
+C:\Users\Nathan\source\repos\Luajit_Decompiler\Luajit_Decompiler\obj\Debug\Luajit_Decompiler.csproj.CopyComplete

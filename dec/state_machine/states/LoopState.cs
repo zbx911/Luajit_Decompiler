@@ -6,12 +6,12 @@ namespace Luajit_Decompiler.dec.state_machine.states
     {
         public override void HandleLua()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public override void HandleSlots()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }

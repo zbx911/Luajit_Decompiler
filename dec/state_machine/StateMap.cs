@@ -55,7 +55,6 @@ namespace Luajit_Decompiler.dec.state_machine
                 case OpCodes.MODNV:
                     return new ArithNVState();
 
-
                 //VV
                 case OpCodes.SUBVV:
                 case OpCodes.ADDVV:
@@ -63,6 +62,7 @@ namespace Luajit_Decompiler.dec.state_machine
                 case OpCodes.DIVVV:
                 case OpCodes.MODVV:
                 case OpCodes.POW: //A = B^C (Similar to VV as it operates with 2 variable slots).
+                case OpCodes.CAT: //A = concat everything from slot B to slot C.
                     return new ArithVVState();
 
                 #endregion
@@ -154,9 +154,6 @@ namespace Luajit_Decompiler.dec.state_machine
                 //sets A to (upvalue D).
                 case OpCodes.UGET:
                     return new GetUpValueState();
-
-                case OpCodes.CAT: //A = B concat C; A=DST, B=rbase, C=rbase; (From luajit)-> Note: The CAT instruction concatenates all values in variable slots B to C inclusive.
-                    return new ConcatState();
 
                 case OpCodes.FNEW:
                     return new FuncNewState();

@@ -1,13 +1,22 @@
-x = 1
-y = 1
-if x == 1 then
-	y = 2
+local x = 1
+local y = 1
+local aAaAaAaAaBbB__bBBbc31240000sSsSsS_s_S_SS_Ss_S = nil
+x = #x
+local slot_0 = 20
+while y <= slot_1do
+else
+	x = #x
+	if x == 1 then
+		y = 2
+	end
 end
+x = #x
 if y == 2 then
 	y = 2
 else
 	x = 1
 end
+x = #x
 if x == 1 then
 	if x == 2 then
 		x = 3
@@ -15,6 +24,7 @@ if x == 1 then
 		x = 4
 	end
 else
+	x = #x
 	if x == 1 then
 		x = 5
 	else

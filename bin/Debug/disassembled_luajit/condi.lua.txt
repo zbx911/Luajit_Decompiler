@@ -1,12 +1,34 @@
 File Name: condi.lua
 
 Prototype: 0
-Prototype Size: 267; Flags: 2; # of Params: 0; Frame Size: 3; Upvalue Size: 0; KGC Size: 0; KN Size: 5; Instruction Count: 39; Debug Size: 96; # of Debug Lines: 40;
+Prototype Size: 377; Flags: 2; # of Params: 0; Frame Size: 4; Upvalue Size: 0; KGC Size: 0; KN Size: 5; Instruction Count: 61; Debug Size: 118; # of Debug Lines: 56;
 
 --Bytecode Instructions--
 (KSHORT): A = 0, C = 1, B = 0, [D: 1];
 (KSHORT): A = 1, C = 1, B = 0, [D: 1];
 (KPRI): A = 2, C = 0, B = 0, [D: 0];
+(LEN): A = 0, C = 0, B = 0, [D: 0];
+(KSHORT): A = 3, C = 20, B = 0, [D: 20];
+(ISGT): A = 1, C = 3, B = 0, [D: 3];
+(JMP): A = 3, C = 17, B = 128, [D: -32751];
+(LOOP): A = 3, C = 16, B = 128, [D: -32752];
+(KSHORT): A = 3, C = 30, B = 0, [D: 30];
+(ISGT): A = 1, C = 3, B = 0, [D: 3];
+(JMP): A = 3, C = 249, B = 127, [D: 32761];
+(LOOP): A = 3, C = 11, B = 128, [D: -32757];
+(KSHORT): A = 3, C = 32, B = 0, [D: 32];
+(ISGT): A = 1, C = 3, B = 0, [D: 3];
+(JMP): A = 3, C = 1, B = 128, [D: -32767];
+(ADDVN): A = 1, C = 0, B = 1, [D: 256];
+(KSHORT): A = 3, C = 32, B = 0, [D: 32];
+(ISGT): A = 1, C = 3, B = 0, [D: 3];
+(JMP): A = 3, C = 2, B = 128, [D: -32766];
+(ADDVN): A = 1, C = 0, B = 1, [D: 256];
+(JMP): A = 3, C = 243, B = 127, [D: 32755];
+(ADDVN): A = 1, C = 0, B = 1, [D: 256];
+(JMP): A = 3, C = 241, B = 127, [D: 32753];
+(JMP): A = 3, C = 236, B = 127, [D: 32748];
+(LEN): A = 0, C = 0, B = 0, [D: 0];
 (ISNEN): A = 0, C = 0, B = 0, [D: 0];
 (JMP): A = 3, C = 1, B = 128, [D: -32767];
 (KSHORT): A = 1, C = 2, B = 0, [D: 2];

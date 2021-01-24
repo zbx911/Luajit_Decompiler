@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Luajit_Decompiler.dec.state_machine;
+using System.Collections.Generic;
 
 namespace Luajit_Decompiler.dec.lua_formatting
 {
@@ -36,9 +37,25 @@ namespace Luajit_Decompiler.dec.lua_formatting
             AddLine(GetIndentationString() + "else");
         }
 
-        public void AddAssignment(string left, string right)
+        public void CheckAddAssignmentAndSetAccessed((string, bool)dstAndLeft, string right, LStateContext ctx)
+        {
+            if (!dstAndLeft.Item2)
+            {
+                AddLocalAssignment(dstAndLeft.Item1, right);
+                ctx.varNames.SetAccessed(dstAndLeft.Item1);
+            }
+            else
+                AddAssignment(dstAndLeft.Item1, right);
+        }
+
+        private void AddAssignment(string left, string right)
         {
             AddLine(GetIndentationString() + left + " = " + right);
+        }
+
+        private void AddLocalAssignment(string left, string right)
+        {
+            AddLine(GetIndentationString() + "local " + left + " = " + right);
         }
     }
 }
