@@ -4,7 +4,7 @@ namespace Luajit_Decompiler.dec
 {
     //[e]{Block}[e](condition Block | Block)
 
-    //[e] = marking for "end" at the beginning of the block or at the end of the block.
+    //[e] = marking for "end" at the beginning of the block or at the end of the block. This is an optional "subscript" of the representation.
     //{Block} = instructions up until the comparison.
     //condition = a op b returns True or False
     //Block | Block = true block, false block if condition

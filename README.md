@@ -20,7 +20,7 @@ Decompiles LuaJit 2.0 compiled Lua files into an equivalent representation of Lu
 # Decompiler (dec/)
 - Decompiler.cs **[Responsible for decompiling entire files]**
 - DecompilePrototype.cs **[Decompiles each prototype that makes up a file. Chunks up bytecode instructions of a prototype into code blocks]**
-- Air.cs **[A linear intermediate representation in the format [block](trueBlock or falseBlock) with markers for enclosures and conditional]**
+- Air.cs **[A linear intermediate representation in the format [block](condition trueBlock | falseBlock) with markers for enclosures and conditional]**
 - dec/data
   - Block.cs **[A chunk of prototype bytecode instructions labeled by index]**
   - Condition.cs **[A container for Air conditionals]**
