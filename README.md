@@ -20,23 +20,10 @@ Decompiles LuaJit 2.0 compiled Lua files into an equivalent representation of Lu
 # Decompiler (dec/)
 - Decompiler.cs **[Responsible for decompiling entire files]**
 - DecompilePrototype.cs **[Decompiles each prototype that makes up a file. Chunks up bytecode instructions of a prototype into code blocks]**
+- Air.cs **[A linear intermediate representation in the format [block](trueBlock or falseBlock) with markers for enclosures and conditional]**
 - dec/data
   - Block.cs **[A chunk of prototype bytecode instructions labeled by index]**
-  - ControlFlowGraph.cs **[A graph represented as a matrix. The graph represents the connections between each block jump or comparison opcode's targeted block]**
-    - matrix[block1, block2] = 0 -> block1's jump/comparsion instructions does not point to block2
-    - matrix[block1, block2] = 1 -> block1's jump/comparsion instructions points to block2
-    - matrix[block1, block1] = 2 -> block1 is the start of the loop.
-    - matrix[block1, block2] = 3 -> block1 is the body of a loop that starts at block2
-- dec/lua_formatting **[High level tools for writing lua source]**
-  - DecompiledLua.cs **[Stores the decompiled lua source of a single prototype]**
-- dec/state_machine
-  - LStateContext.cs **[Contains information required by LState derived classes to write lua]**
-    - LuaJit stores its variables in slots. Length of slots = frameSize so "frame" may be a better name then slots.
-    - LuaJit references constants by index in separate constant tables. One per Lua type (I think).
-    - Register A in bytecode instructions typically refers to a destination slot. Some instructions refer to multiple slots.
-  - dec/statemachine/states **[All LState derived states used to write the lua of a particular bytecode instruction]**
-  - StateMap.cs **[A mapping of Opcode -> LState]**
-  - BlockWriter.cs **[Writes the blocks associated with one prototype]**
+  - Condition.cs **[A container for Air conditionals]**
   
 # Road Map
 - [x] Refactor FileManager.cs
