@@ -13,7 +13,8 @@ namespace Luajit_Decompiler.dis
         private readonly byte[] expectedMagic = { 0x1B, 0x4C, 0x4A, 0x01 };
         private byte debugInfoFlags;
 
-        //unclassified bytes. In case junk exists before the magic numbers.
+        //These bytes are present in lua files from the bitsquid engine. They are an integer representing the size of file in bytes, 
+        // and 2 shorts representing the major and minor version of luajit the file was compiled in.
         private List<byte> unclassified = new List<byte>();
 
         private FileManager fileManager;
@@ -28,22 +29,6 @@ namespace Luajit_Decompiler.dis
             DisFile = new Dictionary<string, List<Prototype>>();
             fileProtos = new List<Prototype>();
             protoStack = new Stack<Prototype>();
-        }
-
-        /// <summary>
-        /// Begins the disassembling procedure for all prototypes in the given bytes.
-        /// </summary>
-        private void Disassemble(string fileName, byte[] bytecode)
-        {
-            bm = new ByteManager(bytecode);
-            Stack<Prototype> protoStack = new Stack<Prototype>();
-            TrimHeader(bm);
-            if (bytecode == null || bytecode.Length == 0)
-                throw new Exception("Disassembler : Disassemble :: Byte array is null or length of zero.");
-            for (int i = 0; i < magic.Length; i++)
-                if (magic[i] != expectedMagic[i])
-                    throw new Exception("Disassembler : Disassemble ::  Magic numbers are invalid for luajit bytes. Expected: 0x1B, 0x4C, 0x4A, 0x01");
-            WriteAllPrototypes(fileName, bm);
         }
 
         /// <summary>
@@ -91,22 +76,43 @@ namespace Luajit_Decompiler.dis
                 Disassemble(kv.Key, kv.Value);
         }
 
-        private void WriteAllPrototypes(string fileName, ByteManager bm)
+        /// <summary>
+        /// Begins the disassembling procedure for all prototypes in the given bytes.
+        /// </summary>
+        private void Disassemble(string fileName, byte[] bytecode)
+        {
+            bm = new ByteManager(bytecode);
+            Stack<Prototype> protoStack = new Stack<Prototype>();
+            TrimHeader(bm);
+            if (bytecode == null || bytecode.Length == 0)
+                throw new Exception("Disassembler : Disassemble :: Byte array is null or length of zero.");
+            for (int i = 0; i < magic.Length; i++)
+                if (magic[i] != expectedMagic[i])
+                    throw new Exception("Disassembler : Disassemble ::  Magic numbers are invalid for luajit bytes. Expected: 0x1B, 0x4C, 0x4A, 0x01");
+            ConstructPrototypes(fileName, bm);
+            WriteDisassembledProtos(fileName);
+        }
+
+        private void ConstructPrototypes(string fileName, ByteManager bm)
         {
             int protoSize = bm.ConsumeUleb();
             int protoIndex = 0;
-            StringBuilder disassembledFile = new StringBuilder("File Name: " + fileName + "\n\n");
             while (protoSize > 0)
             {
                 Prototype pro = new Prototype(bm, protoSize, protoStack, debugInfoFlags, protoIndex);
                 fileProtos.Add(pro);
                 protoStack.Push(pro);
                 protoSize = bm.ConsumeUleb();
-                disassembledFile.AppendLine("Prototype: " + protoIndex);
-                disassembledFile.Append(pro.ToString());
                 protoIndex++;
             }
             DisFile.Add(fileName, fileProtos);
+        }
+
+        private void WriteDisassembledProtos(string fileName)
+        {
+            StringBuilder disassembledFile = new StringBuilder("File Name: " + fileName + "\n\n");
+            foreach (Prototype p in fileProtos)
+                disassembledFile.AppendLine("Prototype: " + p.index + "\n\n" + p.ToString());
             fileManager.WriteDisassembledBytecode(fileName, disassembledFile.ToString());
         }
     }

@@ -68,7 +68,9 @@ namespace Luajit_Decompiler.dec.data
 
         private string GenerateVariableName()
         {
-            return "slot_" + generatedVarNameIndex++;
+            string varName = "slot_" + generatedVarNameIndex++;
+            varNames.Add(varName);
+            return varName;
         }
     }
 }

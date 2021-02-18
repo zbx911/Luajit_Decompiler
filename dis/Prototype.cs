@@ -21,14 +21,15 @@ namespace Luajit_Decompiler.dis
         private int numLines;                                               //number of debug info lines
         private readonly int prototypeSize;
 
-        //These fields define the prototype. Useful for the decompilation module.
-        public List<BytecodeInstruction> bytecodeInstructions;              //bytecode asm instructions. { OP, A (BC or D) }
-        public List<UpValue> upvalues;                                      
-        public List<BaseConstant> constantsSection;                         //entire constants section byte values (excluding upvalues). Order is important as constants operate by index in the bc instruction registers.
-        public List<string> variableNames;                                  //contains variable names for the prototype assuming that debug information is NOT stripped.
+
+        public List<BytecodeInstruction> bcis;                              //bytecode asm instructions. { OP, A (BC or D) }
         public List<Prototype> prototypeChildren;                           //references to child prototypes.
         public Prototype parent;                                            //each child will only have 1 parent. or is the root.
         public int index;                                                   //naming purposes.
+        public List<UpValue> upvalueTargets;
+        public List<BaseConstant> constants;
+        public List<string> symbols;
+        public List<(string, BaseConstant)> upvalues;
 
         public byte fileFlag;                                               //If it has debug info or not.
         public bool HasVarNames { get { return (fileFlag & 0x02) == 0; } }  //whether or not the prototype has variable names.
@@ -46,13 +47,13 @@ namespace Luajit_Decompiler.dis
         {
             this.protoStack = protoStack;
             prototypeSize = protoSize;
-            bytecodeInstructions = new List<BytecodeInstruction>();
-            upvalues = new List<UpValue>();
-            constantsSection = new List<BaseConstant>();
+            bcis = new List<BytecodeInstruction>();
             prototypeChildren = new List<Prototype>();
+            constants = new List<BaseConstant>();
+            upvalueTargets = new List<UpValue>();
+
             this.index = index;
             this.fileFlag = fileFlag;
-            variableNames = new List<string>();
 
             //prototype header and instructions section
             flags = bm.ConsumeByte(); //# of tables for instance?
@@ -63,11 +64,25 @@ namespace Luajit_Decompiler.dis
             sizeKN = bm.ConsumeUleb();
             PackBCInstructions(bm, fileFlag); //must be here since the next bytes are the instruction count & bytecode instruction bytes.
             PackConstants(bm);
+            SetUpvalueNames();
         }
 
-        /// <summary>
-        /// Interprets the bytecode instructions and packs them up into the list.
-        /// </summary>
+        private void SetUpvalueNames()
+        {
+            upvalues = new List<(string, BaseConstant)>();
+            for(int i = 0; i < upvalueTargets.Count; i++)
+                upvalues.Add(RecursiveGetUpvalue(this, upvalueTargets[i]));
+        }
+
+        private (string, BaseConstant) RecursiveGetUpvalue(Prototype pt, UpValue uv)
+        {
+            //apparently the first bit of 192 determines if we look at the constants section table or not. 
+            //the second bit of 192 means if it is mutable or not. 1 = immutable upvalue -- whatever that means in terms of upvalues...
+            if (uv.TableLocation == 192)
+                return (pt.parent.symbols[uv.TableIndex], pt.parent.constants[uv.TableIndex]); //possible array index out of bounds here...
+            return RecursiveGetUpvalue(pt.parent, pt.parent.upvalueTargets[uv.TableIndex]);
+        }
+
         private void PackBCInstructions(ByteManager bm, byte fileFlag)
         {
             int instructionSize = 4;
@@ -92,16 +107,11 @@ namespace Luajit_Decompiler.dis
                 bci.registers.a = instructionBytes[i + 1];
                 bci.registers.c = instructionBytes[i + 2];
                 bci.registers.b = instructionBytes[i + 3];
-                bytecodeInstructions.Add(bci);
+                bcis.Add(bci);
                 bciIndex++;
             }
         }
 
-        /// <summary>
-        /// Interprets the constants section of the bytecode and packs them into their appropriate lists.
-        /// </summary>
-        /// <param name="bytes"></param>
-        /// <param name="offset"></param>
         private void PackConstants(ByteManager bm)
         {
             //Upvalues first, then global constants, then numbers. Lastly, any debug info. *Must be in that order*
@@ -109,7 +119,7 @@ namespace Luajit_Decompiler.dis
             {
                 byte[] uv = bm.ConsumeBytes(sizeUV * 2);
                 for(int i = 0; i < uv.Length; i += 2)
-                    upvalues.Add(new UpValue(uv[i], uv[i + 1]));
+                    upvalueTargets.Add(new UpValue(uv[i], uv[i + 1]));
             }
 
             if(sizeKGC > 0)
@@ -123,35 +133,34 @@ namespace Luajit_Decompiler.dis
             if(debugSize > 0)
             {
                 byte[] debugSection = bm.ConsumeBytes(debugSize);
-                PackVariableNames(debugSection);
+                PackSymbols(debugSection);
             }
         }
 
-        private void PackVariableNames(byte[] debugSection)
+        private void PackSymbols(byte[] debugSection)
         {
             //Format:
             //Line number section which probably map to slots. Duplicates are sometimes present...just skip through until we hit numLines and begin searching for the var names.
             //Var names: ASCII characters terminated with 0x00. 2 bytes of unidentified data after each variable name.
-
-            int nameOffset = SkipToVariableNameOffset(debugSection);
+            int nameOffset = SkipToSymbolNameOffset(debugSection);
 
             if (nameOffset == 0)
                 return;
 
-            CollectVariableNamesToList(debugSection, ref nameOffset);
-
-            variableNames.RemoveAll(s => s == "");
+            symbols = CollectSymbols(debugSection, ref nameOffset);
+            symbols.RemoveAll(s => s == "");
         }
 
-        private void CollectVariableNamesToList(byte[] debugSection, ref int nameOffset)
+        private List<string> CollectSymbols(byte[] debugSection, ref int nameOffset)
         {
             StringBuilder name = new StringBuilder();
+            List<string> symbols = new List<string>();
 
             while (nameOffset < debugSection.Length)
             {
                 if (debugSection[nameOffset] == 0)
                 {
-                    variableNames.Add(CleanVariableName(name.ToString()));
+                    symbols.Add(CleanVariableName(name.ToString()));
                     name = new StringBuilder();
                     nameOffset += 3; //skip over terminator + 2 bytes of unknown data.
                 }
@@ -162,9 +171,10 @@ namespace Luajit_Decompiler.dis
                     nameOffset++;
                 }
             }
+            return symbols;
         }
 
-        private int SkipToVariableNameOffset(byte[] debugSection)
+        private int SkipToSymbolNameOffset(byte[] debugSection)
         {
             int nameOffset = 0;
             for (int i = 0; i < debugSection.Length; i++)
@@ -194,19 +204,19 @@ namespace Luajit_Decompiler.dis
                     prototypeChildren.Add(child);
                     break;
                 case 1: //Table
-                    constantsSection.Add(new CTable(new TableConstant(bm)));
+                    constants.Add(new CTable(new TableConstant(bm)));
                     break;
                 case 2: //sInt64 => Uleb
-                    constantsSection.Add(new CInt(bm.ConsumeUleb()));
+                    constants.Add(new CInt(bm.ConsumeUleb()));
                     break;
                 case 3: //uInt64 => Uleb
-                    constantsSection.Add(new CInt(bm.ConsumeUleb())); //May need special treatment; but for now, just read it as an integer.
+                    constants.Add(new CInt(bm.ConsumeUleb())); //May need special treatment; but for now, just read it as an integer.
                     break;
                 case 4: //complex number => LuaNumber => 2 Ulebs --Note: according to DiLemming, double is 2 ulebs and complex is 4 ulebs.
-                    constantsSection.Add(new CLuaNumber(new LuaNumber(bm.ConsumeUleb(), bm.ConsumeUleb())));
+                    constants.Add(new CLuaNumber(new LuaNumber(bm.ConsumeUleb(), bm.ConsumeUleb())));
                     break;
                 default: //string: length is typebyte - 5.
-                    constantsSection.Add(new CString(ASCIIEncoding.Default.GetString(bm.ConsumeBytes(typeByte - 5))));
+                    constants.Add(new CString(ASCIIEncoding.Default.GetString(bm.ConsumeBytes(typeByte - 5))));
                     break;
             }
         }
@@ -226,18 +236,14 @@ namespace Luajit_Decompiler.dis
                     ulebA = a,
                     ulebB = b
                 };
-                constantsSection.Add(new CDouble(knu.knumVal));
+                constants.Add(new CDouble(knu.knumVal));
             }
             else
             {
-                constantsSection.Add(new CInt(a));
+                constants.Add(new CInt(a));
             }
         }
 
-        /// <summary>
-        /// Returns this prototype in string format. For use with writing the asm output to a text file.
-        /// </summary>
-        /// <returns></returns>
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
@@ -262,8 +268,8 @@ namespace Luajit_Decompiler.dis
         {
             StringBuilder result = new StringBuilder();
             result.AppendLine("--Bytecode Instructions--");
-            for (int i = 0; i < bytecodeInstructions.Count; i++)
-                result.AppendLine(bytecodeInstructions[i].ToString());
+            for (int i = 0; i < bcis.Count; i++)
+                result.AppendLine(bcis[i].ToString());
             return result.ToString();
         }
 
@@ -281,8 +287,8 @@ namespace Luajit_Decompiler.dis
         {
             StringBuilder result = new StringBuilder();
             result.AppendLine("--Upvalues--");
-            for (int i = 0; i < upvalues.Count; i++)
-                result.AppendLine(upvalues[i].ToString());
+            for (int i = 0; i < upvalueTargets.Count; i++)
+                result.AppendLine(upvalueTargets[i].ToString());
             return result.ToString();
         }
 
@@ -290,8 +296,8 @@ namespace Luajit_Decompiler.dis
         {
             StringBuilder result = new StringBuilder();
             result.AppendLine("--Constants--");
-            for (int i = 0; i < constantsSection.Count; i++)
-                result.AppendLine(constantsSection[i].ToString());
+            for (int i = 0; i < constants.Count; i++)
+                result.AppendLine(constants[i].ToString());
             return result.ToString();
         }
 
@@ -299,19 +305,15 @@ namespace Luajit_Decompiler.dis
         {
             StringBuilder result = new StringBuilder();
             result.AppendLine("--Variable Names--");
-            for (int i = 0; i < variableNames.Count; i++)
-                result.AppendLine(variableNames[i]);
+            for (int i = 0; i < symbols.Count; i++)
+                result.AppendLine(symbols[i]);
             return result.ToString();
         }
 
-        /// <summary>
-        /// Returns information regarding the prototype header.
-        /// </summary>
-        /// <returns></returns>
         private string GetHeaderText()
         {
             return "Prototype Size: " + prototypeSize + "; " + "Flags: " + flags + "; " + "# of Params: " + numberOfParams + "; " + "Frame Size: " + frameSize + "; " +
-                "Upvalue Size: " + sizeUV + "; " + "KGC Size: " + sizeKGC + "; " + "KN Size: " + sizeKN + "; " + "Instruction Count: " + bytecodeInstructions.Count + "; " 
+                "Upvalue Size: " + sizeUV + "; " + "KGC Size: " + sizeKGC + "; " + "KN Size: " + sizeKN + "; " + "Instruction Count: " + bcis.Count + "; " 
                 + "Debug Size: " + debugSize + "; " + "# of Debug Lines: " + numLines + ";\n";
         }
 

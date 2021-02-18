@@ -1,45 +1,184 @@
-local x = 1
-local y = 1
-local aAaAaAaAaBbB__bBBbc31240000sSsSsS_s_S_SS_Ss_S = nil
-x = #x
-local slot_0 = 20
-while y <= slot_1do
-else
-	x = #x
-	if x == 1 then
-		y = 2
-	end
-end
-x = #x
-if y == 2 then
-	y = 2
-else
-	x = 1
-end
-x = #x
-if x == 1 then
-	if x == 2 then
-		x = 3
-	else
-		x = 4
-	end
-else
-	x = #x
-	if x == 1 then
-		x = 5
-	else
-		if x == 3 then
-			x = 6
-		else
-			if x == 9 then
-				x = 7
-			else
-				if x == 33 then
-					x = 8
-				else
-					x = 100
-				end
-			end
-		end
-	end
-end
+Bci total: 70 From Index: 0-69
+
+Jump Index: -1 -> Block[0]
+Jump Index: 5 -> Block[2]
+Jump Index: 6 -> Block[5]
+Jump Index: 7 -> Block[3]
+Jump Index: 8 -> Block[4]
+Jump Index: 9 -> Block[1]
+Jump Index: 11 -> Block[1]
+Jump Index: 14 -> Block[7]
+Jump Index: 15 -> Block[15]
+Jump Index: 16 -> Block[8]
+Jump Index: 18 -> Block[9]
+Jump Index: 19 -> Block[6]
+Jump Index: 20 -> Block[10]
+Jump Index: 22 -> Block[11]
+Jump Index: 23 -> Block[12]
+Jump Index: 26 -> Block[13]
+Jump Index: 27 -> Block[14]
+Jump Index: 29 -> Block[8]
+Jump Index: 31 -> Block[8]
+Jump Index: 32 -> Block[6]
+Jump Index: 34 -> Block[16]
+Jump Index: 35 -> Block[17]
+Jump Index: 38 -> Block[18]
+Jump Index: 39 -> Block[19]
+Jump Index: 41 -> Block[20]
+Jump Index: 44 -> Block[21]
+Jump Index: 45 -> Block[24]
+Jump Index: 46 -> Block[22]
+Jump Index: 47 -> Block[23]
+Jump Index: 49 -> Block[24]
+Jump Index: 52 -> Block[25]
+Jump Index: 53 -> Block[26]
+Jump Index: 55 -> Block[33]
+Jump Index: 56 -> Block[27]
+Jump Index: 57 -> Block[28]
+Jump Index: 59 -> Block[33]
+Jump Index: 60 -> Block[29]
+Jump Index: 61 -> Block[30]
+Jump Index: 63 -> Block[33]
+Jump Index: 64 -> Block[31]
+Jump Index: 65 -> Block[32]
+Jump Index: 67 -> Block[33]
+
+------------------------------
+Block[0]
+0:(KSHORT): A = 0, C = 1, B = 0, [D: 1];
+1:(KSHORT): A = 1, C = 1, B = 0, [D: 1];
+2:(KPRI): A = 2, C = 0, B = 0, [D: 0];
+3:(LEN): A = 0, C = 0, B = 0, [D: 0];
+
+Block[1]
+4:(KSHORT): A = 3, C = 10, B = 0, [D: 10];
+5:(ISGT): A = 1, C = 3, B = 0, [D: 3];
+6:(JMP): A = 3, C = 5, B = 128, [D: -32763];
+
+Block[2]
+7:(LOOP): A = 3, C = 4, B = 128, [D: -32764];
+
+Block[3]
+8:(ISNEV): A = 0, C = 1, B = 0, [D: 1];
+9:(JMP): A = 3, C = 250, B = 127, [D: 32762];
+
+Block[4]
+10:(MOV): A = 0, C = 1, B = 0, [D: 1];
+11:(JMP): A = 3, C = 248, B = 127, [D: 32760];
+
+Block[5]
+12:(LEN): A = 0, C = 0, B = 0, [D: 0];
+
+Block[6]
+13:(KSHORT): A = 3, C = 20, B = 0, [D: 20];
+14:(ISGT): A = 1, C = 3, B = 0, [D: 3];
+15:(JMP): A = 3, C = 17, B = 128, [D: -32751];
+
+Block[7]
+16:(LOOP): A = 3, C = 16, B = 128, [D: -32752];
+
+Block[8]
+17:(KSHORT): A = 3, C = 30, B = 0, [D: 30];
+18:(ISGT): A = 1, C = 3, B = 0, [D: 3];
+19:(JMP): A = 3, C = 249, B = 127, [D: 32761];
+
+Block[9]
+20:(LOOP): A = 3, C = 11, B = 128, [D: -32757];
+
+Block[10]
+21:(KSHORT): A = 3, C = 32, B = 0, [D: 32];
+22:(ISGT): A = 1, C = 3, B = 0, [D: 3];
+23:(JMP): A = 3, C = 1, B = 128, [D: -32767];
+
+Block[11]
+24:(ADDVN): A = 1, C = 0, B = 1, [D: 256];
+
+Block[12]
+25:(KSHORT): A = 3, C = 32, B = 0, [D: 32];
+26:(ISGT): A = 1, C = 3, B = 0, [D: 3];
+27:(JMP): A = 3, C = 2, B = 128, [D: -32766];
+
+Block[13]
+28:(ADDVN): A = 1, C = 0, B = 1, [D: 256];
+29:(JMP): A = 3, C = 243, B = 127, [D: 32755];
+
+Block[14]
+30:(ADDVN): A = 1, C = 0, B = 1, [D: 256];
+31:(JMP): A = 3, C = 241, B = 127, [D: 32753];
+32:(JMP): A = 3, C = 236, B = 127, [D: 32748];
+
+Block[15]
+33:(LEN): A = 0, C = 0, B = 0, [D: 0];
+34:(ISNEN): A = 0, C = 0, B = 0, [D: 0];
+35:(JMP): A = 3, C = 1, B = 128, [D: -32767];
+
+Block[16]
+36:(KSHORT): A = 1, C = 2, B = 0, [D: 2];
+
+Block[17]
+37:(LEN): A = 0, C = 0, B = 0, [D: 0];
+38:(ISNEN): A = 1, C = 1, B = 0, [D: 1];
+39:(JMP): A = 3, C = 2, B = 128, [D: -32766];
+
+Block[18]
+40:(KSHORT): A = 1, C = 2, B = 0, [D: 2];
+41:(JMP): A = 3, C = 1, B = 128, [D: -32767];
+
+Block[19]
+42:(KSHORT): A = 0, C = 1, B = 0, [D: 1];
+
+Block[20]
+43:(LEN): A = 0, C = 0, B = 0, [D: 0];
+44:(ISNEN): A = 0, C = 0, B = 0, [D: 0];
+45:(JMP): A = 3, C = 5, B = 128, [D: -32763];
+
+Block[21]
+46:(ISNEN): A = 0, C = 1, B = 0, [D: 1];
+47:(JMP): A = 3, C = 2, B = 128, [D: -32766];
+
+Block[22]
+48:(KSHORT): A = 0, C = 3, B = 0, [D: 3];
+49:(JMP): A = 3, C = 1, B = 128, [D: -32767];
+
+Block[23]
+50:(KSHORT): A = 0, C = 4, B = 0, [D: 4];
+
+Block[24]
+51:(LEN): A = 0, C = 0, B = 0, [D: 0];
+52:(ISNEN): A = 0, C = 0, B = 0, [D: 0];
+53:(JMP): A = 3, C = 2, B = 128, [D: -32766];
+
+Block[25]
+54:(KSHORT): A = 0, C = 5, B = 0, [D: 5];
+55:(JMP): A = 3, C = 13, B = 128, [D: -32755];
+
+Block[26]
+56:(ISNEN): A = 0, C = 2, B = 0, [D: 2];
+57:(JMP): A = 3, C = 2, B = 128, [D: -32766];
+
+Block[27]
+58:(KSHORT): A = 0, C = 6, B = 0, [D: 6];
+59:(JMP): A = 3, C = 9, B = 128, [D: -32759];
+
+Block[28]
+60:(ISNEN): A = 0, C = 3, B = 0, [D: 3];
+61:(JMP): A = 3, C = 2, B = 128, [D: -32766];
+
+Block[29]
+62:(KSHORT): A = 0, C = 7, B = 0, [D: 7];
+63:(JMP): A = 3, C = 5, B = 128, [D: -32763];
+
+Block[30]
+64:(ISNEN): A = 0, C = 4, B = 0, [D: 4];
+65:(JMP): A = 3, C = 2, B = 128, [D: -32766];
+
+Block[31]
+66:(KSHORT): A = 0, C = 8, B = 0, [D: 8];
+67:(JMP): A = 3, C = 1, B = 128, [D: -32767];
+
+Block[32]
+68:(KSHORT): A = 0, C = 100, B = 0, [D: 100];
+
+Block[33]
+69:(RET0): A = 0, C = 1, B = 0, [D: 1];
+

@@ -22,11 +22,11 @@ namespace Luajit_Decompiler.dec.state_machine
 
         public ControlFlowGraph cfg;
         public string[] upvalueNames;
-        public BlockWriter blockWriter;
+        public Block currentBlock;
 
         private Prototype pt;
 
-        public LStateContext(Prototype pt, ControlFlowGraph cfg, DecompiledLua lua, BlockWriter bw)
+        public LStateContext(Prototype pt, ControlFlowGraph cfg, DecompiledLua lua)
         {
             this.pt = pt;
             this.cfg = cfg;
@@ -35,16 +35,15 @@ namespace Luajit_Decompiler.dec.state_machine
             upvalues = new BaseConstant[pt.upvalues.Count];
             upvalueNames = new string[upvalues.Length];
             slots = new BaseConstant[pt.frameSize];
-            blockWriter = bw;
             InitUpvalues();
             PrepareGlobals();
         }
 
-        public void Transition(LState state, BytecodeInstruction bci)
+        public void Transition(Block b, int bciIndex)
         {
-            State = state;
-            state.Context = this;
-            state.Bci = bci;
+            State = StateMap.GetState(b.bytecodeInstructions[bciIndex].opcode);
+            State.Context = this;
+            State.Bci = b.bytecodeInstructions[bciIndex];
             HandleState();
         }
 

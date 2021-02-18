@@ -16,7 +16,7 @@ namespace Luajit_Decompiler.dec.state_machine.states
         public override void HandleLua()
         {
             (string, bool) dstAndAccessed = Context.varNames.GetVarNameAndCheckAccessed(Bci.registers.a);
-            Context.lua.CheckAddAssignmentAndSetAccessed(dstAndAccessed, opMap[Bci.opcode] + Context.varNames.GetVariableName(Bci.registers.d), Context);
+            //Context.lua.CheckAddAssignmentAndSetAccessed(dstAndAccessed, opMap[Bci.opcode] + Context.varNames.GetVariableName(Bci.registers.d), Context);
         }
 
         public override void HandleSlots()

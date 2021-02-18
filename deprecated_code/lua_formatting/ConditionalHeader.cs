@@ -3,7 +3,7 @@ using Luajit_Decompiler.dis;
 
 namespace Luajit_Decompiler.dec.lua_formatting
 {
-    class ConditionalHeader : LuaConstruct
+    class ConditionalHeader
     {
         //Inverted
         protected Dictionary<OpCodes, string> map = new Dictionary<OpCodes, string>()
@@ -30,7 +30,7 @@ namespace Luajit_Decompiler.dec.lua_formatting
         protected string right;
         protected string op;
 
-        public ConditionalHeader(OpCodes op, string left, string right, int indent) : base(indent)
+        public ConditionalHeader(OpCodes op, string left, string right, int indent)
         {
             this.left = left;
             this.right = right;

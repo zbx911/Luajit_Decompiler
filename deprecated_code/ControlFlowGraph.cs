@@ -9,6 +9,8 @@ namespace Luajit_Decompiler.dec.data
         public readonly List<Jump> jumps;
         public readonly List<Block> blocks;
 
+        public List<BlockRange> blockRanges; //set in DecompilePrototype
+
         public enum Markers
         {
             isNotAdjacent,
@@ -22,6 +24,7 @@ namespace Luajit_Decompiler.dec.data
             adj = new byte[blocks.Count, blocks.Count];
             this.jumps = jumps;
             this.blocks = blocks;
+            blockRanges = new List<BlockRange>();
 
             InitializeMatrix();
 
@@ -31,29 +34,6 @@ namespace Luajit_Decompiler.dec.data
             SetBlockAdjacenciesByBlockIndex();
             FindAndMarkLoops();
             DebugAdjMatrix();
-        }
-
-        //Detects an IfStatement if the parent block points to the child block's child.
-        public bool IsIfStatement(Block parent, Block child)
-        {
-            if (parent.blockIndex == child.blockIndex)
-                return false;
-
-            int[] children1 = GetChildren(parent);
-            int[] children2 = GetChildren(child);
-
-            SortedSet<int> set = new SortedSet<int>();
-            set.UnionWith(children1);
-            for (int i = 0; i < children2.Length; i++)
-                if (set.Contains(children2[i]))
-                    return true;
-
-            return false;
-        }
-
-        public bool IsBlockLoopStart(Block b)
-        {
-            return adj[b.blockIndex, b.blockIndex] == 2;
         }
 
         public Block GetJumpBlockTargetByJIndex(int jindex)
@@ -136,6 +116,20 @@ namespace Luajit_Decompiler.dec.data
                 if (adj[b.blockIndex, i] == 1)
                     result.Add(i);
             return result.ToArray();
+        }
+
+        public Block[] GetChildBlocks(Block b)
+        {
+            int[] childIndicies = GetChildren(b);
+            Block[] childBlocks = new Block[childIndicies.Length];
+            for (int i = 0; i < childIndicies.Length; i++)
+                childBlocks[i] = blocks[childIndicies[i]];
+            return childBlocks;
+        }
+
+        public bool IsBlockLoopStart(Block b)
+        {
+            return adj[b.blockIndex, b.blockIndex] == 2;
         }
 
         public int GetParent(Block b)

@@ -1,17 +1,17 @@
-﻿using System;
+﻿using Luajit_Decompiler.dec.data;
 
 namespace Luajit_Decompiler.dec.state_machine.states
 {
-    class ArithVNState : LState
+    class JumpState : LState
     {
         public override void HandleLua()
         {
-            throw new NotImplementedException();
+            return;
         }
 
         public override void HandleSlots()
         {
-            throw new NotImplementedException();
+            return;
         }
     }
 }

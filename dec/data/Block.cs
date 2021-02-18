@@ -10,20 +10,18 @@ namespace Luajit_Decompiler.dec.data
         public int endIndex;
         public BytecodeInstruction[] bytecodeInstructions;
         public string label;
-        public readonly int blockIndex;
+        public readonly int index;
         public bool visited = false;
-        //public int indent = 0;
-        //public bool needsEndStatement = false;
 
         private bool finalized = false;
         private Prototype pt;
 
 
-        public Block(int startIndex, int blockIndex, Prototype pt)
+        public Block(int startIndex, int index, Prototype pt)
         {
             this.startIndex = startIndex;
-            this.blockIndex = blockIndex;
-            label = "Block[" + blockIndex + "]";
+            this.index = index;
+            label = "Block[" + index + "]";
             this.pt = pt;
         }
 
@@ -34,9 +32,30 @@ namespace Luajit_Decompiler.dec.data
             bytecodeInstructions = new BytecodeInstruction[instLen];
 
             for (int i = startIndex, j = 0; i < endIndex; i++, j++)
-                bytecodeInstructions[j] = pt.bytecodeInstructions[i];
+                bytecodeInstructions[j] = pt.bcis[i];
 
             finalized = true;
+        }
+
+        //Note: This only works assuming that len-1 and len-2 are the only positions to have jump containing instructions.
+        //returns the condition, if any, of the current block.
+        public BytecodeInstruction GetConditional()
+        {
+            return GetJumpInstruction(bytecodeInstructions.Length - 2);
+        }
+
+        //returns the jump paired with the condition, if any, of the current block.
+        public BytecodeInstruction GetConditionalJump()
+        {
+            return GetJumpInstruction(bytecodeInstructions.Length - 1);
+        }
+
+        private BytecodeInstruction GetJumpInstruction(int index)
+        {
+            BytecodeInstruction bci = bytecodeInstructions[index];
+            if (DecompilePrototype.IdentifyJumpOrReturn(bci) <= 0)
+                return null;
+            return bci;
         }
 
         /// <summary>
@@ -62,7 +81,7 @@ namespace Luajit_Decompiler.dec.data
         public int InstructionExists(int index)
         {
             if (IndexExists(index) != -1)
-                return blockIndex;
+                return this.index;
             return -1;
         }
 

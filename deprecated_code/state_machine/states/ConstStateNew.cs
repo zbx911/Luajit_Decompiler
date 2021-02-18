@@ -44,7 +44,7 @@ namespace Luajit_Decompiler.dec.state_machine.states
         private void NewNumLua()
         {
             (string, bool) dstAndAccessed = Context.varNames.GetVarNameAndCheckAccessed(Bci.registers.a);
-            Context.lua.CheckAddAssignmentAndSetAccessed(dstAndAccessed, Bci.registers.d.ToString(), Context);
+            //Context.lua.CheckAddAssignmentAndSetAccessed(dstAndAccessed, Bci.registers.d.ToString(), Context);
         }
 
         private void NewNumSlots()
@@ -55,7 +55,7 @@ namespace Luajit_Decompiler.dec.state_machine.states
         private void NilLua()
         {
             (string, bool) dstAndAccessed = Context.varNames.GetVarNameAndCheckAccessed(Bci.registers.a);
-            Context.lua.CheckAddAssignmentAndSetAccessed(dstAndAccessed, "nil", Context);
+            //Context.lua.CheckAddAssignmentAndSetAccessed(dstAndAccessed, "nil", Context);
         }
 
         private void NilSlots()

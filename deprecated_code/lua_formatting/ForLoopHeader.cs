@@ -1,12 +1,12 @@
 ﻿namespace Luajit_Decompiler.dec.lua_formatting
 {
-    class ForLoopHeader : LuaConstruct
+    class ForLoopHeader
     {
         private int start;
         private int stop;
         private int inc;
 
-        public ForLoopHeader(int start, int stop, int inc, int indent) : base(indent)
+        public ForLoopHeader(int start, int stop, int inc, int indent)
         {
             this.start = start;
             this.stop = stop;
@@ -15,7 +15,7 @@
 
         public override string ToString()
         {
-            return GetIndentationString() + "for " + start + ", " + stop + ", " + inc + " do";
+            return "for " + start + ", " + stop + ", " + inc + " do";
         }
     }
 }

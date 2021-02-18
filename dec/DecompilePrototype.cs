@@ -2,8 +2,6 @@
 using System.Linq;
 using Luajit_Decompiler.dis;
 using Luajit_Decompiler.dec.data;
-using Luajit_Decompiler.dec.state_machine;
-using Luajit_Decompiler.dec.lua_formatting;
 
 namespace Luajit_Decompiler.dec
 {
@@ -13,24 +11,22 @@ namespace Luajit_Decompiler.dec
         private readonly List<BytecodeInstruction> ptBcis;
         private List<Jump> jumps;
         private List<Block> blocks;
-        private DecompiledLua lua;
+        private List<Air> airs;
 
-        public DecompilePrototype(Prototype pt, DecompiledLua lua)
+        public DecompilePrototype(Prototype pt)
         {
             this.pt = pt;
-            this.lua = lua;
-            ptBcis = pt.bytecodeInstructions;
+            ptBcis = pt.bcis;
             jumps = new List<Jump>();
             blocks = new List<Block>();
+            airs = new List<Air>();
         }
 
         public void StartProtoDecomp()
         {
             BlockPrototype();
-            BlockWriter blockw = new BlockWriter(pt, new ControlFlowGraph(jumps, blocks), lua);
-            blockw.WriteBlocks();
-
-            DebugDecompLua();
+            ConstructAirs();
+            //DebugBlockPrototype();
         }
 
         private void BlockPrototype()
@@ -42,16 +38,24 @@ namespace Luajit_Decompiler.dec
             DebugBlockPrototype();
         }
 
-        private void DebugDecompLua()
+        private void ConstructAirs()
         {
-            FileManager.ClearDebug();
-            FileManager.WriteDebug(lua.ToString());
+            for (int i = 0; i < blocks.Count; i++)
+                airs.Add(BuildAirFromBlock(blocks[i]));
+        }
+
+        private Air BuildAirFromBlock(Block b)
+        {
+            Condition condi = new Condition(pt, b.GetConditional());
+            Block tBlock;
+            Block fBlock;
+            return null;
         }
 
         private void DebugBlockPrototype()
         {
             FileManager.ClearDebug();
-            FileManager.WriteDebug("Bci total: " + pt.bytecodeInstructions.Count + " From Index: 0-" + (pt.bytecodeInstructions.Count - 1) + "\n\n");
+            FileManager.WriteDebug("Bci total: " + pt.bcis.Count + " From Index: 0-" + (pt.bcis.Count - 1) + "\n\n");
             foreach (Jump j in jumps)
                 FileManager.WriteDebug("Jump Index: " + j.index + " -> " + j.TargetedBlock.label + "\n");
             FileManager.WriteDebug("\n");
@@ -102,7 +106,7 @@ namespace Luajit_Decompiler.dec
             int name = 0;
             for (int i = 0; i < ptBcis.Count; i++)
             {
-                int check = CheckJumpOrRet(ptBcis[i]);
+                int check = IdentifyJumpOrReturn(ptBcis[i]);
                 if (check > 0) //is jump or comparison/loop jump.
                 {
                     Jump j = new Jump(ptBcis[i], check, name, pt);
@@ -132,62 +136,20 @@ namespace Luajit_Decompiler.dec
             jumps.Add(top);
         }
 
-        /// <summary>
-        /// Checks a bytecode instruction's opcode to see if it has a jump target or is a return.
-        /// Returns >1 if it is has a jump.
-        /// Returns 0 for return.
-        /// Returns -1 if it has no jump.
-        /// </summary>
-        /// <param name="bci"></param>
-        /// <returns></returns>
-        private int CheckJumpOrRet(BytecodeInstruction bci)
+        public static int IdentifyJumpOrReturn(BytecodeInstruction bci)
         {
-            switch (bci.opcode)
-            {
-                case OpCodes.RET:
-                case OpCodes.RET0:
-                case OpCodes.RET1:
-                case OpCodes.RETM:
-                    return 0;
-
-                case OpCodes.JMP:
-                    return 1;
-
-                case OpCodes.ISEQN:
-                case OpCodes.ISEQP:
-                case OpCodes.ISEQS:
-                case OpCodes.ISEQV:
-                case OpCodes.ISGE:
-                case OpCodes.ISGT:
-                case OpCodes.ISLE:
-                case OpCodes.ISLT:
-                case OpCodes.ISNEN:
-                case OpCodes.ISNEP:
-                case OpCodes.ISNES:
-                case OpCodes.ISNEV:
-
-                case OpCodes.ISF:
-                case OpCodes.IST:
-                case OpCodes.ISFC:
-                case OpCodes.ISTC:
-                    return 3;
-
-                //case OpCodes.LOOP:
-                //case OpCodes.ILOOP:
-                case OpCodes.FORL:
-                case OpCodes.IFORL:
-                case OpCodes.FORI:
-                case OpCodes.JFORI:
-                case OpCodes.IITERL:
-                case OpCodes.ITERL:
-                    return 4;
-
-                case OpCodes.UCLO: //apparently this has a jump target. See luajit bytecode ref for more details.
-                    return 5;
-
-                default:
-                    return -1;
-            }
+            int op = (int)bci.opcode;
+            if (op > 68 && op <= 72) //return op
+                return 0;
+            if (op == 84) //JMP
+                return 1;
+            if (op >= 0 && op <= 15) //comparison op
+                return 3;
+            if (op > 72 && op <= 82) //for loop or iterator loop
+                return 4;
+            if (op == 48) //UCLO
+                return 5;
+            return -1; //not jump or return.
         }
     }
 

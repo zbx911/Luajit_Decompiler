@@ -8,7 +8,7 @@ namespace Luajit_Decompiler.dec.lua_formatting
 
         public override string ToString()
         {
-            return GetIndentationString() + "if " + base.ToString() + " then";
+            return "if " + base.ToString() + " then";
         }
     }
 }

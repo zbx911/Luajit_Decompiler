@@ -1,12 +1,22 @@
 File Name: condi.lua
 
 Prototype: 0
-Prototype Size: 377; Flags: 2; # of Params: 0; Frame Size: 4; Upvalue Size: 0; KGC Size: 0; KN Size: 5; Instruction Count: 61; Debug Size: 118; # of Debug Lines: 56;
+
+Prototype Size: 422; Flags: 2; # of Params: 0; Frame Size: 4; Upvalue Size: 0; KGC Size: 0; KN Size: 5; Instruction Count: 70; Debug Size: 127; # of Debug Lines: 64;
 
 --Bytecode Instructions--
 (KSHORT): A = 0, C = 1, B = 0, [D: 1];
 (KSHORT): A = 1, C = 1, B = 0, [D: 1];
 (KPRI): A = 2, C = 0, B = 0, [D: 0];
+(LEN): A = 0, C = 0, B = 0, [D: 0];
+(KSHORT): A = 3, C = 10, B = 0, [D: 10];
+(ISGT): A = 1, C = 3, B = 0, [D: 3];
+(JMP): A = 3, C = 5, B = 128, [D: -32763];
+(LOOP): A = 3, C = 4, B = 128, [D: -32764];
+(ISNEV): A = 0, C = 1, B = 0, [D: 1];
+(JMP): A = 3, C = 250, B = 127, [D: 32762];
+(MOV): A = 0, C = 1, B = 0, [D: 1];
+(JMP): A = 3, C = 248, B = 127, [D: 32760];
 (LEN): A = 0, C = 0, B = 0, [D: 0];
 (KSHORT): A = 3, C = 20, B = 0, [D: 20];
 (ISGT): A = 1, C = 3, B = 0, [D: 3];
@@ -84,3 +94,4 @@ y
 aAaAaAaAaBbB__bBBbc31240000sSsSsS_s_S_SS_Ss_S
 
 --End--
+
